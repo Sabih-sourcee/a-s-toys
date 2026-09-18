@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+@theme {
+  --font-headline: "Poppins", sans-serif;
+  --font-body: "Nunito Sans", sans-serif;
+
+  --color-background: #FBF9F4;
+  --color-surface: #FBF9F4;
+  --color-surface-card: #FFFFFF;
+  --color-surface-warm: #F4EFE6;
+  --color-primary: #0F3D9C;
+  --color-primary-dark: #0A2B70;
+  --color-primary-fixed: #DBE4FA;
+  --color-toy-red: #C4291F;
+  --color-toy-amber: #F0A63A;
+  --color-toy-green: #258547;
+  --color-on-primary: #FFFFFF;
+  --color-on-surface: #211F1C;
+  --color-on-surface-variant: #58554F;
+  --color-border-subtle: #EBE5DA;
+  --color-ink: #211F1C;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  font-size: 16px;
+}
+
+h1, h2, h3, h4, h5, h6, .font-headline {
+  font-family: var(--font-headline);
+  font-weight: 700;
+}
+
+/* Flat brand buttons — PDF: no drop shadows on static UI */
+.btn-primary {
+  background-color: #0F3D9C;
+  color: #FFFFFF;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  border-radius: 9999px;
+  min-height: 44px;
+  transition: background-color 0.15s ease;
+}
+.btn-primary:hover {
+  background-color: #0A2B70;
+}
+.btn-primary:focus-visible {
+  outline: 2px solid #0F3D9C;
+  outline-offset: 2px;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #0F3D9C;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  border-radius: 9999px;
+  border: 2px solid #0F3D9C;
+  min-height: 44px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.btn-secondary:hover {
+  background-color: #DBE4FA;
+}
+.btn-secondary:focus-visible {
+  outline: 2px solid #0F3D9C;
+  outline-offset: 2px;
+}
+
+.btn-urgency {
+  background-color: #C4291F;
+  color: #FFFFFF;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  border-radius: 9999px;
+  min-height: 44px;
+  transition: background-color 0.15s ease;
+}
+.btn-urgency:hover {
+  background-color: #A91E16;
+}
+.btn-urgency:focus-visible {
+  outline: 2px solid #C4291F;
+  outline-offset: 2px;
+}
+
+.btn-on-dark {
+  background-color: #FFFFFF;
+  color: #0F3D9C;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  border-radius: 9999px;
+  min-height: 44px;
+  transition: background-color 0.15s ease;
+}
+.btn-on-dark:hover {
+  background-color: #FBF9F4;
+}
+.btn-on-dark:focus-visible {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 2px;
+}
+
+/* Legacy aliases used in a few places — map to flat primary */
+.btn-push-blue {
+  background-color: #0F3D9C;
+  color: #FFFFFF;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  border-radius: 9999px;
+  transition: background-color 0.15s ease;
+}
+.btn-push-blue:hover {
+  background-color: #0A2B70;
+}
+.btn-push-red {
+  background-color: #C4291F;
+  color: #FFFFFF;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  border-radius: 9999px;
+  transition: background-color 0.15s ease;
+}
+.btn-push-red:hover {
+  background-color: #A91E16;
+}

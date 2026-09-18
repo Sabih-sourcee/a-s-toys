@@ -1,0 +1,6 @@
+{
+  "name": "A & S Toys Pakistan",
+  "description": "Pakistan's Joy Store - Handpicked toys with nationwide cash on delivery, curated categories, and full e-commerce checkout.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
