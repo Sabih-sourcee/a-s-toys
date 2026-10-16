@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Search, Truck, MapPin, CheckCircle2, Clock } from 'lucide-react';
+import { X, Search, Truck, Check, Clock } from 'lucide-react';
 import { Order } from '../types';
 
 interface OrderTrackerModalProps {
@@ -37,118 +37,122 @@ export const OrderTrackerModal: React.FC<OrderTrackerModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs overflow-y-auto">
       <div
-        className="bg-[#FBF9F4] rounded-2xl max-w-lg w-full border border-[#EBE5DA] shadow-2xl overflow-hidden relative my-auto animate-in fade-in zoom-in-95 duration-150"
+        className="bg-[#F6F3EC] rounded-[6px] max-w-lg w-full border border-[#DCD7CC] shadow-[0px_4px_0px_rgba(24,34,50,0.2)] overflow-hidden relative my-auto animate-in fade-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
         id="order-tracker-modal"
       >
         {/* Header */}
-        <div className="bg-[#0F3D9C] text-white p-4 sm:p-5 flex items-center justify-between">
+        <div className="bg-[#182232] text-white p-4 sm:p-5 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Truck className="w-5 h-5 text-[#F0A63A]" />
+            <Truck aria-hidden="true" className="w-5 h-5 text-[#E84A27]" />
             <h3 className="font-headline text-lg font-bold">
               Track Pakistan Courier Parcel
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full text-white/80 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="w-11 h-11 flex items-center justify-center rounded-[6px] text-white/80 hover:text-white hover:bg-[#F6F3EC]/10 transition-colors cursor-pointer"
+            aria-label="Close order tracker"
             id="btn-close-tracker"
           >
-            <X className="w-5 h-5" />
+            <X aria-hidden="true" className="w-5 h-5" />
           </button>
         </div>
 
         <div className="p-5 space-y-4">
           <form onSubmit={handleSearch} className="flex gap-2">
+            <label htmlFor="tracker-input" className="sr-only">Order number or WhatsApp phone</label>
             <input
               type="text"
               placeholder="Enter Order # (e.g. AST-123456) or Phone"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="flex-1 px-3.5 py-2.5 rounded-full bg-white border border-[#EBE5DA] focus:border-[#0F3D9C] text-xs sm:text-sm font-body outline-none"
+              className="flex-1 h-11 px-3.5 rounded-[6px] bg-[#F6F3EC] border border-[#DCD7CC] focus:border-[#182232] text-xs sm:text-sm font-body outline-none"
               id="tracker-input"
             />
             <button
               type="submit"
-              className="bg-[#0F3D9C] hover:bg-[#0A2B70] text-white font-headline text-xs font-bold px-5 py-2.5 rounded-full transition-colors cursor-pointer flex items-center gap-1"
+              className="h-11 bg-[#182232] hover:bg-[#182232] text-white font-headline text-xs font-bold px-5 rounded-[6px] transition-colors cursor-pointer flex items-center gap-1"
             >
-              <Search className="w-3.5 h-3.5" />
+              <Search aria-hidden="true" className="w-3.5 h-3.5" />
               <span>Track</span>
             </button>
           </form>
 
           {matchedOrder ? (
-            <div className="bg-white rounded-xl border border-[#EBE5DA] p-4 space-y-4 shadow-xs">
-              <div className="flex items-center justify-between border-b border-[#F4EFE6] pb-3">
+            <div className="bg-[#F6F3EC] rounded-[6px] border border-[#DCD7CC] p-4 space-y-4 ">
+              <div className="flex items-center justify-between border-b border-[#EDE8DD] pb-3">
                 <div>
-                  <span className="text-[10px] text-[#58554F] uppercase font-headline font-bold">
+                  <span className="text-[10px] text-[#5A6270] uppercase font-headline font-bold">
                     Order ID
                   </span>
-                  <p className="font-headline font-extrabold text-[#0F3D9C] text-base">
+                  <p className="font-headline font-extrabold text-[#182232] text-base">
                     #{matchedOrder.id}
                   </p>
                 </div>
                 <div className="text-right">
-                  <span className="text-[10px] text-[#58554F] uppercase font-headline font-bold">
+                  <span className="text-[10px] text-[#5A6270] uppercase font-headline font-bold">
                     Courier
                   </span>
-                  <p className="font-headline font-bold text-[#1D1B18] text-xs">
+                  <p className="font-headline font-bold text-[#182232] text-xs">
                     {matchedOrder.courier} ({matchedOrder.trackingNumber})
                   </p>
                 </div>
               </div>
 
               {/* Status Timeline */}
-              <div className="space-y-3 pl-2 border-l-2 border-[#258547]">
+              <div className="space-y-3 pl-2 border-l-2 border-[#182232]">
                 <div className="relative pl-4">
-                  <div className="absolute -left-[17px] top-0 w-4 h-4 rounded-full bg-[#258547] flex items-center justify-center text-white text-[10px]">
-                    ✓
+                  <div className="absolute -left-[17px] top-0 w-4 h-4 rounded-[6px] bg-[#182232] flex items-center justify-center text-white">
+                    <Check aria-hidden="true" className="w-2.5 h-2.5 stroke-[3]" />
                   </div>
-                  <p className="font-headline font-bold text-xs text-[#1D1B18]">
-                    Order Quality Inspected at Lahore Hub
+                  <p className="font-headline font-bold text-xs text-[#182232]">
+                    <span className="sr-only">Completed: </span>
+                    Order Quality Inspected at Karachi Hub
                   </p>
-                  <p className="text-[11px] text-[#58554F]">
+                  <p className="text-[11px] text-[#5A6270]">
                     Inspected for smooth edges, battery safety, and boxed in bubble wrap.
                   </p>
                 </div>
 
                 <div className="relative pl-4">
-                  <div className="absolute -left-[17px] top-0 w-4 h-4 rounded-full bg-[#0F3D9C] flex items-center justify-center text-white text-[10px] animate-pulse">
-                    •
+                  <div className="absolute -left-[17px] top-0 w-4 h-4 rounded-[6px] bg-[#182232] flex items-center justify-center" aria-hidden="true">
+                    <span className="w-1.5 h-1.5 rounded-[6px] bg-[#F6F3EC] animate-pulse" />
                   </div>
-                  <p className="font-headline font-bold text-xs text-[#0F3D9C]">
+                  <p className="font-headline font-bold text-xs text-[#182232]">
+                    <span className="sr-only">In progress: </span>
                     Booked for Dispatch with {matchedOrder.courier}
                   </p>
-                  <p className="text-[11px] text-[#58554F]">
+                  <p className="text-[11px] text-[#5A6270]">
                     Destination: {matchedOrder.customer.city} • Cash on Delivery (Rs. {matchedOrder.total.toLocaleString()})
                   </p>
                 </div>
               </div>
 
-              <div className="bg-[#FBF9F4] p-3 rounded-lg text-xs space-y-1 text-[#58554F]">
+              <div className="bg-[#F6F3EC] p-3 rounded-lg text-xs space-y-1 text-[#5A6270]">
                 <div className="flex justify-between">
                   <span>Recipient:</span>
-                  <strong className="text-[#1D1B18]">{matchedOrder.customer.fullName}</strong>
+                  <strong className="text-[#182232]">{matchedOrder.customer.fullName}</strong>
                 </div>
                 <div className="flex justify-between">
                   <span>Address:</span>
-                  <span className="text-[#1D1B18] text-right truncate max-w-xs">{matchedOrder.customer.address}</span>
+                  <span className="text-[#182232] text-right truncate max-w-xs">{matchedOrder.customer.address}</span>
                 </div>
               </div>
             </div>
           ) : searched ? (
-            <div className="bg-white rounded-xl border border-[#EBE5DA] p-6 text-center text-xs text-[#58554F]">
-              <p className="font-headline font-bold text-sm text-[#1D1B18]">
+            <div className="bg-[#F6F3EC] rounded-[6px] border border-[#DCD7CC] p-6 text-center text-xs text-[#5A6270]">
+              <p className="font-headline font-bold text-sm text-[#182232]">
                 No parcel found for "{query}"
               </p>
               <p className="mt-1">
-                Please double-check your Order Number or WhatsApp phone number, or chat with our Lahore team on WhatsApp (+92 300 1234567).
+                Please double-check your Order Number or WhatsApp phone number, or chat with our Karachi team on WhatsApp (+92 300 1234567).
               </p>
             </div>
           ) : (
-            <div className="bg-white rounded-xl border border-[#EBE5DA] p-5 text-center text-xs text-[#58554F]">
-              <Clock className="w-8 h-8 text-[#0F3D9C] mx-auto mb-2 opacity-60" />
-              <p className="font-headline font-bold text-sm text-[#1D1B18]">
+            <div className="bg-[#F6F3EC] rounded-[6px] border border-[#DCD7CC] p-5 text-center text-xs text-[#5A6270]">
+              <Clock aria-hidden="true" className="w-8 h-8 text-[#182232] mx-auto mb-2 opacity-60" />
+              <p className="font-headline font-bold text-sm text-[#182232]">
                 Instant Tracking for Pakistani Orders
               </p>
               <p className="mt-1">

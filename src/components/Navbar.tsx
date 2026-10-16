@@ -1,5 +1,6 @@
-import React from 'react';
-import { ShoppingBag, Search, MessageCircle, Truck, X } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { motion, AnimatePresence, useMotionValueEvent, useScroll } from 'motion/react';
+import { ShoppingBag, Search, Truck, X, Menu, Home, Store, Info } from 'lucide-react';
 import { CartItem } from '../types';
 import { BrandMark } from './BrandMark';
 
@@ -13,6 +14,8 @@ interface NavbarProps {
   onOpenTracker: () => void;
 }
 
+const SCROLL_THRESHOLD = 72;
+
 export const Navbar: React.FC<NavbarProps> = ({
   cartItems,
   onOpenCart,
@@ -22,150 +25,200 @@ export const Navbar: React.FC<NavbarProps> = ({
   searchQuery,
   onOpenTracker,
 }) => {
-  const [showSearch, setShowSearch] = React.useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [manualOpen, setManualOpen] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-  const linkClass = (active: boolean) =>
-    `px-4 py-2 rounded-full transition-colors cursor-pointer min-h-[44px] inline-flex items-center ${
-      active
-        ? 'bg-[#0F3D9C] text-white'
-        : 'text-[#58554F] hover:text-[#0F3D9C] hover:bg-[#F4EFE6]'
-    }`;
+  const prefersReducedMotion = useMemo(
+    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+    []
+  );
+  const pillTransition = prefersReducedMotion
+    ? { duration: 0 }
+    : { type: 'spring' as const, stiffness: 340, damping: 32, mass: 0.9 };
+  const fadeTransition = prefersReducedMotion ? { duration: 0 } : { duration: 0.18 };
+
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    const scrolled = latest > SCROLL_THRESHOLD;
+    setIsScrolled(scrolled);
+    if (!scrolled) setManualOpen(false);
+  });
+
+  const expanded = manualOpen || !isScrolled;
+
+  const navLinks = [
+    { label: 'Home', icon: Home, onClick: () => onNavigate('home'), active: currentView === 'home' },
+    { label: 'Shop', icon: Store, onClick: () => onNavigate('shop'), active: currentView === 'shop' },
+    { label: 'About', icon: Info, onClick: () => onNavigate('about'), active: currentView === 'about' },
+  ];
+
+  const goto = (fn: () => void) => {
+    fn();
+    setShowSearch(false);
+    if (isScrolled) setManualOpen(false);
+  };
 
   return (
     <>
-      <nav className="sticky top-0 z-40 bg-[#FBF9F4]/95 backdrop-blur-md border-b border-[#EBE5DA]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-4">
-          <button
-            onClick={() => onNavigate('home')}
-            className="shrink-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0F3D9C] focus-visible:outline-offset-2 rounded-lg"
-            id="nav-brand-logo"
-            aria-label="A & S Toys home"
-          >
-            <BrandMark tone="on-light" size="md" />
-          </button>
+      <div className="fixed top-3 sm:top-4 inset-x-0 z-50 flex justify-center px-3 pointer-events-none">
+        <motion.div
+          layout
+          transition={pillTransition}
+          className="pointer-events-auto rounded-[6px] border-[1.5px] border-[#182232] bg-[#F6F3EC] shadow-[0px_3px_0px_#182232] overflow-hidden"
+        >
+          <AnimatePresence mode="popLayout" initial={false}>
+            {expanded ? (
+              <motion.div
+                key="full"
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={fadeTransition}
+                className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5"
+              >
+                <button
+                  onClick={() => goto(() => onNavigate('home'))}
+                  className="shrink-0 pl-1 pr-1.5 sm:pr-2 cursor-pointer"
+                  aria-label="A & S Toys home"
+                  id="nav-brand-logo"
+                >
+                  <BrandMark tone="on-light" size="sm" />
+                </button>
 
-          <div className="hidden lg:flex items-center gap-1 font-headline text-sm font-bold">
-            <button onClick={() => onNavigate('home')} className={linkClass(currentView === 'home')} id="nav-link-home">
-              Home
-            </button>
-            <button onClick={() => onNavigate('shop')} className={linkClass(currentView === 'shop')} id="nav-link-shop">
-              Shop
-            </button>
-            <button onClick={() => onNavigate('about')} className={linkClass(currentView === 'about')} id="nav-link-about">
-              About
-            </button>
-            <button
-              onClick={onOpenTracker}
-              className="px-3 py-2 rounded-full text-[#58554F] hover:text-[#0F3D9C] hover:bg-[#F4EFE6] transition-colors flex items-center gap-1.5 cursor-pointer text-sm font-headline font-bold min-h-[44px]"
-              id="nav-link-track"
-            >
-              <Truck className="w-4 h-4 text-[#0F3D9C]" />
-              Track order
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="relative">
-              {showSearch ? (
-                <div className="flex items-center bg-white border-2 border-[#0F3D9C] rounded-lg px-3 py-2 w-44 sm:w-64">
-                  <Search className="w-4 h-4 text-[#58554F] shrink-0 mr-1.5" />
-                  <input
-                    type="text"
-                    placeholder="Search toys…"
-                    value={searchQuery}
-                    onChange={(e) => {
-                      onSearchChange(e.target.value);
-                      if (currentView !== 'shop') onNavigate('shop');
-                    }}
-                    autoFocus
-                    aria-label="Search toys"
-                    className="w-full text-sm font-body text-[#211F1C] bg-transparent outline-none"
-                    id="nav-search-input"
-                  />
+                <div className="hidden sm:flex items-center gap-1 font-headline text-sm font-bold border-l border-[#DCD7CC] pl-1.5">
+                  {navLinks.map((link) => (
+                    <button
+                      key={link.label}
+                      onClick={() => goto(link.onClick)}
+                      className={`px-3 py-2.5 rounded-[6px] transition-colors cursor-pointer min-h-[44px] inline-flex items-center gap-1.5 ${
+                        link.active
+                          ? 'bg-[#182232] text-[#F6F3EC]'
+                          : 'text-[#5A6270] hover:text-[#182232] hover:bg-[#EDE8DD]'
+                      }`}
+                      id={`nav-link-${link.label.toLowerCase()}`}
+                      aria-current={link.active ? 'page' : undefined}
+                    >
+                      {link.label}
+                    </button>
+                  ))}
                   <button
-                    onClick={() => {
-                      setShowSearch(false);
-                      onSearchChange('');
-                    }}
-                    className="text-[#58554F] hover:text-[#211F1C] ml-1 min-h-[28px] min-w-[28px] flex items-center justify-center"
-                    aria-label="Close search"
+                    onClick={() => goto(onOpenTracker)}
+                    className="px-3 py-2.5 rounded-[6px] text-[#5A6270] hover:text-[#182232] hover:bg-[#EDE8DD] transition-colors flex items-center gap-1.5 cursor-pointer min-h-[44px]"
+                    id="nav-link-track"
+                    aria-label="Track order"
                   >
-                    <X className="w-3.5 h-3.5" />
+                    <Truck aria-hidden="true" className="w-4 h-4" />
                   </button>
                 </div>
-              ) : (
-                <button
-                  onClick={() => setShowSearch(true)}
-                  className="p-2.5 rounded-full bg-[#F4EFE6] text-[#58554F] hover:text-[#0F3D9C] transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
-                  id="nav-search-trigger"
-                  aria-label="Search"
-                >
-                  <Search className="w-4 h-4" />
-                </button>
-              )}
-            </div>
 
-            <a
-              href="https://wa.me/923001234567?text=Assalam-o-Alaikum!%20I%20am%20browsing%20A%26S%20Toys%20Pakistan%20and%20would%20like%20assistance."
-              target="_blank"
-              rel="noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs font-headline font-bold px-3.5 py-2.5 rounded-full transition-colors min-h-[44px]"
-              id="header-wa-chat"
-            >
-              <MessageCircle className="w-4 h-4 fill-white" />
-              <span>WhatsApp</span>
-            </a>
+                <div className="flex sm:hidden items-center gap-0.5 border-l border-[#DCD7CC] pl-1">
+                  {navLinks.map((link) => {
+                    const Icon = link.icon;
+                    return (
+                      <button
+                        key={link.label}
+                        onClick={() => goto(link.onClick)}
+                        className={`w-11 h-11 rounded-[6px] flex items-center justify-center transition-colors cursor-pointer ${
+                          link.active ? 'bg-[#182232] text-[#F6F3EC]' : 'text-[#5A6270] hover:bg-[#EDE8DD]'
+                        }`}
+                        aria-label={link.label}
+                        aria-current={link.active ? 'page' : undefined}
+                      >
+                        <Icon aria-hidden="true" className="w-4 h-4" />
+                      </button>
+                    );
+                  })}
+                  <button
+                    onClick={() => goto(onOpenTracker)}
+                    className="w-11 h-11 rounded-[6px] flex items-center justify-center text-[#5A6270] hover:bg-[#EDE8DD] transition-colors cursor-pointer"
+                    aria-label="Track order"
+                  >
+                    <Truck aria-hidden="true" className="w-4 h-4" />
+                  </button>
+                </div>
 
-            <button
-              onClick={onOpenCart}
-              className="flex items-center gap-2 bg-white border border-[#EBE5DA] px-3.5 py-2.5 rounded-full hover:border-[#0F3D9C] transition-colors cursor-pointer min-h-[44px]"
-              id="header-cart-button"
-              aria-label={`Cart, ${totalCartCount} items`}
-            >
-              <ShoppingBag className="w-4 h-4 text-[#0F3D9C]" />
-              <span className="font-headline text-xs font-bold text-[#0F3D9C] hidden sm:inline">Cart</span>
-              <span className="bg-[#C4291F] text-white text-[11px] font-headline font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                {totalCartCount}
-              </span>
-            </button>
-          </div>
-        </div>
+                <div className="flex items-center gap-1 sm:gap-1.5 border-l border-[#DCD7CC] pl-1 sm:pl-1.5">
+                  <AnimatePresence initial={false}>
+                    {showSearch && (
+                      <motion.div
+                        initial={{ width: 0, opacity: 0 }}
+                        animate={{ width: 150, opacity: 1 }}
+                        exit={{ width: 0, opacity: 0 }}
+                        transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.25 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="flex items-center bg-[#EDE8DD] border border-[#DCD7CC] rounded-[6px] pl-3 pr-1 h-11 w-[150px]">
+                          <input
+                            type="text"
+                            placeholder="Search toys…"
+                            value={searchQuery}
+                            onChange={(e) => {
+                              onSearchChange(e.target.value);
+                              if (currentView !== 'shop') onNavigate('shop');
+                            }}
+                            autoFocus
+                            aria-label="Search toys"
+                            className="w-full text-xs font-body text-[#182232] bg-transparent outline-none"
+                            id="nav-search-input"
+                          />
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
-        <div className="lg:hidden border-t border-[#EBE5DA] bg-[#FBF9F4] px-4 py-2 flex items-center justify-around text-xs font-headline font-bold">
-          <button
-            onClick={() => onNavigate('home')}
-            className={`px-3 py-2 rounded-full cursor-pointer min-h-[44px] ${
-              currentView === 'home' ? 'bg-[#0F3D9C] text-white' : 'text-[#58554F]'
-            }`}
-          >
-            Home
-          </button>
-          <button
-            onClick={() => onNavigate('shop')}
-            className={`px-3 py-2 rounded-full cursor-pointer min-h-[44px] ${
-              currentView === 'shop' ? 'bg-[#0F3D9C] text-white' : 'text-[#58554F]'
-            }`}
-          >
-            Shop
-          </button>
-          <button
-            onClick={onOpenTracker}
-            className="px-3 py-2 rounded-full text-[#58554F] flex items-center gap-1 cursor-pointer min-h-[44px]"
-          >
-            <Truck className="w-3.5 h-3.5" />
-            Track
-          </button>
-          <button
-            onClick={() => onNavigate('about')}
-            className={`px-3 py-2 rounded-full cursor-pointer min-h-[44px] ${
-              currentView === 'about' ? 'bg-[#0F3D9C] text-white' : 'text-[#58554F]'
-            }`}
-          >
-            About
-          </button>
-        </div>
-      </nav>
+                  <button
+                    onClick={() => {
+                      if (showSearch) onSearchChange('');
+                      setShowSearch((v) => !v);
+                    }}
+                    className="w-11 h-11 shrink-0 rounded-[6px] bg-[#EDE8DD] text-[#5A6270] hover:text-[#182232] transition-colors cursor-pointer flex items-center justify-center"
+                    id="nav-search-trigger"
+                    aria-label={showSearch ? 'Close search' : 'Search'}
+                    aria-pressed={showSearch}
+                  >
+                    {showSearch ? <X aria-hidden="true" className="w-4 h-4" /> : <Search aria-hidden="true" className="w-4 h-4" />}
+                  </button>
+
+                  <button
+                    onClick={onOpenCart}
+                    className="flex items-center gap-1.5 bg-[#E84A27] hover:translate-y-[2px] text-[#F6F3EC] pl-3 pr-2.5 h-11 rounded-[6px] border-[1.5px] border-[#182232] shadow-[0px_3px_0px_#182232] hover:shadow-[0px_1px_0px_#182232] transition-all cursor-pointer shrink-0"
+                    id="header-cart-button"
+                    aria-label={`Cart, ${totalCartCount} item${totalCartCount === 1 ? '' : 's'}`}
+                  >
+                    <ShoppingBag aria-hidden="true" className="w-4 h-4" />
+                    <span aria-hidden="true" className="bg-[#182232] text-[#F6F3EC] text-[10px] font-mono font-medium tracking-wider rounded-[4px] w-5 h-5 flex items-center justify-center">
+                      {totalCartCount}
+                    </span>
+                  </button>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.button
+                key="collapsed"
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={fadeTransition}
+                onClick={() => setManualOpen(true)}
+                className="w-12 h-12 flex items-center justify-center cursor-pointer text-[#182232] relative"
+                aria-label={totalCartCount > 0 ? `Open menu, ${totalCartCount} item${totalCartCount === 1 ? '' : 's'} in cart` : 'Open menu'}
+                id="nav-collapsed-trigger"
+              >
+                <Menu aria-hidden="true" className="w-5 h-5" />
+                {totalCartCount > 0 && (
+                  <span aria-hidden="true" className="absolute top-1.5 right-1.5 bg-[#E84A27] text-[#F6F3EC] text-[9px] font-mono font-medium rounded-[3px] w-4 h-4 flex items-center justify-center border border-[#182232]">
+                    {totalCartCount}
+                  </span>
+                )}
+              </motion.button>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      </div>
     </>
   );
 };

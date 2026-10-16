@@ -20,68 +20,69 @@ export const ToddlersEarlyYears: React.FC<ToddlersEarlyYearsProps> = ({
   const earlyToys = products.filter((p) => p.isEarlyYears);
 
   return (
-    <section className="bg-[#F4EFE6]" id="toddlers">
+    <section className="bg-[#EDE8DD]" id="toddlers">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-14 sm:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-8 lg:gap-14">
-          {/* Left — intro copy, not centered */}
           <div className="flex flex-col gap-3 lg:sticky lg:top-24 lg:self-start">
-            <span className="text-[11px] font-body font-bold text-[#C4291F] tracking-[0.15em] uppercase">
-              Ages 0–3
+            <span className="font-mono text-[11px] font-medium text-[#E84A27] tracking-[0.05em] uppercase">
+              Ages 0–3 · Food-grade
             </span>
-            <h2 className="font-headline text-[24px] sm:text-[28px] font-bold text-[#211F1C] leading-tight">
+            <h2 className="font-headline text-[24px] sm:text-[28px] font-extrabold text-[#182232] leading-[1.08] tracking-[-0.03em]">
               For the youngest hands
             </h2>
-            <p className="font-body text-sm text-[#58554F] leading-relaxed max-w-xs">
-              Extra-smooth edges, chunky graspable shapes, zero small choking parts.
+            <p className="font-body text-sm text-[#5A6270] leading-relaxed max-w-xs">
+              Extra-smooth edges, chunky graspable shapes, zero small choking parts. Built to survive teething and three siblings.
             </p>
             <button
               onClick={onExploreBabyToys}
-              className="inline-flex items-center gap-1.5 text-sm font-headline font-bold text-[#0F3D9C] hover:text-[#C4291F] transition-colors cursor-pointer mt-1 min-h-[44px]"
+              className="inline-flex items-center gap-1.5 text-sm font-headline font-bold text-[#182232] hover:text-[#E84A27] transition-colors cursor-pointer mt-1 min-h-[44px]"
               id="btn-see-all-baby-toys"
             >
               See all baby toys
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight aria-hidden="true" className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Right — horizontal scroll strip, distinct rhythm from the picks grid */}
-          <div className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory scrollbar-thin">
+          <div className="flex gap-0 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory border border-[#DCD7CC]">
             {earlyToys.map((toy) => {
               const isAdded = addedProductIds.includes(toy.id);
               return (
                 <div
                   key={toy.id}
-                  className="shrink-0 w-40 sm:w-44 snap-start flex flex-col"
+                  className="shrink-0 w-40 sm:w-44 snap-start flex flex-col border-r border-[#DCD7CC] p-3 bg-[#F6F3EC]"
                 >
                   <button
                     type="button"
                     onClick={() => onQuickView(toy)}
-                    className="w-full aspect-square rounded-lg bg-white border border-[#EBE5DA] p-3 mb-2 overflow-hidden cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0F3D9C]"
+                    className="w-full aspect-square bg-[#EAE5D9] p-3 mb-2 overflow-hidden cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#182232]"
                   >
                     <img src={toy.image} alt={toy.title} className="w-full h-full object-contain" loading="lazy" />
                   </button>
-                  <h3 className="font-headline text-xs sm:text-sm font-bold text-[#211F1C] line-clamp-2 min-h-[2.2rem]">
+                  <span className="spec-stamp self-start mb-1.5 text-[9px]">{toy.ageLabel}</span>
+                  <h3 className="font-headline text-xs sm:text-sm font-bold text-[#182232] line-clamp-2 min-h-[2.2rem]">
                     {toy.title}
                   </h3>
-                  <p className="font-headline text-sm font-bold text-[#0F3D9C] mt-0.5 mb-2">
+                  <p className="font-headline text-sm font-bold text-[#E84A27] mt-0.5 mb-2">
                     Rs. {toy.price.toLocaleString()}
                   </p>
                   <button
                     onClick={() => onAddToCart(toy)}
-                    className={`text-xs font-headline font-bold px-3 py-2 rounded-full min-h-[40px] inline-flex items-center justify-center gap-1 cursor-pointer ${
-                      isAdded ? 'bg-[#258547] text-white' : 'bg-[#0F3D9C] hover:bg-[#0A2B70] text-white'
+                    className={`text-xs font-headline font-bold px-3 py-2 rounded-[6px] min-h-[40px] inline-flex items-center justify-center gap-1 cursor-pointer border-[1.5px] border-[#182232] ${
+                      isAdded
+                        ? 'bg-[#182232] text-[#F6F3EC]'
+                        : 'bg-[#E84A27] text-[#F6F3EC] shadow-[0px_2px_0px_#182232] hover:translate-y-[1px] hover:shadow-[0px_1px_0px_#182232]'
                     }`}
                     id={`btn-early-add-${toy.id}`}
                   >
                     {isAdded ? (
                       <>
-                        <Check className="w-3.5 h-3.5" />
+                        <Check aria-hidden="true" className="w-3.5 h-3.5" />
                         Added
                       </>
                     ) : (
                       <>
-                        <Plus className="w-3.5 h-3.5" />
-                        Add
+                        <Plus aria-hidden="true" className="w-3.5 h-3.5" />
+                        Add to bag
                       </>
                     )}
                   </button>

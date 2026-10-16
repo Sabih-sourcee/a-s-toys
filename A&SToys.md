@@ -8,14 +8,14 @@
 
 ## What this is
 
-Pakistan-focused **toy ecommerce storefront** for a Lahore walk-in shop going nationwide.
+Pakistan-focused **toy ecommerce storefront** for a Karachi walk-in shop going nationwide.
 
 | | |
 |---|---|
 | **Brand** | A & S Toys Pakistan |
 | **Tagline** | Pakistan's Joy Store |
 | **Positioning** | 90+ varieties, real stock, fast delivery, fun to browse |
-| **Location** | Main Market, Gulberg III, Lahore |
+| **Location** | Tariq Road, Karachi |
 | **Claimed domain / email** | `astoys.pk` · `salam@astoys.pk` |
 | **Stack** | React 19 + Vite 8 + Tailwind v4 + TypeScript SPA |
 
@@ -98,7 +98,7 @@ src/
 | Rule | Value |
 |---|---|
 | Shipping | Rs. 250 · free ≥ Rs. 3,500 |
-| Promos (cart) | WELCOME10 / PAKISTAN / LAHOREJOY = 10%; TOYLOVE = 15% |
+| Promos (cart) | WELCOME10 / PAKISTAN / KARACHIJOY = 10%; TOYLOVE = 15% |
 | Payments UI | COD · JazzCash · EasyPaisa · bank (placeholders) |
 | WhatsApp | `wa.me/923001234567` |
 
