@@ -1,6 +1,7 @@
 import React from 'react';
 import { CheckCircle2, MessageCircle, Printer, Truck, ArrowRight, MapPin, Phone, PackageCheck } from 'lucide-react';
 import { Order } from '../types';
+import { WhatsAppLink } from './WhatsAppLink';
 
 interface OrderSuccessModalProps {
   order: Order | null;
@@ -15,14 +16,13 @@ export const OrderSuccessModal: React.FC<OrderSuccessModalProps> = ({
 }) => {
   if (!order) return null;
 
-  const whatsappConfirmMsg = encodeURIComponent(
+  const whatsappConfirmMsg =
     `Assalam-o-Alaikum! I have placed order #${order.id} for Rs. ${order.total.toLocaleString()} on your website.\n\n` +
       `Name: ${order.customer.fullName}\n` +
       `Phone: ${order.customer.phone}\n` +
       `City: ${order.customer.city}\n` +
       `Address: ${order.customer.address}\n\n` +
-      `Please dispatch via ${order.courier}. Shukriya!`
-  );
+      `Payment: COD. Shukriya!`;
 
   const handlePrint = () => {
     window.print();
@@ -47,7 +47,7 @@ export const OrderSuccessModal: React.FC<OrderSuccessModalProps> = ({
             Order #{order.id} Confirmed
           </h2>
           <p className="text-xs sm:text-sm text-green-100 mt-1">
-            We will inspect your toys at our Lahore shop before handing over to {order.courier}.
+            Your cash-on-delivery order was saved. We will contact you on {order.customer.phone}.
           </p>
         </div>
 
@@ -57,10 +57,10 @@ export const OrderSuccessModal: React.FC<OrderSuccessModalProps> = ({
             <div className="flex items-center justify-between mb-3 text-xs font-headline font-bold text-[#1D1B18]">
               <span className="flex items-center gap-1.5 text-[#0F3D9C]">
                 <Truck className="w-4 h-4" />
-                <span>Courier Dispatch Journey ({order.courier})</span>
+                <span>Status: received</span>
               </span>
               <span className="bg-[#EBF7EE] text-[#258547] px-2 py-0.5 rounded text-[10px]">
-                Tracking: {order.trackingNumber}
+                Payment: COD
               </span>
             </div>
 
@@ -77,16 +77,16 @@ export const OrderSuccessModal: React.FC<OrderSuccessModalProps> = ({
                 <div className="w-6 h-6 rounded-full bg-[#0F3D9C] text-white flex items-center justify-center text-[10px] font-bold mb-1 shadow-xs animate-pulse">
                   2
                 </div>
-                <span className="font-bold text-[#0F3D9C]">Lahore QA</span>
-                <span className="text-[9px] text-[#58554F]">In Hand Check</span>
+                <span className="font-bold text-[#0F3D9C]">Shop confirms</span>
+                <span className="text-[9px] text-[#58554F]">We will call</span>
               </div>
 
               <div className="flex flex-col items-center opacity-60">
                 <div className="w-6 h-6 rounded-full bg-[#F4EFE6] text-[#58554F] flex items-center justify-center text-[10px] font-bold mb-1">
                   3
                 </div>
-                <span className="font-bold text-[#58554F]">TCS Dispatched</span>
-                <span className="text-[9px] text-[#58554F]">Tracking SMS</span>
+                <span className="font-bold text-[#58554F]">Courier</span>
+                <span className="text-[9px] text-[#58554F]">{order.courier}</span>
               </div>
 
               <div className="flex flex-col items-center opacity-60">
@@ -118,17 +118,9 @@ export const OrderSuccessModal: React.FC<OrderSuccessModalProps> = ({
               </span>
               <p className="text-[#58554F]">Phone: <strong className="text-[#1D1B18]">{order.customer.phone}</strong></p>
               <p className="text-[#58554F]">
-                Payment: <strong className="text-[#258547] uppercase font-headline">
-                  {order.paymentMethod === 'cod'
-                    ? 'Cash on Delivery (COD)'
-                    : order.paymentMethod === 'jazzcash'
-                    ? 'JazzCash'
-                    : order.paymentMethod === 'easypaisa'
-                    ? 'EasyPaisa'
-                    : 'Bank Transfer'}
-                </strong>
+                Payment: <strong className="text-[#258547] uppercase font-headline">Cash on Delivery (COD)</strong>
               </p>
-              <p className="text-[11px] text-[#58554F]">Expected Delivery: 2–3 Working Days</p>
+              <p className="text-[11px] text-[#58554F]">Delivery: {order.courier}</p>
             </div>
           </div>
 
@@ -166,16 +158,14 @@ export const OrderSuccessModal: React.FC<OrderSuccessModalProps> = ({
 
           {/* Action CTAs */}
           <div className="space-y-2.5 print:hidden">
-            <a
-              href={`https://wa.me/923001234567?text=${whatsappConfirmMsg}`}
-              target="_blank"
-              rel="noreferrer"
+            <WhatsAppLink
+              message={whatsappConfirmMsg}
               className="w-full bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-sm font-bold py-3 rounded-full flex items-center justify-center gap-2 shadow-xs transition-colors cursor-pointer"
               id="btn-whatsapp-priority-confirm"
             >
               <MessageCircle className="w-4 h-4 fill-white" />
-              <span>Send Order to WhatsApp for Priority Dispatch</span>
-            </a>
+              <span>Send a copy on WhatsApp</span>
+            </WhatsAppLink>
 
             <div className="grid grid-cols-2 gap-2">
               <button

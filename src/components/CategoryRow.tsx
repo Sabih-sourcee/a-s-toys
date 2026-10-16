@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { CATEGORIES } from '../data/products';
+import { CATEGORIES, PRODUCTS } from '../data/products';
+import { categoryPath } from '../lib/router';
 
 interface CategoryRowProps {
   onSelectCategory: (categorySlug: string) => void;
@@ -34,24 +35,32 @@ export const CategoryRow: React.FC<CategoryRowProps> = ({
               Six ways to shop our shelves — pick a style, see everything in it.
             </p>
           </div>
-          <button
-            onClick={onViewAll}
+          <a
+            href="/shop"
+            onClick={(event) => {
+              event.preventDefault();
+              onViewAll();
+            }}
             className="hidden sm:inline-flex text-sm font-headline font-bold text-[#0F3D9C] hover:text-[#C4291F] transition-colors items-center gap-1 cursor-pointer whitespace-nowrap min-h-[44px]"
             id="btn-view-all-collections"
           >
             Shop all
             <ArrowUpRight className="w-4 h-4" />
-          </button>
+          </a>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {CATEGORIES.map((cat) => {
             const style = CARD_STYLE[cat.slug] ?? CARD_STYLE['die-cast'];
             return (
-              <button
+              <a
                 key={cat.id}
-                onClick={() => onSelectCategory(cat.slug)}
-                className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0F3D9C] focus-visible:outline-offset-2"
+                href={categoryPath(cat.slug)}
+                onClick={(event) => {
+                  event.preventDefault();
+                  onSelectCategory(cat.slug);
+                }}
+                className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer text-left block focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0F3D9C] focus-visible:outline-offset-2"
                 id={`cat-card-${cat.slug}`}
               >
                 <img
@@ -71,7 +80,7 @@ export const CategoryRow: React.FC<CategoryRowProps> = ({
                   {style.tag}
                 </span>
                 <span className="absolute top-4 right-4 text-[11px] font-body font-bold text-white/80">
-                  {cat.itemCount} items
+                  {PRODUCTS.filter((product) => product.category === cat.slug).length} items
                 </span>
 
                 <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
@@ -82,7 +91,7 @@ export const CategoryRow: React.FC<CategoryRowProps> = ({
                     <ArrowUpRight className="w-4 h-4" />
                   </span>
                 </div>
-              </button>
+              </a>
             );
           })}
         </div>

@@ -1,5 +1,41 @@
 import { Product, Category } from '../types';
 
+/**
+ * Catalog. Add products in the PRODUCTS array (40–80 is fine).
+ * Rebuild after edits so sitemap and prerendered pages update.
+ *
+ * Product fields:
+ * - id: unique, e.g. "ast-013"
+ * - title: shop name
+ * - slug: unique url slug, used at /products/:slug
+ * - category: a CATEGORIES slug
+ * - categoryName: that category's name
+ * - ageRange: "0-12m" | "1-3y" | "3-5y" | "6-8y" | "8+y"
+ * - ageLabel: short label, e.g. "Ages 3+"
+ * - price: number, PKR
+ * - originalPrice?: compare-at price, PKR
+ * - discountBadge?: short ribbon text
+ * - badgeType?: "new" | "sale" | "hot"
+ * - stock: number
+ * - inStock: boolean
+ * - image: absolute image URL
+ * - galleryImages: string[]
+ * - shortDescription: one sentence, used in the meta description
+ * - fullDescription: longer copy
+ * - features: string[]
+ * - materials: string
+ * - safetyNotes: string
+ * - dimensions?: string
+ * - isTrending?: boolean — sorts first in the shop
+ * - isEarlyYears?: boolean — shows in the ages 0–3 row
+ * - seoTitle?: override. Default: "{title} Price in Pakistan | A&S Toys"
+ * - seoDescription?: override, about 160 characters
+ *
+ * Do not add review counts or testimonials. The site does not show them.
+ * Category item counts on the homepage are counted from PRODUCTS.
+ */
+
+
 export const CATEGORIES: Category[] = [
   {
     id: 'soft-dolls',
@@ -7,7 +43,6 @@ export const CATEGORIES: Category[] = [
     slug: 'soft-dolls',
     description: 'Hypoallergenic, ultra-soft plushies and hand-stitched dolls for cuddle time.',
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB-MDe4Ulbl4pHjt-sO9dlNplXf_eLl6qbPNATqjGDW6Iqq3N5lEbzJinnc1P7H0V_BPi8RtyhirrQ0LCZzkddZjADVr2NvqXBfZyYGAKniOyZx8EfvjMePF5QZv4_eZFWQOYixQvQ6ADn9PfFgy4wd2l8NABt7xjRMXn4bhvztLX5CXl4yDFOE_suK-HPJP2qTlPwDX7zsodb3NLxLHpYPRTsI9MOen3uUiDNuSd2gnsDE-a1N4wW2',
-    itemCount: 16
   },
   {
     id: 'die-cast',
@@ -15,7 +50,6 @@ export const CATEGORIES: Category[] = [
     slug: 'die-cast',
     description: 'Heavy alloy pullback racers, vintage roadsters, and construction vehicles.',
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBL2f-kWV43rjIUdGyCk9dN2TdSeBAREsKQsIjwvRSgZUedube_El_3-ZN3AuhvDyPTsoST30NyFNzBt9pAVMdfGrw4NigWVm_MSrow7fHP1nbUNh7F1b1qvIF3HAZWiCA2qqw38-cxkmtE-X0csJf-IVpH-Qcpc8G1rp4tjnSDH4yolfm1Kyvv28eITZvc1A7O2a8xqPERe8xhiYYmOqQbLmB4L0Z-AxrSubmTUtN18DRGgqG-UpjJ',
-    itemCount: 24
   },
   {
     id: 'wooden-montessori',
@@ -23,7 +57,6 @@ export const CATEGORIES: Category[] = [
     slug: 'wooden-montessori',
     description: 'Open-ended developmental toys crafted with non-toxic dyes and sustainable timber.',
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA9whh2ZiXOzYCs_wPHNCcBIg_UJuqIvqrzj6rh63MCydH0WVV4aPbj_oqIP4z5Xci95u02eRt066pEJSFGVGsvHcx_rKYolsEmNsIW7t1Lr3wZFiWhEWw4RyGceR8SDru6andWsT3olt9fKYk1swzo1kJ7ECAWqaJtS14hfdsN6-nDS9PjGh43becmL-YCBI-tZn9-ATDLhUQywa-0Y-aU5XYxidD2FXUMiprZYpOUA6O2XBRg5Hf-',
-    itemCount: 19
   },
   {
     id: 'arts-craft',
@@ -31,7 +64,6 @@ export const CATEGORIES: Category[] = [
     slug: 'arts-craft',
     description: 'Non-toxic washable watercolor cases, dough buckets, and safe sculpting tools.',
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDUeFb6IJrHTrh8gWXYaJcKlOinai3k_xyDNPX4RAyqPJrspuIkG-ATQuPpu-j408VljCOllRIJkSOzpd30RQZrydng4XRtf8TTa2wyuwdiRNriyRuo5398jzV1bCmKafRXktYTUQzNUUgenrLPjfvBGEEnFTj71gxKQPf9IP7BhY_hijHN1Lk3sk4kMNW7J-H3AhlM4upf1LalusslASVMT_RYgUlKc6tPxGGxjCVXvh2sS8OYcsmH',
-    itemCount: 14
   },
   {
     id: 'puzzles-brains',
@@ -39,7 +71,6 @@ export const CATEGORIES: Category[] = [
     slug: 'puzzles-brains',
     description: 'Tactile problem-solving boards, tangrams, and geometric balance challenges.',
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCtj0-gbUBy2ZaUg0jXH7sUeVDeU0XFHyD2SYtFQBc5zF35FC2GgIsH2_Id8zsKQCojQeso_iWUHYVxilBIadhFkoIzOI8NXB6aq9CT6APd3eiP6iBxBpTah-HsS_v1QJbI9V8jXdRYxDmM-FpJ2-oP2WYWiYdFUKiHBJiVQFbtOmHYrNp0-Qf-E3CD_zulGIZmeYNgNQFHuipztPCZO585JRvvL8mHRfdbbYpj70Nl8TmVGdBAiv-u',
-    itemCount: 11
   },
   {
     id: 'baby-toddler',
@@ -47,7 +78,6 @@ export const CATEGORIES: Category[] = [
     slug: 'baby-toddler',
     description: 'Food-grade teether rattles, chime activity cubes, and smooth graspable toys.',
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCa1nF-qCexSg_Peysy5YOwhah6ve1eEC5aL5Cg9xuDJWY_OrooM6NbX5CIXTy7HeOIL0h_AWqam7OBECbMpzL3vnhvS_zgJz7UB0urWP6fpmEEc-R1Yg-HxWhcCdXKUNhQL3_i4zQVg4QEq28xFa_9XNa0cDpppI2p3jcGrMwPflVCi11gZNAF7kBSUFhgCLFxiEZdWaSeyl7_Bvj5WLdOmvZsY4eDowHnu4V_KWVgtPUlqqFAMd0J',
-    itemCount: 18
   }
 ];
 
@@ -64,8 +94,6 @@ export const PRODUCTS: Product[] = [
     originalPrice: 2850,
     discountBadge: 'NEW ARRIVAL',
     badgeType: 'new',
-    rating: 4.9,
-    reviewsCount: 18,
     stock: 14,
     inStock: true,
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDPqTCjsN_i77w7jIGjtWOIxDAcZP2FDZdax5_UB990q0MZexMJwZHhMnZl5EreZnGsJYztvqTMkcuQNKhrWTuWemOVmlqzUC1DUKt0a1LNVJPWQC-w1l3nhfxguan7TFXyuMP45kbIAckrmGppSLqg04ZOD6-dKnPulblmr48Cm1_Jofg3t85wGTJztWtYVWhQbb4JmzNC1nZFyPpjG5f6Q-guBG7qplUnu3d9qQuw6Q_U3yecdB-2',
@@ -98,8 +126,6 @@ export const PRODUCTS: Product[] = [
     originalPrice: 2290,
     discountBadge: 'SALE - Rs. 400 OFF',
     badgeType: 'sale',
-    rating: 4.8,
-    reviewsCount: 92,
     stock: 12,
     inStock: true,
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD8_MgVVUffk6XIPqR6lV2u-N-IybiTdmVBSOWZLTnvcKp_RYsNzYlLRyVt3itYlTlNo5NpN4UJmmn4YlcHZO8GIUlctf6C4l2XbPGAfJEJf4kd9VUA5FA4YN4gzMNEpZJ-CyiHfZmcDDIqqVMEcnYv1UxMygvvy0msCoQIbYwztitfkpSf-2l2MxrIkRlkAnbsfXIeAAKOY4Ppl0VsLBzOz8NCIwOK_Tfcn1f8Sta9vU5GdK2a4B6y',
@@ -132,8 +158,6 @@ export const PRODUCTS: Product[] = [
     originalPrice: 1950,
     discountBadge: 'POPULAR',
     badgeType: 'hot',
-    rating: 4.9,
-    reviewsCount: 134,
     stock: 5,
     inStock: true,
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBiovzBdROpaQCADbKuquN854YJDBv4THgOVWUg64qh_pd6jY2TBkNYcNLci7DMPpZDEVVdaGcz9Chvt6qocsTRx7KrSIM6UP5vGzNh5hNU2C5qHQ06Z9zi5dzry5mYcOcR_02FbyIObzCnCG1qOSz3_gVsvG_l5XF6T7YdGRtQ2E8X2LE7sPnWDgT5iK8MUboDZIslUMxoK9SytRiBHlomEpyM6dy5gimXSOUBduy-lj-ITZSG8AtX',
@@ -166,8 +190,6 @@ export const PRODUCTS: Product[] = [
     originalPrice: 3490,
     discountBadge: 'IN STORE COD',
     badgeType: 'hot',
-    rating: 4.7,
-    reviewsCount: 36,
     stock: 9,
     inStock: true,
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBoDYCmR0xMKds8mMvGwFxnldXAJLEOtBZUAkxs89Q03PZ8BMa9lw1kOsQCy1ofNN3zrVTtvvkmlWgXTI_eQeSkkeUAS5RadP7-VaJ9yF_oHapjZdsQK5K37EC43vFsiZqZv7EL10UE-U3QGAMDLQsDCmcox5kxqvWpLFmPkEHqDL-J_G6MSP1qTkEEgLxD2CTo9ILneo54Q9WoyQIaQbfkLKuNVxfSZE30IQhc4ZznExKtDvXEioou',
@@ -200,8 +222,6 @@ export const PRODUCTS: Product[] = [
     originalPrice: 1550,
     discountBadge: 'ESSENTIAL',
     badgeType: 'new',
-    rating: 4.9,
-    reviewsCount: 78,
     stock: 22,
     inStock: true,
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBXtY8CL0PvOz59SlQpWK0x1n_qq1hUx5sBj4bRJQNRD5pDEknTFCldY2J6ifMnnC6VfvgSZNd4fOOgxgRpLagbXbJohVT981e6JjwCjzJZshgKK2Fl1FvrKagm4GGvOExtXE9_aErdFgIym67zLpCvS3esgNHmzLEZWOJA2VfLe-XR5mh-nShPmt66IW803OLs-x4LOqkV-NJvh2ZdC-_8QlJmMHzfRuh1YA0SDJcUEhvIxiZI1-T2',
@@ -233,8 +253,6 @@ export const PRODUCTS: Product[] = [
     originalPrice: 3200,
     discountBadge: 'ONLY 3 LEFT',
     badgeType: 'hot',
-    rating: 4.8,
-    reviewsCount: 64,
     stock: 3,
     inStock: true,
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBa52XGrOQNII01H4VF0RgPd5GQdG3zQHcsENIAmcfGDMAYZCnLSs1cGwCGz9ZiE532nOr8S-xtQ2Y70knwVjTn48a_Ejn_OsEJJuj2ff-KiG46ousGOw5OgIVULacZCH2-_45hHuz1HxRYWoM7V8wBo_gFvSqZbuV8BvIIPcwitNgbUPrCB0GG6aTOG6bAtsGedekKRBJIzRzfJFrO0ScgD5jll68LfzVQB8OgPZI1RApPQz2HHwfO',
@@ -266,8 +284,6 @@ export const PRODUCTS: Product[] = [
     originalPrice: 2500,
     discountBadge: 'MONTESSORI PICK',
     badgeType: 'sale',
-    rating: 4.9,
-    reviewsCount: 47,
     stock: 15,
     inStock: true,
     image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB0IxV5f6TAY-AP1XHfYS9tp5DRjJ70oiqmoI21GMkYavUtyWHX-O0E2HOr5xlkE8g3mICUCBdYzB2kX2PnVdP1pox9LlY2HiGrs2LIoB5ChHZjtCjV8o5iDOfP1W3DUhTbsgQxA7epVf-CYzYybtGqH6fFg3yAHop9psEKhiTwHPM96qZZUFuh8qFTogYNLDc7zpbAjoRtbdJcbdT91c7bhjZsGnEElhSvBepxFG4N5npcSY56ZOQa',
@@ -299,8 +315,6 @@ export const PRODUCTS: Product[] = [
     originalPrice: 2400,
     discountBadge: 'LIMITED',
     badgeType: 'hot',
-    rating: 4.8,
-    reviewsCount: 41,
     stock: 8,
     inStock: true,
     image: 'https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=600&auto=format&fit=crop&q=80',
@@ -331,8 +345,6 @@ export const PRODUCTS: Product[] = [
     originalPrice: 2100,
     discountBadge: 'NATURAL WAX',
     badgeType: 'new',
-    rating: 4.9,
-    reviewsCount: 53,
     stock: 19,
     inStock: true,
     image: 'https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=600&auto=format&fit=crop&q=80',
@@ -363,8 +375,6 @@ export const PRODUCTS: Product[] = [
     originalPrice: 2200,
     discountBadge: 'STEM CHOICE',
     badgeType: 'sale',
-    rating: 4.7,
-    reviewsCount: 29,
     stock: 11,
     inStock: true,
     image: 'https://images.unsplash.com/photo-1618842676088-c4d48a6a7c9d?w=600&auto=format&fit=crop&q=80',
@@ -395,8 +405,6 @@ export const PRODUCTS: Product[] = [
     originalPrice: 2700,
     discountBadge: 'HANDMADE',
     badgeType: 'new',
-    rating: 4.9,
-    reviewsCount: 44,
     stock: 7,
     inStock: true,
     image: 'https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=600&auto=format&fit=crop&q=80',
@@ -427,8 +435,6 @@ export const PRODUCTS: Product[] = [
     originalPrice: 3200,
     discountBadge: 'TOP RATED',
     badgeType: 'hot',
-    rating: 5.0,
-    reviewsCount: 68,
     stock: 10,
     inStock: true,
     image: 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=600&auto=format&fit=crop&q=80',

@@ -3,6 +3,7 @@ import { Search, SlidersHorizontal, RotateCcw, Sparkles, Filter, X } from 'lucid
 import { Product } from '../types';
 import { CATEGORIES } from '../data/products';
 import { ProductCard } from './ProductCard';
+import { categoryPath } from '../lib/router';
 
 interface ShopSectionProps {
   products: Product[];
@@ -27,7 +28,6 @@ const SORT_OPTIONS = [
   { label: 'Featured & Trending', value: 'featured' },
   { label: 'Price: Low to High', value: 'price-low' },
   { label: 'Price: High to Low', value: 'price-high' },
-  { label: 'Highest Rated (4.8+)', value: 'rating' },
 ];
 
 export const ShopSection: React.FC<ShopSectionProps> = ({
@@ -75,7 +75,6 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
     }).sort((a, b) => {
       if (sortBy === 'price-low') return a.price - b.price;
       if (sortBy === 'price-high') return b.price - a.price;
-      if (sortBy === 'rating') return b.rating - a.rating;
       // Default: featured/trending first
       return (b.isTrending ? 1 : 0) - (a.isTrending ? 1 : 0);
     });
@@ -106,7 +105,9 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
               <span>Full Handpicked Catalog</span>
             </div>
             <h1 className="font-headline text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1D1B18] tracking-tight">
-              Explore All Toys &amp; Curated Collections
+              {selectedCategory === 'all'
+                ? 'All Toys Price in Pakistan'
+                : `${CATEGORIES.find((cat) => cat.slug === selectedCategory)?.name || 'Toys'} Price in Pakistan`}
             </h1>
             <p className="font-body text-sm sm:text-base text-[#58554F] mt-1 max-w-2xl">
               Every toy is physical-store inspected in Lahore with zero sharp burrs, safe waterborne dyes, and quick Cash on Delivery nationwide.
@@ -137,8 +138,12 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
 
         {/* Category Filter Pills (Horizontal Scrolling) */}
         <div className="mt-6 pt-6 border-t border-[#EBE5DA] flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-          <button
-            onClick={() => onSelectCategory('all')}
+          <a
+            href="/shop"
+            onClick={(event) => {
+              event.preventDefault();
+              onSelectCategory('all');
+            }}
             className={`px-4 py-2 rounded-full text-xs font-headline font-bold whitespace-nowrap transition-all cursor-pointer ${
               selectedCategory === 'all'
                 ? 'bg-[#0F3D9C] text-white shadow-xs'
@@ -147,14 +152,18 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
             id="cat-pill-all"
           >
             All Toys ({products.length})
-          </button>
+          </a>
           {CATEGORIES.map((cat) => {
             const isSelected = selectedCategory === cat.slug;
             const count = products.filter((p) => p.category === cat.slug).length;
             return (
-              <button
+              <a
                 key={cat.id}
-                onClick={() => onSelectCategory(cat.slug)}
+                href={categoryPath(cat.slug)}
+                onClick={(event) => {
+                  event.preventDefault();
+                  onSelectCategory(cat.slug);
+                }}
                 className={`px-4 py-2 rounded-full text-xs font-headline font-bold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
                   isSelected
                     ? 'bg-[#0F3D9C] text-white shadow-xs'
@@ -170,7 +179,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
                 >
                   {count}
                 </span>
-              </button>
+              </a>
             );
           })}
         </div>

@@ -1,7 +1,10 @@
 import React from 'react';
-import { Phone, MapPin, Mail, MessageCircle, Truck } from 'lucide-react';
+import { MessageCircle, Truck } from 'lucide-react';
 import { CATEGORIES } from '../data/products';
 import { BrandMark } from './BrandMark';
+import { WhatsAppLink } from './WhatsAppLink';
+import { TrustFacts } from './TrustFacts';
+import { categoryPath } from '../lib/router';
 
 interface FooterProps {
   onNavigate: (view: 'home' | 'shop' | 'about') => void;
@@ -22,19 +25,19 @@ export const Footer: React.FC<FooterProps> = ({
             <h4 className="font-headline text-sm font-bold text-white">Quick links</h4>
             <ul className="space-y-2 text-sm font-body">
               <li>
-                <button onClick={() => onNavigate('home')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <a href="/" onClick={(event) => { event.preventDefault(); onNavigate('home'); }} className="hover:text-white transition-colors cursor-pointer text-left">
                   Home
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => onNavigate('shop')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <a href="/shop" onClick={(event) => { event.preventDefault(); onNavigate('shop'); }} className="hover:text-white transition-colors cursor-pointer text-left">
                   Shop all toys
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => onNavigate('about')} className="hover:text-white transition-colors cursor-pointer text-left">
-                  Our Lahore shop
-                </button>
+                <a href="/about" onClick={(event) => { event.preventDefault(); onNavigate('about'); }} className="hover:text-white transition-colors cursor-pointer text-left">
+                  About
+                </a>
               </li>
               <li>
                 <button
@@ -53,15 +56,16 @@ export const Footer: React.FC<FooterProps> = ({
             <ul className="space-y-2 text-sm font-body">
               {CATEGORIES.slice(0, 5).map((cat) => (
                 <li key={cat.id}>
-                  <button
-                    onClick={() => {
-                      onNavigate('shop');
+                  <a
+                    href={categoryPath(cat.slug)}
+                    onClick={(event) => {
+                      event.preventDefault();
                       onSelectCategory(cat.slug);
                     }}
                     className="hover:text-white transition-colors text-left cursor-pointer"
                   >
                     {cat.name}
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -71,15 +75,10 @@ export const Footer: React.FC<FooterProps> = ({
             <h4 className="font-headline text-sm font-bold text-white">Follow us</h4>
             <ul className="space-y-2 text-sm font-body">
               <li>
-                <a
-                  href="https://wa.me/923001234567"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:text-white transition-colors inline-flex items-center gap-1.5 text-[#25D366]"
-                >
+                <WhatsAppLink className="hover:text-white transition-colors inline-flex items-center gap-1.5 text-[#25D366]">
                   <MessageCircle className="w-3.5 h-3.5" />
                   WhatsApp
-                </a>
+                </WhatsAppLink>
               </li>
               <li><span className="text-[#DBE4FA]/70">Instagram</span></li>
               <li><span className="text-[#DBE4FA]/70">Facebook</span></li>
@@ -88,20 +87,7 @@ export const Footer: React.FC<FooterProps> = ({
 
           <div className="space-y-3">
             <h4 className="font-headline text-sm font-bold text-white">Contact</h4>
-            <ul className="space-y-2.5 text-sm font-body">
-              <li className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-[#F0A63A] shrink-0 mt-0.5" />
-                <span>Main Market, Gulberg III, Lahore</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-[#F0A63A] shrink-0" />
-                <span>+92 300 1234567</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-[#F0A63A] shrink-0" />
-                <span>salam@astoys.pk</span>
-              </li>
-            </ul>
+            <TrustFacts className="space-y-2.5 text-sm font-body" />
           </div>
         </div>
 

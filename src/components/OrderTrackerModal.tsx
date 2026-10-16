@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Search, Truck, MapPin, CheckCircle2, Clock } from 'lucide-react';
 import { Order } from '../types';
+import { config } from '../config';
 
 interface OrderTrackerModalProps {
   isOpen: boolean;
@@ -29,7 +30,7 @@ export const OrderTrackerModal: React.FC<OrderTrackerModalProps> = ({
       (o) =>
         o.id.toLowerCase() === clean ||
         o.customer.phone.replace(/[^0-9]/g, '').includes(clean) ||
-        o.trackingNumber.toLowerCase() === clean
+        (o.trackingNumber || '').toLowerCase() === clean
     );
     setMatchedOrder(found || null);
   };
@@ -93,7 +94,7 @@ export const OrderTrackerModal: React.FC<OrderTrackerModalProps> = ({
                     Courier
                   </span>
                   <p className="font-headline font-bold text-[#1D1B18] text-xs">
-                    {matchedOrder.courier} ({matchedOrder.trackingNumber})
+                    {matchedOrder.courier || 'Not assigned'}
                   </p>
                 </div>
               </div>
@@ -105,10 +106,10 @@ export const OrderTrackerModal: React.FC<OrderTrackerModalProps> = ({
                     ✓
                   </div>
                   <p className="font-headline font-bold text-xs text-[#1D1B18]">
-                    Order Quality Inspected at Lahore Hub
+                    Order received
                   </p>
                   <p className="text-[11px] text-[#58554F]">
-                    Inspected for smooth edges, battery safety, and boxed in bubble wrap.
+                    Saved on {matchedOrder.createdAt}. Payment: cash on delivery.
                   </p>
                 </div>
 
@@ -117,10 +118,10 @@ export const OrderTrackerModal: React.FC<OrderTrackerModalProps> = ({
                     •
                   </div>
                   <p className="font-headline font-bold text-xs text-[#0F3D9C]">
-                    Booked for Dispatch with {matchedOrder.courier}
+                    Waiting for the shop to confirm
                   </p>
                   <p className="text-[11px] text-[#58554F]">
-                    Destination: {matchedOrder.customer.city} • Cash on Delivery (Rs. {matchedOrder.total.toLocaleString()})
+                    {matchedOrder.customer.city} · Rs. {matchedOrder.total.toLocaleString()} COD
                   </p>
                 </div>
               </div>
@@ -142,7 +143,7 @@ export const OrderTrackerModal: React.FC<OrderTrackerModalProps> = ({
                 No parcel found for "{query}"
               </p>
               <p className="mt-1">
-                Please double-check your Order Number or WhatsApp phone number, or chat with our Lahore team on WhatsApp (+92 300 1234567).
+                Check the order number or phone saved in this browser. Shop phone: {config.phone}.
               </p>
             </div>
           ) : (
@@ -152,7 +153,7 @@ export const OrderTrackerModal: React.FC<OrderTrackerModalProps> = ({
                 Instant Tracking for Pakistani Orders
               </p>
               <p className="mt-1">
-                Enter your order ID from your confirmation SMS or receipt to view the real-time courier status.
+                This looks up orders placed in this browser. It is not a live courier tracker.
               </p>
             </div>
           )}

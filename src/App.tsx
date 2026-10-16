@@ -8,24 +8,39 @@ import { ToddlersEarlyYears } from './components/ToddlersEarlyYears';
 import { Guarantees } from './components/Guarantees';
 import { Newsletter } from './components/Newsletter';
 import { Footer } from './components/Footer';
-import { ProductModal } from './components/ProductModal';
 import { CartDrawer } from './components/CartDrawer';
+import { ProductPage } from './components/ProductPage';
+import { Seo } from './components/Seo';
+import { WhatsAppLink } from './components/WhatsAppLink';
 import { CheckoutModal } from './components/CheckoutModal';
 import { OrderSuccessModal } from './components/OrderSuccessModal';
 import { OrderTrackerModal } from './components/OrderTrackerModal';
 import { AboutView } from './components/AboutView';
 import { StoryTeaser } from './components/StoryTeaser';
-import { PRODUCTS } from './data/products';
+import { CATEGORIES, PRODUCTS } from './data/products';
 import { CartItem, Product, Order } from './types';
 import { MessageCircle, ArrowRight, Check } from 'lucide-react';
+import { categoryPath, useRoute } from './lib/router';
+import { WHATSAPP_HELP_MESSAGE } from './lib/whatsapp';
+import { config } from './config';
+import {
+  HOME_DESCRIPTION,
+  HOME_TITLE,
+  categoryDescription,
+  categoryTitle,
+  productDescription,
+  productJsonLd,
+  productTitle,
+} from './lib/seo';
 
 const CART_STORAGE_KEY = 'as_toys_cart';
 const ORDERS_STORAGE_KEY = 'as_toys_orders';
 
 export default function App() {
-  // Navigation & View state
-  const [currentView, setCurrentView] = useState<'home' | 'shop' | 'about'>('home');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const { route, navigate } = useRoute();
+  const currentView: 'home' | 'shop' | 'about' =
+    route.name === 'about' ? 'about' : route.name === 'home' ? 'home' : 'shop';
+  const selectedCategory = route.name === 'category' ? route.slug : 'all';
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   // Cart state with localStorage
@@ -52,7 +67,6 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isTrackerOpen, setIsTrackerOpen] = useState(false);
-  const [activeQuickViewProduct, setActiveQuickViewProduct] = useState<Product | null>(null);
   const [lastPlacedOrder, setLastPlacedOrder] = useState<Order | null>(null);
 
   // Quick feedback state
@@ -129,10 +143,48 @@ export default function App() {
 
   // View navigation helpers
   const navigateToShop = (category = 'all') => {
-    setSelectedCategory(category);
-    setCurrentView('shop');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    navigate(categoryPath(category));
   };
+
+  const openProduct = (product: Product) => {
+    navigate(`/products/${product.slug}`);
+  };
+
+  const activeCategory = CATEGORIES.find((category) => category.slug === selectedCategory);
+  const activeProduct = route.name === 'product'
+    ? PRODUCTS.find((product) => product.slug === route.slug)
+    : undefined;
+
+  const seo = route.name === 'product' && activeProduct
+    ? {
+        title: productTitle(activeProduct),
+        description: productDescription(activeProduct),
+        path: `/products/${activeProduct.slug}`,
+        jsonLd: productJsonLd(activeProduct, config.siteUrl),
+      }
+    : route.name === 'category' && activeCategory
+      ? {
+          title: categoryTitle(activeCategory.name),
+          description: categoryDescription(activeCategory.name, activeCategory.description),
+          path: `/category/${activeCategory.slug}`,
+        }
+      : route.name === 'about'
+        ? {
+            title: 'About A&S Toys | Toy Shop in Pakistan',
+            description: 'About A&S Toys. Cash on delivery, exchange policy, delivery charges, and contact.',
+            path: '/about',
+          }
+        : route.name === 'shop'
+          ? {
+              title: 'All Toys Price in Pakistan | A&S Toys',
+              description: 'All toy prices in Pakistan from A&S Toys. Cash on delivery.',
+              path: '/shop',
+            }
+          : {
+              title: HOME_TITLE,
+              description: HOME_DESCRIPTION,
+              path: '/',
+            };
 
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const cartSubtotal = cartItems.reduce(
@@ -158,19 +210,20 @@ export default function App() {
       )}
 
       {/* Main Navigation Bar */}
+      <Seo title={seo.title} description={seo.description} path={seo.path} jsonLd={seo.jsonLd} />
+
       <Navbar
         currentView={currentView}
         onNavigate={(view) => {
-          setCurrentView(view);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          navigate(view === 'home' ? '/' : view === 'about' ? '/about' : '/shop');
         }}
         cartItems={cartItems}
         onOpenCart={() => setIsCartOpen(true)}
         searchQuery={searchQuery}
         onSearchChange={(q) => {
           setSearchQuery(q);
-          if (q.trim() && currentView !== 'shop') {
-            setCurrentView('shop');
+          if (q.trim() && route.name !== 'shop' && route.name !== 'category') {
+            navigate('/shop');
           }
         }}
         onOpenTracker={() => setIsTrackerOpen(true)}
@@ -178,7 +231,7 @@ export default function App() {
 
       {/* View Content */}
       <main className="flex-1">
-        {currentView === 'home' && (
+        {route.name === 'home' && (
           <>
             <Hero
               onShopClick={() => navigateToShop('all')}
@@ -219,7 +272,7 @@ export default function App() {
                       key={product.id}
                       product={product}
                       onAddToCart={(p) => handleAddToCart(p, 1)}
-                      onQuickView={(p) => setActiveQuickViewProduct(p)}
+                      onQuickView={openProduct}
                       isAdded={recentlyAddedId === product.id}
                     />
                   ))}
@@ -242,16 +295,13 @@ export default function App() {
             <ToddlersEarlyYears
               products={PRODUCTS}
               onAddToCart={(p) => handleAddToCart(p, 1)}
-              onQuickView={(p) => setActiveQuickViewProduct(p)}
+              onQuickView={openProduct}
               onExploreBabyToys={() => navigateToShop('baby-toddler')}
               addedProductIds={recentlyAddedId ? [recentlyAddedId] : []}
             />
 
             <StoryTeaser
-              onAboutClick={() => {
-                setCurrentView('about');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+              onAboutClick={() => navigate('/about')}
               onShopClick={() => navigateToShop('all')}
             />
 
@@ -259,29 +309,55 @@ export default function App() {
           </>
         )}
 
-        {currentView === 'shop' && (
+        {(route.name === 'shop' || route.name === 'category') && (
           <ShopSection
             products={PRODUCTS}
             onAddToCart={(p) => handleAddToCart(p, 1)}
-            onQuickView={(p) => setActiveQuickViewProduct(p)}
+            onQuickView={openProduct}
             selectedCategory={selectedCategory}
-            onSelectCategory={(cat) => setSelectedCategory(cat)}
+            onSelectCategory={(cat) => navigate(categoryPath(cat))}
             searchQuery={searchQuery}
             onSearchChange={(q) => setSearchQuery(q)}
             addedProductIds={recentlyAddedId ? [recentlyAddedId] : []}
           />
         )}
 
-        {currentView === 'about' && (
+        {route.name === 'about' && (
           <AboutView onShopClick={() => navigateToShop('all')} />
+        )}
+
+        {route.name === 'product' && activeProduct && (
+          <ProductPage
+            product={activeProduct}
+            onAddToCart={handleAddToCart}
+            onBack={() => navigate(categoryPath(activeProduct.category))}
+            isAdded={recentlyAddedId === activeProduct.id}
+          />
+        )}
+
+        {route.name === 'product' && !activeProduct && (
+          <div className="max-w-3xl mx-auto px-4 py-16 text-center">
+            <h1 className="font-headline text-2xl font-bold">This toy is not in the catalog</h1>
+            <button type="button" onClick={() => navigate('/shop')} className="btn-primary mt-6 cursor-pointer">
+              Browse toys
+            </button>
+          </div>
+        )}
+
+        {route.name === 'notfound' && (
+          <div className="max-w-3xl mx-auto px-4 py-16 text-center">
+            <h1 className="font-headline text-2xl font-bold">Page not found</h1>
+            <button type="button" onClick={() => navigate('/')} className="btn-primary mt-6 cursor-pointer">
+              Back home
+            </button>
+          </div>
         )}
       </main>
 
       {/* Footer */}
       <Footer
         onNavigate={(view) => {
-          setCurrentView(view);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          navigate(view === 'home' ? '/' : view === 'about' ? '/about' : '/shop');
         }}
         onSelectCategory={(cat) => navigateToShop(cat)}
         onOpenTracker={() => setIsTrackerOpen(true)}
@@ -311,19 +387,16 @@ export default function App() {
 
       {/* Floating WhatsApp Live Help Widget */}
       <div className="fixed bottom-5 right-5 z-30 hidden sm:block">
-        <a
-          href="https://wa.me/923001234567?text=Assalam-o-Alaikum!%20I%20am%20browsing%20A%20%26%20S%20Toys%20and%20need%20help%20choosing%20a%20toy."
-          target="_blank"
-          rel="noreferrer"
+        <WhatsAppLink
+          message={WHATSAPP_HELP_MESSAGE}
           className="bg-[#25D366] hover:bg-[#1EBE5D] text-white p-3.5 rounded-full shadow-xl flex items-center gap-2 font-headline font-bold text-xs transition-all hover:scale-105 group border-2 border-white"
-          title="Chat with our Lahore shop team"
           id="floating-whatsapp-widget"
         >
           <MessageCircle className="w-5 h-5 fill-current" />
           <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300">
-            Lahore Shop Live (15s Video)
+            WhatsApp the shop
           </span>
-        </a>
+        </WhatsAppLink>
       </div>
 
       {/* Cart Drawer */}
@@ -341,16 +414,6 @@ export default function App() {
           setIsCartOpen(false);
           navigateToShop('all');
         }}
-      />
-
-      {/* Product Detail Modal */}
-      <ProductModal
-        product={activeQuickViewProduct}
-        onClose={() => setActiveQuickViewProduct(null)}
-        onAddToCart={(product, qty) => {
-          handleAddToCart(product, qty);
-        }}
-        isAdded={activeQuickViewProduct ? recentlyAddedId === activeQuickViewProduct.id : false}
       />
 
       {/* Checkout Modal */}

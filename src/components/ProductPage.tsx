@@ -1,0 +1,109 @@
+import React, { useState } from 'react';
+import { Check, MessageCircle, ArrowLeft } from 'lucide-react';
+import { Product } from '../types';
+import { WhatsAppLink } from './WhatsAppLink';
+
+interface ProductPageProps {
+  product: Product;
+  onAddToCart: (product: Product, quantity: number) => void;
+  onBack: () => void;
+  isAdded?: boolean;
+}
+
+export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, onBack, isAdded }) => {
+  const [quantity, setQuantity] = useState(1);
+  const out = !product.inStock || product.stock <= 0;
+  const message =
+    `Assalam-o-Alaikum! I want to order ${product.title} (Rs. ${product.price.toLocaleString('en-PK')}) from A&S Toys. Payment: COD.`;
+
+  return (
+    <article className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12" id="product-page">
+      <button
+        type="button"
+        onClick={onBack}
+        className="inline-flex items-center gap-1.5 text-sm font-headline font-bold text-[#0F3D9C] mb-6 cursor-pointer"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        Back to shop
+      </button>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-2xl border border-[#EBE5DA] p-5 sm:p-8">
+        <img
+          src={product.image}
+          alt={product.title}
+          className="w-full aspect-square object-cover rounded-xl bg-[#F4EFE6]"
+        />
+        <div>
+          <p className="text-xs font-headline font-bold text-[#0F3D9C]">
+            {product.categoryName} · {product.ageLabel}
+          </p>
+          <h1 className="font-headline text-2xl sm:text-3xl font-bold text-[#211F1C] mt-2">
+            {product.title}
+          </h1>
+          <p className="font-headline text-2xl font-bold text-[#0F3D9C] mt-3">
+            Rs. {product.price.toLocaleString('en-PK')}
+            <span className="ml-2 text-sm font-body font-semibold text-[#58554F]">PKR</span>
+            {product.originalPrice ? (
+              <span className="ml-2 text-sm font-normal text-[#58554F] line-through">
+                Rs. {product.originalPrice.toLocaleString('en-PK')}
+              </span>
+            ) : null}
+          </p>
+          <p className="text-sm text-[#58554F] mt-4 leading-relaxed">{product.fullDescription}</p>
+          {product.features.length > 0 && (
+            <ul className="mt-4 space-y-1 text-sm text-[#211F1C] list-disc list-inside">
+              {product.features.map((feature) => (
+                <li key={feature}>{feature}</li>
+              ))}
+            </ul>
+          )}
+          <p className="text-xs text-[#58554F] mt-4">
+            {product.materials}
+            {product.dimensions ? ` · ${product.dimensions}` : ''}
+            {product.safetyNotes ? ` · ${product.safetyNotes}` : ''}
+          </p>
+
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className="inline-flex items-center border border-[#EBE5DA] rounded-full">
+              <button
+                type="button"
+                className="px-3 py-2 font-bold cursor-pointer"
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                aria-label="Decrease quantity"
+              >
+                −
+              </button>
+              <span className="px-2 text-sm font-headline font-bold">{quantity}</span>
+              <button
+                type="button"
+                className="px-3 py-2 font-bold cursor-pointer"
+                onClick={() => setQuantity((q) => Math.min(product.stock || 1, q + 1))}
+                aria-label="Increase quantity"
+              >
+                +
+              </button>
+            </div>
+            <button
+              type="button"
+              disabled={out}
+              onClick={() => onAddToCart(product, quantity)}
+              className="btn-primary inline-flex items-center gap-2 disabled:opacity-50 cursor-pointer"
+            >
+              {isAdded ? <Check className="w-4 h-4" /> : null}
+              {out ? 'Out of stock' : isAdded ? 'Added' : 'Add to cart'}
+            </button>
+            <WhatsAppLink
+              message={message}
+              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-headline text-sm font-bold px-4 py-2.5 rounded-full"
+              id="product-whatsapp"
+            >
+              <MessageCircle className="w-4 h-4" />
+              WhatsApp this toy
+            </WhatsAppLink>
+          </div>
+          <p className="text-xs text-[#58554F] mt-3">Payment on the website is cash on delivery.</p>
+        </div>
+      </div>
+    </article>
+  );
+};

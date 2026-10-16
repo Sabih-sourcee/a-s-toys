@@ -2,6 +2,8 @@ import React from 'react';
 import { ShoppingBag, Search, MessageCircle, Truck, X } from 'lucide-react';
 import { CartItem } from '../types';
 import { BrandMark } from './BrandMark';
+import { WhatsAppLink } from './WhatsAppLink';
+import { WHATSAPP_HELP_MESSAGE } from '../lib/whatsapp';
 
 interface NavbarProps {
   cartItems: CartItem[];
@@ -36,25 +38,29 @@ export const Navbar: React.FC<NavbarProps> = ({
     <>
       <nav className="sticky top-0 z-40 bg-[#FBF9F4]/95 backdrop-blur-md border-b border-[#EBE5DA]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-4">
-          <button
-            onClick={() => onNavigate('home')}
+          <a
+            href="/"
+            onClick={(event) => {
+              event.preventDefault();
+              onNavigate('home');
+            }}
             className="shrink-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0F3D9C] focus-visible:outline-offset-2 rounded-lg"
             id="nav-brand-logo"
             aria-label="A & S Toys home"
           >
             <BrandMark tone="on-light" size="md" />
-          </button>
+          </a>
 
           <div className="hidden lg:flex items-center gap-1 font-headline text-sm font-bold">
-            <button onClick={() => onNavigate('home')} className={linkClass(currentView === 'home')} id="nav-link-home">
+            <a href="/" onClick={(event) => { event.preventDefault(); onNavigate('home'); }} className={linkClass(currentView === 'home')} id="nav-link-home">
               Home
-            </button>
-            <button onClick={() => onNavigate('shop')} className={linkClass(currentView === 'shop')} id="nav-link-shop">
+            </a>
+            <a href="/shop" onClick={(event) => { event.preventDefault(); onNavigate('shop'); }} className={linkClass(currentView === 'shop')} id="nav-link-shop">
               Shop
-            </button>
-            <button onClick={() => onNavigate('about')} className={linkClass(currentView === 'about')} id="nav-link-about">
+            </a>
+            <a href="/about" onClick={(event) => { event.preventDefault(); onNavigate('about'); }} className={linkClass(currentView === 'about')} id="nav-link-about">
               About
-            </button>
+            </a>
             <button
               onClick={onOpenTracker}
               className="px-3 py-2 rounded-full text-[#58554F] hover:text-[#0F3D9C] hover:bg-[#F4EFE6] transition-colors flex items-center gap-1.5 cursor-pointer text-sm font-headline font-bold min-h-[44px]"
@@ -106,16 +112,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </div>
 
-            <a
-              href="https://wa.me/923001234567?text=Assalam-o-Alaikum!%20I%20am%20browsing%20A%26S%20Toys%20Pakistan%20and%20would%20like%20assistance."
-              target="_blank"
-              rel="noreferrer"
+            <WhatsAppLink
+              message={WHATSAPP_HELP_MESSAGE}
               className="hidden sm:inline-flex items-center gap-1.5 bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs font-headline font-bold px-3.5 py-2.5 rounded-full transition-colors min-h-[44px]"
               id="header-wa-chat"
             >
               <MessageCircle className="w-4 h-4 fill-white" />
               <span>WhatsApp</span>
-            </a>
+            </WhatsAppLink>
 
             <button
               onClick={onOpenCart}
@@ -133,22 +137,24 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         <div className="lg:hidden border-t border-[#EBE5DA] bg-[#FBF9F4] px-4 py-2 flex items-center justify-around text-xs font-headline font-bold">
-          <button
-            onClick={() => onNavigate('home')}
+          <a
+            href="/"
+            onClick={(event) => { event.preventDefault(); onNavigate('home'); }}
             className={`px-3 py-2 rounded-full cursor-pointer min-h-[44px] ${
               currentView === 'home' ? 'bg-[#0F3D9C] text-white' : 'text-[#58554F]'
             }`}
           >
             Home
-          </button>
-          <button
-            onClick={() => onNavigate('shop')}
+          </a>
+          <a
+            href="/shop"
+            onClick={(event) => { event.preventDefault(); onNavigate('shop'); }}
             className={`px-3 py-2 rounded-full cursor-pointer min-h-[44px] ${
               currentView === 'shop' ? 'bg-[#0F3D9C] text-white' : 'text-[#58554F]'
             }`}
           >
             Shop
-          </button>
+          </a>
           <button
             onClick={onOpenTracker}
             className="px-3 py-2 rounded-full text-[#58554F] flex items-center gap-1 cursor-pointer min-h-[44px]"
@@ -156,14 +162,15 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Truck className="w-3.5 h-3.5" />
             Track
           </button>
-          <button
-            onClick={() => onNavigate('about')}
+          <a
+            href="/about"
+            onClick={(event) => { event.preventDefault(); onNavigate('about'); }}
             className={`px-3 py-2 rounded-full cursor-pointer min-h-[44px] ${
               currentView === 'about' ? 'bg-[#0F3D9C] text-white' : 'text-[#58554F]'
             }`}
           >
             About
-          </button>
+          </a>
         </div>
       </nav>
     </>

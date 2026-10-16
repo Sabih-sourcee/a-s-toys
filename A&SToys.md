@@ -72,7 +72,7 @@ Waves: `WaveDivider.tsx` (`blue-on-ivory` | `ivory-on-blue` | `deep-on-ivory` | 
 | Bundler | Vite 8 — scripts call `node ./node_modules/vite/bin/vite.js` (Windows `&` path safe) |
 | CSS | Tailwind v4; tokens in `src/index.css` |
 | Fonts | Poppins 700 + Nunito Sans (`index.html`) |
-| Routing | View enum `'home' \| 'shop' \| 'about'` in `App.tsx` |
+| Routing | Paths `/`, `/shop`, `/about`, `/category/:slug`, `/products/:slug` |
 | Storage | `as_toys_cart` · `as_toys_orders` |
 
 ```
@@ -97,12 +97,13 @@ src/
 
 | Rule | Value |
 |---|---|
-| Shipping | Rs. 250 · free ≥ Rs. 3,500 |
+| Shipping | `VITE_DELIVERY_CHARGES` (TODO until set). Optional free over `VITE_FREE_SHIPPING_OVER`. |
 | Promos (cart) | WELCOME10 / PAKISTAN / LAHOREJOY = 10%; TOYLOVE = 15% |
-| Payments UI | COD · JazzCash · EasyPaisa · bank (placeholders) |
-| WhatsApp | `wa.me/923001234567` |
+| Payments UI | Cash on delivery only |
+| WhatsApp | `VITE_WHATSAPP_NUMBER` in `.env` (see README) |
+| Orders | Google Apps Script web app → Sheet + email. Payment stored as COD. |
 
-**Known gaps:** 12 products vs “90+” copy; promo discount may not flow into checkout; no real payments/backend.
+**Known gaps:** 12 products vs “90+” copy; promo discount may not flow into checkout. Orders need the Apps Script URL from the README.
 
 ---
 

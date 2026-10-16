@@ -1,5 +1,8 @@
 import React from 'react';
-import { Store, ShieldCheck, Heart, MapPin, Phone, MessageCircle, ArrowRight } from 'lucide-react';
+import { Store, ShieldCheck, Heart, MessageCircle, ArrowRight } from 'lucide-react';
+import { WhatsAppLink } from './WhatsAppLink';
+import { TrustFacts } from './TrustFacts';
+import { WHATSAPP_HELP_MESSAGE } from '../lib/whatsapp';
 
 interface AboutViewProps {
   onShopClick: () => void;
@@ -63,27 +66,33 @@ export const AboutView: React.FC<AboutViewProps> = ({ onShopClick }) => {
           </div>
         </div>
 
-        {/* Visit Our Lahore Store */}
+        <div className="bg-white rounded-xl border border-[#EBE5DA] p-6 space-y-3">
+          <h2 className="font-headline text-lg font-bold text-[#1D1B18]">Shop details</h2>
+          <p className="text-sm text-[#58554F]">
+            Phone, address, the 7-day exchange policy, delivery charges, and courier are filled in by the shop. Lines that still say TODO are not confirmed yet.
+          </p>
+          <TrustFacts className="space-y-2 text-sm text-[#211F1C]" />
+        </div>
+
+        {/* Visit */}
         <div className="bg-[#F4EFE6] rounded-xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="space-y-2">
             <h3 className="font-headline text-lg font-bold text-[#1D1B18]">
-              Visiting Lahore? Come say salam in person!
+              Questions about a toy?
             </h3>
             <p className="font-body text-xs sm:text-sm text-[#58554F]">
-              Main Market, Gulberg III, Lahore, Pakistan. Open Monday to Saturday: 11:00 AM – 10:00 PM.
+              Message the shop on WhatsApp. Orders on this site are cash on delivery.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2.5">
-            <a
-              href="https://wa.me/923001234567"
-              target="_blank"
-              rel="noreferrer"
+            <WhatsAppLink
+              message={WHATSAPP_HELP_MESSAGE}
               className="bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-xs font-bold px-4 py-2.5 rounded-full flex items-center gap-1.5 transition-colors shadow-xs"
             >
               <MessageCircle className="w-4 h-4 fill-white" />
               <span>WhatsApp Shop</span>
-            </a>
+            </WhatsAppLink>
             <button
               onClick={onShopClick}
               className="btn-push-red text-white font-headline text-xs font-bold px-5 py-2.5 rounded-full flex items-center gap-1.5 cursor-pointer"

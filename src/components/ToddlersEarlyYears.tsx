@@ -1,6 +1,7 @@
 import React from 'react';
 import { Plus, Check, ArrowRight } from 'lucide-react';
 import { Product } from '../types';
+import { productPath } from '../lib/router';
 
 interface ToddlersEarlyYearsProps {
   products: Product[];
@@ -53,15 +54,27 @@ export const ToddlersEarlyYears: React.FC<ToddlersEarlyYearsProps> = ({
                   key={toy.id}
                   className="shrink-0 w-40 sm:w-44 snap-start flex flex-col"
                 >
-                  <button
-                    type="button"
-                    onClick={() => onQuickView(toy)}
-                    className="w-full aspect-square rounded-lg bg-white border border-[#EBE5DA] p-3 mb-2 overflow-hidden cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0F3D9C]"
+                  <a
+                    href={productPath(toy.slug)}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      onQuickView(toy);
+                    }}
+                    className="w-full aspect-square rounded-lg bg-white border border-[#EBE5DA] p-3 mb-2 overflow-hidden cursor-pointer block focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0F3D9C]"
                   >
                     <img src={toy.image} alt={toy.title} className="w-full h-full object-contain" loading="lazy" />
-                  </button>
+                  </a>
                   <h3 className="font-headline text-xs sm:text-sm font-bold text-[#211F1C] line-clamp-2 min-h-[2.2rem]">
-                    {toy.title}
+                    <a
+                      href={productPath(toy.slug)}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        onQuickView(toy);
+                      }}
+                      className="hover:text-[#0F3D9C]"
+                    >
+                      {toy.title}
+                    </a>
                   </h3>
                   <p className="font-headline text-sm font-bold text-[#0F3D9C] mt-0.5 mb-2">
                     Rs. {toy.price.toLocaleString()}

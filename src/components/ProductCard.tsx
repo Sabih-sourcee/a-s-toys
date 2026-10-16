@@ -1,6 +1,7 @@
 import React from 'react';
-import { Check, Star, ArrowRight } from 'lucide-react';
+import { Check, ArrowRight } from 'lucide-react';
 import { Product } from '../types';
+import { productPath } from '../lib/router';
 
 interface ProductCardProps {
   product: Product;
@@ -16,7 +17,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   isAdded = false,
 }) => {
   const isOutOfStock = !product.inStock || product.stock === 0;
-  const isTopRated = Boolean(product.isTrending) || product.rating >= 4.7;
+  const href = productPath(product.slug);
+  const open = (event: React.MouseEvent) => {
+    event.preventDefault();
+    onQuickView(product);
+  };
 
   return (
     <article
@@ -24,10 +29,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       id={`product-card-${product.id}`}
     >
       {/* Image */}
-      <button
-        type="button"
-        onClick={() => onQuickView(product)}
-        className="relative h-56 sm:h-64 w-full overflow-hidden cursor-pointer group focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0F3D9C] focus-visible:outline-offset-2"
+      <a
+        href={href}
+        onClick={open}
+        className="relative h-56 sm:h-64 w-full overflow-hidden cursor-pointer group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0F3D9C] focus-visible:outline-offset-2"
       >
         <img
           src={product.image}
@@ -40,29 +45,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-[#FBF9F4]/85 backdrop-blur-sm px-2.5 py-1 text-[11px] font-body font-semibold text-[#211F1C]">
           {isOutOfStock ? 'Out of stock' : product.discountBadge || product.categoryName}
         </span>
-
-        {/* Top-right rating badge */}
-        <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-[#FBF9F4]/85 backdrop-blur-sm px-2.5 py-1 text-[11px] font-body font-semibold text-[#211F1C]">
-          <Star className="w-3.5 h-3.5 fill-[#F0A63A] stroke-[#F0A63A]" />
-          {product.rating.toFixed(1)}
-        </span>
-      </button>
+      </a>
 
       {/* Content */}
       <div className="p-5 flex flex-col gap-3 flex-1">
         <div className="flex justify-between items-start gap-2">
-          <h3
-            onClick={() => onQuickView(product)}
-            className="font-headline text-lg font-bold leading-snug line-clamp-1 cursor-pointer text-[#211F1C] hover:text-[#0F3D9C] transition-colors"
-            title={product.title}
-          >
-            {product.title}
+          <h3 className="font-headline text-lg font-bold leading-snug line-clamp-1 text-[#211F1C]" title={product.title}>
+            <a href={href} onClick={open} className="hover:text-[#0F3D9C] transition-colors">
+              {product.title}
+            </a>
           </h3>
-          {isTopRated && (
-            <span className="shrink-0 inline-flex items-center rounded-full border border-[#EBE5DA] px-2.5 py-0.5 text-[11px] font-body font-semibold text-[#58554F]">
-              Top rated
-            </span>
-          )}
         </div>
 
         <div className="text-sm text-[#58554F]">
@@ -84,13 +76,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </p>
 
           {isOutOfStock ? (
-            <button
-              onClick={() => onQuickView(product)}
-              disabled
-              className="inline-flex items-center gap-1.5 text-sm font-headline font-bold px-4 py-2.5 rounded-full min-h-[44px] bg-[#58554F]/15 text-[#58554F] cursor-not-allowed shrink-0"
+            <a
+              href={href}
+              onClick={open}
+              className="inline-flex items-center gap-1.5 text-sm font-headline font-bold px-4 py-2.5 rounded-full min-h-[44px] bg-[#58554F]/15 text-[#58554F] shrink-0"
             >
-              Notify me
-            </button>
+              Out of stock
+            </a>
           ) : (
             <button
               onClick={() => onAddToCart(product)}

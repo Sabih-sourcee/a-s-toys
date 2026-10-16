@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { X, Check, ShieldCheck, Truck, Lock, CreditCard, DollarSign, Building } from 'lucide-react';
-import { CartItem, CustomerDetails, Order, PaymentMethod } from '../types';
+import { X, Check, ShieldCheck, Truck, Lock, DollarSign } from 'lucide-react';
+import { CartItem, CustomerDetails, Order } from '../types';
 import { PAKISTANI_CITIES } from '../data/products';
+import { config, shippingQuote } from '../config';
+import { submitOrder } from '../lib/orders';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -16,8 +18,6 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   cartItems,
   onOrderPlaced,
 }) => {
-  if (!isOpen) return null;
-
   const [customer, setCustomer] = useState<CustomerDetails>({
     fullName: '',
     phone: '',
@@ -27,15 +27,16 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     notes: '',
   });
 
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cod');
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const subtotal = cartItems.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
-  const shippingFee = subtotal >= 3500 ? 0 : 250;
+  const shipping = shippingQuote(subtotal);
+  const shippingFee = shipping.fee;
   const total = subtotal + shippingFee;
 
   const validate = () => {
@@ -55,42 +56,62 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     return Object.keys(errs).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
     setIsSubmitting(true);
+    setSubmitError(null);
 
-    setTimeout(() => {
-      // Generate realistic Pakistani order ID
-      const orderId = `AST-${Math.floor(100000 + Math.random() * 900000)}`;
-      const trackingNumber = `TCS-${Math.floor(10000000 + Math.random() * 90000000)}`;
+    const orderId = `AST-${Date.now().toString().slice(-8)}`;
+    const newOrder: Order = {
+      id: orderId,
+      items: [...cartItems],
+      customer: { ...customer },
+      paymentMethod: 'cod',
+      subtotal,
+      shippingFee,
+      discount: 0,
+      total,
+      status: 'Received',
+      createdAt: new Date().toLocaleDateString('en-PK', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+      trackingNumber: '',
+      courier: config.courier,
+    };
 
-      const newOrder: Order = {
-        id: orderId,
-        items: [...cartItems],
-        customer: { ...customer },
-        paymentMethod,
-        subtotal,
-        shippingFee,
-        discount: 0,
+    try {
+      await submitOrder({
+        orderId,
+        name: customer.fullName.trim(),
+        phone: customer.phone.trim(),
+        city: customer.city.trim(),
+        address: customer.address.trim(),
+        email: customer.email.trim(),
+        notes: customer.notes?.trim(),
+        items: cartItems.map((item) => ({
+          id: item.product.id,
+          title: item.product.title,
+          quantity: item.quantity,
+          price: item.product.price,
+        })),
         total,
-        status: 'Received',
-        createdAt: new Date().toLocaleDateString('en-PK', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-        }),
-        trackingNumber,
-        courier: customer.city.toLowerCase() === 'lahore' ? 'Express Rider / Leopards' : 'TCS Courier',
-      };
-
+        payment: 'COD',
+      });
       setIsSubmitting(false);
       onOrderPlaced(newOrder);
-    }, 600);
+    } catch (err) {
+      setIsSubmitting(false);
+      setSubmitError(err instanceof Error ? err.message : 'We could not save your order. Please try again.');
+    }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs overflow-y-auto">
@@ -284,19 +305,13 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
                 <div className="space-y-2">
                   {/* COD */}
-                  <label
-                    className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
-                      paymentMethod === 'cod'
-                        ? 'border-[#0F3D9C] bg-white ring-2 ring-[#0F3D9C]/15 shadow-xs'
-                        : 'border-[#EBE5DA] bg-white/70 hover:bg-white'
-                    }`}
-                  >
+                  <label className="flex items-start gap-3 p-3.5 rounded-xl border border-[#0F3D9C] bg-white ring-2 ring-[#0F3D9C]/15 shadow-xs">
                     <input
                       type="radio"
                       name="paymentMethod"
                       value="cod"
-                      checked={paymentMethod === 'cod'}
-                      onChange={() => setPaymentMethod('cod')}
+                      checked
+                      readOnly
                       className="mt-1 text-[#0F3D9C] accent-[#0F3D9C]"
                     />
                     <div className="flex-1">
@@ -310,100 +325,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                         </span>
                       </div>
                       <p className="text-xs text-[#58554F] font-body mt-0.5">
-                        Pay cash directly to TCS/rider when parcel is handed over at your doorstep.
-                      </p>
-                    </div>
-                  </label>
-
-                  {/* JazzCash */}
-                  <label
-                    className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
-                      paymentMethod === 'jazzcash'
-                        ? 'border-[#0F3D9C] bg-white ring-2 ring-[#0F3D9C]/15 shadow-xs'
-                        : 'border-[#EBE5DA] bg-white/70 hover:bg-white'
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="jazzcash"
-                      checked={paymentMethod === 'jazzcash'}
-                      onChange={() => setPaymentMethod('jazzcash')}
-                      className="mt-1 text-[#0F3D9C] accent-[#0F3D9C]"
-                    />
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <span className="font-headline text-sm font-bold text-[#1D1B18] flex items-center gap-1.5">
-                          <CreditCard className="w-4 h-4 text-[#C4291F]" />
-                          JazzCash Mobile Account
-                        </span>
-                        <span className="bg-orange-50 text-orange-700 text-[10px] font-headline font-bold px-2 py-0.5 rounded">
-                          Instant Transfer
-                        </span>
-                      </div>
-                      <p className="text-xs text-[#58554F] font-body mt-0.5">
-                        Send to shop till: <strong>0300 1234567</strong> (A &amp; S Toys).
-                      </p>
-                    </div>
-                  </label>
-
-                  {/* EasyPaisa */}
-                  <label
-                    className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
-                      paymentMethod === 'easypaisa'
-                        ? 'border-[#0F3D9C] bg-white ring-2 ring-[#0F3D9C]/15 shadow-xs'
-                        : 'border-[#EBE5DA] bg-white/70 hover:bg-white'
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="easypaisa"
-                      checked={paymentMethod === 'easypaisa'}
-                      onChange={() => setPaymentMethod('easypaisa')}
-                      className="mt-1 text-[#0F3D9C] accent-[#0F3D9C]"
-                    />
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <span className="font-headline text-sm font-bold text-[#1D1B18] flex items-center gap-1.5">
-                          <CreditCard className="w-4 h-4 text-[#258547]" />
-                          EasyPaisa
-                        </span>
-                        <span className="bg-green-50 text-green-700 text-[10px] font-headline font-bold px-2 py-0.5 rounded">
-                          Direct App Transfer
-                        </span>
-                      </div>
-                      <p className="text-xs text-[#58554F] font-body mt-0.5">
-                        Transfer to <strong>0300 1234567</strong> (Title: A &amp; S Toys Pakistan).
-                      </p>
-                    </div>
-                  </label>
-
-                  {/* Bank Transfer */}
-                  <label
-                    className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
-                      paymentMethod === 'bank_transfer'
-                        ? 'border-[#0F3D9C] bg-white ring-2 ring-[#0F3D9C]/15 shadow-xs'
-                        : 'border-[#EBE5DA] bg-white/70 hover:bg-white'
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="bank_transfer"
-                      checked={paymentMethod === 'bank_transfer'}
-                      onChange={() => setPaymentMethod('bank_transfer')}
-                      className="mt-1 text-[#0F3D9C] accent-[#0F3D9C]"
-                    />
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <span className="font-headline text-sm font-bold text-[#1D1B18] flex items-center gap-1.5">
-                          <Building className="w-4 h-4 text-[#0F3D9C]" />
-                          Online Bank Transfer (Meezan / HBL)
-                        </span>
-                      </div>
-                      <p className="text-xs text-[#58554F] font-body mt-0.5">
-                        IBAN &amp; account details provided on the confirmation screen.
+                        Pay the rider in cash when the parcel arrives. Courier: {config.courier}.
                       </p>
                     </div>
                   </label>
@@ -461,13 +383,13 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                       <Truck className="w-3.5 h-3.5 text-[#0F3D9C]" />
                       <span>Nationwide Delivery</span>
                     </span>
-                    <span className="font-bold">
-                      {shippingFee === 0 ? (
+                    <span className="font-bold text-right">
+                      {shipping.label === 'Free' ? (
                         <span className="text-[#258547] uppercase font-headline">
                           FREE
                         </span>
                       ) : (
-                        `Rs. ${shippingFee}`
+                        shipping.label
                       )}
                     </span>
                   </div>
@@ -489,15 +411,20 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     <span>A &amp; S Toys Customer Guarantee:</span>
                   </div>
                   <ul className="text-[11px] list-disc list-inside space-y-0.5 text-[#1D1B18]">
-                    <li>Dispatched from Lahore fulfillment desk within 24 hrs.</li>
-                    <li>7-day no-questions replacement for transit damage.</li>
-                    <li>Pay only after opening parcel with rider if requested.</li>
+                    <li>Payment: cash on delivery.</li>
+                    <li>Exchange: {config.exchangePolicy}</li>
+                    <li>Delivery: {config.deliveryCharges}. Courier: {config.courier}.</li>
                   </ul>
                 </div>
               </div>
 
               {/* Submit CTA */}
               <div className="pt-5 border-t border-[#EBE5DA] mt-4">
+                {submitError && (
+                  <p className="mb-3 text-sm font-bold text-[#C4291F]" role="alert" id="checkout-error">
+                    {submitError}
+                  </p>
+                )}
                 <button
                   type="submit"
                   disabled={isSubmitting}
