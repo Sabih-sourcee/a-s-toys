@@ -8,14 +8,14 @@
 
 ## What this is
 
-Pakistan-focused **toy ecommerce storefront** for a Lahore walk-in shop going nationwide.
+Pakistan-focused **online toy store** based in Karachi, with nationwide delivery. There is no walk-in shop.
 
 | | |
 |---|---|
 | **Brand** | A & S Toys Pakistan |
 | **Tagline** | Pakistan's Joy Store |
 | **Positioning** | 90+ varieties, real stock, fast delivery, fun to browse |
-| **Location** | Main Market, Gulberg III, Lahore |
+| **Location** | Karachi-based online store. No street address. |
 | **Claimed domain / email** | `astoys.pk` · `salam@astoys.pk` |
 | **Stack** | React 19 + Vite 8 + Tailwind v4 + TypeScript SPA |
 
@@ -97,11 +97,13 @@ src/
 
 | Rule | Value |
 |---|---|
-| Shipping | `VITE_DELIVERY_CHARGES` (TODO until set). Optional free over `VITE_FREE_SHIPPING_OVER`. |
-| Promos (cart) | WELCOME10 / PAKISTAN / LAHOREJOY = 10%; TOYLOVE = 15% |
-| Payments UI | Cash on delivery only |
+| Store | Karachi-based online store. Nationwide delivery. Email salam@astoys.pk. Phone from `VITE_SHOP_PHONE`. Address optional and hidden when empty. |
+| Shipping | Rs. 250 · free ≥ Rs. 3,500 (`VITE_DELIVERY_CHARGES` / `VITE_FREE_SHIPPING_OVER`) |
+| Courier | TCS/Leopards (`VITE_COURIER`) |
+| Promos (cart) | WELCOME10 / PAKISTAN / KARACHIJOY = 10%; TOYLOVE = 15% |
+| Payments UI | COD · JazzCash · EasyPaisa · bank transfer |
 | WhatsApp | `VITE_WHATSAPP_NUMBER` in `.env` (see README) |
-| Orders | Google Apps Script web app → Sheet + email. Payment stored as COD. |
+| Orders | Google Apps Script web app → Sheet + email. The chosen payment method is stored. |
 
 **Known gaps:** 12 products vs “90+” copy; promo discount may not flow into checkout. Orders need the Apps Script URL from the README.
 

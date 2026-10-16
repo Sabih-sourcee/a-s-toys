@@ -25,7 +25,7 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
   return (
     <span
       className={`inline-flex items-center ${
-        tone === 'on-dark' ? 'bg-[#FBF9F4] rounded-lg px-2 py-1' : ''
+        tone === 'on-dark' ? 'bg-[#F6F3EC] rounded-lg px-2 py-1' : ''
       } ${className}`}
     >
       <img

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, Tag, MessageCircle, Truck } from 'lucide-react';
 import { CartItem } from '../types';
-import { shippingQuote } from '../config';
+import { config, shippingQuote } from '../config';
 import { WhatsAppLink } from './WhatsAppLink';
 
 interface CartDrawerProps {
@@ -49,7 +49,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     setPromoSuccess('');
 
     const clean = promoCode.trim().toUpperCase();
-    if (clean === 'WELCOME10' || clean === 'PAKISTAN' || clean === 'LAHOREJOY') {
+    if (clean === 'WELCOME10' || clean === 'PAKISTAN' || clean === 'KARACHIJOY') {
       setDiscountPercent(10);
       setPromoSuccess('10% discount applied successfully!');
     } else if (clean === 'TOYLOVE') {
@@ -87,44 +87,44 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
         <div
-          className="w-screen max-w-md bg-[#FBF9F4] border-l border-[#EBE5DA] shadow-2xl flex flex-col justify-between"
+          className="w-screen max-w-md bg-[#F6F3EC] border-l border-[#DCD7CC] shadow-[0px_4px_0px_rgba(24,34,50,0.2)] flex flex-col justify-between"
           id="cart-drawer-panel"
         >
           {/* Header */}
-          <div className="p-4 sm:p-5 bg-white border-b border-[#EBE5DA] flex items-center justify-between">
+          <div className="p-4 sm:p-5 bg-[#F6F3EC] border-b border-[#DCD7CC] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-[#0F3D9C]" />
-              <h2 className="font-headline text-lg font-bold text-[#1D1B18]">
-                Your Toy Basket ({cartItems.reduce((acc, i) => acc + i.quantity, 0)})
+              <ShoppingBag aria-hidden="true" className="w-5 h-5 text-[#182232]" />
+              <h2 className="font-headline text-lg font-bold text-[#182232]">
+                Your bag ({cartItems.reduce((acc, i) => acc + i.quantity, 0)})
               </h2>
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-full text-[#58554F] hover:text-[#1D1B18] hover:bg-[#F4EFE6] transition-colors cursor-pointer"
-              title="Close cart"
+              className="relative w-11 h-11 flex items-center justify-center rounded-[6px] text-[#5A6270] hover:text-[#182232] hover:bg-[#EDE8DD] transition-colors cursor-pointer"
+              aria-label="Close cart"
               id="btn-close-cart"
             >
-              <X className="w-5 h-5" />
+              <X aria-hidden="true" className="w-5 h-5" />
             </button>
           </div>
 
           {/* Free Shipping Progress Indicator */}
           {cartItems.length > 0 && freeOver ? (
-            <div className="bg-[#EBF3FF] px-4 py-3 border-b border-[#DBE4FA]">
+            <div className="bg-[#EDE8DD] px-4 py-3 border-b border-[#C8CFD8]">
               <div className="flex items-center justify-between text-xs font-headline font-bold mb-1.5">
-                <span className="flex items-center gap-1 text-[#0F3D9C]">
-                  <Truck className="w-3.5 h-3.5" />
-                  {shippingFee === 0 && subtotal >= (freeOver || 0) ? (
-                    <span className="text-[#258547]">Free Shipping unlocked nationwide!</span>
+                <span className="flex items-center gap-1 text-[#182232]">
+                  <Truck aria-hidden="true" className="w-3.5 h-3.5" />
+                  {shippingFee === 0 && subtotal >= freeOver ? (
+                    <span className="text-[#182232]">Free Shipping unlocked nationwide!</span>
                   ) : (
                     <span>Add Rs. {amountNeededForFreeShipping.toLocaleString()} for Free Shipping</span>
                   )}
                 </span>
-                <span className="text-[#0F3D9C]">{shippingProgress}%</span>
+                <span className="text-[#182232]">{shippingProgress}%</span>
               </div>
-              <div className="w-full bg-[#DBE4FA] h-2 rounded-full overflow-hidden">
+              <div className="w-full bg-[#C8CFD8] h-2 rounded-[6px] overflow-hidden">
                 <div
-                  className="bg-[#258547] h-full transition-all duration-300 rounded-full"
+                  className="bg-[#182232] h-full transition-all duration-300 rounded-[6px]"
                   style={{ width: `${shippingProgress}%` }}
                 />
               </div>
@@ -135,14 +135,14 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3">
             {cartItems.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
-                <div className="w-20 h-20 rounded-full bg-[#F4EFE6] text-[#0F3D9C] flex items-center justify-center">
-                  <ShoppingBag className="w-10 h-10 opacity-70" />
+                <div className="w-20 h-20 rounded-[6px] bg-[#EDE8DD] text-[#182232] flex items-center justify-center">
+                  <ShoppingBag aria-hidden="true" className="w-10 h-10 opacity-70" />
                 </div>
                 <div>
-                  <h3 className="font-headline text-lg font-bold text-[#1D1B18]">
+                  <h3 className="font-headline text-lg font-bold text-[#182232]">
                     Your basket is empty
                   </h3>
-                  <p className="font-body text-xs text-[#58554F] mt-1 max-w-xs">
+                  <p className="font-body text-xs text-[#5A6270] mt-1 max-w-xs">
                     Explore our handpicked wooden, die-cast, and Montessori toys to start an order.
                   </p>
                 </div>
@@ -151,7 +151,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     onClose();
                     onExploreShop();
                   }}
-                  className="btn-push-blue text-white font-headline text-xs font-bold px-6 py-2.5 rounded-full cursor-pointer shadow-xs"
+                  className="btn-push-blue text-white font-headline text-xs font-bold px-6 py-2.5 rounded-[6px] cursor-pointer "
                 >
                   Start Shopping
                 </button>
@@ -160,11 +160,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               cartItems.map((item) => (
                 <div
                   key={item.product.id}
-                  className="bg-white rounded-xl border border-[#EBE5DA] p-3 flex gap-3 shadow-xs"
+                  className="bg-[#F6F3EC] rounded-[6px] border border-[#DCD7CC] p-3 flex gap-3 "
                   id={`cart-item-${item.product.id}`}
                 >
                   {/* Thumbnail */}
-                  <div className="w-18 h-18 bg-[#F4EFE6]/50 rounded-lg shrink-0 p-1.5 flex items-center justify-center overflow-hidden">
+                  <div className="w-18 h-18 bg-[#EDE8DD]/50 rounded-lg shrink-0 p-1.5 flex items-center justify-center overflow-hidden">
                     <img
                       src={item.product.image}
                       alt={item.product.title}
@@ -176,34 +176,36 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <div className="flex-1 min-w-0 flex flex-col justify-between">
                     <div>
                       <div className="flex items-start justify-between gap-1">
-                        <h4 className="font-headline text-xs sm:text-sm font-bold text-[#1D1B18] truncate">
+                        <h4 className="font-headline text-xs sm:text-sm font-bold text-[#182232] truncate">
                           {item.product.title}
                         </h4>
                         <button
                           onClick={() => onRemoveItem(item.product.id)}
-                          className="text-gray-400 hover:text-[#C4291F] transition-colors p-1 cursor-pointer shrink-0"
-                          title="Remove item"
+                          className="relative p-1 text-gray-400 hover:text-[#E84A27] transition-colors cursor-pointer shrink-0 before:absolute before:-inset-2.5 before:content-['']"
+                          aria-label={`Remove ${item.product.title} from basket`}
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
+                          <Trash2 aria-hidden="true" className="w-3.5 h-3.5" />
                         </button>
                       </div>
-                      <span className="text-[11px] text-[#58554F] block">
+                      <span className="text-[11px] text-[#5A6270] block">
                         {item.product.ageLabel} • {item.product.categoryName}
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between mt-2 pt-1 border-t border-[#F4EFE6]">
+                    <div className="flex items-center justify-between mt-2 pt-1 border-t border-[#EDE8DD]">
                       {/* Quantity Selector */}
-                      <div className="flex items-center border border-[#EBE5DA] rounded-full bg-[#FBF9F4] p-0.5">
+                      <div className="flex items-center border border-[#DCD7CC] rounded-[6px] bg-[#F6F3EC] p-0.5">
+                        {/* Visual glyph stays compact (24px); ::before expands the real tap target to 44px per WCAG touch target guidance */}
                         <button
                           onClick={() =>
                             onUpdateQuantity(item.product.id, item.quantity - 1)
                           }
-                          className="w-6 h-6 rounded-full flex items-center justify-center hover:bg-white text-xs font-bold text-[#1D1B18] cursor-pointer"
+                          className="relative w-6 h-6 rounded-[6px] flex items-center justify-center hover:bg-[#F6F3EC] text-xs font-bold text-[#182232] cursor-pointer before:absolute before:-inset-2.5 before:content-['']"
+                          aria-label={`Decrease quantity of ${item.product.title}`}
                         >
-                          -
+                          <span aria-hidden="true">-</span>
                         </button>
-                        <span className="w-7 text-center font-headline text-xs font-bold text-[#1D1B18]">
+                        <span className="w-7 text-center font-headline text-xs font-bold text-[#182232]" aria-live="polite">
                           {item.quantity}
                         </span>
                         <button
@@ -211,13 +213,14 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                             onUpdateQuantity(item.product.id, item.quantity + 1)
                           }
                           disabled={item.quantity >= item.product.stock}
-                          className="w-6 h-6 rounded-full flex items-center justify-center hover:bg-white text-xs font-bold text-[#1D1B18] disabled:opacity-30 cursor-pointer"
+                          className="relative w-6 h-6 rounded-[6px] flex items-center justify-center hover:bg-[#F6F3EC] text-xs font-bold text-[#182232] disabled:opacity-30 cursor-pointer before:absolute before:-inset-2.5 before:content-['']"
+                          aria-label={`Increase quantity of ${item.product.title}`}
                         >
-                          +
+                          <span aria-hidden="true">+</span>
                         </button>
                       </div>
 
-                      <span className="font-headline text-sm font-extrabold text-[#0F3D9C]">
+                      <span className="font-headline text-sm font-extrabold text-[#182232]">
                         Rs. {(item.product.price * item.quantity).toLocaleString()}
                       </span>
                     </div>
@@ -229,61 +232,63 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
           {/* Footer & Checkout Trigger */}
           {cartItems.length > 0 && (
-            <div className="p-4 sm:p-5 bg-white border-t border-[#EBE5DA] space-y-3">
+            <div className="p-4 sm:p-5 bg-[#F6F3EC] border-t border-[#DCD7CC] space-y-3">
               {/* Promo Code Form */}
               <form onSubmit={handleApplyPromo} className="flex gap-2">
                 <div className="relative flex-1">
-                  <Tag className="w-3.5 h-3.5 text-[#58554F] absolute left-3 top-1/2 -translate-y-1/2" />
+                  <label htmlFor="cart-promo-input" className="sr-only">Coupon code</label>
+                  <Tag aria-hidden="true" className="w-3.5 h-3.5 text-[#5A6270] absolute left-3 top-1/2 -translate-y-1/2" />
                   <input
+                    id="cart-promo-input"
                     type="text"
                     placeholder="Coupon code (e.g. WELCOME10)"
                     value={promoCode}
                     onChange={(e) => setPromoCode(e.target.value)}
-                    className="w-full pl-8 pr-3 py-1.5 bg-[#FBF9F4] border border-[#EBE5DA] rounded-full text-xs font-body uppercase outline-none focus:border-[#0F3D9C]"
+                    className="w-full h-11 pl-8 pr-3 bg-[#F6F3EC] border border-[#DCD7CC] rounded-[6px] text-xs font-body uppercase outline-none focus:border-[#182232]"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="bg-[#0F3D9C] hover:bg-[#0A2B70] text-white text-xs font-headline font-bold px-4 py-1.5 rounded-full transition-colors cursor-pointer"
+                  className="h-11 bg-[#182232] hover:bg-[#182232] text-white text-xs font-headline font-bold px-4 rounded-[6px] transition-colors cursor-pointer"
                 >
                   Apply
                 </button>
               </form>
 
               {promoSuccess && (
-                <p className="text-[11px] font-bold text-[#258547]">{promoSuccess}</p>
+                <p className="text-[11px] font-bold text-[#182232]">{promoSuccess}</p>
               )}
               {promoError && (
-                <p className="text-[11px] font-bold text-[#C4291F]">{promoError}</p>
+                <p className="text-[11px] font-bold text-[#E84A27]">{promoError}</p>
               )}
 
               {/* Price Calculations */}
-              <div className="space-y-1.5 text-xs font-body text-[#58554F] pt-2 border-t border-[#F4EFE6]">
+              <div className="space-y-1.5 text-xs font-body text-[#5A6270] pt-2 border-t border-[#EDE8DD]">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="text-[#1D1B18] font-bold">
+                  <span className="text-[#182232] font-bold">
                     Rs. {subtotal.toLocaleString()}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>Delivery</span>
+                  <span>Nationwide Courier ({config.courier})</span>
                   <span className="font-bold text-right">
-                    {shipping.label === 'Free' ? (
-                      <span className="text-[#258547] uppercase font-headline">FREE</span>
+                    {shippingFee === 0 ? (
+                      <span className="text-[#182232] uppercase font-headline">FREE</span>
                     ) : (
                       shipping.label
                     )}
                   </span>
                 </div>
                 {discountAmount > 0 && (
-                  <div className="flex justify-between text-[#258547] font-bold">
+                  <div className="flex justify-between text-[#182232] font-bold">
                     <span>Discount ({discountPercent}%)</span>
                     <span>-Rs. {discountAmount.toLocaleString()}</span>
                   </div>
                 )}
-                <div className="flex justify-between items-baseline pt-2 border-t border-[#EBE5DA] text-sm font-headline">
-                  <span className="font-extrabold text-[#1D1B18]">Total (PKR)</span>
-                  <span className="text-xl font-black text-[#0F3D9C]">
+                <div className="flex justify-between items-baseline pt-2 border-t border-[#DCD7CC] text-sm font-headline">
+                  <span className="font-extrabold text-[#182232]">Total (PKR)</span>
+                  <span className="text-xl font-black text-[#182232]">
                     Rs. {total.toLocaleString()}
                   </span>
                 </div>
@@ -293,25 +298,25 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               <div className="space-y-2 pt-2">
                 <button
                   onClick={onProceedToCheckout}
-                  className="w-full btn-push-red text-white font-headline text-sm font-bold py-3 rounded-full flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                  className="w-full btn-push-red text-white font-headline text-sm font-bold py-3 rounded-[6px] flex items-center justify-center gap-2 cursor-pointer shadow-[0px_2px_0px_#182232]"
                   id="btn-proceed-to-checkout"
                 >
                   <span>Proceed to Checkout</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight aria-hidden="true" className="w-4 h-4" />
                 </button>
 
                 <WhatsAppLink
                   message={whatsappCartMessage}
-                  className="w-full bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-xs font-bold py-2.5 rounded-full flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-xs"
+                  className="w-full min-h-[44px] bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-xs font-bold py-2.5 rounded-[6px] flex items-center justify-center gap-2 transition-colors cursor-pointer"
                   id="btn-order-via-whatsapp-cart"
                 >
-                  <MessageCircle className="w-4 h-4 fill-white" />
-                  <span>Order Basket via WhatsApp (COD)</span>
+                  <MessageCircle aria-hidden="true" className="w-4 h-4 fill-white" />
+                  <span>Order bag via WhatsApp (COD)</span>
                 </WhatsAppLink>
               </div>
 
-              <div className="flex items-center justify-center gap-1 text-[11px] text-[#58554F] pt-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#258547]" />
+              <div className="flex items-center justify-center gap-1 text-[11px] text-[#5A6270] pt-1">
+                <ShieldCheck aria-hidden="true" className="w-3.5 h-3.5 text-[#182232]" />
                 <span>Cash on Delivery available • No advance required</span>
               </div>
             </div>

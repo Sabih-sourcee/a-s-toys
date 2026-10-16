@@ -1,24 +1,25 @@
 # A&S Toys (usmanitoys.com)
 
-React + Vite storefront for A&S Toys. Orders go to a Google Sheet through a Google Apps Script web app. There is no shop server and no WooCommerce.
+React + Vite online store for A&S Toys, based in Karachi, with nationwide delivery. Orders go to a Google Sheet through a Google Apps Script web app. There is no walk-in shop, no shop server, and no WooCommerce.
 
 The live site was checked against this repo on 16 Oct 2026 (same page title, product names, and Vite bundle).
 
 ## What Sabih fills in
 
-Copy `.env.example` to `.env`, then rebuild. Empty values stay as `TODO` on the site.
+Copy `.env.example` to `.env`, then rebuild. The phone and WhatsApp number stay blank until set. Shipping and courier already have defaults. `VITE_SHOP_ADDRESS` is optional and stays hidden when empty.
 
 | Variable | Purpose |
 |---|---|
 | `VITE_WHATSAPP_NUMBER` | Digits only, country code, no `+`. Used everywhere `wa.me` is linked. |
 | `VITE_ORDER_ENDPOINT` | Apps Script web app URL ending in `/exec`. |
 | `VITE_GOOGLE_SITE_VERIFICATION` | Search Console meta tag content only. |
-| `VITE_SHOP_PHONE` | Footer and About. Default `TODO: shop phone`. |
-| `VITE_SHOP_ADDRESS` | Footer and About. Default `TODO: shop address`. |
-| `VITE_EXCHANGE_POLICY` | Footer and About. Default `TODO: 7-day exchange policy`. |
-| `VITE_DELIVERY_CHARGES` | Footer, About, and checkout. A number such as `250` adds that fee. The TODO placeholder adds no fee. |
-| `VITE_COURIER` | Footer and About. Default `TODO: courier`. |
-| `VITE_FREE_SHIPPING_OVER` | Optional subtotal for free delivery, for example `3500`. |
+| `VITE_SHOP_PHONE` | Footer, About, and JazzCash / EasyPaisa number. Default `TODO: phone`. |
+| `VITE_SHOP_EMAIL` | Footer. Default `salam@astoys.pk`. |
+| `VITE_SHOP_ADDRESS` | Optional. Hidden in the footer, About page, and checkout when empty. |
+| `VITE_EXCHANGE_POLICY` | Footer and About. Default `7-day replacement for transit damage`. |
+| `VITE_DELIVERY_CHARGES` | Checkout fee. Default `250`. A value starting with TODO adds no fee. |
+| `VITE_COURIER` | Cart, checkout, and order screens. Default `TCS/Leopards`. |
+| `VITE_FREE_SHIPPING_OVER` | Subtotal for free delivery. Default `3500`. |
 | `VITE_SITE_URL` | Canonical URLs and the sitemap. Default `https://usmanitoys.com`. |
 
 New orders email **bookspower218@gmail.com**. That address is set in `google-apps-script/Code.gs`.
@@ -36,7 +37,7 @@ Edit `src/data/products.ts` only. The schema is in the comment at the top of tha
    - Execute as: **Me**
    - Who has access: **Anyone**
 5. Copy the URL that ends in `/exec` into `VITE_ORDER_ENDPOINT`.
-6. Rebuild and upload. A successful order appends a row (name, phone, city, address, items, total, payment `COD`) and emails Sabih. The customer sees a success or error message. The cart is cleared only after a saved order.
+6. Rebuild and upload. A successful order appends a row (name, phone, city, address, items, total, and the chosen payment method) and emails Sabih. The customer sees a success or error message. The cart is cleared only after a saved order.
 
 ## Run locally
 

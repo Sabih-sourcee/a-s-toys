@@ -1,4 +1,12 @@
 import { config } from '../config';
+import { PaymentMethod } from '../types';
+
+export function paymentLabel(method: PaymentMethod): string {
+  if (method === 'jazzcash') return 'JazzCash';
+  if (method === 'easypaisa') return 'EasyPaisa';
+  if (method === 'bank_transfer') return 'Bank transfer';
+  return 'COD';
+}
 
 export interface OrderPayload {
   orderId: string;
@@ -10,7 +18,7 @@ export interface OrderPayload {
   notes?: string;
   items: { id: string; title: string; quantity: number; price: number }[];
   total: number;
-  payment: 'COD';
+  payment: string;
 }
 
 interface OrderResult {
@@ -26,7 +34,7 @@ export function submitOrder(payload: OrderPayload): Promise<void> {
   const endpoint = config.orderEndpoint;
   if (!endpoint) {
     return Promise.reject(
-      new Error('We could not place this order because the shop order form is not connected yet. Please WhatsApp the shop.')
+      new Error('We could not place this order because the order form is not connected yet. Please WhatsApp us.')
     );
   }
 
@@ -54,7 +62,7 @@ export function submitOrder(payload: OrderPayload): Promise<void> {
 
     script.onerror = () => {
       cleanup();
-      reject(new Error('We could not reach the order service. Please try again or WhatsApp the shop.'));
+      reject(new Error('We could not reach the order service. Please try again or WhatsApp us.'));
     };
 
     const url = new URL(endpoint);

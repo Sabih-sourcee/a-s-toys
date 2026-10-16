@@ -22,7 +22,7 @@ export interface Product {
   dimensions?: string;
   isTrending?: boolean;
   isEarlyYears?: boolean;
-  /** Override. Default is "{title} Price in Pakistan | A&S Toys". */
+  /** Override. Default is "{title} Price in Karachi, Pakistan | A&S Toys". */
   seoTitle?: string;
   seoDescription?: string;
 }

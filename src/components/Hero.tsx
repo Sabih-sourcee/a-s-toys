@@ -14,24 +14,29 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick }) => {
         alt="A child holding a colorful toy in a bright, open green landscape under a blue sky"
         className="absolute inset-0 w-full h-full object-cover object-center"
       />
-      {/* Contrast wash so bold white type stays readable over the sky */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0A2B70]/35 via-transparent to-[#0A2B70]/45" aria-hidden="true" />
+      {/* Solid navy wash for type contrast — no soft gradients */}
+      <div className="absolute inset-0 bg-[#182232]/40" aria-hidden="true" />
 
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
-        <h1 className="font-headline text-[36px] sm:text-[52px] lg:text-[64px] font-bold tracking-tight leading-[1.05] text-white max-w-3xl [text-shadow:0_2px_18px_rgba(10,43,112,0.45)]">
-          Shop joy with your mobile.
+        <p className="font-headline text-[13px] sm:text-sm font-bold tracking-[0.12em] uppercase text-[#F6F3EC]/90 mb-4">
+          A &amp; S Toys
+        </p>
+        <h1 className="font-headline text-[36px] sm:text-[52px] lg:text-[64px] font-extrabold tracking-[-0.03em] leading-[1.08] text-[#F6F3EC] max-w-3xl">
+          Precision play. Built to last.
         </h1>
+        <p className="mt-4 font-body text-sm sm:text-base text-[#F6F3EC]/85 max-w-md leading-relaxed">
+          A Karachi-based online toy store. Beechwood, die-cast, and soft goods, delivered nationwide.
+        </p>
 
         <button
           onClick={onShopClick}
           className="mt-8 btn-urgency px-8 py-3.5 inline-flex items-center gap-2 cursor-pointer text-base"
           id="hero-shop-all-btn"
         >
-          <span>Shop now</span>
-          <ArrowRight className="w-4 h-4 stroke-2" />
+          <span>Shop the catalog</span>
+          <ArrowRight aria-hidden="true" className="w-4 h-4 stroke-2" />
         </button>
       </div>
-
     </section>
   );
 };

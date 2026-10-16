@@ -73,6 +73,7 @@ function saveOrder(data) {
   var orderId = String(data.orderId || ('AST-' + new Date().getTime()));
   var notes = String(data.notes || '');
   var email = String(data.email || '');
+  var payment = String(data.payment || 'COD');
 
   var sheet = getSheet_();
   sheet.appendRow([
@@ -84,16 +85,16 @@ function saveOrder(data) {
     address,
     itemText,
     total,
-    'COD',
+    payment,
     notes,
     email
   ]);
 
   MailApp.sendEmail({
     to: NOTIFY_EMAIL,
-    subject: 'New COD order ' + orderId + ' — A&S Toys',
+    subject: 'New order ' + orderId + ' — A&S Toys',
     body: [
-      'A new cash-on-delivery order was placed on usmanitoys.com.',
+      'A new order was placed on usmanitoys.com.',
       '',
       'Order: ' + orderId,
       'Name: ' + name,
@@ -103,7 +104,7 @@ function saveOrder(data) {
       email ? 'Email: ' + email : '',
       'Items: ' + itemText,
       'Total: Rs ' + total,
-      'Payment: COD',
+      'Payment: ' + payment,
       notes ? 'Notes: ' + notes : ''
     ].filter(String).join('\n')
   });

@@ -28,7 +28,7 @@ import { Product, Category } from '../types';
  * - dimensions?: string
  * - isTrending?: boolean — sorts first in the shop
  * - isEarlyYears?: boolean — shows in the ages 0–3 row
- * - seoTitle?: override. Default: "{title} Price in Pakistan | A&S Toys"
+ * - seoTitle?: override. Default: "{title} Price in Karachi, Pakistan | A&S Toys"
  * - seoDescription?: override, about 160 characters
  *
  * Do not add review counts or testimonials. The site does not show them.
@@ -96,13 +96,12 @@ export const PRODUCTS: Product[] = [
     badgeType: 'new',
     stock: 14,
     inStock: true,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDPqTCjsN_i77w7jIGjtWOIxDAcZP2FDZdax5_UB990q0MZexMJwZHhMnZl5EreZnGsJYztvqTMkcuQNKhrWTuWemOVmlqzUC1DUKt0a1LNVJPWQC-w1l3nhfxguan7TFXyuMP45kbIAckrmGppSLqg04ZOD6-dKnPulblmr48Cm1_Jofg3t85wGTJztWtYVWhQbb4JmzNC1nZFyPpjG5f6Q-guBG7qplUnu3d9qQuw6Q_U3yecdB-2',
+    image: '/images/products/rainbow-stacker.png',
     galleryImages: [
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDPqTCjsN_i77w7jIGjtWOIxDAcZP2FDZdax5_UB990q0MZexMJwZHhMnZl5EreZnGsJYztvqTMkcuQNKhrWTuWemOVmlqzUC1DUKt0a1LNVJPWQC-w1l3nhfxguan7TFXyuMP45kbIAckrmGppSLqg04ZOD6-dKnPulblmr48Cm1_Jofg3t85wGTJztWtYVWhQbb4JmzNC1nZFyPpjG5f6Q-guBG7qplUnu3d9qQuw6Q_U3yecdB-2',
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuA9whh2ZiXOzYCs_wPHNCcBIg_UJuqIvqrzj6rh63MCydH0WVV4aPbj_oqIP4z5Xci95u02eRt066pEJSFGVGsvHcx_rKYolsEmNsIW7t1Lr3wZFiWhEWw4RyGceR8SDru6andWsT3olt9fKYk1swzo1kJ7ECAWqaJtS14hfdsN6-nDS9PjGh43becmL-YCBI-tZn9-ATDLhUQywa-0Y-aU5XYxidD2FXUMiprZYpOUA6O2XBRg5Hf-'
+      '/images/products/rainbow-stacker.png'
     ],
     shortDescription: 'Solid beechwood stacking rainbow with 7 graduating curved arches dipped in organic child-safe water dye.',
-    fullDescription: 'An heirloom piece for open-ended play. Children construct bridges, tunnels, cradles for dolls, or abstract architectural towers. Carved from FSC-certified Russian beechwood with rounded, splinter-free contours inspected at our Lahore workshop.',
+    fullDescription: 'An heirloom piece for open-ended play. Children construct bridges, tunnels, cradles for dolls, or abstract architectural towers. Carved from FSC-certified Russian beechwood with rounded, splinter-free contours. Sold online by A&S Toys in Karachi.',
     features: [
       '7 graduating nesting arches',
       'Non-toxic matte finish for non-slip stacking',
@@ -128,10 +127,9 @@ export const PRODUCTS: Product[] = [
     badgeType: 'sale',
     stock: 12,
     inStock: true,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD8_MgVVUffk6XIPqR6lV2u-N-IybiTdmVBSOWZLTnvcKp_RYsNzYlLRyVt3itYlTlNo5NpN4UJmmn4YlcHZO8GIUlctf6C4l2XbPGAfJEJf4kd9VUA5FA4YN4gzMNEpZJ-CyiHfZmcDDIqqVMEcnYv1UxMygvvy0msCoQIbYwztitfkpSf-2l2MxrIkRlkAnbsfXIeAAKOY4Ppl0VsLBzOz8NCIwOK_Tfcn1f8Sta9vU5GdK2a4B6y',
+    image: '/images/products/diecast-car.png',
     galleryImages: [
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuD8_MgVVUffk6XIPqR6lV2u-N-IybiTdmVBSOWZLTnvcKp_RYsNzYlLRyVt3itYlTlNo5NpN4UJmmn4YlcHZO8GIUlctf6C4l2XbPGAfJEJf4kd9VUA5FA4YN4gzMNEpZJ-CyiHfZmcDDIqqVMEcnYv1UxMygvvy0msCoQIbYwztitfkpSf-2l2MxrIkRlkAnbsfXIeAAKOY4Ppl0VsLBzOz8NCIwOK_Tfcn1f8Sta9vU5GdK2a4B6y',
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBL2f-kWV43rjIUdGyCk9dN2TdSeBAREsKQsIjwvRSgZUedube_El_3-ZN3AuhvDyPTsoST30NyFNzBt9pAVMdfGrw4NigWVm_MSrow7fHP1nbUNh7F1b1qvIF3HAZWiCA2qqw38-cxkmtE-X0csJf-IVpH-Qcpc8G1rp4tjnSDH4yolfm1Kyvv28eITZvc1A7O2a8xqPERe8xhiYYmOqQbLmB4L0Z-AxrSubmTUtN18DRGgqG-UpjJ'
+      '/images/products/diecast-car.png'
     ],
     shortDescription: 'Heavyweight zinc-alloy vintage racer with high-torque pullback gear and real ribbed rubber tires.',
     fullDescription: 'Built like the timeless metal toys of previous generations. Features opening twin doors, authentic racing livery with number decal, and an internal steel coil motor that speeds across marble floors or carpets on pull-back.',
@@ -160,10 +158,9 @@ export const PRODUCTS: Product[] = [
     badgeType: 'hot',
     stock: 5,
     inStock: true,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBiovzBdROpaQCADbKuquN854YJDBv4THgOVWUg64qh_pd6jY2TBkNYcNLci7DMPpZDEVVdaGcz9Chvt6qocsTRx7KrSIM6UP5vGzNh5hNU2C5qHQ06Z9zi5dzry5mYcOcR_02FbyIObzCnCG1qOSz3_gVsvG_l5XF6T7YdGRtQ2E8X2LE7sPnWDgT5iK8MUboDZIslUMxoK9SytRiBHlomEpyM6dy5gimXSOUBduy-lj-ITZSG8AtX',
+    image: '/images/products/plush-bunny.png',
     galleryImages: [
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBiovzBdROpaQCADbKuquN854YJDBv4THgOVWUg64qh_pd6jY2TBkNYcNLci7DMPpZDEVVdaGcz9Chvt6qocsTRx7KrSIM6UP5vGzNh5hNU2C5qHQ06Z9zi5dzry5mYcOcR_02FbyIObzCnCG1qOSz3_gVsvG_l5XF6T7YdGRtQ2E8X2LE7sPnWDgT5iK8MUboDZIslUMxoK9SytRiBHlomEpyM6dy5gimXSOUBduy-lj-ITZSG8AtX',
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuB-MDe4Ulbl4pHjt-sO9dlNplXf_eLl6qbPNATqjGDW6Iqq3N5lEbzJinnc1P7H0V_BPi8RtyhirrQ0LCZzkddZjADVr2NvqXBfZyYGAKniOyZx8EfvjMePF5QZv4_eZFWQOYixQvQ6ADn9PfFgy4wd2l8NABt7xjRMXn4bhvztLX5CXl4yDFOE_suK-HPJP2qTlPwDX7zsodb3NLxLHpYPRTsI9MOen3uUiDNuSd2gnsDE-a1N4wW2'
+      '/images/products/plush-bunny.png'
     ],
     shortDescription: '100% natural cotton knit bunny with floppy ears, embroidered face, and detachable knitted plush carrot.',
     fullDescription: 'Designed specifically for sensitive infant skin. Stuffed with hypoallergenic poly-cluster fill that holds shape through repeated machine washes. Zero hard plastic buttons or beads ensures total peace of mind for newborn sleep.',
@@ -192,10 +189,9 @@ export const PRODUCTS: Product[] = [
     badgeType: 'hot',
     stock: 9,
     inStock: true,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBoDYCmR0xMKds8mMvGwFxnldXAJLEOtBZUAkxs89Q03PZ8BMa9lw1kOsQCy1ofNN3zrVTtvvkmlWgXTI_eQeSkkeUAS5RadP7-VaJ9yF_oHapjZdsQK5K37EC43vFsiZqZv7EL10UE-U3QGAMDLQsDCmcox5kxqvWpLFmPkEHqDL-J_G6MSP1qTkEEgLxD2CTo9ILneo54Q9WoyQIaQbfkLKuNVxfSZE30IQhc4ZznExKtDvXEioou',
+    image: '/images/products/watercolor-chest.png',
     galleryImages: [
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBoDYCmR0xMKds8mMvGwFxnldXAJLEOtBZUAkxs89Q03PZ8BMa9lw1kOsQCy1ofNN3zrVTtvvkmlWgXTI_eQeSkkeUAS5RadP7-VaJ9yF_oHapjZdsQK5K37EC43vFsiZqZv7EL10UE-U3QGAMDLQsDCmcox5kxqvWpLFmPkEHqDL-J_G6MSP1qTkEEgLxD2CTo9ILneo54Q9WoyQIaQbfkLKuNVxfSZE30IQhc4ZznExKtDvXEioou',
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDUeFb6IJrHTrh8gWXYaJcKlOinai3k_xyDNPX4RAyqPJrspuIkG-ATQuPpu-j408VljCOllRIJkSOzpd30RQZrydng4XRtf8TTa2wyuwdiRNriyRuo5398jzV1bCmKafRXktYTUQzNUUgenrLPjfvBGEEnFTj71gxKQPf9IP7BhY_hijHN1Lk3sk4kMNW7J-H3AhlM4upf1LalusslASVMT_RYgUlKc6tPxGGxjCVXvh2sS8OYcsmH'
+      '/images/products/watercolor-chest.png'
     ],
     shortDescription: 'Solid timber artist case containing 24 ultra-washable watercolor cakes, 4 natural pony hair brushes, palette and pad.',
     fullDescription: 'Give young painters a genuine creative studio. Formulated with ultra-rich pigments that wipe clean off hands, tiles, and school uniforms with simple tap water. Heavy pine chest latches shut for travel or visits to grandparents.',
@@ -224,9 +220,9 @@ export const PRODUCTS: Product[] = [
     badgeType: 'new',
     stock: 22,
     inStock: true,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBXtY8CL0PvOz59SlQpWK0x1n_qq1hUx5sBj4bRJQNRD5pDEknTFCldY2J6ifMnnC6VfvgSZNd4fOOgxgRpLagbXbJohVT981e6JjwCjzJZshgKK2Fl1FvrKagm4GGvOExtXE9_aErdFgIym67zLpCvS3esgNHmzLEZWOJA2VfLe-XR5mh-nShPmt66IW803OLs-x4LOqkV-NJvh2ZdC-_8QlJmMHzfRuh1YA0SDJcUEhvIxiZI1-T2',
+    image: '/images/products/teether-ring.png',
     galleryImages: [
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBXtY8CL0PvOz59SlQpWK0x1n_qq1hUx5sBj4bRJQNRD5pDEknTFCldY2J6ifMnnC6VfvgSZNd4fOOgxgRpLagbXbJohVT981e6JjwCjzJZshgKK2Fl1FvrKagm4GGvOExtXE9_aErdFgIym67zLpCvS3esgNHmzLEZWOJA2VfLe-XR5mh-nShPmt66IW803OLs-x4LOqkV-NJvh2ZdC-_8QlJmMHzfRuh1YA0SDJcUEhvIxiZI1-T2'
+      '/images/products/teether-ring.png'
     ],
     shortDescription: 'Food-grade silicone beads intertwined with silky polished organic beechwood rings for sore gum relief.',
     fullDescription: 'Engineered by pediatric specialists to massage inflamed gums during tooth eruptions. Double-strung on reinforced parachute cord that resists tugging or cutting.',
@@ -255,9 +251,9 @@ export const PRODUCTS: Product[] = [
     badgeType: 'hot',
     stock: 3,
     inStock: true,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBa52XGrOQNII01H4VF0RgPd5GQdG3zQHcsENIAmcfGDMAYZCnLSs1cGwCGz9ZiE532nOr8S-xtQ2Y70knwVjTn48a_Ejn_OsEJJuj2ff-KiG46ousGOw5OgIVULacZCH2-_45hHuz1HxRYWoM7V8wBo_gFvSqZbuV8BvIIPcwitNgbUPrCB0GG6aTOG6bAtsGedekKRBJIzRzfJFrO0ScgD5jll68LfzVQB8OgPZI1RApPQz2HHwfO',
+    image: '/images/products/sensory-cube.png',
     galleryImages: [
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBa52XGrOQNII01H4VF0RgPd5GQdG3zQHcsENIAmcfGDMAYZCnLSs1cGwCGz9ZiE532nOr8S-xtQ2Y70knwVjTn48a_Ejn_OsEJJuj2ff-KiG46ousGOw5OgIVULacZCH2-_45hHuz1HxRYWoM7V8wBo_gFvSqZbuV8BvIIPcwitNgbUPrCB0GG6aTOG6bAtsGedekKRBJIzRzfJFrO0ScgD5jll68LfzVQB8OgPZI1RApPQz2HHwfO'
+      '/images/products/sensory-cube.png'
     ],
     shortDescription: '6-sided sensory exploration cube with crinkle leaves, peekaboo mirror, grasp ribbons, and gentle chime inside.',
     fullDescription: 'Keeps toddlers absorbed in car seats or playmats. Soft plush texture with high-contrast patterns specially tuned to early infant optical development.',
@@ -286,9 +282,9 @@ export const PRODUCTS: Product[] = [
     badgeType: 'sale',
     stock: 15,
     inStock: true,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB0IxV5f6TAY-AP1XHfYS9tp5DRjJ70oiqmoI21GMkYavUtyWHX-O0E2HOr5xlkE8g3mICUCBdYzB2kX2PnVdP1pox9LlY2HiGrs2LIoB5ChHZjtCjV8o5iDOfP1W3DUhTbsgQxA7epVf-CYzYybtGqH6fFg3yAHop9psEKhiTwHPM96qZZUFuh8qFTogYNLDc7zpbAjoRtbdJcbdT91c7bhjZsGnEElhSvBepxFG4N5npcSY56ZOQa',
+    image: '/images/products/shape-sorter.png',
     galleryImages: [
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuB0IxV5f6TAY-AP1XHfYS9tp5DRjJ70oiqmoI21GMkYavUtyWHX-O0E2HOr5xlkE8g3mICUCBdYzB2kX2PnVdP1pox9LlY2HiGrs2LIoB5ChHZjtCjV8o5iDOfP1W3DUhTbsgQxA7epVf-CYzYybtGqH6fFg3yAHop9psEKhiTwHPM96qZZUFuh8qFTogYNLDc7zpbAjoRtbdJcbdT91c7bhjZsGnEElhSvBepxFG4N5npcSY56ZOQa'
+      '/images/products/shape-sorter.png'
     ],
     shortDescription: '5 chunky solid pine prisms with gentle chamfered corners and sliding recovery lid.',
     fullDescription: 'A classic Montessori apparatus teaching object permanence and tactile geometry. Sized specifically to prevent choking while giving toddlers satisfying tactile clicks as shapes drop through matching cutouts.',
@@ -456,8 +452,8 @@ export const PRODUCTS: Product[] = [
 ];
 
 export const PAKISTANI_CITIES = [
-  'Lahore',
   'Karachi',
+  'Lahore',
   'Islamabad',
   'Rawalpindi',
   'Peshawar',

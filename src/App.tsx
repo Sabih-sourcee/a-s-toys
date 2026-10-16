@@ -170,14 +170,14 @@ export default function App() {
         }
       : route.name === 'about'
         ? {
-            title: 'About A&S Toys | Toy Shop in Pakistan',
-            description: 'About A&S Toys. Cash on delivery, exchange policy, delivery charges, and contact.',
+            title: 'About A&S Toys | Online Toy Store in Karachi',
+            description: 'A&S Toys is a Karachi-based online toy store with nationwide delivery. Cash on delivery, exchange policy, and contact.',
             path: '/about',
           }
         : route.name === 'shop'
           ? {
-              title: 'All Toys Price in Pakistan | A&S Toys',
-              description: 'All toy prices in Pakistan from A&S Toys. Cash on delivery.',
+              title: 'All Toys Price in Karachi, Pakistan | A&S Toys',
+              description: 'All toy prices in Karachi, Pakistan from A&S Toys. Cash on delivery.',
               path: '/shop',
             }
           : {
@@ -193,18 +193,18 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen bg-[#FBF9F4] text-[#211F1C] flex flex-col font-body antialiased selection:bg-[#0F3D9C] selection:text-white">
+    <div className="min-h-screen bg-[#F6F3EC] text-[#182232] flex flex-col font-body antialiased selection:bg-[#182232] selection:text-white">
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-[#1D1B18] text-white px-5 py-2.5 rounded-full shadow-xl flex items-center gap-2 text-xs sm:text-sm font-headline font-bold animate-in fade-in slide-in-from-bottom-3 duration-200">
-          <Check className="w-4 h-4 text-[#52D489] stroke-2" />
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-[#182232] text-white px-5 py-2.5 rounded-[6px] shadow-[0px_3px_0px_#182232] flex items-center gap-2 text-xs sm:text-sm font-headline font-bold animate-in fade-in slide-in-from-bottom-3 duration-200">
+          <Check className="w-4 h-4 text-[#E84A27] stroke-2" />
           <span>{toastMessage}</span>
           <button
             onClick={() => setIsCartOpen(true)}
-            className="ml-2 underline text-[#F0A63A] hover:text-white"
+            className="ml-2 underline text-[#E84A27] hover:text-white"
           >
-            View Basket
+            View bag
           </button>
         </div>
       )}
@@ -245,20 +245,20 @@ export default function App() {
             />
 
             {/* Top playtime picks — ivory, asymmetric heading, light cards */}
-            <section className="bg-[#FBF9F4] border-t border-[#EBE5DA]" id="featured-toys">
+            <section className="bg-[#F6F3EC] border-t border-[#DCD7CC]" id="featured-toys">
               <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-14 sm:py-16">
                 <div className="flex items-baseline justify-between gap-4 mb-8">
                   <div>
-                    <span className="text-[11px] font-body font-bold text-[#C4291F] tracking-[0.15em] uppercase">
-                      This week
+                    <span className="font-mono text-[11px] font-medium text-[#E84A27] tracking-[0.05em] uppercase">
+                      Floor picks · In stock
                     </span>
-                    <h2 className="font-headline text-[24px] sm:text-[28px] font-bold text-[#211F1C] mt-1">
-                      Top playtime picks
+                    <h2 className="font-headline text-[24px] sm:text-[28px] font-extrabold text-[#182232] mt-1 tracking-[-0.03em]">
+                      Built for real play
                     </h2>
                   </div>
                   <button
                     onClick={() => navigateToShop('all')}
-                    className="hidden sm:inline-flex text-sm font-headline font-bold text-[#0F3D9C] hover:text-[#C4291F] transition-colors items-center gap-1 cursor-pointer whitespace-nowrap min-h-[44px]"
+                    className="hidden sm:inline-flex text-sm font-headline font-bold text-[#182232] hover:text-[#E84A27] transition-colors items-center gap-1 cursor-pointer whitespace-nowrap min-h-[44px]"
                     id="btn-view-all-shop-link"
                   >
                     See all picks
@@ -266,15 +266,16 @@ export default function App() {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div className="blueprint-grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                   {PRODUCTS.slice(0, 8).map((product) => (
-                    <ProductCard
-                      key={product.id}
-                      product={product}
-                      onAddToCart={(p) => handleAddToCart(p, 1)}
-                      onQuickView={openProduct}
-                      isAdded={recentlyAddedId === product.id}
-                    />
+                    <div key={product.id} className="p-3 sm:p-4 bg-[#F6F3EC]">
+                      <ProductCard
+                        product={product}
+                        onAddToCart={(p) => handleAddToCart(p, 1)}
+                        onQuickView={openProduct}
+                        isAdded={recentlyAddedId === product.id}
+                      />
+                    </div>
                   ))}
                 </div>
 
@@ -310,20 +311,24 @@ export default function App() {
         )}
 
         {(route.name === 'shop' || route.name === 'category') && (
-          <ShopSection
-            products={PRODUCTS}
-            onAddToCart={(p) => handleAddToCart(p, 1)}
-            onQuickView={openProduct}
-            selectedCategory={selectedCategory}
-            onSelectCategory={(cat) => navigate(categoryPath(cat))}
-            searchQuery={searchQuery}
-            onSearchChange={(q) => setSearchQuery(q)}
-            addedProductIds={recentlyAddedId ? [recentlyAddedId] : []}
-          />
+          <div className="pt-20 sm:pt-24">
+            <ShopSection
+              products={PRODUCTS}
+              onAddToCart={(p) => handleAddToCart(p, 1)}
+              onQuickView={openProduct}
+              selectedCategory={selectedCategory}
+              onSelectCategory={(cat) => navigate(categoryPath(cat))}
+              searchQuery={searchQuery}
+              onSearchChange={(q) => setSearchQuery(q)}
+              addedProductIds={recentlyAddedId ? [recentlyAddedId] : []}
+            />
+          </div>
         )}
 
         {route.name === 'about' && (
-          <AboutView onShopClick={() => navigateToShop('all')} />
+          <div className="pt-20 sm:pt-24">
+            <AboutView onShopClick={() => navigateToShop('all')} />
+          </div>
         )}
 
         {route.name === 'product' && activeProduct && (
@@ -368,14 +373,14 @@ export default function App() {
         <div className="fixed bottom-4 left-4 right-4 md:hidden z-40">
           <button
             onClick={() => setIsCartOpen(true)}
-            className="w-full bg-[#0F3D9C] text-white p-3.5 rounded-full shadow-2xl flex items-center justify-between font-headline font-bold text-sm border-2 border-white/20 active:scale-95 transition-transform"
+            className="w-full bg-[#E84A27] text-[#F6F3EC] p-3.5 rounded-[6px] shadow-[0px_3px_0px_#182232] flex items-center justify-between font-headline font-bold text-sm border-[1.5px] border-[#182232] active:translate-y-[2px] active:shadow-[0px_1px_0px_#182232] transition-all"
             id="mobile-sticky-cart-bar"
           >
             <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-[#C4291F] flex items-center justify-center text-xs">
+              <span className="w-6 h-6 rounded-[4px] bg-[#182232] text-[#F6F3EC] flex items-center justify-center text-xs font-mono">
                 {totalCartCount}
               </span>
-              <span>View Basket</span>
+              <span>View bag</span>
             </div>
             <div className="flex items-center gap-2">
               <span>Rs. {cartSubtotal.toLocaleString()}</span>
@@ -389,12 +394,12 @@ export default function App() {
       <div className="fixed bottom-5 right-5 z-30 hidden sm:block">
         <WhatsAppLink
           message={WHATSAPP_HELP_MESSAGE}
-          className="bg-[#25D366] hover:bg-[#1EBE5D] text-white p-3.5 rounded-full shadow-xl flex items-center gap-2 font-headline font-bold text-xs transition-all hover:scale-105 group border-2 border-white"
+          className="bg-[#25D366] hover:bg-[#1EBE5D] text-white p-3.5 rounded-[6px] shadow-[0px_3px_0px_#182232] flex items-center gap-2 font-headline font-bold text-xs transition-all hover:scale-105 group border-2 border-white"
           id="floating-whatsapp-widget"
         >
           <MessageCircle className="w-5 h-5 fill-current" />
           <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300">
-            WhatsApp the shop
+            WhatsApp for a video
           </span>
         </WhatsAppLink>
       </div>

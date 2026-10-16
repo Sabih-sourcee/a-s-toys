@@ -6,6 +6,7 @@ interface ImportMetaEnv {
   readonly VITE_ORDER_ENDPOINT?: string;
   readonly VITE_GOOGLE_SITE_VERIFICATION?: string;
   readonly VITE_SHOP_PHONE?: string;
+  readonly VITE_SHOP_EMAIL?: string;
   readonly VITE_SHOP_ADDRESS?: string;
   readonly VITE_EXCHANGE_POLICY?: string;
   readonly VITE_DELIVERY_CHARGES?: string;

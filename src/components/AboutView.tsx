@@ -3,6 +3,7 @@ import { Store, ShieldCheck, Heart, MessageCircle, ArrowRight } from 'lucide-rea
 import { WhatsAppLink } from './WhatsAppLink';
 import { TrustFacts } from './TrustFacts';
 import { WHATSAPP_HELP_MESSAGE } from '../lib/whatsapp';
+import { config } from '../config';
 
 interface AboutViewProps {
   onShopClick: () => void;
@@ -11,94 +12,90 @@ interface AboutViewProps {
 export const AboutView: React.FC<AboutViewProps> = ({ onShopClick }) => {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="about-section">
-      <div className="bg-white rounded-2xl border border-[#EBE5DA] p-6 sm:p-12 shadow-xs space-y-8">
+      <div className="bg-[#F6F3EC] rounded-[6px] border border-[#DCD7CC] p-6 sm:p-12  space-y-8">
         
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-1.5 bg-[#F4EFE6] text-[#0F3D9C] px-3 py-1 rounded-full text-xs font-headline font-bold mb-3">
-            <Store className="w-3.5 h-3.5" />
-            <span>Our Lahore Heritage</span>
+          <div className="inline-flex items-center gap-1.5 bg-[#EDE8DD] text-[#182232] px-3 py-1 rounded-[6px] text-xs font-headline font-bold mb-3">
+            <Store aria-hidden="true" className="w-3.5 h-3.5" />
+            <span>Karachi-based online store</span>
           </div>
-          <h1 className="font-headline text-3xl sm:text-4xl font-extrabold text-[#1D1B18] tracking-tight">
-            From a physical counter in Lahore to happy doorsteps across Pakistan
+          <h1 className="font-headline text-3xl sm:text-4xl font-extrabold text-[#182232] tracking-tight">
+            Toys ordered online in Karachi, delivered across Pakistan
           </h1>
-          <p className="font-body text-base text-[#58554F] mt-3 leading-relaxed">
-            A &amp; S Toys began with a simple observation: Pakistani parents were tired of ordering fragile, sharp-edged toys online that broke within 2 hours of arrival.
+          <p className="font-body text-base text-[#5A6270] mt-3 leading-relaxed">
+            A &amp; S Toys is an online toy store based in Karachi. Orders ship nationwide. There is no walk-in counter.
           </p>
         </div>
 
         {/* Story Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-          <div className="bg-[#FBF9F4] p-5 rounded-xl border border-[#EBE5DA] space-y-2.5">
-            <div className="w-10 h-10 rounded-lg bg-[#0F3D9C] text-white flex items-center justify-center font-bold">
-              <ShieldCheck className="w-5 h-5" />
+          <div className="hover-lift bg-[#F6F3EC] p-5 rounded-[6px] border border-[#DCD7CC] space-y-2.5">
+            <div className="w-10 h-10 rounded-lg bg-[#182232] text-white flex items-center justify-center font-bold">
+              <ShieldCheck aria-hidden="true" className="w-5 h-5" />
             </div>
-            <h3 className="font-headline text-base font-bold text-[#1D1B18]">
-              In-Hand Quality Check
+            <h3 className="font-headline text-base font-bold text-[#182232]">
+              Nationwide delivery
             </h3>
-            <p className="font-body text-xs sm:text-sm text-[#58554F] leading-relaxed">
-              Every single toy is physically opened and checked at our Lahore workshop. We sand off sharp burs, test battery contacts, and verify that screws are securely embedded.
+            <p className="font-body text-xs sm:text-sm text-[#5A6270] leading-relaxed">
+              We pack orders in Karachi and send them across Pakistan with {config.courier}.
             </p>
           </div>
 
-          <div className="bg-[#FBF9F4] p-5 rounded-xl border border-[#EBE5DA] space-y-2.5">
-            <div className="w-10 h-10 rounded-lg bg-[#C4291F] text-white flex items-center justify-center font-bold">
-              <Heart className="w-5 h-5" />
+          <div className="hover-lift bg-[#F6F3EC] p-5 rounded-[6px] border border-[#DCD7CC] space-y-2.5">
+            <div className="w-10 h-10 rounded-lg bg-[#E84A27] text-white flex items-center justify-center font-bold">
+              <Heart aria-hidden="true" className="w-5 h-5" />
             </div>
-            <h3 className="font-headline text-base font-bold text-[#1D1B18]">
+            <h3 className="font-headline text-base font-bold text-[#182232]">
               Child-Safe Materials
             </h3>
-            <p className="font-body text-xs sm:text-sm text-[#58554F] leading-relaxed">
+            <p className="font-body text-xs sm:text-sm text-[#5A6270] leading-relaxed">
               We exclusively select natural solid beechwood, non-toxic waterborne food-grade dyes, soft silicone teethers, and sturdy die-cast zinc alloys.
             </p>
           </div>
 
-          <div className="bg-[#FBF9F4] p-5 rounded-xl border border-[#EBE5DA] space-y-2.5">
-            <div className="w-10 h-10 rounded-lg bg-[#258547] text-white flex items-center justify-center font-bold">
-              <Store className="w-5 h-5" />
+          <div className="hover-lift bg-[#F6F3EC] p-5 rounded-[6px] border border-[#DCD7CC] space-y-2.5">
+            <div className="w-10 h-10 rounded-lg bg-[#182232] text-white flex items-center justify-center font-bold">
+              <Store aria-hidden="true" className="w-5 h-5" />
             </div>
-            <h3 className="font-headline text-base font-bold text-[#1D1B18]">
-              Real Shop Support
+            <h3 className="font-headline text-base font-bold text-[#182232]">
+              WhatsApp help
             </h3>
-            <p className="font-body text-xs sm:text-sm text-[#58554F] leading-relaxed">
-              Have doubts about toy sizing? Message our team directly on WhatsApp. We send real 15-second unedited video clips right from our shop counter.
+            <p className="font-body text-xs sm:text-sm text-[#5A6270] leading-relaxed">
+              Message us about sizing. We can send a short video clip of the toy before you order.
             </p>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl border border-[#EBE5DA] p-6 space-y-3">
-          <h2 className="font-headline text-lg font-bold text-[#1D1B18]">Shop details</h2>
-          <p className="text-sm text-[#58554F]">
-            Phone, address, the 7-day exchange policy, delivery charges, and courier are filled in by the shop. Lines that still say TODO are not confirmed yet.
-          </p>
-          <TrustFacts className="space-y-2 text-sm text-[#211F1C]" />
+        <div className="bg-[#F6F3EC] rounded-[6px] border border-[#DCD7CC] p-6 space-y-3">
+          <h2 className="font-headline text-lg font-bold text-[#182232]">Order details</h2>
+          <TrustFacts className="space-y-2 text-sm text-[#182232]" />
         </div>
 
-        {/* Visit */}
-        <div className="bg-[#F4EFE6] rounded-xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="bg-[#EDE8DD] rounded-[6px] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="space-y-2">
-            <h3 className="font-headline text-lg font-bold text-[#1D1B18]">
+            <h3 className="font-headline text-lg font-bold text-[#182232]">
               Questions about a toy?
             </h3>
-            <p className="font-body text-xs sm:text-sm text-[#58554F]">
-              Message the shop on WhatsApp. Orders on this site are cash on delivery.
+            <p className="font-body text-xs sm:text-sm text-[#5A6270]">
+              Message us on WhatsApp. We deliver nationwide from Karachi.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2.5">
             <WhatsAppLink
               message={WHATSAPP_HELP_MESSAGE}
-              className="bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-xs font-bold px-4 py-2.5 rounded-full flex items-center gap-1.5 transition-colors shadow-xs"
+              className="bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-xs font-bold px-4 py-2.5 rounded-[6px] flex items-center gap-1.5 transition-colors"
             >
-              <MessageCircle className="w-4 h-4 fill-white" />
-              <span>WhatsApp Shop</span>
+              <MessageCircle aria-hidden="true" className="w-4 h-4 fill-white" />
+              <span>WhatsApp us</span>
             </WhatsAppLink>
             <button
               onClick={onShopClick}
-              className="btn-push-red text-white font-headline text-xs font-bold px-5 py-2.5 rounded-full flex items-center gap-1.5 cursor-pointer"
+              className="btn-push-red text-white font-headline text-xs font-bold px-5 py-2.5 rounded-[6px] flex items-center gap-1.5 cursor-pointer"
             >
               <span>Explore All Toys</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight aria-hidden="true" className="w-4 h-4" />
             </button>
           </div>
         </div>

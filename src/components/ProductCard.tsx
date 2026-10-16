@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, ArrowRight } from 'lucide-react';
+import { Check, Plus } from 'lucide-react';
 import { Product } from '../types';
 import { productPath } from '../lib/router';
 
@@ -17,6 +17,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   isAdded = false,
 }) => {
   const isOutOfStock = !product.inStock || product.stock === 0;
+  const ageStamp = product.ageLabel.replace(/^Ages?\s*/i, 'AGE ');
+  const materialHint = product.materials
+    ? product.materials.split(/[,;\s]+/)[0].trim().slice(0, 18).toUpperCase()
+    : null;
   const href = productPath(product.slug);
   const open = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -24,87 +28,82 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   return (
-    <article
-      className="w-full overflow-hidden rounded-2xl border border-[#EBE5DA] bg-[#FBF9F4] shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col"
-      id={`product-card-${product.id}`}
-    >
-      {/* Image */}
+    <article className="group w-full flex flex-col" id={`product-card-${product.id}`}>
       <a
         href={href}
         onClick={open}
-        className="relative h-56 sm:h-64 w-full overflow-hidden cursor-pointer group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0F3D9C] focus-visible:outline-offset-2"
+        className="relative aspect-square w-full overflow-hidden bg-[#EAE5D9] cursor-pointer block focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#182232] focus-visible:outline-offset-2"
       >
         <img
           src={product.image}
           alt={product.title}
-          className={`h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 ${isOutOfStock ? 'opacity-50' : ''}`}
+          className={`h-full w-full object-contain p-5 ${isOutOfStock ? 'opacity-45' : ''}`}
           loading="lazy"
         />
 
-        {/* Top-left tag badge */}
-        <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-[#FBF9F4]/85 backdrop-blur-sm px-2.5 py-1 text-[11px] font-body font-semibold text-[#211F1C]">
-          {isOutOfStock ? 'Out of stock' : product.discountBadge || product.categoryName}
+        <span className="spec-stamp absolute top-2.5 left-2.5 z-10">
+          {isOutOfStock ? 'OUT' : ageStamp}
+          {materialHint && !isOutOfStock && (
+            <>
+              <span aria-hidden="true">|</span>
+              {materialHint}
+            </>
+          )}
         </span>
+
+        {!isOutOfStock && (
+          <span
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onAddToCart(product);
+            }}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                e.stopPropagation();
+                onAddToCart(product);
+              }
+            }}
+            aria-label={isAdded ? `${product.title} added to bag` : `Add ${product.title} to bag`}
+            className={`absolute bottom-2.5 right-2.5 inline-flex items-center justify-center w-10 h-10 rounded-[6px] border-[1.5px] border-[#182232] transition-all cursor-pointer sm:opacity-0 sm:translate-y-1 sm:group-hover:opacity-100 sm:group-hover:translate-y-0 focus-visible:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#182232] focus-visible:outline-offset-2 ${
+              isAdded
+                ? 'bg-[#182232] text-[#F6F3EC] shadow-[0px_2px_0px_#182232]'
+                : 'bg-[#E84A27] text-[#F6F3EC] shadow-[0px_3px_0px_#182232] hover:translate-y-[2px] hover:shadow-[0px_1px_0px_#182232]'
+            }`}
+          >
+            {isAdded ? (
+              <Check aria-hidden="true" className="w-4 h-4 stroke-[2.5]" />
+            ) : (
+              <Plus aria-hidden="true" className="w-4 h-4 stroke-[2.5]" />
+            )}
+          </span>
+        )}
       </a>
 
-      {/* Content */}
-      <div className="p-5 flex flex-col gap-3 flex-1">
-        <div className="flex justify-between items-start gap-2">
-          <h3 className="font-headline text-lg font-bold leading-snug line-clamp-1 text-[#211F1C]" title={product.title}>
-            <a href={href} onClick={open} className="hover:text-[#0F3D9C] transition-colors">
-              {product.title}
-            </a>
-          </h3>
-        </div>
+      <div className="pt-3 px-1 flex flex-col gap-1.5">
+        <h3 className="text-xs sm:text-[13px] font-headline font-bold uppercase tracking-wide leading-snug line-clamp-2 min-h-[2.2em] text-[#182232]" title={product.title}>
+          <a href={href} onClick={open} className="hover:text-[#E84A27] transition-colors">
+            {product.title}
+          </a>
+        </h3>
 
-        <div className="text-sm text-[#58554F]">
-          <span>{product.ageLabel}</span> &bull; <span>{product.categoryName}</span>
-        </div>
-
-        <p className="text-sm text-[#58554F] leading-relaxed line-clamp-2 flex-1">
-          {product.shortDescription}
-        </p>
-
-        <div className="flex justify-between items-center pt-2">
-          <p className="font-headline font-bold text-[#211F1C]">
-            Rs. {product.price.toLocaleString()}
-            {product.originalPrice && (
-              <span className="ml-1.5 text-sm font-normal text-[#58554F] line-through">
-                Rs. {product.originalPrice.toLocaleString()}
-              </span>
-            )}
-          </p>
-
+        <p className="text-sm font-headline font-bold text-[#E84A27]">
           {isOutOfStock ? (
-            <a
-              href={href}
-              onClick={open}
-              className="inline-flex items-center gap-1.5 text-sm font-headline font-bold px-4 py-2.5 rounded-full min-h-[44px] bg-[#58554F]/15 text-[#58554F] shrink-0"
-            >
-              Out of stock
-            </a>
+            <span className="font-medium text-[#5A6270]">Out of stock</span>
           ) : (
-            <button
-              onClick={() => onAddToCart(product)}
-              className={`group inline-flex items-center gap-1.5 text-sm font-headline font-bold px-4 py-2.5 rounded-full min-h-[44px] transition-colors cursor-pointer shrink-0 ${
-                isAdded ? 'bg-[#258547] text-white' : 'bg-[#211F1C] hover:bg-[#0F3D9C] text-white'
-              }`}
-              id={`btn-add-${product.id}`}
-            >
-              {isAdded ? (
-                <>
-                  <Check className="w-4 h-4 stroke-2" />
-                  Added
-                </>
-              ) : (
-                <>
-                  Add to cart
-                  <ArrowRight className="w-4 h-4 stroke-2 transition-transform group-hover:translate-x-1" />
-                </>
+            <>
+              Rs. {product.price.toLocaleString()}
+              {product.originalPrice && (
+                <span className="ml-1.5 text-xs font-body font-normal line-through text-[#5A6270]">
+                  Rs. {product.originalPrice.toLocaleString()}
+                </span>
               )}
-            </button>
+            </>
           )}
-        </div>
+        </p>
       </div>
     </article>
   );
