@@ -3,6 +3,7 @@ import { Search, SlidersHorizontal, RotateCcw, X } from 'lucide-react';
 import { Product } from '../types';
 import { CATEGORIES } from '../data/products';
 import { ProductCard } from './ProductCard';
+import { categoryPath } from '../lib/router';
 
 interface ShopSectionProps {
   products: Product[];
@@ -27,7 +28,6 @@ const SORT_OPTIONS = [
   { label: 'Featured', value: 'featured' },
   { label: 'Price ↑', value: 'price-low' },
   { label: 'Price ↓', value: 'price-high' },
-  { label: 'Top rated', value: 'rating' },
 ];
 
 export const ShopSection: React.FC<ShopSectionProps> = ({
@@ -61,7 +61,6 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
     }).sort((a, b) => {
       if (sortBy === 'price-low') return a.price - b.price;
       if (sortBy === 'price-high') return b.price - a.price;
-      if (sortBy === 'rating') return b.rating - a.rating;
       return (b.isTrending ? 1 : 0) - (a.isTrending ? 1 : 0);
     });
   }, [products, selectedCategory, selectedAge, onlyInStock, searchQuery, sortBy]);
@@ -99,12 +98,14 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
       <div className="border-[1.5px] border-[#182232] rounded-[6px] bg-[#F6F3EC] p-6 sm:p-8 mb-8 shadow-[0px_3px_0px_#182232]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <span className="spec-stamp mb-3">Catalog · Karachi QA</span>
+            <span className="spec-stamp mb-3">Catalog · Karachi</span>
             <h1 className="font-headline text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#182232] tracking-[-0.03em] mt-3">
-              Shop by age, material &amp; build.
+              {selectedCategory === 'all'
+                ? 'All Toys Price in Karachi, Pakistan'
+                : `${CATEGORIES.find((cat) => cat.slug === selectedCategory)?.name || 'Toys'} Price in Karachi, Pakistan`}
             </h1>
             <p className="font-body text-sm sm:text-base text-[#5A6270] mt-2 max-w-2xl">
-              Every piece inspected on our Karachi floor — smooth edges, safe dyes, cash on delivery nationwide.
+              A Karachi-based online toy store. Cash on delivery nationwide.
             </p>
           </div>
 
@@ -132,26 +133,34 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
         </div>
 
         <div className="mt-6 pt-6 border-t border-[#DCD7CC] flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-          <button
-            onClick={() => onSelectCategory('all')}
+          <a
+            href="/shop"
+            onClick={(event) => {
+              event.preventDefault();
+              onSelectCategory('all');
+            }}
             className={navChip(selectedCategory === 'all')}
             id="cat-pill-all"
           >
             All ({products.length})
-          </button>
+          </a>
           {CATEGORIES.map((cat) => {
             const isSelected = selectedCategory === cat.slug;
             const count = products.filter((p) => p.category === cat.slug).length;
             return (
-              <button
+              <a
                 key={cat.id}
-                onClick={() => onSelectCategory(cat.slug)}
+                href={categoryPath(cat.slug)}
+                onClick={(event) => {
+                  event.preventDefault();
+                  onSelectCategory(cat.slug);
+                }}
                 className={navChip(isSelected)}
                 id={`cat-pill-${cat.slug}`}
               >
                 <span>{cat.name}</span>
                 <span className="font-mono text-[10px] tracking-wider opacity-70">{count}</span>
-              </button>
+              </a>
             );
           })}
         </div>

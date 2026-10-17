@@ -1,5 +1,9 @@
 import React from 'react';
-import { Store, ShieldCheck, Heart, MapPin, Phone, MessageCircle, ArrowRight } from 'lucide-react';
+import { Store, ShieldCheck, Heart, MessageCircle, ArrowRight } from 'lucide-react';
+import { WhatsAppLink } from './WhatsAppLink';
+import { TrustFacts } from './TrustFacts';
+import { WHATSAPP_HELP_MESSAGE } from '../lib/whatsapp';
+import { config } from '../config';
 
 interface AboutViewProps {
   onShopClick: () => void;
@@ -14,13 +18,13 @@ export const AboutView: React.FC<AboutViewProps> = ({ onShopClick }) => {
         <div className="text-center max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-1.5 bg-[#EDE8DD] text-[#182232] px-3 py-1 rounded-[6px] text-xs font-headline font-bold mb-3">
             <Store aria-hidden="true" className="w-3.5 h-3.5" />
-            <span>Our Karachi Heritage</span>
+            <span>Karachi-based online store</span>
           </div>
           <h1 className="font-headline text-3xl sm:text-4xl font-extrabold text-[#182232] tracking-tight">
-            From a physical counter in Karachi to happy doorsteps across Pakistan
+            Toys ordered online in Karachi, delivered across Pakistan
           </h1>
           <p className="font-body text-base text-[#5A6270] mt-3 leading-relaxed">
-            A &amp; S Toys began with a simple observation: Pakistani parents were tired of ordering fragile, sharp-edged toys online that broke within 2 hours of arrival.
+            A &amp; S Toys is an online toy store based in Karachi. Orders ship nationwide. There is no walk-in counter.
           </p>
         </div>
 
@@ -31,10 +35,10 @@ export const AboutView: React.FC<AboutViewProps> = ({ onShopClick }) => {
               <ShieldCheck aria-hidden="true" className="w-5 h-5" />
             </div>
             <h3 className="font-headline text-base font-bold text-[#182232]">
-              In-Hand Quality Check
+              Nationwide delivery
             </h3>
             <p className="font-body text-xs sm:text-sm text-[#5A6270] leading-relaxed">
-              Every single toy is physically opened and checked at our Karachi workshop. We sand off sharp burs, test battery contacts, and verify that screws are securely embedded.
+              We pack orders in Karachi and send them across Pakistan with {config.courier}.
             </p>
           </div>
 
@@ -55,35 +59,37 @@ export const AboutView: React.FC<AboutViewProps> = ({ onShopClick }) => {
               <Store aria-hidden="true" className="w-5 h-5" />
             </div>
             <h3 className="font-headline text-base font-bold text-[#182232]">
-              Real Shop Support
+              WhatsApp help
             </h3>
             <p className="font-body text-xs sm:text-sm text-[#5A6270] leading-relaxed">
-              Have doubts about toy sizing? Message our team directly on WhatsApp. We send real 15-second unedited video clips right from our shop counter.
+              Message us about sizing. We can send a short video clip of the toy before you order.
             </p>
           </div>
         </div>
 
-        {/* Visit Our Karachi Store */}
+        <div className="bg-[#F6F3EC] rounded-[6px] border border-[#DCD7CC] p-6 space-y-3">
+          <h2 className="font-headline text-lg font-bold text-[#182232]">Order details</h2>
+          <TrustFacts className="space-y-2 text-sm text-[#182232]" />
+        </div>
+
         <div className="bg-[#EDE8DD] rounded-[6px] p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="space-y-2">
             <h3 className="font-headline text-lg font-bold text-[#182232]">
-              Visiting Karachi? Come say salam in person!
+              Questions about a toy?
             </h3>
             <p className="font-body text-xs sm:text-sm text-[#5A6270]">
-              Tariq Road, Karachi, Pakistan. Open Monday to Saturday: 11:00 AM – 10:00 PM.
+              Message us on WhatsApp. We deliver nationwide from Karachi.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2.5">
-            <a
-              href="https://wa.me/923001234567"
-              target="_blank"
-              rel="noreferrer"
-              className="bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-xs font-bold px-4 py-2.5 rounded-[6px] flex items-center gap-1.5 transition-colors "
+            <WhatsAppLink
+              message={WHATSAPP_HELP_MESSAGE}
+              className="bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-xs font-bold px-4 py-2.5 rounded-[6px] flex items-center gap-1.5 transition-colors"
             >
               <MessageCircle aria-hidden="true" className="w-4 h-4 fill-white" />
-              <span>WhatsApp Shop</span>
-            </a>
+              <span>WhatsApp us</span>
+            </WhatsAppLink>
             <button
               onClick={onShopClick}
               className="btn-push-red text-white font-headline text-xs font-bold px-5 py-2.5 rounded-[6px] flex items-center gap-1.5 cursor-pointer"

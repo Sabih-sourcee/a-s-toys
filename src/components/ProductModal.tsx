@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, Star, Check, ShieldCheck, Truck, RefreshCw, MessageCircle, ShoppingBag, Video } from 'lucide-react';
+import { X, Check, ShieldCheck, Truck, RefreshCw, MessageCircle, ShoppingBag, Video } from 'lucide-react';
 import { Product } from '../types';
+import { WhatsAppLink } from './WhatsAppLink';
 
 interface ProductModalProps {
   product: Product | null;
@@ -30,15 +31,13 @@ export const ProductModal: React.FC<ProductModalProps> = ({
     if (quantity < product.stock) setQuantity((q) => q + 1);
   };
 
-  const whatsappOrderMsg = encodeURIComponent(
+  const whatsappOrderMsg =
     `Assalam-o-Alaikum! I would like to order ${quantity}x "${product.title}" (Rs. ${(
       product.price * quantity
-    ).toLocaleString()}) with Cash on Delivery to my address.`
-  );
+    ).toLocaleString()}) with Cash on Delivery to my address.`;
 
-  const whatsappVideoMsg = encodeURIComponent(
-    `Assalam-o-Alaikum! Could you please share a 15-second live video clip of "${product.title}" from your Karachi shop? Thank you!`
-  );
+  const whatsappVideoMsg =
+    `Assalam-o-Alaikum! Could you please share a 15-second video clip of "${product.title}"? Thank you!`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs overflow-y-auto">
@@ -101,16 +100,14 @@ export const ProductModal: React.FC<ProductModalProps> = ({
               <p className="text-xs text-[#182232] font-body mb-2">
                 Want a real 15-second video of this toy in hand before ordering?
               </p>
-              <a
-                href={`https://wa.me/923001234567?text=${whatsappVideoMsg}`}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs font-headline font-bold py-2 px-4 rounded-[6px] transition-colors w-full "
+              <WhatsAppLink
+                message={whatsappVideoMsg}
+                className="inline-flex items-center justify-center gap-1.5 bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs font-headline font-bold py-2 px-4 rounded-[6px] transition-colors w-full"
                 id="btn-request-video-demo"
               >
                 <Video aria-hidden="true" className="w-4 h-4" />
                 <span>Request WhatsApp Video Demo</span>
-              </a>
+              </WhatsAppLink>
             </div>
           </div>
 
@@ -131,27 +128,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({
               <h2 className="font-headline text-xl sm:text-2xl font-extrabold text-[#182232] leading-tight">
                 {product.title}
               </h2>
-
-              {/* Rating */}
-              <div className="flex items-center gap-2 mt-2 text-xs">
-                <div className="flex items-center text-[#E84A27] font-bold" aria-hidden="true">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-4 h-4 ${
-                        i < Math.floor(product.rating) ? 'fill-current' : 'text-gray-300'
-                      }`}
-                    />
-                  ))}
-                  <span className="ml-1 text-[#182232] font-headline font-bold">
-                    {product.rating}
-                  </span>
-                </div>
-                <span className="sr-only">Rated {product.rating} out of 5</span>
-                <span className="text-[#5A6270] font-body">
-                  ({product.reviewsCount} verified Pakistani parent reviews)
-                </span>
-              </div>
 
               {/* Pricing */}
               <div className="mt-4 p-3 bg-[#F6F3EC] rounded-[6px] border border-[#DCD7CC] flex items-center justify-between">
@@ -179,7 +155,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                     </span>
                   ) : (
                     <span className="inline-block bg-[#EDE8DD] text-[#182232] text-xs font-headline font-bold px-2 py-1 rounded">
-                      {product.stock} in stock (Karachi hub)
+                      {product.stock} in stock
                     </span>
                   )}
                 </div>
@@ -274,16 +250,14 @@ export const ProductModal: React.FC<ProductModalProps> = ({
               </div>
 
               {/* Direct WhatsApp Instant Buy Button */}
-              <a
-                href={`https://wa.me/923001234567?text=${whatsappOrderMsg}`}
-                target="_blank"
-                rel="noreferrer"
-                className="w-full min-h-[44px] bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs sm:text-sm font-headline font-bold py-3 px-4 rounded-[6px] transition-colors flex items-center justify-center gap-2  cursor-pointer"
+              <WhatsAppLink
+                message={whatsappOrderMsg}
+                className="w-full min-h-[44px] bg-[#25D366] hover:bg-[#1EBE5D] text-white text-xs sm:text-sm font-headline font-bold py-3 px-4 rounded-[6px] transition-colors flex items-center justify-center gap-2 cursor-pointer"
                 id="modal-whatsapp-instant-buy"
               >
                 <MessageCircle aria-hidden="true" className="w-4 h-4 fill-white" />
                 <span>Instant Order via WhatsApp (COD)</span>
-              </a>
+              </WhatsAppLink>
             </div>
           </div>
         </div>

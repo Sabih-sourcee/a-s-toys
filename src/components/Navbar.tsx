@@ -49,9 +49,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   const expanded = manualOpen || !isScrolled;
 
   const navLinks = [
-    { label: 'Home', icon: Home, onClick: () => onNavigate('home'), active: currentView === 'home' },
-    { label: 'Shop', icon: Store, onClick: () => onNavigate('shop'), active: currentView === 'shop' },
-    { label: 'About', icon: Info, onClick: () => onNavigate('about'), active: currentView === 'about' },
+    { label: 'Home', href: '/', icon: Home, onClick: () => onNavigate('home'), active: currentView === 'home' },
+    { label: 'Shop', href: '/shop', icon: Store, onClick: () => onNavigate('shop'), active: currentView === 'shop' },
+    { label: 'About', href: '/about', icon: Info, onClick: () => onNavigate('about'), active: currentView === 'about' },
   ];
 
   const goto = (fn: () => void) => {
@@ -79,20 +79,28 @@ export const Navbar: React.FC<NavbarProps> = ({
                 transition={fadeTransition}
                 className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5"
               >
-                <button
-                  onClick={() => goto(() => onNavigate('home'))}
+                <a
+                  href="/"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    goto(() => onNavigate('home'));
+                  }}
                   className="shrink-0 pl-1 pr-1.5 sm:pr-2 cursor-pointer"
                   aria-label="A & S Toys home"
                   id="nav-brand-logo"
                 >
                   <BrandMark tone="on-light" size="sm" />
-                </button>
+                </a>
 
                 <div className="hidden sm:flex items-center gap-1 font-headline text-sm font-bold border-l border-[#DCD7CC] pl-1.5">
                   {navLinks.map((link) => (
-                    <button
+                    <a
                       key={link.label}
-                      onClick={() => goto(link.onClick)}
+                      href={link.href}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        goto(link.onClick);
+                      }}
                       className={`px-3 py-2.5 rounded-[6px] transition-colors cursor-pointer min-h-[44px] inline-flex items-center gap-1.5 ${
                         link.active
                           ? 'bg-[#182232] text-[#F6F3EC]'
@@ -102,7 +110,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       aria-current={link.active ? 'page' : undefined}
                     >
                       {link.label}
-                    </button>
+                    </a>
                   ))}
                   <button
                     onClick={() => goto(onOpenTracker)}
@@ -118,9 +126,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                   {navLinks.map((link) => {
                     const Icon = link.icon;
                     return (
-                      <button
+                      <a
                         key={link.label}
-                        onClick={() => goto(link.onClick)}
+                        href={link.href}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          goto(link.onClick);
+                        }}
                         className={`w-11 h-11 rounded-[6px] flex items-center justify-center transition-colors cursor-pointer ${
                           link.active ? 'bg-[#182232] text-[#F6F3EC]' : 'text-[#5A6270] hover:bg-[#EDE8DD]'
                         }`}
@@ -128,7 +140,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         aria-current={link.active ? 'page' : undefined}
                       >
                         <Icon aria-hidden="true" className="w-4 h-4" />
-                      </button>
+                      </a>
                     );
                   })}
                   <button

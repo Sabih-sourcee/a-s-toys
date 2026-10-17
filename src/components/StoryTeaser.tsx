@@ -16,7 +16,7 @@ export const StoryTeaser: React.FC<StoryTeaserProps> = ({ onAboutClick, onShopCl
             <div className="relative rounded-[6px] overflow-hidden border-[1.5px] border-[#F6F3EC]/20">
               <img
                 src="/images/karachi-shop-floor.png"
-                alt="Toys on display at A and S Toys Karachi shop"
+                alt="Toys from the A and S Toys online catalog"
                 className="w-full h-56 sm:h-72 lg:h-80 object-cover object-center"
               />
             </div>
@@ -24,15 +24,15 @@ export const StoryTeaser: React.FC<StoryTeaserProps> = ({ onAboutClick, onShopCl
 
           <div className="flex flex-col gap-3 sm:gap-4 order-1 lg:order-2">
             <span className="font-mono text-[11px] font-medium text-[#E84A27] tracking-[0.05em] uppercase">
-              Shop floor · Tariq Road
+              Karachi · nationwide delivery
             </span>
             <h2 className="font-headline text-[22px] sm:text-[26px] lg:text-[30px] font-extrabold text-[#F6F3EC] leading-[1.08] tracking-[-0.03em]">
-              Born from a Karachi toy shop
+              A Karachi-based online toy store
             </h2>
             <p className="font-body text-sm sm:text-base text-[#C8CFD8] leading-relaxed max-w-lg">
-              We started as a walk-in shop on Tariq Road — handpicking toys parents can trust.
-              Same shelves now ship nationwide with cash on delivery, WhatsApp demos, and
-              real stock photos. No brittle plastics. No fake reviews.
+              A&amp;S Toys sells toys online from Karachi and delivers across Pakistan.
+              Cash on delivery, WhatsApp video clips, and real product photos.
+              No brittle plastics. No fake reviews.
             </p>
             <div className="flex flex-wrap gap-3 pt-1">
               <button
@@ -40,7 +40,7 @@ export const StoryTeaser: React.FC<StoryTeaserProps> = ({ onAboutClick, onShopCl
                 className="btn-on-dark px-6 py-3 inline-flex items-center gap-2 cursor-pointer"
                 id="btn-story-about"
               >
-                Our shop story
+                About A&amp;S Toys
                 <ArrowRight aria-hidden="true" className="w-4 h-4" />
               </button>
               <button

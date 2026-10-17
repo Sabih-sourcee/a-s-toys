@@ -3,9 +3,9 @@ import { ShieldCheck, Truck, MessageCircle, Banknote } from 'lucide-react';
 
 const ITEMS = [
   { icon: Banknote, title: 'Cash on delivery', body: 'Pay the rider when the box opens.' },
-  { icon: Truck, title: 'Free shipping over Rs. 3,500', body: 'Tracked TCS, Leopards & Trax.' },
-  { icon: ShieldCheck, title: 'Inspected before packing', body: 'Real photos. No brittle plastics.' },
-  { icon: MessageCircle, title: 'WhatsApp video demos', body: 'Ask for a clip from the shop floor.' },
+  { icon: Truck, title: 'Free shipping over Rs. 3,500', body: 'TCS and Leopards, nationwide.' },
+  { icon: ShieldCheck, title: 'Real product photos', body: 'No brittle plastics.' },
+  { icon: MessageCircle, title: 'WhatsApp video demos', body: 'Ask for a short clip of the toy.' },
 ];
 
 export const Guarantees: React.FC = () => {

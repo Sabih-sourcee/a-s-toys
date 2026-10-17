@@ -10,8 +10,6 @@ export interface Product {
   originalPrice?: number;
   discountBadge?: string;
   badgeType?: 'new' | 'sale' | 'hot';
-  rating: number;
-  reviewsCount: number;
   stock: number;
   inStock: boolean;
   image: string;
@@ -24,6 +22,9 @@ export interface Product {
   dimensions?: string;
   isTrending?: boolean;
   isEarlyYears?: boolean;
+  /** Override. Default is "{title} Price in Karachi, Pakistan | A&S Toys". */
+  seoTitle?: string;
+  seoDescription?: string;
 }
 
 export interface Category {
@@ -32,7 +33,6 @@ export interface Category {
   slug: string;
   description: string;
   image: string;
-  itemCount: number;
   badge?: string;
 }
 

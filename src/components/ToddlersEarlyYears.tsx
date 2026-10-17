@@ -1,6 +1,7 @@
 import React from 'react';
 import { Plus, Check, ArrowRight } from 'lucide-react';
 import { Product } from '../types';
+import { productPath } from '../lib/router';
 
 interface ToddlersEarlyYearsProps {
   products: Product[];
@@ -33,34 +34,45 @@ export const ToddlersEarlyYears: React.FC<ToddlersEarlyYearsProps> = ({
             <p className="font-body text-sm text-[#5A6270] leading-relaxed max-w-xs">
               Extra-smooth edges, chunky graspable shapes, zero small choking parts. Built to survive teething and three siblings.
             </p>
-            <button
-              onClick={onExploreBabyToys}
+            <a
+              href="/category/baby-toddler"
+              onClick={(event) => {
+                event.preventDefault();
+                onExploreBabyToys();
+              }}
               className="inline-flex items-center gap-1.5 text-sm font-headline font-bold text-[#182232] hover:text-[#E84A27] transition-colors cursor-pointer mt-1 min-h-[44px]"
               id="btn-see-all-baby-toys"
             >
               See all baby toys
               <ArrowRight aria-hidden="true" className="w-4 h-4" />
-            </button>
+            </a>
           </div>
 
           <div className="flex gap-0 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory border border-[#DCD7CC]">
             {earlyToys.map((toy) => {
               const isAdded = addedProductIds.includes(toy.id);
+              const href = productPath(toy.slug);
+              const open = (event: React.MouseEvent) => {
+                event.preventDefault();
+                onQuickView(toy);
+              };
               return (
                 <div
                   key={toy.id}
                   className="shrink-0 w-40 sm:w-44 snap-start flex flex-col border-r border-[#DCD7CC] p-3 bg-[#F6F3EC]"
                 >
-                  <button
-                    type="button"
-                    onClick={() => onQuickView(toy)}
-                    className="w-full aspect-square bg-[#EAE5D9] p-3 mb-2 overflow-hidden cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#182232]"
+                  <a
+                    href={href}
+                    onClick={open}
+                    className="w-full aspect-square bg-[#EAE5D9] p-3 mb-2 overflow-hidden cursor-pointer block focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#182232]"
                   >
                     <img src={toy.image} alt={toy.title} className="w-full h-full object-contain" loading="lazy" />
-                  </button>
+                  </a>
                   <span className="spec-stamp self-start mb-1.5 text-[9px]">{toy.ageLabel}</span>
                   <h3 className="font-headline text-xs sm:text-sm font-bold text-[#182232] line-clamp-2 min-h-[2.2rem]">
-                    {toy.title}
+                    <a href={href} onClick={open} className="hover:text-[#E84A27]">
+                      {toy.title}
+                    </a>
                   </h3>
                   <p className="font-headline text-sm font-bold text-[#E84A27] mt-0.5 mb-2">
                     Rs. {toy.price.toLocaleString()}

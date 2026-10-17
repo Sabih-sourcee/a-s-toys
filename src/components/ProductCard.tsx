@@ -1,6 +1,7 @@
 import React from 'react';
 import { Check, Plus } from 'lucide-react';
 import { Product } from '../types';
+import { productPath } from '../lib/router';
 
 interface ProductCardProps {
   product: Product;
@@ -20,13 +21,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const materialHint = product.materials
     ? product.materials.split(/[,;\s]+/)[0].trim().slice(0, 18).toUpperCase()
     : null;
+  const href = productPath(product.slug);
+  const open = (event: React.MouseEvent) => {
+    event.preventDefault();
+    onQuickView(product);
+  };
 
   return (
     <article className="group w-full flex flex-col" id={`product-card-${product.id}`}>
-      <button
-        type="button"
-        onClick={() => onQuickView(product)}
-        className="relative aspect-square w-full overflow-hidden bg-[#EAE5D9] cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#182232] focus-visible:outline-offset-2"
+      <a
+        href={href}
+        onClick={open}
+        className="relative aspect-square w-full overflow-hidden bg-[#EAE5D9] cursor-pointer block focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#182232] focus-visible:outline-offset-2"
       >
         <img
           src={product.image}
@@ -35,7 +41,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           loading="lazy"
         />
 
-        {/* Spec-stamp — corner box, JetBrains Mono */}
         <span className="spec-stamp absolute top-2.5 left-2.5 z-10">
           {isOutOfStock ? 'OUT' : ageStamp}
           {materialHint && !isOutOfStock && (
@@ -49,6 +54,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {!isOutOfStock && (
           <span
             onClick={(e) => {
+              e.preventDefault();
               e.stopPropagation();
               onAddToCart(product);
             }}
@@ -75,15 +81,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             )}
           </span>
         )}
-      </button>
+      </a>
 
       <div className="pt-3 px-1 flex flex-col gap-1.5">
-        <h3
-          onClick={() => onQuickView(product)}
-          className="text-xs sm:text-[13px] font-headline font-bold uppercase tracking-wide leading-snug line-clamp-2 min-h-[2.2em] cursor-pointer text-[#182232] hover:text-[#E84A27] transition-colors"
-          title={product.title}
-        >
-          {product.title}
+        <h3 className="text-xs sm:text-[13px] font-headline font-bold uppercase tracking-wide leading-snug line-clamp-2 min-h-[2.2em] text-[#182232]" title={product.title}>
+          <a href={href} onClick={open} className="hover:text-[#E84A27] transition-colors">
+            {product.title}
+          </a>
         </h3>
 
         <p className="text-sm font-headline font-bold text-[#E84A27]">

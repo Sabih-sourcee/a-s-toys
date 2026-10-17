@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
-import { CATEGORIES } from '../data/products';
+import { CATEGORIES, PRODUCTS } from '../data/products';
+import { categoryPath } from '../lib/router';
 
 interface CategoryRowProps {
   onSelectCategory: (categorySlug: string) => void;
@@ -30,27 +31,35 @@ export const CategoryRow: React.FC<CategoryRowProps> = ({
               Shop by material &amp; age.
             </h2>
             <p className="font-body text-sm text-[#5A6270] mt-1.5 max-w-md">
-              Six shelves from the Karachi shop — pick a build style, see everything in it.
+              Six collections from a Karachi-based online store. Pick a build style and see everything in it.
             </p>
           </div>
-          <button
-            onClick={onViewAll}
+          <a
+            href="/shop"
+            onClick={(event) => {
+              event.preventDefault();
+              onViewAll();
+            }}
             className="hidden sm:inline-flex text-sm font-headline font-bold text-[#182232] hover:text-[#E84A27] transition-colors items-center gap-1 cursor-pointer whitespace-nowrap min-h-[44px]"
             id="btn-view-all-collections"
           >
             Shop all
             <ArrowUpRight aria-hidden="true" className="w-4 h-4" />
-          </button>
+          </a>
         </div>
 
         <div className="blueprint-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {CATEGORIES.map((cat) => {
             const tag = CARD_TAG[cat.slug] ?? 'Collection';
             return (
-              <button
+              <a
                 key={cat.id}
-                onClick={() => onSelectCategory(cat.slug)}
-                className="group relative aspect-[4/3] overflow-hidden cursor-pointer text-left bg-[#EAE5D9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#182232] focus-visible:outline-offset-[-2px]"
+                href={categoryPath(cat.slug)}
+                onClick={(event) => {
+                  event.preventDefault();
+                  onSelectCategory(cat.slug);
+                }}
+                className="group relative aspect-[4/3] overflow-hidden cursor-pointer text-left bg-[#EAE5D9] block focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#182232] focus-visible:outline-offset-[-2px]"
                 id={`cat-card-${cat.slug}`}
               >
                 <img
@@ -64,7 +73,7 @@ export const CategoryRow: React.FC<CategoryRowProps> = ({
                 <span className="spec-stamp absolute top-3 left-3 z-10">
                   {tag}
                   <span aria-hidden="true">|</span>
-                  {cat.itemCount} PCS
+                  {PRODUCTS.filter((product) => product.category === cat.slug).length} PCS
                 </span>
 
                 <div className="absolute bottom-0 left-0 right-0 p-4 flex items-end justify-between gap-3">
@@ -75,7 +84,7 @@ export const CategoryRow: React.FC<CategoryRowProps> = ({
                     <ArrowUpRight aria-hidden="true" className="w-4 h-4" />
                   </span>
                 </div>
-              </button>
+              </a>
             );
           })}
         </div>

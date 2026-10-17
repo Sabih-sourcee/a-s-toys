@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, Tag, MessageCircle, Truck } from 'lucide-react';
 import { CartItem } from '../types';
+import { config, shippingQuote } from '../config';
+import { WhatsAppLink } from './WhatsAppLink';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -11,9 +13,6 @@ interface CartDrawerProps {
   onProceedToCheckout: () => void;
   onExploreShop: () => void;
 }
-
-const FREE_SHIPPING_THRESHOLD = 3500;
-const STANDARD_SHIPPING_FEE = 250;
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({
   isOpen,
@@ -36,13 +35,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     0
   );
 
-  const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
-  const shippingFee = cartItems.length === 0 ? 0 : isFreeShipping ? 0 : STANDARD_SHIPPING_FEE;
+  const shipping = shippingQuote(subtotal);
+  const shippingFee = cartItems.length === 0 ? 0 : shipping.fee;
   const discountAmount = Math.round((subtotal * discountPercent) / 100);
   const total = Math.max(0, subtotal - discountAmount + shippingFee);
-
-  const amountNeededForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
-  const shippingProgress = Math.min(100, Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100));
+  const freeOver = shipping.freeOver;
+  const amountNeededForFreeShipping = freeOver ? Math.max(0, freeOver - subtotal) : 0;
+  const shippingProgress = freeOver ? Math.min(100, Math.round((subtotal / freeOver) * 100)) : 0;
 
   const handleApplyPromo = (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,7 +61,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   };
 
   // WhatsApp Order formatted text
-  const whatsappCartMessage = encodeURIComponent(
+  const whatsappCartMessage =
     `Assalam-o-Alaikum! I want to order the following toys from A & S Toys:\n\n` +
       cartItems
         .map(
@@ -76,8 +75,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       `\nShipping: ${shippingFee === 0 ? 'FREE' : `Rs. ${shippingFee}`}` +
       (discountAmount > 0 ? `\nDiscount: -Rs. ${discountAmount.toLocaleString()}` : '') +
       `\n*Total Amount:* Rs. ${total.toLocaleString()}` +
-      `\nPayment: Cash on Delivery (COD)`
-  );
+      `\nPayment: Cash on Delivery (COD)`;
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
@@ -111,12 +109,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           </div>
 
           {/* Free Shipping Progress Indicator */}
-          {cartItems.length > 0 && (
+          {cartItems.length > 0 && freeOver ? (
             <div className="bg-[#EDE8DD] px-4 py-3 border-b border-[#C8CFD8]">
               <div className="flex items-center justify-between text-xs font-headline font-bold mb-1.5">
                 <span className="flex items-center gap-1 text-[#182232]">
                   <Truck aria-hidden="true" className="w-3.5 h-3.5" />
-                  {isFreeShipping ? (
+                  {shippingFee === 0 && subtotal >= freeOver ? (
                     <span className="text-[#182232]">Free Shipping unlocked nationwide!</span>
                   ) : (
                     <span>Add Rs. {amountNeededForFreeShipping.toLocaleString()} for Free Shipping</span>
@@ -131,7 +129,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 />
               </div>
             </div>
-          )}
+          ) : null}
 
           {/* Items List (Scrollable) */}
           <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3">
@@ -273,12 +271,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>Nationwide Courier (TCS/Leopards)</span>
-                  <span className="font-bold">
+                  <span>Nationwide Courier ({config.courier})</span>
+                  <span className="font-bold text-right">
                     {shippingFee === 0 ? (
                       <span className="text-[#182232] uppercase font-headline">FREE</span>
                     ) : (
-                      `Rs. ${shippingFee}`
+                      shipping.label
                     )}
                   </span>
                 </div>
@@ -307,16 +305,14 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <ArrowRight aria-hidden="true" className="w-4 h-4" />
                 </button>
 
-                <a
-                  href={`https://wa.me/923001234567?text=${whatsappCartMessage}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full min-h-[44px] bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-xs font-bold py-2.5 rounded-[6px] flex items-center justify-center gap-2 transition-colors cursor-pointer "
+                <WhatsAppLink
+                  message={whatsappCartMessage}
+                  className="w-full min-h-[44px] bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-xs font-bold py-2.5 rounded-[6px] flex items-center justify-center gap-2 transition-colors cursor-pointer"
                   id="btn-order-via-whatsapp-cart"
                 >
                   <MessageCircle aria-hidden="true" className="w-4 h-4 fill-white" />
                   <span>Order bag via WhatsApp (COD)</span>
-                </a>
+                </WhatsAppLink>
               </div>
 
               <div className="flex items-center justify-center gap-1 text-[11px] text-[#5A6270] pt-1">

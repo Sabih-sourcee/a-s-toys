@@ -8,14 +8,14 @@
 
 ## What this is
 
-Pakistan-focused **toy ecommerce storefront** for a Karachi walk-in shop going nationwide.
+Pakistan-focused **online toy store** based in Karachi, with nationwide delivery. There is no walk-in shop.
 
 | | |
 |---|---|
 | **Brand** | A & S Toys Pakistan |
 | **Tagline** | Pakistan's Joy Store |
 | **Positioning** | 90+ varieties, real stock, fast delivery, fun to browse |
-| **Location** | Tariq Road, Karachi |
+| **Location** | Karachi-based online store. No street address. |
 | **Claimed domain / email** | `astoys.pk` · `salam@astoys.pk` |
 | **Stack** | React 19 + Vite 8 + Tailwind v4 + TypeScript SPA |
 
@@ -72,7 +72,7 @@ Waves: `WaveDivider.tsx` (`blue-on-ivory` | `ivory-on-blue` | `deep-on-ivory` | 
 | Bundler | Vite 8 — scripts call `node ./node_modules/vite/bin/vite.js` (Windows `&` path safe) |
 | CSS | Tailwind v4; tokens in `src/index.css` |
 | Fonts | Poppins 700 + Nunito Sans (`index.html`) |
-| Routing | View enum `'home' \| 'shop' \| 'about'` in `App.tsx` |
+| Routing | Paths `/`, `/shop`, `/about`, `/category/:slug`, `/products/:slug` |
 | Storage | `as_toys_cart` · `as_toys_orders` |
 
 ```
@@ -97,12 +97,15 @@ src/
 
 | Rule | Value |
 |---|---|
-| Shipping | Rs. 250 · free ≥ Rs. 3,500 |
+| Store | Karachi-based online store. Nationwide delivery. Email salam@astoys.pk. Phone from `VITE_SHOP_PHONE`. Address optional and hidden when empty. |
+| Shipping | Rs. 250 · free ≥ Rs. 3,500 (`VITE_DELIVERY_CHARGES` / `VITE_FREE_SHIPPING_OVER`) |
+| Courier | TCS/Leopards (`VITE_COURIER`) |
 | Promos (cart) | WELCOME10 / PAKISTAN / KARACHIJOY = 10%; TOYLOVE = 15% |
-| Payments UI | COD · JazzCash · EasyPaisa · bank (placeholders) |
-| WhatsApp | `wa.me/923001234567` |
+| Payments UI | COD · JazzCash · EasyPaisa · bank transfer |
+| WhatsApp | `VITE_WHATSAPP_NUMBER` in `.env` (see README) |
+| Orders | Google Apps Script web app → Sheet + email. The chosen payment method is stored. |
 
-**Known gaps:** 12 products vs “90+” copy; promo discount may not flow into checkout; no real payments/backend.
+**Known gaps:** 12 products vs “90+” copy; promo discount may not flow into checkout. Orders need the Apps Script URL from the README.
 
 ---
 
