@@ -59,7 +59,7 @@ export const Footer: React.FC<FooterProps> = ({
           <div className="space-y-3">
             <h4 className="font-headline text-sm font-bold text-[#F6F3EC]">Collections</h4>
             <ul className="space-y-2 text-sm font-body">
-              {CATEGORIES.slice(0, 5).map((cat) => (
+              {CATEGORIES.map((cat) => (
                 <li key={cat.id}>
                   <a
                     href={categoryPath(cat.slug)}

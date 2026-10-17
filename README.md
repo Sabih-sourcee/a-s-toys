@@ -28,6 +28,16 @@ New orders email **bookspower218@gmail.com**. That address is set in `google-app
 
 Edit `src/data/products.ts` only. The schema is in the comment at the top of that file. After adding products, run `npm run build` so `/products/:slug`, `/category/:slug`, and `sitemap.xml` are regenerated.
 
+## Product photos
+
+Each product has four WebP angles in `public/images/products/`: `<slug>-1.webp` is the card image, and `<slug>-2.webp` through `<slug>-4.webp` are the product-page gallery. They are cropped from 2×2 grids named `NN_4angles.png` or `NN_4angles.webp`. The grids themselves are not committed.
+
+```bash
+node scripts/split-grids.mjs /path/to/grids
+```
+
+Numbers map to slugs in `scripts/grid-slugs.json`. The script writes about 800×800 WebP files, each under 120 KB. Only the numbers present in that directory are rewritten. Products 12, 14, and 20 are provisional: when replacement grids arrive, rerun the same command on a directory that contains those files.
+
 ## Apps Script (orders + email)
 
 1. Create a Google Sheet.
@@ -46,7 +56,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000 . Product URLs such as `/products/wooden-rainbow-stacking-arch` and `/category/die-cast` work on refresh.
+Open http://localhost:3000 . Product URLs such as `/products/building-blocks-play-set` and `/category/pretend-play` work on refresh.
 
 ## Deploy to Hostinger
 

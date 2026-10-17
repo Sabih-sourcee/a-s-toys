@@ -4,8 +4,10 @@ export interface Product {
   slug: string;
   category: string;
   categoryName: string;
-  ageRange: '0-12m' | '1-3y' | '3-5y' | '6-8y' | '8+y';
-  ageLabel: string;
+  /** Set only when the age is printed on the box. */
+  ageRange?: '0-12m' | '1-3y' | '3-5y' | '6-8y' | '8+y';
+  /** Short label, e.g. "Ages 3+". Omit when the box age was not read. */
+  ageLabel?: string;
   price: number; // in PKR
   originalPrice?: number;
   discountBadge?: string;

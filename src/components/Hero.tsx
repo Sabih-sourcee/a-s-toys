@@ -24,7 +24,7 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick }) => {
           Precision play. Built to last.
         </h1>
         <p className="mt-4 font-body text-sm sm:text-base text-[#F6F3EC]/90 max-w-md leading-relaxed">
-          A Karachi-based online toy store. Beechwood, die-cast, and soft goods, delivered nationwide.
+          A Karachi-based online toy store. Play sets, vehicles, and pretend-play toys, delivered nationwide.
         </p>
 
         <button

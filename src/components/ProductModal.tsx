@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Check, ShieldCheck, Truck, RefreshCw, MessageCircle, ShoppingBag, Video } from 'lucide-react';
 import { Product } from '../types';
 import { WhatsAppLink } from './WhatsAppLink';
+import { productPhotoAlt } from '../lib/seo';
 
 interface ProductModalProps {
   product: Product | null;
@@ -20,6 +21,9 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
   const [quantity, setQuantity] = useState(1);
   const [selectedImg, setSelectedImg] = useState(product.image);
+  const photos = [product.image, ...product.galleryImages.filter((src) => src && src !== product.image)];
+  const shown = photos.includes(selectedImg) ? selectedImg : product.image;
+  const shownIndex = Math.max(0, photos.indexOf(shown));
 
   const isOutOfStock = !product.inStock || product.stock <= 0;
 
@@ -66,28 +70,31 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 </span>
               )}
               <img
-                src={selectedImg}
-                alt={product.title}
+                src={shown}
+                alt={productPhotoAlt(product.title, shownIndex)}
                 className="w-full h-full object-contain"
               />
             </div>
 
             {/* Thumbnail Row */}
-            {product.galleryImages && product.galleryImages.length > 1 && (
-              <div className="flex items-center gap-2 overflow-x-auto w-full pb-1">
-                {product.galleryImages.map((imgUrl, idx) => (
+            {photos.length > 1 && (
+              <div className="flex items-center gap-2 overflow-x-auto w-full pb-1" role="group" aria-label={`Photos of ${product.title}`}>
+                {photos.map((imgUrl, idx) => (
                   <button
-                    key={idx}
+                    key={imgUrl}
+                    type="button"
                     onClick={() => setSelectedImg(imgUrl)}
-                    className={`w-14 h-14 rounded-lg border p-1 bg-[#F6F3EC] shrink-0 overflow-hidden cursor-pointer transition-all ${
-                      selectedImg === imgUrl
+                    aria-pressed={shown === imgUrl}
+                    aria-label={`Show photo ${idx + 1} of ${photos.length}`}
+                    className={`w-14 h-14 rounded-lg border p-1 bg-[#F6F3EC] shrink-0 overflow-hidden cursor-pointer transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#182232] ${
+                      shown === imgUrl
                         ? 'border-[#182232] ring-2 ring-[#182232]/20'
                         : 'border-[#DCD7CC] opacity-70 hover:opacity-100'
                     }`}
                   >
                     <img
                       src={imgUrl}
-                      alt={`Thumbnail ${idx + 1}`}
+                      alt=""
                       className="w-full h-full object-contain"
                     />
                   </button>
@@ -119,9 +126,11 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 <span className="bg-[#C8CFD8] text-[#182232] text-xs font-headline font-bold px-2.5 py-0.5 rounded-[6px]">
                   {product.categoryName}
                 </span>
-                <span className="bg-[#EDE8DD] text-[#182232] text-xs font-headline font-bold px-2.5 py-0.5 rounded-[6px]">
-                  {product.ageLabel}
-                </span>
+                {product.ageLabel ? (
+                  <span className="bg-[#EDE8DD] text-[#182232] text-xs font-headline font-bold px-2.5 py-0.5 rounded-[6px]">
+                    {product.ageLabel}
+                  </span>
+                ) : null}
               </div>
 
               {/* Title */}

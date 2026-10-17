@@ -143,7 +143,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     Your basket is empty
                   </h3>
                   <p className="font-body text-xs text-[#5A6270] mt-1 max-w-xs">
-                    Explore our handpicked wooden, die-cast, and Montessori toys to start an order.
+                    Explore the catalog to start an order.
                   </p>
                 </div>
                 <button
@@ -188,7 +188,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                         </button>
                       </div>
                       <span className="text-[11px] text-[#5A6270] block">
-                        {item.product.ageLabel} • {item.product.categoryName}
+                        {item.product.ageLabel ? `${item.product.ageLabel} · ` : ''}{item.product.categoryName}
                       </span>
                     </div>
 

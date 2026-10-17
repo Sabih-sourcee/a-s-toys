@@ -1,0 +1,26 @@
+{
+  "provisional": ["12", "14", "20"],
+  "slugs": {
+    "01": "building-blocks-play-set",
+    "02": "kitchen-play-set",
+    "03": "web-shooter-glove-set",
+    "04": "mini-water-dispenser-toy",
+    "05": "big-building-blocks-bag",
+    "06": "crawling-baby-doll",
+    "07": "gatling-bubble-gun",
+    "08": "dancing-cactus-toy",
+    "09": "duck-slide-track",
+    "10": "animal-water-dispenser",
+    "11": "kitchen-water-dispenser",
+    "12": "toy-flip-phone",
+    "13": "friction-off-road-vehicle",
+    "14": "karaoke-speaker-set",
+    "15": "light-music-car-set",
+    "16": "rc-flying-helicopter-toy",
+    "17": "friction-construction-trucks",
+    "18": "water-bullet-gun",
+    "19": "dinosaur-figure-set",
+    "20": "battery-bubble-gun",
+    "21": "mini-handheld-fan"
+  }
+}

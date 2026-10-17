@@ -50,7 +50,7 @@ export const AboutView: React.FC<AboutViewProps> = ({ onShopClick }) => {
               Child-Safe Materials
             </h3>
             <p className="font-body text-xs sm:text-sm text-[#5A6270] leading-relaxed">
-              We exclusively select natural solid beechwood, non-toxic waterborne food-grade dyes, soft silicone teethers, and sturdy die-cast zinc alloys.
+              The shop lists the packaged toys in the catalog. Check each box for the age grade.
             </p>
           </div>
 

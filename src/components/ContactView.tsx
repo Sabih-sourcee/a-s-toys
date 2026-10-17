@@ -24,8 +24,7 @@ export const ContactView: React.FC = () => {
               Wholesale &amp; brand inquiries
             </h1>
             <p className="mt-4 text-sm sm:text-base text-[#5A6270] leading-relaxed">
-              We have been sourcing toys for wholesalers for more than 10 years — die-cast,
-              wooden, soft goods, and seasonal lines from trusted factories. Tell us what you
+              We have been sourcing toys for wholesalers for more than 10 years. Tell us what you
               need and we will get back to you.
             </p>
           </div>

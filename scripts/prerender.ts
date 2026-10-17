@@ -9,6 +9,7 @@ import {
   categoryTitle,
   productDescription,
   productJsonLd,
+  productPhotoAlt,
   productTitle,
 } from '../src/lib/seo';
 
@@ -121,7 +122,7 @@ for (const product of PRODUCTS) {
     description: productDescription(product),
     urlPath: `/products/${product.slug}`,
     jsonLd: productJsonLd(product, siteUrl),
-    body: `<article><h1>${esc(product.title)} Price in Pakistan</h1><p>Rs. ${product.price.toLocaleString('en-PK')} PKR</p><p>${esc(product.shortDescription)}</p><p>${esc(product.fullDescription)}</p><p><a href="/category/${esc(product.category)}">${esc(product.categoryName)}</a></p></article>`,
+    body: `<article><h1>${esc(product.title)} Price in Pakistan</h1><p>Rs. ${product.price.toLocaleString('en-PK')} PKR</p><img src="${esc(product.image)}" alt="${esc(productPhotoAlt(product.title, 0))}" />${product.galleryImages.map((src, index) => `<img src="${esc(src)}" alt="${esc(productPhotoAlt(product.title, index + 1))}" />`).join('')}<p>${esc(product.shortDescription)}</p><p>${esc(product.fullDescription)}</p><p><a href="/category/${esc(product.category)}">${esc(product.categoryName)}</a></p></article>`,
   }));
 }
 
