@@ -12,9 +12,8 @@ export const WhatsAppLink: React.FC<WhatsAppLinkProps> = ({ message, className, 
   const href = whatsappHref(message);
   if (!href) {
     return (
-      <span className={className} id={id} title="TODO: set VITE_WHATSAPP_NUMBER">
+      <span className={className} id={id} title="WhatsApp number missing">
         {children}
-        <span> (TODO: WhatsApp number)</span>
       </span>
     );
   }

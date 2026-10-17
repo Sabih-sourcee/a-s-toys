@@ -7,7 +7,7 @@ import { categoryPath } from '../lib/router';
 import { config } from '../config';
 
 interface FooterProps {
-  onNavigate: (view: 'home' | 'shop' | 'about') => void;
+  onNavigate: (view: 'home' | 'shop' | 'about' | 'contact') => void;
   onSelectCategory: (cat: string) => void;
   onOpenTracker: () => void;
 }
@@ -37,6 +37,11 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <a href="/about" onClick={(event) => { event.preventDefault(); onNavigate('about'); }} className="hover:text-[#F6F3EC] transition-colors cursor-pointer text-left">
                   About
+                </a>
+              </li>
+              <li>
+                <a href="/contact" onClick={(event) => { event.preventDefault(); onNavigate('contact'); }} className="hover:text-[#F6F3EC] transition-colors cursor-pointer text-left">
+                  Contact / Wholesale
                 </a>
               </li>
               <li>
@@ -75,9 +80,9 @@ export const Footer: React.FC<FooterProps> = ({
             <h4 className="font-headline text-sm font-bold text-[#F6F3EC]">Follow us</h4>
             <ul className="space-y-2 text-sm font-body">
               <li>
-                <WhatsAppLink className="hover:text-[#F6F3EC] transition-colors inline-flex items-center gap-1.5 text-[#25D366]">
-                  <MessageCircle aria-hidden="true" className="w-3.5 h-3.5" />
-                  WhatsApp
+                <WhatsAppLink className="inline-flex items-center gap-2 font-headline font-bold text-sm text-[#25D366] hover:text-[#F6F3EC] transition-colors">
+                  <MessageCircle aria-hidden="true" className="w-4 h-4" />
+                  WhatsApp {config.phone}
                 </WhatsAppLink>
               </li>
               <li><span className="text-[#C8CFD8]/70">Instagram</span></li>
@@ -100,7 +105,9 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li className="flex items-center gap-2">
                 <Mail aria-hidden="true" className="w-4 h-4 text-[#E84A27] shrink-0" />
-                <span>{config.email}</span>
+                <a href={`mailto:${config.email}`} className="hover:text-[#F6F3EC] break-all">
+                  {config.email}
+                </a>
               </li>
               <li>Courier: {config.courier}. Nationwide delivery.</li>
             </ul>

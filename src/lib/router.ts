@@ -4,6 +4,7 @@ export type AppRoute =
   | { name: 'home' }
   | { name: 'shop' }
   | { name: 'about' }
+  | { name: 'contact' }
   | { name: 'category'; slug: string }
   | { name: 'product'; slug: string }
   | { name: 'notfound' };
@@ -13,6 +14,7 @@ export function parseRoute(pathname: string): AppRoute {
   if (path === '/') return { name: 'home' };
   if (path === '/shop') return { name: 'shop' };
   if (path === '/about') return { name: 'about' };
+  if (path === '/contact') return { name: 'contact' };
   const category = path.match(/^\/category\/([^/]+)$/);
   if (category) return { name: 'category', slug: decodeURIComponent(category[1]) };
   const product = path.match(/^\/products\/([^/]+)$/);

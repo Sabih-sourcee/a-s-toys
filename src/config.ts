@@ -1,6 +1,6 @@
 /**
  * Shop settings. Values prefixed VITE_ are baked in at `npm run build`.
- * See `.env.example` and README for what Sabih must fill in.
+ * Defaults below ship live so WhatsApp / Formspree / contact work without a .env.
  */
 function env(key: keyof ImportMetaEnv, fallback = ''): string {
   const value = import.meta.env[key];
@@ -10,14 +10,17 @@ function env(key: keyof ImportMetaEnv, fallback = ''): string {
 export const config = {
   siteUrl: env('VITE_SITE_URL', 'https://usmanitoys.com').replace(/\/$/, ''),
   siteName: 'A&S Toys',
-  /** Digits only, country code included, no plus. Empty until VITE_WHATSAPP_NUMBER is set. */
-  whatsappNumber: env('VITE_WHATSAPP_NUMBER').replace(/\D/g, ''),
-  /** Google Apps Script web app /exec URL. */
-  orderEndpoint: env('VITE_ORDER_ENDPOINT'),
+  /** Digits only, country code included, no plus. PK mobile 0314… → 92314… */
+  whatsappNumber: env('VITE_WHATSAPP_NUMBER', '923143814591').replace(/\D/g, ''),
+  /** Formspree form id for checkout orders. */
+  orderFormId: env('VITE_ORDER_FORM_ID', 'mrpejgyd'),
+  /** Formspree form id for wholesale / Contact Us. */
+  contactFormId: env('VITE_CONTACT_FORM_ID', 'xqpenkga'),
   /** Google Search Console HTML-tag verification content value. */
   googleSiteVerification: env('VITE_GOOGLE_SITE_VERIFICATION'),
-  phone: env('VITE_SHOP_PHONE', 'TODO: phone'),
-  email: env('VITE_SHOP_EMAIL', 'salam@astoys.pk'),
+  phone: env('VITE_SHOP_PHONE', '0314 3814591'),
+  /** Wholesale / brand inquiries only — not order auto-replies. */
+  email: env('VITE_SHOP_EMAIL', 'atarehman@usmanitoys.com'),
   /** Optional. Hidden wherever it is empty. There is no walk-in address. */
   address: env('VITE_SHOP_ADDRESS'),
   exchangePolicy: env('VITE_EXCHANGE_POLICY', '7-day replacement for transit damage'),
@@ -26,7 +29,6 @@ export const config = {
   courier: env('VITE_COURIER', 'TCS/Leopards'),
   /** Subtotal at which delivery becomes free. Empty disables the offer. */
   freeShippingOver: env('VITE_FREE_SHIPPING_OVER', '3500'),
-  orderNotifyEmail: 'bookspower218@gmail.com',
 };
 
 export function shippingQuote(subtotal: number): {

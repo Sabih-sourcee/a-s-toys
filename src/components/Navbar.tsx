@@ -1,14 +1,16 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence, useMotionValueEvent, useScroll } from 'motion/react';
-import { ShoppingBag, Search, Truck, X, Menu, Home, Store, Info } from 'lucide-react';
+import { ShoppingBag, Search, Truck, X, Menu, Home, Store, Info, Mail } from 'lucide-react';
 import { CartItem } from '../types';
 import { BrandMark } from './BrandMark';
+
+type NavView = 'home' | 'shop' | 'about' | 'contact';
 
 interface NavbarProps {
   cartItems: CartItem[];
   onOpenCart: () => void;
-  onNavigate: (view: 'home' | 'shop' | 'about') => void;
-  currentView: 'home' | 'shop' | 'about';
+  onNavigate: (view: NavView) => void;
+  currentView: NavView;
   onSearchChange: (query: string) => void;
   searchQuery: string;
   onOpenTracker: () => void;
@@ -52,6 +54,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { label: 'Home', href: '/', icon: Home, onClick: () => onNavigate('home'), active: currentView === 'home' },
     { label: 'Shop', href: '/shop', icon: Store, onClick: () => onNavigate('shop'), active: currentView === 'shop' },
     { label: 'About', href: '/about', icon: Info, onClick: () => onNavigate('about'), active: currentView === 'about' },
+    { label: 'Contact', href: '/contact', icon: Mail, onClick: () => onNavigate('contact'), active: currentView === 'contact' },
   ];
 
   const goto = (fn: () => void) => {
@@ -89,7 +92,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   aria-label="A & S Toys home"
                   id="nav-brand-logo"
                 >
-                  <BrandMark tone="on-light" size="sm" />
+                  <BrandMark tone="on-light" size="md" />
                 </a>
 
                 <div className="hidden sm:flex items-center gap-1 font-headline text-sm font-bold border-l border-[#DCD7CC] pl-1.5">

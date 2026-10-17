@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Check, MessageCircle, ArrowLeft } from 'lucide-react';
+import { Check, MessageCircle, ArrowLeft, ShoppingBag } from 'lucide-react';
 import { Product } from '../types';
 import { WhatsAppLink } from './WhatsAppLink';
+import { config } from '../config';
 
 interface ProductPageProps {
   product: Product;
@@ -63,42 +64,54 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
             {product.safetyNotes ? ` · ${product.safetyNotes}` : ''}
           </p>
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <div className="inline-flex items-center border border-[#EBE5DA] rounded-full">
+          <div className="mt-6 space-y-3">
+            <div className="flex items-stretch gap-3">
+              <div className="inline-flex items-center border-[1.5px] border-[#182232] rounded-[6px] bg-[#F6F3EC] shadow-[0px_3px_0px_#182232] shrink-0">
+                <button
+                  type="button"
+                  className="w-11 h-11 font-bold cursor-pointer text-[#182232] hover:bg-[#EDE8DD] rounded-l-[5px]"
+                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                  aria-label="Decrease quantity"
+                >
+                  −
+                </button>
+                <span className="w-10 text-center text-sm font-headline font-bold" aria-live="polite">
+                  {quantity}
+                </span>
+                <button
+                  type="button"
+                  className="w-11 h-11 font-bold cursor-pointer text-[#182232] hover:bg-[#EDE8DD] rounded-r-[5px]"
+                  onClick={() => setQuantity((q) => Math.min(product.stock || 1, q + 1))}
+                  aria-label="Increase quantity"
+                >
+                  +
+                </button>
+              </div>
               <button
                 type="button"
-                className="px-3 py-2 font-bold cursor-pointer"
-                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                aria-label="Decrease quantity"
+                disabled={out}
+                onClick={() => onAddToCart(product, quantity)}
+                className={`flex-1 btn-primary inline-flex items-center justify-center gap-2 px-5 py-0 disabled:opacity-50 cursor-pointer ${
+                  isAdded ? '!bg-[#182232]' : ''
+                }`}
+                id="product-add-to-cart"
               >
-                −
-              </button>
-              <span className="px-2 text-sm font-headline font-bold">{quantity}</span>
-              <button
-                type="button"
-                className="px-3 py-2 font-bold cursor-pointer"
-                onClick={() => setQuantity((q) => Math.min(product.stock || 1, q + 1))}
-                aria-label="Increase quantity"
-              >
-                +
+                {isAdded ? <Check className="w-4 h-4" /> : <ShoppingBag className="w-4 h-4" />}
+                {out
+                  ? 'Out of stock'
+                  : isAdded
+                    ? 'Added'
+                    : `Add to cart · Rs. ${(product.price * quantity).toLocaleString('en-PK')}`}
               </button>
             </div>
-            <button
-              type="button"
-              disabled={out}
-              onClick={() => onAddToCart(product, quantity)}
-              className="btn-primary inline-flex items-center gap-2 disabled:opacity-50 cursor-pointer"
-            >
-              {isAdded ? <Check className="w-4 h-4" /> : null}
-              {out ? 'Out of stock' : isAdded ? 'Added' : 'Add to cart'}
-            </button>
+
             <WhatsAppLink
               message={message}
-              className="inline-flex items-center gap-2 bg-[#25D366] text-white font-headline text-sm font-bold px-4 py-2.5 rounded-full"
+              className="w-full min-h-[44px] inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-sm font-bold px-4 py-3 rounded-[6px] border-[1.5px] border-[#182232] shadow-[0px_3px_0px_#182232]"
               id="product-whatsapp"
             >
-              <MessageCircle className="w-4 h-4" />
-              WhatsApp this toy
+              <MessageCircle className="w-4 h-4 fill-white" />
+              WhatsApp {config.phone}
             </WhatsAppLink>
           </div>
           <p className="text-xs text-[#58554F] mt-3">Payment on the website is cash on delivery.</p>

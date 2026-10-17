@@ -307,11 +307,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
                 <WhatsAppLink
                   message={whatsappCartMessage}
-                  className="w-full min-h-[44px] bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-xs font-bold py-2.5 rounded-[6px] flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                  className="w-full min-h-[44px] bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-xs font-bold py-2.5 rounded-[6px] border-[1.5px] border-[#182232] shadow-[0px_3px_0px_#182232] flex items-center justify-center gap-2 transition-colors cursor-pointer"
                   id="btn-order-via-whatsapp-cart"
                 >
                   <MessageCircle aria-hidden="true" className="w-4 h-4 fill-white" />
-                  <span>Order bag via WhatsApp (COD)</span>
+                  <span>Order via WhatsApp</span>
                 </WhatsAppLink>
               </div>
 

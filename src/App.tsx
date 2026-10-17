@@ -16,6 +16,7 @@ import { CheckoutModal } from './components/CheckoutModal';
 import { OrderSuccessModal } from './components/OrderSuccessModal';
 import { OrderTrackerModal } from './components/OrderTrackerModal';
 import { AboutView } from './components/AboutView';
+import { ContactView } from './components/ContactView';
 import { StoryTeaser } from './components/StoryTeaser';
 import { CATEGORIES, PRODUCTS } from './data/products';
 import { CartItem, Product, Order } from './types';
@@ -38,8 +39,14 @@ const ORDERS_STORAGE_KEY = 'as_toys_orders';
 
 export default function App() {
   const { route, navigate } = useRoute();
-  const currentView: 'home' | 'shop' | 'about' =
-    route.name === 'about' ? 'about' : route.name === 'home' ? 'home' : 'shop';
+  const currentView: 'home' | 'shop' | 'about' | 'contact' =
+    route.name === 'about'
+      ? 'about'
+      : route.name === 'contact'
+        ? 'contact'
+        : route.name === 'home'
+          ? 'home'
+          : 'shop';
   const selectedCategory = route.name === 'category' ? route.slug : 'all';
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -174,6 +181,13 @@ export default function App() {
             description: 'A&S Toys is a Karachi-based online toy store with nationwide delivery. Cash on delivery, exchange policy, and contact.',
             path: '/about',
           }
+        : route.name === 'contact'
+          ? {
+              title: 'Contact & Wholesale | A&S Toys Pakistan',
+              description:
+                'Wholesale and partnership inquiries for A&S Toys. Sourcing toys for wholesalers for more than 10 years. Karachi-based, nationwide.',
+              path: '/contact',
+            }
         : route.name === 'shop'
           ? {
               title: 'All Toys Price in Karachi, Pakistan | A&S Toys',
@@ -215,7 +229,15 @@ export default function App() {
       <Navbar
         currentView={currentView}
         onNavigate={(view) => {
-          navigate(view === 'home' ? '/' : view === 'about' ? '/about' : '/shop');
+          navigate(
+            view === 'home'
+              ? '/'
+              : view === 'about'
+                ? '/about'
+                : view === 'contact'
+                  ? '/contact'
+                  : '/shop'
+          );
         }}
         cartItems={cartItems}
         onOpenCart={() => setIsCartOpen(true)}
@@ -331,6 +353,12 @@ export default function App() {
           </div>
         )}
 
+        {route.name === 'contact' && (
+          <div className="pt-20 sm:pt-24">
+            <ContactView />
+          </div>
+        )}
+
         {route.name === 'product' && activeProduct && (
           <ProductPage
             product={activeProduct}
@@ -362,7 +390,15 @@ export default function App() {
       {/* Footer */}
       <Footer
         onNavigate={(view) => {
-          navigate(view === 'home' ? '/' : view === 'about' ? '/about' : '/shop');
+          navigate(
+            view === 'home'
+              ? '/'
+              : view === 'about'
+                ? '/about'
+                : view === 'contact'
+                  ? '/contact'
+                  : '/shop'
+          );
         }}
         onSelectCategory={(cat) => navigateToShop(cat)}
         onOpenTracker={() => setIsTrackerOpen(true)}
@@ -394,13 +430,11 @@ export default function App() {
       <div className="fixed bottom-5 right-5 z-30 hidden sm:block">
         <WhatsAppLink
           message={WHATSAPP_HELP_MESSAGE}
-          className="bg-[#25D366] hover:bg-[#1EBE5D] text-white p-3.5 rounded-[6px] shadow-[0px_3px_0px_#182232] flex items-center gap-2 font-headline font-bold text-xs transition-all hover:scale-105 group border-2 border-white"
+          className="bg-[#25D366] hover:bg-[#1EBE5D] text-white px-4 py-3.5 rounded-[6px] shadow-[0px_3px_0px_#182232] flex items-center gap-2 font-headline font-bold text-xs transition-all border-[1.5px] border-[#182232]"
           id="floating-whatsapp-widget"
         >
-          <MessageCircle className="w-5 h-5 fill-current" />
-          <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300">
-            WhatsApp for a video
-          </span>
+          <MessageCircle className="w-5 h-5 fill-current shrink-0" />
+          <span>WhatsApp</span>
         </WhatsAppLink>
       </div>
 

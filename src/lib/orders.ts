@@ -21,54 +21,72 @@ export interface OrderPayload {
   payment: string;
 }
 
-interface OrderResult {
-  ok?: boolean;
-  error?: string;
-}
-
 /**
- * Sends the order to the Apps Script web app with JSONP so the browser
- * can read success or error without a CORS preflight.
+ * Posts the order to Formspree so the shop gets customer + line-item details by email.
  */
-export function submitOrder(payload: OrderPayload): Promise<void> {
-  const endpoint = config.orderEndpoint;
-  if (!endpoint) {
-    return Promise.reject(
-      new Error('We could not place this order because the order form is not connected yet. Please WhatsApp us.')
+export async function submitOrder(payload: OrderPayload): Promise<void> {
+  const formId = config.orderFormId;
+  if (!formId) {
+    throw new Error(
+      'We could not place this order because the order form is not connected yet. Please WhatsApp us.'
     );
   }
 
-  return new Promise((resolve, reject) => {
-    const callback = `__asToysOrder_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
-    const script = document.createElement('script');
-    const win = window as unknown as Record<string, ((data: OrderResult) => void) | undefined>;
+  const itemsText = payload.items
+    .map(
+      (item) =>
+        `${item.quantity}x ${item.title} (Rs. ${item.price.toLocaleString('en-PK')}) [${item.id}]`
+    )
+    .join('\n');
 
-    const cleanup = () => {
-      window.clearTimeout(timer);
-      delete win[callback];
-      script.remove();
-    };
+  const body = {
+    _subject: `New A&S Toys order ${payload.orderId}`,
+    orderId: payload.orderId,
+    name: payload.name,
+    email: payload.email || 'no-email@customer.local',
+    phone: payload.phone,
+    city: payload.city,
+    address: payload.address,
+    notes: payload.notes || '',
+    payment: payload.payment,
+    total: `Rs. ${payload.total.toLocaleString('en-PK')}`,
+    items: itemsText,
+    message: [
+      `Order ${payload.orderId}`,
+      `Name: ${payload.name}`,
+      `Phone: ${payload.phone}`,
+      `City: ${payload.city}`,
+      `Address: ${payload.address}`,
+      `Payment: ${payload.payment}`,
+      `Total: Rs. ${payload.total.toLocaleString('en-PK')}`,
+      payload.notes ? `Notes: ${payload.notes}` : '',
+      '',
+      'Items:',
+      itemsText,
+    ]
+      .filter(Boolean)
+      .join('\n'),
+  };
 
-    const timer = window.setTimeout(() => {
-      cleanup();
-      reject(new Error('The order request timed out. Please try again.'));
-    }, 20000);
-
-    win[callback] = (data) => {
-      cleanup();
-      if (data?.ok) resolve();
-      else reject(new Error(data?.error || 'We could not save your order. Please try again.'));
-    };
-
-    script.onerror = () => {
-      cleanup();
-      reject(new Error('We could not reach the order service. Please try again or WhatsApp us.'));
-    };
-
-    const url = new URL(endpoint);
-    url.searchParams.set('callback', callback);
-    url.searchParams.set('payload', JSON.stringify(payload));
-    script.src = url.toString();
-    document.body.appendChild(script);
+  const response = await fetch(`https://formspree.io/f/${formId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(body),
   });
+
+  if (!response.ok) {
+    let detail = '';
+    try {
+      const data = (await response.json()) as { error?: string; errors?: { message?: string }[] };
+      detail = data.error || data.errors?.map((e) => e.message).filter(Boolean).join(' ') || '';
+    } catch {
+      /* ignore parse errors */
+    }
+    throw new Error(
+      detail || 'We could not save your order. Please try again or WhatsApp us.'
+    );
+  }
 }

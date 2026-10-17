@@ -14,17 +14,16 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick }) => {
         alt="A child holding a colorful toy in a bright, open green landscape under a blue sky"
         className="absolute inset-0 w-full h-full object-cover object-center"
       />
-      {/* Solid navy wash for type contrast — no soft gradients */}
-      <div className="absolute inset-0 bg-[#182232]/40" aria-hidden="true" />
+      <div className="absolute inset-0 bg-[#182232]/50" aria-hidden="true" />
 
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
-        <p className="font-headline text-[13px] sm:text-sm font-bold tracking-[0.12em] uppercase text-[#F6F3EC]/90 mb-4">
+        <p className="font-headline text-[42px] sm:text-[64px] lg:text-[80px] font-extrabold tracking-[-0.04em] leading-[0.95] text-[#F6F3EC] drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]">
           A &amp; S Toys
         </p>
-        <h1 className="font-headline text-[36px] sm:text-[52px] lg:text-[64px] font-extrabold tracking-[-0.03em] leading-[1.08] text-[#F6F3EC] max-w-3xl">
+        <h1 className="mt-4 sm:mt-5 font-headline text-[22px] sm:text-[32px] lg:text-[40px] font-bold tracking-[-0.02em] leading-[1.15] text-[#F6F3EC] max-w-3xl">
           Precision play. Built to last.
         </h1>
-        <p className="mt-4 font-body text-sm sm:text-base text-[#F6F3EC]/85 max-w-md leading-relaxed">
+        <p className="mt-4 font-body text-sm sm:text-base text-[#F6F3EC]/90 max-w-md leading-relaxed">
           A Karachi-based online toy store. Beechwood, die-cast, and soft goods, delivered nationwide.
         </p>
 
