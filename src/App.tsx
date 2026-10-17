@@ -167,6 +167,7 @@ export default function App() {
         title: productTitle(activeProduct),
         description: productDescription(activeProduct),
         path: `/products/${activeProduct.slug}`,
+        image: activeProduct.image,
         jsonLd: productJsonLd(activeProduct, config.siteUrl),
       }
     : route.name === 'category' && activeCategory
@@ -224,7 +225,7 @@ export default function App() {
       )}
 
       {/* Main Navigation Bar */}
-      <Seo title={seo.title} description={seo.description} path={seo.path} jsonLd={seo.jsonLd} />
+      <Seo title={seo.title} description={seo.description} path={seo.path} image={'image' in seo ? seo.image : undefined} jsonLd={seo.jsonLd} />
 
       <Navbar
         currentView={currentView}

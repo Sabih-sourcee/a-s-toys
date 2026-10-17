@@ -30,7 +30,7 @@ Edit `src/data/products.ts` only. The schema is in the comment at the top of tha
 
 ## Product photos
 
-Each product has four WebP angles in `public/images/products/`: `<slug>-1.webp` is the card image, and `<slug>-2.webp` through `<slug>-4.webp` are the product-page gallery. They are cropped from 2×2 grids named `NN_4angles.png` or `NN_4angles.webp`. The grids themselves are not committed.
+Product photos live in `public/images/products/`. `<slug>-1.webp` is the card image. Later files are the gallery. Most grids are `NN_4angles.png` or `NN_4angles.webp`: quadrant 1 is top-left, 2 is top-right, 3 is bottom-left, and 4 is bottom-right. `layouts` in `scripts/grid-slugs.json` can set `3-centre-bottom`, which also accepts `NN_3angles.*` and writes three files: top-left, top-right, and a square centred on the bottom half. The product page only renders the photos that exist, and it hides the thumbnail row when a product has a single photo. The grids themselves are not committed.
 
 ```bash
 node scripts/split-grids.mjs /path/to/grids

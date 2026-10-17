@@ -44,7 +44,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
             className="w-full aspect-square object-contain rounded-xl bg-[#F4EFE6]"
           />
           {photos.length > 1 && (
-            <div className="mt-3 flex gap-2" role="group" aria-label={`Photos of ${product.title}`}>
+            <div className="mt-3 flex w-fit max-w-full gap-2" role="group" aria-label={`Photos of ${product.title}`}>
               {photos.map((src, index) => {
                 const selected = index === photoIndex;
                 return (

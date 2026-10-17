@@ -8,12 +8,12 @@
     .\deploy.ps1
     .\deploy.ps1 -SkipBuild
 
-  Auth (first match wins):
-    1. HOSTINGER_API_TOKEN environment variable
-    2. .env.deploy  (HOSTINGER_API_TOKEN=hst_...)
+  Auth, tried in order until Hostinger accepts one:
+    1. .env.deploy  (HOSTINGER_API_TOKEN=hst_...)
+    2. HOSTINGER_API_TOKEN environment variable
     3. Hostinger MCP OAuth file: %APPDATA%\hostinger-mcp\credentials.json
 
-  Create an API token in hPanel -> Profile -> API Tokens if OAuth is missing.
+  A 401 means the token was rejected. Create a new one in hPanel -> Profile -> API.
 #>
 [CmdletBinding()]
 param(
@@ -40,36 +40,73 @@ function Get-SiteConfig {
   return Get-Content -Raw -Path $SiteConfigPath | ConvertFrom-Json
 }
 
-function Get-HostingerToken {
-  if ($env:HOSTINGER_API_TOKEN) {
-    return $env:HOSTINGER_API_TOKEN.Trim()
+function Read-TextFile([string]$Path) {
+  $bytes = [System.IO.File]::ReadAllBytes($Path)
+  if ($bytes.Length -ge 2 -and $bytes[0] -eq 0xFF -and $bytes[1] -eq 0xFE) {
+    return [System.Text.Encoding]::Unicode.GetString($bytes)
+  }
+  if ($bytes.Length -ge 2 -and $bytes[0] -eq 0xFE -and $bytes[1] -eq 0xFF) {
+    return [System.Text.Encoding]::BigEndianUnicode.GetString($bytes)
+  }
+  return [System.Text.Encoding]::UTF8.GetString($bytes).TrimStart([char]0xFEFF)
+}
+
+function Normalize-Token([string]$Value) {
+  if (-not $Value) { return '' }
+  $token = $Value.Trim().Trim([char]0xFEFF).Trim('"').Trim("'")
+  if ($token.StartsWith('Bearer ')) { $token = $token.Substring(7).Trim() }
+  return $token
+}
+
+function Get-HostingerCredentials {
+  $script:deployCreds = New-Object System.Collections.Generic.List[object]
+  $script:deploySeen = @{}
+
+  function Add-Candidate([string]$Source, [string]$Value) {
+    $token = Normalize-Token $Value
+    if (-not $token -or $script:deploySeen.ContainsKey($token)) { return }
+    $script:deploySeen[$token] = $true
+    $script:deployCreds.Add([pscustomobject]@{ Source = $Source; Token = $token }) | Out-Null
   }
 
   $envFile = Join-Path $Root '.env.deploy'
   if (Test-Path $envFile) {
-    foreach ($line in Get-Content $envFile) {
+    $matched = $false
+    foreach ($line in (Read-TextFile $envFile) -split '\r?\n') {
       if ($line -match '^\s*HOSTINGER_API_TOKEN\s*=\s*(.+)\s*$') {
-        return $Matches[1].Trim().Trim('"').Trim("'")
+        Add-Candidate '.env.deploy' $Matches[1]
+        $matched = $true
       }
     }
+    if (-not $matched) {
+      Write-Host '.env.deploy is present but has no HOSTINGER_API_TOKEN= line.' -ForegroundColor Yellow
+    }
+  }
+
+  if ($env:HOSTINGER_API_TOKEN) {
+    Add-Candidate 'HOSTINGER_API_TOKEN environment variable' $env:HOSTINGER_API_TOKEN
   }
 
   $oauthPath = Join-Path $env:APPDATA 'hostinger-mcp\credentials.json'
   if (Test-Path $oauthPath) {
-    $creds = Get-Content -Raw -Path $oauthPath | ConvertFrom-Json
+    $creds = (Read-TextFile $oauthPath) | ConvertFrom-Json
     if ($creds.access_token) {
-      return [string]$creds.access_token
+      Add-Candidate 'Hostinger MCP OAuth file' ([string]$creds.access_token)
     }
   }
 
-  throw @"
+  if ($script:deployCreds.Count -eq 0) {
+    throw @"
 No Hostinger auth found.
 
-Fix one of:
-  - Set HOSTINGER_API_TOKEN in the environment
-  - Create .env.deploy with: HOSTINGER_API_TOKEN=hst_your_token
-  - Sign in once via Cursor Hostinger MCP (OAuth)
+Create .env.deploy in this folder with one line:
+  HOSTINGER_API_TOKEN=hst_your_token
+
+Create the token in hPanel -> Profile -> API.
 "@
+  }
+
+  return $script:deployCreds
 }
 
 function Invoke-HostingerApi {
@@ -80,18 +117,39 @@ function Invoke-HostingerApi {
     [object]$Body = $null
   )
 
-  $headers = @{
-    Authorization = "Bearer $Token"
-    Accept        = 'application/json'
-  }
-
   $uri = "$ApiBase$Path"
+  $bodyFile = [System.IO.Path]::GetTempFileName()
+  $curlArgs = @(
+    '-sS', '-o', $bodyFile, '-w', '%{http_code}',
+    '-X', $Method,
+    '-H', "Authorization: Bearer $Token",
+    '-H', 'Accept: application/json'
+  )
   if ($null -ne $Body) {
     $json = $Body | ConvertTo-Json -Compress -Depth 6
-    return Invoke-RestMethod -Method $Method -Uri $uri -Headers $headers -ContentType 'application/json' -Body $json
+    $curlArgs += @('-H', 'Content-Type: application/json', '--data-binary', $json)
   }
+  $curlArgs += $uri
 
-  return Invoke-RestMethod -Method $Method -Uri $uri -Headers $headers
+  $code = ((& curl.exe @curlArgs) | Out-String).Trim()
+  $text = ''
+  if (Test-Path $bodyFile) {
+    $text = [System.IO.File]::ReadAllText($bodyFile).Trim()
+    Remove-Item -Force $bodyFile
+  }
+  if ($LASTEXITCODE -ne 0) {
+    throw "Hostinger request failed (curl exit $LASTEXITCODE)"
+  }
+  if ($code -eq '401') {
+    $detail = $text
+    if (-not $detail) { $detail = 'Unauthorized' }
+    throw "401 $detail"
+  }
+  if ($code -notmatch '^2') {
+    throw "HTTP $code $text"
+  }
+  if (-not $text) { return $null }
+  return $text | ConvertFrom-Json
 }
 
 function Invoke-Build {
@@ -241,7 +299,34 @@ $username = [string]$site.username
 
 Write-Host ("Deploy target: " + $domain + " (" + $username + ")") -ForegroundColor Green
 
-$token = Get-HostingerToken
+$credentials = @(Get-HostingerCredentials)
+$token = $null
+foreach ($candidate in $credentials) {
+  Write-Host ("Checking token from " + $candidate.Source)
+  try {
+    Invoke-HostingerApi -Method Post -Token $candidate.Token `
+      -Path '/api/hosting/v1/files/upload-urls' `
+      -Body @{ username = $username; domain = $domain } | Out-Null
+    $token = $candidate.Token
+    Write-Host ("Authenticated with " + $candidate.Source) -ForegroundColor Green
+    break
+  }
+  catch {
+    Write-Host ("    " + $candidate.Source + " was rejected: " + $_.Exception.Message) -ForegroundColor Yellow
+  }
+}
+if (-not $token) {
+  throw @"
+Hostinger returned 401 for every saved token.
+
+The token in .env.deploy is missing, expired, or from a different Hostinger account.
+1. hPanel -> Profile -> API -> create a new token.
+2. Put this single line in .env.deploy (Notepad is fine):
+     HOSTINGER_API_TOKEN=hst_your_new_token
+3. Run .\deploy.ps1 again.
+Do not paste the token into chat.
+"@
+}
 
 if (-not $SkipBuild) {
   Invoke-Build

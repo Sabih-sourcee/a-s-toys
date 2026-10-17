@@ -31,7 +31,7 @@ function esc(value: string): string {
   ));
 }
 
-function render(opts: { title: string; description: string; urlPath: string; body: string; jsonLd?: unknown }): string {
+function render(opts: { title: string; description: string; urlPath: string; body: string; image?: string; jsonLd?: unknown }): string {
   const canonical = `${siteUrl}${opts.urlPath === '/' ? '' : opts.urlPath}` || siteUrl;
   const canonicalHref = opts.urlPath === '/' ? `${siteUrl}/` : `${siteUrl}${opts.urlPath}`;
   let html = template;
@@ -49,9 +49,13 @@ function render(opts: { title: string; description: string; urlPath: string; bod
     `<meta property="og:description" content="${esc(opts.description)}" />`
   );
 
+  const image = opts.image
+    ? (opts.image.startsWith('http') ? opts.image : `${siteUrl}${opts.image.startsWith('/') ? opts.image : `/${opts.image}`}`)
+    : '';
   const head = [
     `<link rel="canonical" href="${esc(canonicalHref)}" />`,
     `<meta property="og:url" content="${esc(canonicalHref)}" />`,
+    image ? `<meta property="og:image" content="${esc(image)}" />` : '',
     verification ? `<meta name="google-site-verification" content="${esc(verification)}" />` : '',
     opts.jsonLd
       ? `<script type="application/ld+json">${JSON.stringify(opts.jsonLd).replace(/</g, '\\u003c')}</script>`
@@ -121,6 +125,7 @@ for (const product of PRODUCTS) {
     title: productTitle(product),
     description: productDescription(product),
     urlPath: `/products/${product.slug}`,
+    image: product.image,
     jsonLd: productJsonLd(product, siteUrl),
     body: `<article><h1>${esc(product.title)} Price in Pakistan</h1><p>Rs. ${product.price.toLocaleString('en-PK')} PKR</p><img src="${esc(product.image)}" alt="${esc(productPhotoAlt(product.title, 0))}" />${product.galleryImages.map((src, index) => `<img src="${esc(src)}" alt="${esc(productPhotoAlt(product.title, index + 1))}" />`).join('')}<p>${esc(product.shortDescription)}</p><p>${esc(product.fullDescription)}</p><p><a href="/category/${esc(product.category)}">${esc(product.categoryName)}</a></p></article>`,
   }));

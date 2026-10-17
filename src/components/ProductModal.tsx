@@ -78,7 +78,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
             {/* Thumbnail Row */}
             {photos.length > 1 && (
-              <div className="flex items-center gap-2 overflow-x-auto w-full pb-1" role="group" aria-label={`Photos of ${product.title}`}>
+              <div className="flex w-fit max-w-full items-center gap-2 overflow-x-auto pb-1" role="group" aria-label={`Photos of ${product.title}`}>
                 {photos.map((imgUrl, idx) => (
                   <button
                     key={imgUrl}

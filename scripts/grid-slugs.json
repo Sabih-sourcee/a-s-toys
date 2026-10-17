@@ -1,5 +1,8 @@
 {
   "provisional": ["12", "14", "20"],
+  "layouts": {
+    "22": "3-centre-bottom"
+  },
   "slugs": {
     "01": "building-blocks-play-set",
     "02": "kitchen-play-set",
@@ -21,6 +24,7 @@
     "18": "water-bullet-gun",
     "19": "dinosaur-figure-set",
     "20": "battery-bubble-gun",
-    "21": "mini-handheld-fan"
+    "21": "mini-handheld-fan",
+    "22": "hungry-turtle-game"
   }
 }

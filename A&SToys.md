@@ -105,7 +105,7 @@ src/
 | WhatsApp | `VITE_WHATSAPP_NUMBER` in `.env` (see README) |
 | Orders | Google Apps Script web app → Sheet + email. The chosen payment method is stored. |
 
-**Known gaps:** 21 products vs “90+” copy; promo discount may not flow into checkout. Orders need the Apps Script URL from the README.
+**Known gaps:** 22 products vs “90+” copy; promo discount may not flow into checkout. Orders need the Apps Script URL from the README.
 
 ---
 
