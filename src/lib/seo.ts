@@ -23,15 +23,27 @@ export function categoryDescription(name: string, blurb: string): string {
 
 export const HOME_TITLE = `Toy Prices in Karachi, Pakistan | ${BRAND}`;
 export const HOME_DESCRIPTION =
-  'Toy prices in Karachi, Pakistan from A&S Toys, an online toy store with nationwide delivery. Browse wooden toys, die-cast cars, plush, and baby toys.';
+  'Toy prices in Karachi, Pakistan from A&S Toys, an online toy store with nationwide delivery. Browse building blocks, pretend play, vehicles, and more.';
+
+/** Alt text for a catalog photo. Angle 1 is the card image. */
+export function productPhotoAlt(title: string, index: number): string {
+  if (index <= 0) return title;
+  return `${title}, angle ${index + 1}`;
+}
+
+function absoluteAsset(siteUrl: string, src: string): string {
+  if (/^https?:\/\//i.test(src)) return src;
+  return `${siteUrl}${src.startsWith('/') ? src : `/${src}`}`;
+}
 
 export function productJsonLd(product: Product, siteUrl: string) {
+  const photos = [product.image, ...product.galleryImages.filter((src) => src !== product.image)];
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.title,
     description: product.shortDescription,
-    image: [product.image, ...product.galleryImages.filter((src) => src !== product.image)],
+    image: photos.map((src) => absoluteAsset(siteUrl, src)),
     sku: product.id,
     brand: { '@type': 'Brand', name: BRAND },
     offers: {

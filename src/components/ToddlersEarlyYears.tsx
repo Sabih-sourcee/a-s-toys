@@ -18,7 +18,7 @@ export const ToddlersEarlyYears: React.FC<ToddlersEarlyYearsProps> = ({
   onExploreBabyToys,
   addedProductIds,
 }) => {
-  const earlyToys = products.filter((p) => p.isEarlyYears);
+  const earlyToys = products.filter((p) => p.category === 'pretend-play');
 
   return (
     <section className="bg-[#EDE8DD]" id="toddlers">
@@ -26,24 +26,24 @@ export const ToddlersEarlyYears: React.FC<ToddlersEarlyYearsProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-8 lg:gap-14">
           <div className="flex flex-col gap-3 lg:sticky lg:top-24 lg:self-start">
             <span className="font-mono text-[11px] font-medium text-[#E84A27] tracking-[0.05em] uppercase">
-              Ages 0–3 · Food-grade
+              Pretend play
             </span>
             <h2 className="font-headline text-[24px] sm:text-[28px] font-extrabold text-[#182232] leading-[1.08] tracking-[-0.03em]">
-              For the youngest hands
+              Kitchens and dispensers
             </h2>
             <p className="font-body text-sm text-[#5A6270] leading-relaxed max-w-xs">
-              Extra-smooth edges, chunky graspable shapes, zero small choking parts. Built to survive teething and three siblings.
+              Toy kitchens and water dispensers from the catalog. Check each box for the age grade.
             </p>
             <a
-              href="/category/baby-toddler"
+              href="/category/pretend-play"
               onClick={(event) => {
                 event.preventDefault();
                 onExploreBabyToys();
               }}
               className="inline-flex items-center gap-1.5 text-sm font-headline font-bold text-[#182232] hover:text-[#E84A27] transition-colors cursor-pointer mt-1 min-h-[44px]"
-              id="btn-see-all-baby-toys"
+              id="btn-see-all-pretend-play"
             >
-              See all baby toys
+              See all pretend play
               <ArrowRight aria-hidden="true" className="w-4 h-4" />
             </a>
           </div>
@@ -68,7 +68,9 @@ export const ToddlersEarlyYears: React.FC<ToddlersEarlyYearsProps> = ({
                   >
                     <img src={toy.image} alt={toy.title} className="w-full h-full object-contain" loading="lazy" />
                   </a>
-                  <span className="spec-stamp self-start mb-1.5 text-[9px]">{toy.ageLabel}</span>
+                  {toy.ageLabel ? (
+                    <span className="spec-stamp self-start mb-1.5 text-[9px]">{toy.ageLabel}</span>
+                  ) : null}
                   <h3 className="font-headline text-xs sm:text-sm font-bold text-[#182232] line-clamp-2 min-h-[2.2rem]">
                     <a href={href} onClick={open} className="hover:text-[#E84A27]">
                       {toy.title}

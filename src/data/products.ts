@@ -1,8 +1,11 @@
 import { Product, Category } from '../types';
 
 /**
- * Catalog. Add products in the PRODUCTS array (40–80 is fine).
+ * Catalog. Add products in the PRODUCTS array.
  * Rebuild after edits so sitemap and prerendered pages update.
+ *
+ * Photos come from scripts/split-grids.mjs. Image 1 is the card.
+ * galleryImages are angles 2–4. Do not commit the source grids.
  *
  * Product fields:
  * - id: unique, e.g. "ast-013"
@@ -10,8 +13,8 @@ import { Product, Category } from '../types';
  * - slug: unique url slug, used at /products/:slug
  * - category: a CATEGORIES slug
  * - categoryName: that category's name
- * - ageRange: "0-12m" | "1-3y" | "3-5y" | "6-8y" | "8+y"
- * - ageLabel: short label, e.g. "Ages 3+"
+ * - ageRange: optional. Only when the age is printed on the box.
+ * - ageLabel: optional short label, e.g. "Ages 3+"
  * - price: number, PKR
  * - originalPrice?: compare-at price, PKR
  * - discountBadge?: short ribbon text
@@ -31,424 +34,291 @@ import { Product, Category } from '../types';
  * - seoTitle?: override. Default: "{title} Price in Karachi, Pakistan | A&S Toys"
  * - seoDescription?: override, about 160 characters
  *
- * Do not add review counts or testimonials. The site does not show them.
+ * Do not add review counts, piece counts, or age ranges that are not on the box.
  * Category item counts on the homepage are counted from PRODUCTS.
  */
 
+const photo = (slug: string, angle: 1 | 2 | 3 | 4) =>
+  `/images/products/${slug}-${angle}.webp`;
+
+function item(input: {
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+  categoryName: string;
+  shortDescription: string;
+  fullDescription: string;
+  features: string[];
+}): Product {
+  return {
+    ...input,
+    price: 1200,
+    stock: 10,
+    inStock: true,
+    image: photo(input.slug, 1),
+    galleryImages: [photo(input.slug, 2), photo(input.slug, 3), photo(input.slug, 4)],
+    materials: 'Plastic',
+    safetyNotes: 'Check the box for the age grade.',
+  };
+}
 
 export const CATEGORIES: Category[] = [
   {
-    id: 'soft-dolls',
-    name: 'Soft Dolls & Plush',
-    slug: 'soft-dolls',
-    description: 'Hypoallergenic, ultra-soft plushies and hand-stitched dolls for cuddle time.',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB-MDe4Ulbl4pHjt-sO9dlNplXf_eLl6qbPNATqjGDW6Iqq3N5lEbzJinnc1P7H0V_BPi8RtyhirrQ0LCZzkddZjADVr2NvqXBfZyYGAKniOyZx8EfvjMePF5QZv4_eZFWQOYixQvQ6ADn9PfFgy4wd2l8NABt7xjRMXn4bhvztLX5CXl4yDFOE_suK-HPJP2qTlPwDX7zsodb3NLxLHpYPRTsI9MOen3uUiDNuSd2gnsDE-a1N4wW2',
+    id: 'building-blocks',
+    name: 'Building Blocks',
+    slug: 'building-blocks',
+    description: 'Building block sets, in a carry case and a storage bag.',
+    image: photo('building-blocks-play-set', 1),
   },
   {
-    id: 'die-cast',
-    name: 'Die-cast & Cars',
-    slug: 'die-cast',
-    description: 'Heavy alloy pullback racers, vintage roadsters, and construction vehicles.',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBL2f-kWV43rjIUdGyCk9dN2TdSeBAREsKQsIjwvRSgZUedube_El_3-ZN3AuhvDyPTsoST30NyFNzBt9pAVMdfGrw4NigWVm_MSrow7fHP1nbUNh7F1b1qvIF3HAZWiCA2qqw38-cxkmtE-X0csJf-IVpH-Qcpc8G1rp4tjnSDH4yolfm1Kyvv28eITZvc1A7O2a8xqPERe8xhiYYmOqQbLmB4L0Z-AxrSubmTUtN18DRGgqG-UpjJ',
+    id: 'pretend-play',
+    name: 'Pretend Play',
+    slug: 'pretend-play',
+    description: 'Toy kitchens and water dispensers for pretend play.',
+    image: photo('kitchen-play-set', 1),
   },
   {
-    id: 'wooden-montessori',
-    name: 'Wooden & Montessori',
-    slug: 'wooden-montessori',
-    description: 'Open-ended developmental toys crafted with non-toxic dyes and sustainable timber.',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA9whh2ZiXOzYCs_wPHNCcBIg_UJuqIvqrzj6rh63MCydH0WVV4aPbj_oqIP4z5Xci95u02eRt066pEJSFGVGsvHcx_rKYolsEmNsIW7t1Lr3wZFiWhEWw4RyGceR8SDru6andWsT3olt9fKYk1swzo1kJ7ECAWqaJtS14hfdsN6-nDS9PjGh43becmL-YCBI-tZn9-ATDLhUQywa-0Y-aU5XYxidD2FXUMiprZYpOUA6O2XBRg5Hf-',
+    id: 'dolls-figures',
+    name: 'Dolls & Figures',
+    slug: 'dolls-figures',
+    description: 'A crawling baby doll, a duck slide track, and dinosaur figures.',
+    image: photo('crawling-baby-doll', 1),
   },
   {
-    id: 'arts-craft',
-    name: 'Arts, Clay & Craft',
-    slug: 'arts-craft',
-    description: 'Non-toxic washable watercolor cases, dough buckets, and safe sculpting tools.',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDUeFb6IJrHTrh8gWXYaJcKlOinai3k_xyDNPX4RAyqPJrspuIkG-ATQuPpu-j408VljCOllRIJkSOzpd30RQZrydng4XRtf8TTa2wyuwdiRNriyRuo5398jzV1bCmKafRXktYTUQzNUUgenrLPjfvBGEEnFTj71gxKQPf9IP7BhY_hijHN1Lk3sk4kMNW7J-H3AhlM4upf1LalusslASVMT_RYgUlKc6tPxGGxjCVXvh2sS8OYcsmH',
+    id: 'vehicles',
+    name: 'Vehicles',
+    slug: 'vehicles',
+    description: 'Off-road and construction vehicles, a light-up car set, and an RC flying helicopter toy.',
+    image: photo('friction-off-road-vehicle', 1),
   },
   {
-    id: 'puzzles-brains',
-    name: 'Puzzles & Brain Games',
-    slug: 'puzzles-brains',
-    description: 'Tactile problem-solving boards, tangrams, and geometric balance challenges.',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCtj0-gbUBy2ZaUg0jXH7sUeVDeU0XFHyD2SYtFQBc5zF35FC2GgIsH2_Id8zsKQCojQeso_iWUHYVxilBIadhFkoIzOI8NXB6aq9CT6APd3eiP6iBxBpTah-HsS_v1QJbI9V8jXdRYxDmM-FpJ2-oP2WYWiYdFUKiHBJiVQFbtOmHYrNp0-Qf-E3CD_zulGIZmeYNgNQFHuipztPCZO585JRvvL8mHRfdbbYpj70Nl8TmVGdBAiv-u',
+    id: 'bubble-water',
+    name: 'Bubble & Water',
+    slug: 'bubble-water',
+    description: 'Bubble guns and a water bullet gun.',
+    image: photo('gatling-bubble-gun', 1),
   },
   {
-    id: 'baby-toddler',
-    name: 'Baby & Toddler',
-    slug: 'baby-toddler',
-    description: 'Food-grade teether rattles, chime activity cubes, and smooth graspable toys.',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCa1nF-qCexSg_Peysy5YOwhah6ve1eEC5aL5Cg9xuDJWY_OrooM6NbX5CIXTy7HeOIL0h_AWqam7OBECbMpzL3vnhvS_zgJz7UB0urWP6fpmEEc-R1Yg-HxWhcCdXKUNhQL3_i4zQVg4QEq28xFa_9XNa0cDpppI2p3jcGrMwPflVCi11gZNAF7kBSUFhgCLFxiEZdWaSeyl7_Bvj5WLdOmvZsY4eDowHnu4V_KWVgtPUlqqFAMd0J',
-  }
+    id: 'gadgets-music',
+    name: 'Gadgets & Music',
+    slug: 'gadgets-music',
+    description: 'A web shooter glove set, a dancing cactus, a toy phone, a karaoke set, and a mini fan.',
+    image: photo('web-shooter-glove-set', 1),
+  },
 ];
 
 export const PRODUCTS: Product[] = [
-  {
+  item({
     id: 'ast-001',
-    title: 'Wooden Rainbow Stacking Arch',
-    slug: 'wooden-rainbow-stacking-arch',
-    category: 'wooden-montessori',
-    categoryName: 'Wooden & Montessori',
-    ageRange: '1-3y',
-    ageLabel: 'Ages 18m+',
-    price: 2450,
-    originalPrice: 2850,
-    discountBadge: 'NEW ARRIVAL',
-    badgeType: 'new',
-    stock: 14,
-    inStock: true,
-    image: '/images/products/rainbow-stacker.png',
-    galleryImages: [
-      '/images/products/rainbow-stacker.png'
-    ],
-    shortDescription: 'Solid beechwood stacking rainbow with 7 graduating curved arches dipped in organic child-safe water dye.',
-    fullDescription: 'An heirloom piece for open-ended play. Children construct bridges, tunnels, cradles for dolls, or abstract architectural towers. Carved from FSC-certified Russian beechwood with rounded, splinter-free contours. Sold online by A&S Toys in Karachi.',
-    features: [
-      '7 graduating nesting arches',
-      'Non-toxic matte finish for non-slip stacking',
-      'Promotes spatial reasoning & motor coordination',
-      'Smooth edges without lacquer smells'
-    ],
-    materials: 'Solid Beechwood with food-grade waterborne organic pigments',
-    safetyNotes: 'Tested against saliva transfer and impact splits. 100% lead-free.',
-    dimensions: '26cm x 13cm x 5cm',
-    isTrending: true
-  },
-  {
+    title: 'Building Blocks Play Set',
+    slug: 'building-blocks-play-set',
+    category: 'building-blocks',
+    categoryName: 'Building Blocks',
+    shortDescription: 'A carry case of colorful building blocks.',
+    fullDescription: 'Colorful building blocks packed in a handled carry case. The photos show the closed case and the blocks beside it.',
+    features: ['Handled carry case', 'Colorful blocks', 'Blocks shown inside and outside the case'],
+  }),
+  item({
     id: 'ast-002',
-    title: 'Retro Die-Cast Roadster (Pullback)',
-    slug: 'retro-die-cast-roadster-pullback',
-    category: 'die-cast',
-    categoryName: 'Die-cast & Cars',
-    ageRange: '3-5y',
-    ageLabel: 'Ages 3+',
-    price: 1890,
-    originalPrice: 2290,
-    discountBadge: 'SALE - Rs. 400 OFF',
-    badgeType: 'sale',
-    stock: 12,
-    inStock: true,
-    image: '/images/products/diecast-car.png',
-    galleryImages: [
-      '/images/products/diecast-car.png'
-    ],
-    shortDescription: 'Heavyweight zinc-alloy vintage racer with high-torque pullback gear and real ribbed rubber tires.',
-    fullDescription: 'Built like the timeless metal toys of previous generations. Features opening twin doors, authentic racing livery with number decal, and an internal steel coil motor that speeds across marble floors or carpets on pull-back.',
-    features: [
-      'Heavy cast zinc-alloy body that survives drops',
-      'Grippy natural rubber tires',
-      'High-velocity steel spring pullback motor',
-      'Functional cockpit details and opening doors'
-    ],
-    materials: 'Zinc Alloy, ABS Chassis, High-Traction Rubber',
-    safetyNotes: 'Certified non-toxic paint. Free from small detachable screws.',
-    dimensions: '15cm x 6.5cm x 5cm',
-    isTrending: true
-  },
-  {
+    title: 'Kitchen Play Set',
+    slug: 'kitchen-play-set',
+    category: 'pretend-play',
+    categoryName: 'Pretend Play',
+    shortDescription: 'A toy kitchen with a stove, oven, and utensils.',
+    fullDescription: 'A toy kitchen in a window box. The pack shows a stove, an oven, and utensils.',
+    features: ['Toy stove and oven', 'Utensils pictured with the set', 'Window box'],
+  }),
+  item({
     id: 'ast-003',
-    title: 'Snuggle Bunny Plush Toy with Carrot',
-    slug: 'snuggle-bunny-plush-toy',
-    category: 'soft-dolls',
-    categoryName: 'Soft Dolls & Plush',
-    ageRange: '0-12m',
-    ageLabel: 'Ages 0+',
-    price: 1650,
-    originalPrice: 1950,
-    discountBadge: 'POPULAR',
-    badgeType: 'hot',
-    stock: 5,
-    inStock: true,
-    image: '/images/products/plush-bunny.png',
-    galleryImages: [
-      '/images/products/plush-bunny.png'
-    ],
-    shortDescription: '100% natural cotton knit bunny with floppy ears, embroidered face, and detachable knitted plush carrot.',
-    fullDescription: 'Designed specifically for sensitive infant skin. Stuffed with hypoallergenic poly-cluster fill that holds shape through repeated machine washes. Zero hard plastic buttons or beads ensures total peace of mind for newborn sleep.',
-    features: [
-      '100% organic cotton exterior',
-      'Embroidered sensory face (zero hard buttons)',
-      'Detachable miniature plush carrot',
-      'Machine washable on gentle cycle'
-    ],
-    materials: 'Pure Cotton Shell, Hypoallergenic Polyfiber Core',
-    safetyNotes: 'Safe for newborns from Day 1. Anti-choke certified.',
-    dimensions: '30cm full height',
-    isTrending: true
-  },
-  {
+    title: 'Web Shooter Glove Set',
+    slug: 'web-shooter-glove-set',
+    category: 'gadgets-music',
+    categoryName: 'Gadgets & Music',
+    shortDescription: 'A glove and wrist launcher set.',
+    fullDescription: 'A glove worn on the hand and a wrist launcher, packed together. The photos show the box and the pieces beside it.',
+    features: ['Glove and wrist launcher', 'Shown on a hand on the box', 'Window box'],
+  }),
+  item({
     id: 'ast-004',
-    title: 'Junior Explorer Watercolor Chest',
-    slug: 'junior-explorer-watercolor-chest',
-    category: 'arts-craft',
-    categoryName: 'Arts, Clay & Craft',
-    ageRange: '3-5y',
-    ageLabel: 'Ages 4+',
-    price: 2990,
-    originalPrice: 3490,
-    discountBadge: 'IN STORE COD',
-    badgeType: 'hot',
-    stock: 9,
-    inStock: true,
-    image: '/images/products/watercolor-chest.png',
-    galleryImages: [
-      '/images/products/watercolor-chest.png'
-    ],
-    shortDescription: 'Solid timber artist case containing 24 ultra-washable watercolor cakes, 4 natural pony hair brushes, palette and pad.',
-    fullDescription: 'Give young painters a genuine creative studio. Formulated with ultra-rich pigments that wipe clean off hands, tiles, and school uniforms with simple tap water. Heavy pine chest latches shut for travel or visits to grandparents.',
-    features: [
-      '24 vivid watercolor cakes in metal trays',
-      '4 fine natural bristles brushes',
-      'Solid pine suitcase with metal brass clasp',
-      'Washable formula safe on clothing and skin'
-    ],
-    materials: 'Pine Wood Case, Water-Soluble Pigments, Brass Fixtures',
-    safetyNotes: 'AP non-toxic certified according to ASTM D-4236.',
-    dimensions: '28cm x 20cm x 4.5cm',
-    isTrending: true
-  },
-  {
+    title: 'Mini Water Dispenser Toy',
+    slug: 'mini-water-dispenser-toy',
+    category: 'pretend-play',
+    categoryName: 'Pretend Play',
+    shortDescription: 'A small toy water dispenser in a window box.',
+    fullDescription: 'A compact toy water dispenser. One photo shows it out of the box, and the others show the pack.',
+    features: ['Small toy water dispenser', 'Shown in and out of the box'],
+  }),
+  item({
     id: 'ast-005',
-    title: 'Silicone Teething Ring & Soft Rattle Set',
-    slug: 'silicone-teething-ring-soft-rattle',
-    category: 'baby-toddler',
-    categoryName: 'Baby & Toddler',
-    ageRange: '0-12m',
-    ageLabel: '3–18 Months',
-    price: 1250,
-    originalPrice: 1550,
-    discountBadge: 'ESSENTIAL',
-    badgeType: 'new',
-    stock: 22,
-    inStock: true,
-    image: '/images/products/teether-ring.png',
-    galleryImages: [
-      '/images/products/teether-ring.png'
-    ],
-    shortDescription: 'Food-grade silicone beads intertwined with silky polished organic beechwood rings for sore gum relief.',
-    fullDescription: 'Engineered by pediatric specialists to massage inflamed gums during tooth eruptions. Double-strung on reinforced parachute cord that resists tugging or cutting.',
-    features: [
-      '100% Medical-grade silicone + Natural beechwood',
-      'Relieves teething soreness and chills well in fridge',
-      'Gentle natural wooden rattle click sound',
-      'Boil-safe silicone sections'
-    ],
-    materials: 'Food-Grade Silicone, Unvarnished Organic Beechwood',
-    safetyNotes: 'BPA, Phthalate, and PVC Free. Certified saliva resistant.',
-    dimensions: '12cm diameter',
-    isEarlyYears: true
-  },
-  {
+    title: 'Big Building Blocks Bag',
+    slug: 'big-building-blocks-bag',
+    category: 'building-blocks',
+    categoryName: 'Building Blocks',
+    shortDescription: 'Large colorful building blocks in a mesh storage bag.',
+    fullDescription: 'Large building blocks packed in a mesh bag. The photos show the bag from the front and from the side.',
+    features: ['Mesh storage bag', 'Large blocks', 'Several colors'],
+  }),
+  item({
     id: 'ast-006',
-    title: 'Musical Sensory Soft Activity Cube',
-    slug: 'musical-sensory-soft-activity-cube',
-    category: 'baby-toddler',
-    categoryName: 'Baby & Toddler',
-    ageRange: '0-12m',
-    ageLabel: '6–24 Months',
-    price: 2800,
-    originalPrice: 3200,
-    discountBadge: 'ONLY 3 LEFT',
-    badgeType: 'hot',
-    stock: 3,
-    inStock: true,
-    image: '/images/products/sensory-cube.png',
-    galleryImages: [
-      '/images/products/sensory-cube.png'
-    ],
-    shortDescription: '6-sided sensory exploration cube with crinkle leaves, peekaboo mirror, grasp ribbons, and gentle chime inside.',
-    fullDescription: 'Keeps toddlers absorbed in car seats or playmats. Soft plush texture with high-contrast patterns specially tuned to early infant optical development.',
-    features: [
-      'Baby-safe distortion-free mirror',
-      'Interior gentle rolling chime (no electronic batteries required!)',
-      'Tactile ribbon tags & silicone teether leaf',
-      'Loop fastener for stroller or crib attachment'
-    ],
-    materials: 'Micro-Velvet, Satin Ribbon, Cotton Padding',
-    safetyNotes: 'Shatter-proof reflective film mirror. Machine washable.',
-    dimensions: '16cm x 16cm x 16cm',
-    isEarlyYears: true
-  },
-  {
+    title: 'Crawling Baby Doll',
+    slug: 'crawling-baby-doll',
+    category: 'dolls-figures',
+    categoryName: 'Dolls & Figures',
+    shortDescription: 'A baby doll in pink packaging, shown on its hands and knees.',
+    fullDescription: 'A baby doll packed on its hands and knees. The open pack also shows a bottle and a small toy phone.',
+    features: ['Baby doll in a crawling pose', 'Bottle and toy phone pictured in the pack', 'Pink window box'],
+  }),
+  item({
     id: 'ast-007',
-    title: 'Solid Montessori Shape Sorter Box',
-    slug: 'solid-montessori-shape-sorter-box',
-    category: 'wooden-montessori',
-    categoryName: 'Wooden & Montessori',
-    ageRange: '1-3y',
-    ageLabel: '12–36 Months',
-    price: 2150,
-    originalPrice: 2500,
-    discountBadge: 'MONTESSORI PICK',
-    badgeType: 'sale',
-    stock: 15,
-    inStock: true,
-    image: '/images/products/shape-sorter.png',
-    galleryImages: [
-      '/images/products/shape-sorter.png'
-    ],
-    shortDescription: '5 chunky solid pine prisms with gentle chamfered corners and sliding recovery lid.',
-    fullDescription: 'A classic Montessori apparatus teaching object permanence and tactile geometry. Sized specifically to prevent choking while giving toddlers satisfying tactile clicks as shapes drop through matching cutouts.',
-    features: [
-      'Chunky wooden cylinder, cube, triangle, star, and hemisphere',
-      'Smooth sliding wooden recovery drawer',
-      'Non-toxic matte waterborne colors',
-      'Heavy solid pine structure'
-    ],
-    materials: 'Sustainably Farmed Solid Pine Timber',
-    safetyNotes: 'Large components exceed global anti-choke tube criteria.',
-    dimensions: '15cm x 15cm x 13cm',
-    isEarlyYears: true
-  },
-  {
+    title: 'Gatling Bubble Gun',
+    slug: 'gatling-bubble-gun',
+    category: 'bubble-water',
+    categoryName: 'Bubble & Water',
+    shortDescription: 'A multi-barrel bubble gun in a colorful box.',
+    fullDescription: 'A bubble gun with several barrels. The photos show the box and the gun held in a hand with bubbles.',
+    features: ['Multi-barrel bubble gun', 'Colorful window box'],
+  }),
+  item({
     id: 'ast-008',
-    title: 'Vintage Racing Alloy Coupe 1957',
-    slug: 'vintage-racing-alloy-coupe',
-    category: 'die-cast',
-    categoryName: 'Die-cast & Cars',
-    ageRange: '3-5y',
-    ageLabel: 'Ages 3+',
-    price: 1950,
-    originalPrice: 2400,
-    discountBadge: 'LIMITED',
-    badgeType: 'hot',
-    stock: 8,
-    inStock: true,
-    image: 'https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=600&auto=format&fit=crop&q=80',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=600&auto=format&fit=crop&q=80'
-    ],
-    shortDescription: '1:32 scale classic Le Mans road racer with die-cast alloy metal shell, working suspension, and opening hood.',
-    fullDescription: 'Every car enthusiast child in Pakistan falls in love with this retro grand tourer. Complete with detailed dashboard dials, chrome bumper trims, and pullback momentum drive.',
-    features: [
-      'Working front spring suspension',
-      'High-gloss automotive acrylic enamel finish',
-      'Detailed interior with steering wheel and gear shift',
-      'Fast pullback action'
-    ],
-    materials: 'Die-Cast Zinc Alloy, Polycarbonate Windshield',
-    safetyNotes: 'Smooth rounded edges, zero burrs.',
-    dimensions: '14cm x 6cm x 4.5cm'
-  },
-  {
+    title: 'Dancing Cactus Toy',
+    slug: 'dancing-cactus-toy',
+    category: 'gadgets-music',
+    categoryName: 'Gadgets & Music',
+    shortDescription: 'A cactus-shaped toy in a box, shown with a small remote.',
+    fullDescription: 'A cactus-shaped toy. The box shows it with a small remote and calls it a dancing cactus.',
+    features: ['Cactus-shaped toy', 'Small remote pictured on the box'],
+  }),
+  item({
     id: 'ast-009',
-    title: 'Organic Sensory Modeling Dough Bucket (6 Tubs)',
-    slug: 'organic-sensory-modeling-dough',
-    category: 'arts-craft',
-    categoryName: 'Arts, Clay & Craft',
-    ageRange: '1-3y',
-    ageLabel: 'Ages 2+',
-    price: 1750,
-    originalPrice: 2100,
-    discountBadge: 'NATURAL WAX',
-    badgeType: 'new',
-    stock: 19,
-    inStock: true,
-    image: 'https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=600&auto=format&fit=crop&q=80',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=600&auto=format&fit=crop&q=80'
-    ],
-    shortDescription: '6 airtight tubs of edible-grade wheat flour dough infused with soothing natural vanilla aroma.',
-    fullDescription: 'Forget salty, crumbly chemical doughs. This soft dough never dries out if kept in its tubs and does not stain Persian carpets or clothes. Packed with 4 wooden cutter stamps.',
-    features: [
-      '6 vibrant colors made from plant extracts',
-      'Includes 4 wooden impression stamps',
-      'Leaves zero residue on hands or tables',
-      '100% food-safe ingredients'
-    ],
-    materials: 'Organic Wheat Flour, Salt, Coconut Oil, Natural Food Coloring',
-    safetyNotes: 'Accidentally edible! Zero bitter artificial chemicals.',
-    dimensions: '6 x 120g tubs in storage bucket'
-  },
-  {
+    title: 'Duck Slide Track',
+    slug: 'duck-slide-track',
+    category: 'dolls-figures',
+    categoryName: 'Dolls & Figures',
+    shortDescription: 'A small slide track with duck figures.',
+    fullDescription: 'A slide track packed with duck figures. The photos show the front of the box and the track from other sides.',
+    features: ['Duck figures', 'Slide track', 'Window box'],
+  }),
+  item({
     id: 'ast-010',
-    title: 'Wooden Geometric Pattern Tangram Logic Board',
-    slug: 'wooden-tangram-logic-board',
-    category: 'puzzles-brains',
-    categoryName: 'Puzzles & Brain Games',
-    ageRange: '3-5y',
-    ageLabel: 'Ages 4+',
-    price: 1850,
-    originalPrice: 2200,
-    discountBadge: 'STEM CHOICE',
-    badgeType: 'sale',
-    stock: 11,
-    inStock: true,
-    image: 'https://images.unsplash.com/photo-1618842676088-c4d48a6a7c9d?w=600&auto=format&fit=crop&q=80',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1618842676088-c4d48a6a7c9d?w=600&auto=format&fit=crop&q=80'
-    ],
-    shortDescription: '36 smooth wooden puzzle blocks with 50 progressive challenge cards ranging from beginner animals to complex 3D illusions.',
-    fullDescription: 'Fosters intense focus and screen-free concentration. Kids arrange wooden polygon pieces inside a solid linden frame to reproduce silhouettes shown on flash cards.',
-    features: [
-      '36 precision laser-cut beech blocks',
-      '50 laminated challenge cards with solutions on reverse',
-      'Canvas drawstring pouch for neat cleanup',
-      'Develops visual-spatial acuity and geometric cognition'
-    ],
-    materials: 'Linden Wood, Soy Ink Prints, Cotton Storage Bag',
-    safetyNotes: 'Large pieces, water-based non-toxic lacquer.',
-    dimensions: '22cm x 22cm x 2cm'
-  },
-  {
+    title: 'Animal Water Dispenser',
+    slug: 'animal-water-dispenser',
+    category: 'pretend-play',
+    categoryName: 'Pretend Play',
+    shortDescription: 'A toy water dispenser with an animal face on the front.',
+    fullDescription: 'A toy water dispenser. The front of the pack shows an animal face, and the other photos show the box from the side and back.',
+    features: ['Toy water dispenser', 'Animal face on the front', 'Window box'],
+  }),
+  item({
     id: 'ast-011',
-    title: 'Little Ballerina Hand-Stitched Fabric Doll',
-    slug: 'little-ballerina-fabric-doll',
-    category: 'soft-dolls',
-    categoryName: 'Soft Dolls & Plush',
-    ageRange: '1-3y',
-    ageLabel: 'Ages 18m+',
-    price: 2300,
-    originalPrice: 2700,
-    discountBadge: 'HANDMADE',
-    badgeType: 'new',
-    stock: 7,
-    inStock: true,
-    image: 'https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=600&auto=format&fit=crop&q=80',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=600&auto=format&fit=crop&q=80'
-    ],
-    shortDescription: 'Hand-sewn linen doll with layered tulle tutu, embroidered smiling eyes, and soft yarn hair buns.',
-    fullDescription: 'A companion for tea parties and quiet bedtime storytelling. Soft yet durable enough to withstand being toted along on family visits across the country.',
-    features: [
-      'Natural linen and organic cotton muslin dress',
-      'Removable tulle tutu and velvet ballet slippers',
-      'Soft huggable filling that keeps shape',
-      'Gentle hand washable'
-    ],
-    materials: 'Linen, Cotton Muslin, Soft Tulle',
-    safetyNotes: 'No wires or sharp pins. Entirely stitched construction.',
-    dimensions: '36cm height'
-  },
-  {
+    title: 'Kitchen Water Dispenser',
+    slug: 'kitchen-water-dispenser',
+    category: 'pretend-play',
+    categoryName: 'Pretend Play',
+    shortDescription: 'A toy water dispenser styled like a small kitchen appliance.',
+    fullDescription: 'A toy water dispenser with a tap, packed like a small kitchen appliance. The photos show the box from four sides.',
+    features: ['Toy tap', 'Kitchen-style body', 'Window box'],
+  }),
+  item({
     id: 'ast-012',
-    title: 'Solid Beechwood Geometric Stacking Train',
-    slug: 'beechwood-geometric-stacking-train',
-    category: 'wooden-montessori',
-    categoryName: 'Wooden & Montessori',
-    ageRange: '1-3y',
-    ageLabel: 'Ages 18m+',
-    price: 2750,
-    originalPrice: 3200,
-    discountBadge: 'TOP RATED',
-    badgeType: 'hot',
-    stock: 10,
-    inStock: true,
-    image: 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=600&auto=format&fit=crop&q=80',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=600&auto=format&fit=crop&q=80'
-    ],
-    shortDescription: '18-piece modular locomotive with 2 rolling carriages and colorful interchangeable stacking pegs.',
-    fullDescription: 'Toddlers roll the train across rugs while experimenting with peg sorting and color rhythms. Thick wooden wheels roll silently on heavy carpet or tile floors.',
-    features: [
-      '3 detachable rolling train carts with brass couplers',
-      '15 chunky colorful blocks with center holes',
-      'Real rolling action with smooth rounded wooden axles',
-      'Durable construction meant to last generations'
-    ],
-    materials: 'High-Density Beechwood, Water-Based Non-Toxic Paint',
-    safetyNotes: 'All pegs are securely anchored and blunt.',
-    dimensions: '38cm x 8cm x 10cm'
-  }
+    title: 'Toy Flip Phone',
+    slug: 'toy-flip-phone',
+    category: 'gadgets-music',
+    categoryName: 'Gadgets & Music',
+    shortDescription: 'A flip-style toy phone in a blister pack.',
+    fullDescription: 'A toy phone that folds closed. The photos show the blister pack closed, open, and from the side.',
+    features: ['Flip-style toy phone', 'Blister pack'],
+  }),
+  item({
+    id: 'ast-013',
+    title: 'Friction Off-Road Vehicle',
+    slug: 'friction-off-road-vehicle',
+    category: 'vehicles',
+    categoryName: 'Vehicles',
+    shortDescription: 'An off-road toy vehicle in a window box.',
+    fullDescription: 'An off-road toy vehicle in a window box. The photos show the front of the pack and the truck from other sides.',
+    features: ['Off-road toy vehicle', 'Window box'],
+  }),
+  item({
+    id: 'ast-014',
+    title: 'Karaoke Speaker Set',
+    slug: 'karaoke-speaker-set',
+    category: 'gadgets-music',
+    categoryName: 'Gadgets & Music',
+    shortDescription: 'A toy speaker set shown with microphones.',
+    fullDescription: 'A toy speaker packed with microphones. The photos show the closed box and the speaker and microphones out of the box.',
+    features: ['Toy speaker', 'Microphones pictured with the set'],
+  }),
+  item({
+    id: 'ast-015',
+    title: 'Light and Music Car Set',
+    slug: 'light-music-car-set',
+    category: 'vehicles',
+    categoryName: 'Vehicles',
+    shortDescription: 'A toy car set in a window box, with lights and music on the pack.',
+    fullDescription: 'A toy car set in a window box. The pack shows lights and music. The photos are four sides of the same box.',
+    features: ['Toy car set', 'Lights and music shown on the pack', 'Window box'],
+  }),
+  item({
+    id: 'ast-016',
+    title: 'RC Flying Helicopter Toy',
+    slug: 'rc-flying-helicopter-toy',
+    category: 'vehicles',
+    categoryName: 'Vehicles',
+    shortDescription: 'A remote-control flying toy with a hand controller.',
+    fullDescription: 'A remote-control flying toy in a window box, with a hand controller pictured on the pack. Sold as an RC flying helicopter toy.',
+    features: ['Hand controller pictured on the box', 'Remote-control flying toy', 'Window box'],
+  }),
+  item({
+    id: 'ast-017',
+    title: 'Friction Construction Trucks',
+    slug: 'friction-construction-trucks',
+    category: 'vehicles',
+    categoryName: 'Vehicles',
+    shortDescription: 'Construction toy trucks in a window box.',
+    fullDescription: 'Construction toy trucks in a window box. The photos show the front of the pack and the trucks from other sides.',
+    features: ['Construction toy trucks', 'Window box'],
+  }),
+  item({
+    id: 'ast-018',
+    title: 'Water Bullet Gun',
+    slug: 'water-bullet-gun',
+    category: 'bubble-water',
+    categoryName: 'Bubble & Water',
+    shortDescription: 'A water bullet gun in a window box.',
+    fullDescription: 'A water bullet gun in a window box. The photos show the front of the pack and the gun from other sides.',
+    features: ['Water bullet gun', 'Window box'],
+  }),
+  item({
+    id: 'ast-019',
+    title: 'Dinosaur Figure Set',
+    slug: 'dinosaur-figure-set',
+    category: 'dolls-figures',
+    categoryName: 'Dolls & Figures',
+    shortDescription: 'Dinosaur figures in a mesh bag, packed in a window box.',
+    fullDescription: 'Dinosaur figures in a mesh bag. The photos show the bag inside the box and the bag on its own.',
+    features: ['Dinosaur figures', 'Mesh bag', 'Window box'],
+  }),
+  item({
+    id: 'ast-020',
+    title: 'Battery Bubble Gun',
+    slug: 'battery-bubble-gun',
+    category: 'bubble-water',
+    categoryName: 'Bubble & Water',
+    shortDescription: 'A bubble gun in a window box.',
+    fullDescription: 'A bubble gun in a window box. The photos show the front of the pack and the gun from other sides.',
+    features: ['Bubble gun', 'Window box'],
+  }),
+  item({
+    id: 'ast-021',
+    title: 'Mini Handheld Fan',
+    slug: 'mini-handheld-fan',
+    category: 'gadgets-music',
+    categoryName: 'Gadgets & Music',
+    shortDescription: 'A small handheld fan in a blister pack.',
+    fullDescription: 'A small fan made to hold in the hand. The photos show the blister pack from the front, back, and side.',
+    features: ['Handheld fan', 'Blister pack'],
+  }),
 ];
 
 export const PAKISTANI_CITIES = [

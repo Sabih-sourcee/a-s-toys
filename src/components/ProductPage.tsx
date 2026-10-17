@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Check, MessageCircle, ArrowLeft, ShoppingBag } from 'lucide-react';
 import { Product } from '../types';
 import { WhatsAppLink } from './WhatsAppLink';
 import { config } from '../config';
+import { productPhotoAlt } from '../lib/seo';
 
 interface ProductPageProps {
   product: Product;
@@ -13,6 +14,13 @@ interface ProductPageProps {
 
 export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, onBack, isAdded }) => {
   const [quantity, setQuantity] = useState(1);
+  const photos = [product.image, ...product.galleryImages.filter((src) => src && src !== product.image)];
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    setActive(0);
+    setQuantity(1);
+  }, [product.slug]);
+  const photoIndex = active >= 0 && active < photos.length ? active : 0;
   const out = !product.inStock || product.stock <= 0;
   const message =
     `Assalam-o-Alaikum! I want to order ${product.title} (Rs. ${product.price.toLocaleString('en-PK')}) from A&S Toys. Payment: COD.`;
@@ -29,14 +37,40 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
       </button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-2xl border border-[#EBE5DA] p-5 sm:p-8">
-        <img
-          src={product.image}
-          alt={product.title}
-          className="w-full aspect-square object-cover rounded-xl bg-[#F4EFE6]"
-        />
+        <div>
+          <img
+            src={photos[photoIndex]}
+            alt={productPhotoAlt(product.title, photoIndex)}
+            className="w-full aspect-square object-contain rounded-xl bg-[#F4EFE6]"
+          />
+          {photos.length > 1 && (
+            <div className="mt-3 flex gap-2" role="group" aria-label={`Photos of ${product.title}`}>
+              {photos.map((src, index) => {
+                const selected = index === photoIndex;
+                return (
+                  <button
+                    key={src}
+                    type="button"
+                    onClick={() => setActive(index)}
+                    aria-pressed={selected}
+                    aria-label={`Show photo ${index + 1} of ${photos.length}`}
+                    className={`w-16 h-16 rounded-lg border p-1 bg-[#F4EFE6] shrink-0 overflow-hidden cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#182232] focus-visible:outline-offset-2 ${
+                      selected
+                        ? 'border-[#182232] ring-2 ring-[#182232]/20'
+                        : 'border-[#EBE5DA] opacity-80 hover:opacity-100'
+                    }`}
+                  >
+                    <img src={src} alt="" className="w-full h-full object-contain" />
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
         <div>
           <p className="text-xs font-headline font-bold text-[#0F3D9C]">
-            {product.categoryName} · {product.ageLabel}
+            {product.categoryName}
+            {product.ageLabel ? ` · ${product.ageLabel}` : ''}
           </p>
           <h1 className="font-headline text-2xl sm:text-3xl font-bold text-[#211F1C] mt-2">
             {product.title}

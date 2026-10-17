@@ -319,7 +319,7 @@ export default function App() {
               products={PRODUCTS}
               onAddToCart={(p) => handleAddToCart(p, 1)}
               onQuickView={openProduct}
-              onExploreBabyToys={() => navigateToShop('baby-toddler')}
+              onExploreBabyToys={() => navigateToShop('pretend-play')}
               addedProductIds={recentlyAddedId ? [recentlyAddedId] : []}
             />
 

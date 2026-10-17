@@ -32,7 +32,7 @@ export const StoryTeaser: React.FC<StoryTeaserProps> = ({ onAboutClick, onShopCl
             <p className="font-body text-sm sm:text-base text-[#C8CFD8] leading-relaxed max-w-lg">
               A&amp;S Toys sells toys online from Karachi and delivers across Pakistan.
               Cash on delivery, WhatsApp video clips, and real product photos.
-              No brittle plastics. No fake reviews.
+              No fake reviews.
             </p>
             <div className="flex flex-wrap gap-3 pt-1">
               <button

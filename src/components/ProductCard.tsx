@@ -17,10 +17,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   isAdded = false,
 }) => {
   const isOutOfStock = !product.inStock || product.stock === 0;
-  const ageStamp = product.ageLabel.replace(/^Ages?\s*/i, 'AGE ');
+  const ageStamp = product.ageLabel
+    ? product.ageLabel.replace(/^Ages?\s*/i, 'AGE ')
+    : null;
   const materialHint = product.materials
     ? product.materials.split(/[,;\s]+/)[0].trim().slice(0, 18).toUpperCase()
     : null;
+  const stampLabel = isOutOfStock
+    ? 'OUT'
+    : ageStamp || product.categoryName.toUpperCase();
   const href = productPath(product.slug);
   const open = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -42,8 +47,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         />
 
         <span className="spec-stamp absolute top-2.5 left-2.5 z-10">
-          {isOutOfStock ? 'OUT' : ageStamp}
-          {materialHint && !isOutOfStock && (
+          {stampLabel}
+          {materialHint && !isOutOfStock && ageStamp && (
             <>
               <span aria-hidden="true">|</span>
               {materialHint}

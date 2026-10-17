@@ -10,12 +10,12 @@ interface CategoryRowProps {
 }
 
 const CARD_TAG: Record<string, string> = {
-  'soft-dolls': 'Soft goods',
-  'die-cast': 'Die-cast',
-  'wooden-montessori': 'Beechwood',
-  'arts-craft': 'Craft',
-  'puzzles-brains': 'STEM',
-  'baby-toddler': '0–2 yrs',
+  'building-blocks': 'Blocks',
+  'pretend-play': 'Pretend',
+  'dolls-figures': 'Figures',
+  vehicles: 'Vehicles',
+  'bubble-water': 'Outdoor',
+  'gadgets-music': 'Gadgets',
 };
 
 export const CategoryRow: React.FC<CategoryRowProps> = ({
@@ -28,10 +28,10 @@ export const CategoryRow: React.FC<CategoryRowProps> = ({
         <div className="flex items-baseline justify-between gap-4 mb-8">
           <div>
             <h2 className="font-headline text-[26px] sm:text-[32px] font-extrabold text-[#182232] tracking-[-0.03em]">
-              Shop by material &amp; age.
+              Shop by type.
             </h2>
             <p className="font-body text-sm text-[#5A6270] mt-1.5 max-w-md">
-              Six collections from a Karachi-based online store. Pick a build style and see everything in it.
+              {CATEGORIES.length} collections from a Karachi-based online store. Pick a type and see everything in it.
             </p>
           </div>
           <a

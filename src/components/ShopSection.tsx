@@ -54,7 +54,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
         const matchTitle = p.title.toLowerCase().includes(q);
         const matchCat = p.categoryName.toLowerCase().includes(q);
         const matchDesc = p.shortDescription.toLowerCase().includes(q);
-        const matchAge = p.ageLabel.toLowerCase().includes(q);
+        const matchAge = (p.ageLabel || '').toLowerCase().includes(q);
         if (!matchTitle && !matchCat && !matchDesc && !matchAge) return false;
       }
       return true;
@@ -72,6 +72,8 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
     setOnlyInStock(false);
     onSearchChange('');
   };
+
+  const showAgeFilters = products.some((product) => product.ageRange);
 
   const hasActiveFilters =
     selectedCategory !== 'all' ||
@@ -114,7 +116,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
             <Search aria-hidden="true" className="w-4 h-4 text-[#5A6270] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search beechwood, die-cast…"
+              placeholder="Search blocks, kitchen, vehicles…"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               className="w-full h-11 pl-10 pr-9 bg-[#EDE8DD] border-[1.5px] border-[#182232] rounded-[6px] text-xs sm:text-sm font-body text-[#182232] focus:border-[#E84A27] outline-none"
@@ -168,21 +170,23 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
 
       <div className="space-y-6">
         <div className="flex flex-wrap items-center justify-between gap-4 bg-[#EDE8DD] p-4 rounded-[6px] border border-[#DCD7CC]">
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="font-mono text-[10px] font-medium text-[#5A6270] tracking-[0.05em] uppercase mr-1 hidden sm:inline">
-              Shop by age
-            </span>
-            {AGE_FILTERS.map((age) => (
-              <button
-                key={age.value}
-                onClick={() => setSelectedAge(age.value)}
-                className={filterChip(selectedAge === age.value)}
-                id={`age-pill-${age.value}`}
-              >
-                {age.label}
-              </button>
-            ))}
-          </div>
+          {showAgeFilters && (
+            <div className="flex flex-wrap items-center gap-1.5">
+              <span className="font-mono text-[10px] font-medium text-[#5A6270] tracking-[0.05em] uppercase mr-1 hidden sm:inline">
+                Shop by age
+              </span>
+              {AGE_FILTERS.map((age) => (
+                <button
+                  key={age.value}
+                  onClick={() => setSelectedAge(age.value)}
+                  className={filterChip(selectedAge === age.value)}
+                  id={`age-pill-${age.value}`}
+                >
+                  {age.label}
+                </button>
+              ))}
+            </div>
+          )}
 
           <div className="flex items-center gap-3 ml-auto">
             <label className="flex items-center gap-2 cursor-pointer select-none text-xs font-headline font-bold text-[#182232]">
@@ -256,7 +260,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
               Nothing matches these filters
             </h3>
             <p className="font-body text-sm text-[#5A6270] mt-2 max-w-md mx-auto">
-              Clear age or category, or search a material — beechwood, die-cast, plush.
+              Clear the filters, or search for blocks, a kitchen set, or a vehicle.
             </p>
             <button
               onClick={handleResetFilters}
