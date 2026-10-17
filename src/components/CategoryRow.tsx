@@ -16,6 +16,7 @@ const CARD_TAG: Record<string, string> = {
   vehicles: 'Vehicles',
   'bubble-water': 'Outdoor',
   'gadgets-music': 'Gadgets',
+  games: 'Games',
 };
 
 export const CategoryRow: React.FC<CategoryRowProps> = ({

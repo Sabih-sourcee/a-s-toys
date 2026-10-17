@@ -5,6 +5,7 @@ interface SeoProps {
   title: string;
   description: string;
   path: string;
+  image?: string;
   jsonLd?: unknown;
 }
 
@@ -18,13 +19,24 @@ function upsertMeta(attr: 'name' | 'property', key: string, content: string) {
   el.content = content;
 }
 
-export function Seo({ title, description, path, jsonLd }: SeoProps) {
+function removeMeta(attr: 'name' | 'property', key: string) {
+  document.head.querySelector(`meta[${attr}="${key}"]`)?.remove();
+}
+
+function absoluteImage(src: string): string {
+  if (/^https?:\/\//i.test(src)) return src;
+  return `${config.siteUrl}${src.startsWith('/') ? src : `/${src}`}`;
+}
+
+export function Seo({ title, description, path, image, jsonLd }: SeoProps) {
   useEffect(() => {
     document.title = title;
     upsertMeta('name', 'description', description);
     upsertMeta('property', 'og:title', title);
     upsertMeta('property', 'og:description', description);
     upsertMeta('property', 'og:url', `${config.siteUrl}${path}`);
+    if (image) upsertMeta('property', 'og:image', absoluteImage(image));
+    else removeMeta('property', 'og:image');
 
     let canonical = document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) {
@@ -49,7 +61,7 @@ export function Seo({ title, description, path, jsonLd }: SeoProps) {
     } else {
       existing?.remove();
     }
-  }, [title, description, path, jsonLd]);
+  }, [title, description, path, image, jsonLd]);
 
   return null;
 }

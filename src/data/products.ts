@@ -5,7 +5,9 @@ import { Product, Category } from '../types';
  * Rebuild after edits so sitemap and prerendered pages update.
  *
  * Photos come from scripts/split-grids.mjs. Image 1 is the card.
- * galleryImages are angles 2–4. Do not commit the source grids.
+ * galleryImages are angles 2–4. Pass angles (1 to 4) when a product has
+ * fewer photos; the product page only renders the photos that exist.
+ * Do not commit the source grids.
  *
  * Product fields:
  * - id: unique, e.g. "ast-013"
@@ -38,7 +40,7 @@ import { Product, Category } from '../types';
  * Category item counts on the homepage are counted from PRODUCTS.
  */
 
-const photo = (slug: string, angle: 1 | 2 | 3 | 4) =>
+const photo = (slug: string, angle: number) =>
   `/images/products/${slug}-${angle}.webp`;
 
 function item(input: {
@@ -50,14 +52,16 @@ function item(input: {
   shortDescription: string;
   fullDescription: string;
   features: string[];
+  angles?: number;
 }): Product {
+  const { angles = 4, ...fields } = input;
   return {
-    ...input,
+    ...fields,
     price: 1200,
     stock: 10,
     inStock: true,
-    image: photo(input.slug, 1),
-    galleryImages: [photo(input.slug, 2), photo(input.slug, 3), photo(input.slug, 4)],
+    image: photo(fields.slug, 1),
+    galleryImages: Array.from({ length: Math.max(0, angles - 1) }, (_, index) => photo(fields.slug, index + 2)),
     materials: 'Plastic',
     safetyNotes: 'Check the box for the age grade.',
   };
@@ -105,6 +109,13 @@ export const CATEGORIES: Category[] = [
     slug: 'gadgets-music',
     description: 'A web shooter glove set, a dancing cactus, a toy phone, a karaoke set, and a mini fan.',
     image: photo('web-shooter-glove-set', 1),
+  },
+  {
+    id: 'games',
+    name: 'Games',
+    slug: 'games',
+    description: 'A tray game with turtle pieces and yellow balls.',
+    image: photo('hungry-turtle-game', 1),
   },
 ];
 
@@ -225,9 +236,9 @@ export const PRODUCTS: Product[] = [
     slug: 'toy-flip-phone',
     category: 'gadgets-music',
     categoryName: 'Gadgets & Music',
-    shortDescription: 'A flip-style toy phone in a blister pack.',
-    fullDescription: 'A toy phone that folds closed. The photos show the blister pack closed, open, and from the side.',
-    features: ['Flip-style toy phone', 'Blister pack'],
+    shortDescription: 'A flip-style toy phone shown with its box.',
+    fullDescription: 'A toy phone that folds open, shown with its box. The photos are four angles of the same set.',
+    features: ['Flip-style toy phone', 'Shown with its box'],
   }),
   item({
     id: 'ast-013',
@@ -245,9 +256,9 @@ export const PRODUCTS: Product[] = [
     slug: 'karaoke-speaker-set',
     category: 'gadgets-music',
     categoryName: 'Gadgets & Music',
-    shortDescription: 'A toy speaker set shown with microphones.',
-    fullDescription: 'A toy speaker packed with microphones. The photos show the closed box and the speaker and microphones out of the box.',
-    features: ['Toy speaker', 'Microphones pictured with the set'],
+    shortDescription: 'A toy speaker set with two microphones.',
+    fullDescription: 'A toy speaker with two microphones. The photos are four angles of the same set.',
+    features: ['Toy speaker', 'Two microphones'],
   }),
   item({
     id: 'ast-015',
@@ -305,9 +316,9 @@ export const PRODUCTS: Product[] = [
     slug: 'battery-bubble-gun',
     category: 'bubble-water',
     categoryName: 'Bubble & Water',
-    shortDescription: 'A bubble gun in a window box.',
-    fullDescription: 'A bubble gun in a window box. The photos show the front of the pack and the gun from other sides.',
-    features: ['Bubble gun', 'Window box'],
+    shortDescription: 'A bubble gun with bubble solution, in a window box.',
+    fullDescription: 'A bubble gun with a bottle of bubble solution, packed in a window box. The photos are four angles of the same set.',
+    features: ['Bubble gun', 'Bubble solution bottle', 'Window box'],
   }),
   item({
     id: 'ast-021',
@@ -318,6 +329,17 @@ export const PRODUCTS: Product[] = [
     shortDescription: 'A small handheld fan in a blister pack.',
     fullDescription: 'A small fan made to hold in the hand. The photos show the blister pack from the front, back, and side.',
     features: ['Handheld fan', 'Blister pack'],
+  }),
+  item({
+    id: 'ast-022',
+    title: 'Hungry Turtle Game',
+    slug: 'hungry-turtle-game',
+    category: 'games',
+    categoryName: 'Games',
+    shortDescription: 'A tray game with colorful turtle pieces and yellow balls.',
+    fullDescription: 'A green plastic tray with colorful turtle pieces around the edge and yellow balls in the middle. The photos are three angles of the same set.',
+    features: ['Turtle pieces', 'Yellow balls', 'Green tray'],
+    angles: 3,
   }),
 ];
 
