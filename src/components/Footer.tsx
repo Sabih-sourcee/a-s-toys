@@ -1,7 +1,8 @@
 import React from 'react';
-import { Mail, MapPin, MessageCircle, Phone, Truck } from 'lucide-react';
+import { Mail, MapPin, MessageCircle, Truck } from 'lucide-react';
 import { CATEGORIES } from '../data/products';
 import { BrandMark } from './BrandMark';
+import { ShopNumbers } from './ShopNumbers';
 import { WhatsAppLink } from './WhatsAppLink';
 import { categoryPath } from '../lib/router';
 import { config } from '../config';
@@ -20,8 +21,8 @@ export const Footer: React.FC<FooterProps> = ({
   return (
     <footer className="bg-[#182232] text-[#C8CFD8] pt-12 pb-8">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 pb-10 border-b border-[#F6F3EC]/15">
-          <div className="col-span-2 md:col-span-1 space-y-3">
+        <div className="grid min-w-0 grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12 pb-10 border-b border-[#F6F3EC]/15">
+          <div className="min-w-0 space-y-3">
             <h4 className="font-headline text-sm font-bold text-[#F6F3EC]">Quick links</h4>
             <ul className="space-y-2 text-sm font-body">
               <li>
@@ -56,7 +57,7 @@ export const Footer: React.FC<FooterProps> = ({
             </ul>
           </div>
 
-          <div className="space-y-3">
+          <div className="min-w-0 space-y-3">
             <h4 className="font-headline text-sm font-bold text-[#F6F3EC]">Collections</h4>
             <ul className="space-y-2 text-sm font-body">
               {CATEGORIES.map((cat) => (
@@ -76,13 +77,13 @@ export const Footer: React.FC<FooterProps> = ({
             </ul>
           </div>
 
-          <div className="space-y-3">
+          <div className="min-w-0 space-y-3">
             <h4 className="font-headline text-sm font-bold text-[#F6F3EC]">Follow us</h4>
             <ul className="space-y-2 text-sm font-body">
-              <li>
-                <WhatsAppLink className="inline-flex items-center gap-2 font-headline font-bold text-sm text-[#25D366] hover:text-[#F6F3EC] transition-colors">
-                  <MessageCircle aria-hidden="true" className="w-4 h-4" />
-                  WhatsApp {config.phone}
+              <li className="min-w-0">
+                <WhatsAppLink className="inline-flex max-w-full items-start gap-2 font-headline font-bold text-sm text-[#25D366] hover:text-[#F6F3EC] transition-colors">
+                  <MessageCircle aria-hidden="true" className="w-4 h-4 shrink-0 mt-0.5" />
+                  <span className="min-w-0 break-words">WhatsApp {config.whatsappPhone}</span>
                 </WhatsAppLink>
               </li>
               <li><span className="text-[#C8CFD8]/70">Instagram</span></li>
@@ -90,22 +91,21 @@ export const Footer: React.FC<FooterProps> = ({
             </ul>
           </div>
 
-          <div className="space-y-3">
+          <div className="min-w-0 space-y-3">
             <h4 className="font-headline text-sm font-bold text-[#F6F3EC]">Contact</h4>
-            <ul className="space-y-2.5 text-sm font-body">
-              {config.address ? (
-                <li className="flex items-start gap-2">
+            {config.address ? (
+              <ul className="space-y-2.5 text-sm font-body">
+                <li className="flex items-start gap-2 min-w-0">
                   <MapPin aria-hidden="true" className="w-4 h-4 text-[#E84A27] shrink-0 mt-0.5" />
-                  <span>{config.address}</span>
+                  <span className="min-w-0 break-words">{config.address}</span>
                 </li>
-              ) : null}
-              <li className="flex items-center gap-2">
-                <Phone aria-hidden="true" className="w-4 h-4 text-[#E84A27] shrink-0" />
-                <span>{config.phone}</span>
-              </li>
-              <li className="flex items-center gap-2">
+              </ul>
+            ) : null}
+            <ShopNumbers linkClassName="text-[#C8CFD8] hover:text-[#F6F3EC] transition-colors" />
+            <ul className="space-y-2.5 text-sm font-body">
+              <li className="flex items-center gap-2 min-w-0">
                 <Mail aria-hidden="true" className="w-4 h-4 text-[#E84A27] shrink-0" />
-                <a href={`mailto:${config.email}`} className="hover:text-[#F6F3EC] break-all">
+                <a href={`mailto:${config.email}`} className="min-w-0 break-all hover:text-[#F6F3EC]">
                   {config.email}
                 </a>
               </li>
@@ -114,13 +114,13 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
 
-        <div className="pt-8 flex flex-col sm:flex-row items-end sm:items-center justify-between gap-6">
-          <p className="text-xs text-[#C8CFD8]/70 order-2 sm:order-1 font-mono tracking-wider uppercase">
-            © {new Date().getFullYear()} A &amp; S Toys Pakistan
-          </p>
-          <div className="order-1 sm:order-2 self-end sm:self-auto opacity-95">
+        <div className="pt-8 flex flex-col items-start gap-5 lg:flex-row lg:items-center lg:justify-between">
+          <div className="order-1 lg:order-2 opacity-95">
             <BrandMark tone="on-dark" size="footer" />
           </div>
+          <p className="text-xs text-[#C8CFD8]/70 order-2 lg:order-1 font-mono tracking-wider uppercase">
+            © {new Date().getFullYear()} A &amp; S Toys Pakistan
+          </p>
         </div>
       </div>
     </footer>

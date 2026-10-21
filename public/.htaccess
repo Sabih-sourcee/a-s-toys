@@ -1,4 +1,5 @@
-# Hostinger Apache: serve prerendered files, then fall back to the SPA.
+# Hostinger Apache: serve existing files as-is (favicon.ico, icons, images),
+# then fall back to the SPA. /favicon.ico is a real file, so it is not rewritten.
 DirectoryIndex index.html
 
 <IfModule mod_rewrite.c>

@@ -96,12 +96,12 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
     }`;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12" id="shop-catalog">
+    <div className="max-w-7xl mx-auto min-w-0 px-4 sm:px-6 lg:px-8 py-8 sm:py-12" id="shop-catalog">
       <div className="border-[1.5px] border-[#182232] rounded-[6px] bg-[#F6F3EC] p-6 sm:p-8 mb-8 shadow-[0px_3px_0px_#182232]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <span className="spec-stamp mb-3">Catalog · Karachi</span>
-            <h1 className="font-headline text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#182232] tracking-[-0.03em] mt-3">
+            <h1 className="font-headline text-2xl sm:text-3xl wide:text-4xl font-extrabold text-[#182232] tracking-[-0.03em] mt-3">
               {selectedCategory === 'all'
                 ? 'All Toys Price in Karachi, Pakistan'
                 : `${CATEGORIES.find((cat) => cat.slug === selectedCategory)?.name || 'Toys'} Price in Karachi, Pakistan`}
@@ -134,7 +134,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-[#DCD7CC] flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <div className="mt-6 pt-6 border-t border-[#DCD7CC] flex w-full min-w-0 max-w-full items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
           <a
             href="/shop"
             onClick={(event) => {
@@ -241,9 +241,9 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
         </div>
 
         {filteredProducts.length > 0 ? (
-          <div className="blueprint-grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="blueprint-grid grid-cols-2 md:grid-cols-3 wide:grid-cols-4">
             {filteredProducts.map((product) => (
-              <div key={product.id} className="p-4 sm:p-5 bg-[#F6F3EC]">
+              <div key={product.id} className="p-2 sm:p-3 wide:p-5 bg-[#F6F3EC]">
                 <ProductCard
                   product={product}
                   onAddToCart={onAddToCart}

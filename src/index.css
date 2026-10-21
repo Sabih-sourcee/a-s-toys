@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 @theme {
+  /* Large desktop. Sits between xl (1280px) and 2xl (1536px). */
+  --breakpoint-wide: 90rem;
+
   --font-headline: "Plus Jakarta Sans", sans-serif;
   --font-body: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
@@ -42,6 +45,12 @@
   --border-hairline: 1px solid rgba(24, 34, 50, 0.14);
   --radius-block: 6px;
   --shadow-tactile: 0px 3px 0px #182232;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 body {

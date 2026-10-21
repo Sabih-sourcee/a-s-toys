@@ -148,7 +148,8 @@ export const OrderTrackerModal: React.FC<OrderTrackerModalProps> = ({
                 No parcel found for "{query}"
               </p>
               <p className="mt-1">
-                Check the order number or phone saved in this browser, or message us. Phone: {config.phone}.
+                Check the order number or phone saved in this browser, or message us. Call{' '}
+                <a href={`tel:${config.phoneTel}`} className="font-bold text-[#182232] underline">{config.phone}</a>.
               </p>
             </div>
           ) : (

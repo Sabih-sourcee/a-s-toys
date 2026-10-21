@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { config } from '../config';
+import { organizationJsonLd } from '../lib/seo';
 
 interface SeoProps {
   title: string;
@@ -49,6 +50,16 @@ export function Seo({ title, description, path, image, jsonLd }: SeoProps) {
     if (config.googleSiteVerification) {
       upsertMeta('name', 'google-site-verification', config.googleSiteVerification);
     }
+
+    const orgId = 'org-jsonld';
+    let orgScript = document.getElementById(orgId);
+    if (!orgScript) {
+      orgScript = document.createElement('script');
+      orgScript.id = orgId;
+      orgScript.setAttribute('type', 'application/ld+json');
+      document.head.appendChild(orgScript);
+    }
+    orgScript.textContent = JSON.stringify(organizationJsonLd(config.siteUrl)).replace(/</g, '\\u003c');
 
     const id = 'page-jsonld';
     const existing = document.getElementById(id);

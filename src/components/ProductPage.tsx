@@ -26,7 +26,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
     `Assalam-o-Alaikum! I want to order ${product.title} (Rs. ${product.price.toLocaleString('en-PK')}) from A&S Toys. Payment: COD.`;
 
   return (
-    <article className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12" id="product-page">
+    <article className="max-w-5xl mx-auto min-w-0 px-4 sm:px-6 py-8 sm:py-12" id="product-page">
       <button
         type="button"
         onClick={onBack}
@@ -36,7 +36,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
         Back to shop
       </button>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-2xl border border-[#EBE5DA] p-5 sm:p-8">
+      <div className="grid min-w-0 grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-2xl border border-[#EBE5DA] p-5 sm:p-8">
         <div>
           <img
             src={photos[photoIndex]}
@@ -44,7 +44,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
             className="w-full aspect-square object-contain rounded-xl bg-[#F4EFE6]"
           />
           {photos.length > 1 && (
-            <div className="mt-3 flex w-fit max-w-full gap-2" role="group" aria-label={`Photos of ${product.title}`}>
+            <div className="mt-3 flex w-full min-w-0 max-w-full gap-2 overflow-x-auto" role="group" aria-label={`Photos of ${product.title}`}>
               {photos.map((src, index) => {
                 const selected = index === photoIndex;
                 return (
@@ -145,7 +145,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
               id="product-whatsapp"
             >
               <MessageCircle className="w-4 h-4 fill-white" />
-              WhatsApp {config.phone}
+              <span className="min-w-0 break-words">WhatsApp {config.whatsappPhone}</span>
             </WhatsAppLink>
           </div>
           <p className="text-xs text-[#58554F] mt-3">Payment on the website is cash on delivery.</p>

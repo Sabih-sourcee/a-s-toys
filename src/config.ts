@@ -3,22 +3,41 @@
  * Defaults below ship live so WhatsApp / Formspree / contact work without a .env.
  */
 function env(key: keyof ImportMetaEnv, fallback = ''): string {
-  const value = import.meta.env[key];
+  const bag = import.meta.env;
+  const value = bag ? bag[key] : undefined;
   return typeof value === 'string' && value.trim() ? value.trim() : fallback;
 }
+
+/** Voice line. 0314 does not take calls, so every tel: link uses this. */
+export const CALL_TEL = '+923317676995';
+
+const WHATSAPP_NUMBER_DEFAULT = '923143814591';
+
+function whatsappDisplay(digits: string): string {
+  const local = digits.startsWith('92') ? `0${digits.slice(2)}` : digits;
+  if (local.length === 11) return `${local.slice(0, 4)} ${local.slice(4)}`;
+  return '0314 3814591';
+}
+
+const whatsappNumber = env('VITE_WHATSAPP_NUMBER', WHATSAPP_NUMBER_DEFAULT).replace(/\D/g, '') || WHATSAPP_NUMBER_DEFAULT;
 
 export const config = {
   siteUrl: env('VITE_SITE_URL', 'https://usmanitoys.com').replace(/\/$/, ''),
   siteName: 'A&S Toys',
-  /** Digits only, country code included, no plus. PK mobile 0314… → 92314… */
-  whatsappNumber: env('VITE_WHATSAPP_NUMBER', '923143814591').replace(/\D/g, ''),
+  /** Digits only, country code included, no plus. Default PK WhatsApp 0314… → 92314… */
+  whatsappNumber,
+  /** Local display for the WhatsApp line, e.g. 0314 3814591. */
+  whatsappPhone: whatsappDisplay(whatsappNumber),
   /** Formspree form id for checkout orders. */
   orderFormId: env('VITE_ORDER_FORM_ID', 'mrpejgyd'),
   /** Formspree form id for wholesale / Contact Us. */
   contactFormId: env('VITE_CONTACT_FORM_ID', 'xqpenkga'),
   /** Google Search Console HTML-tag verification content value. */
   googleSiteVerification: env('VITE_GOOGLE_SITE_VERIFICATION'),
-  phone: env('VITE_SHOP_PHONE', '0314 3814591'),
+  /** Call line shown in the footer, About, and Contact. Not the WhatsApp number. */
+  phone: env('VITE_SHOP_PHONE', '0331 7676995'),
+  /** E.164 target for every tel: link. */
+  phoneTel: CALL_TEL,
   /** Wholesale / brand inquiries only — not order auto-replies. */
   email: env('VITE_SHOP_EMAIL', 'atarehman@usmanitoys.com'),
   /** Optional. Hidden wherever it is empty. There is no walk-in address. */

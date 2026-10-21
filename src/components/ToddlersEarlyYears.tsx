@@ -23,7 +23,7 @@ export const ToddlersEarlyYears: React.FC<ToddlersEarlyYearsProps> = ({
   return (
     <section className="bg-[#EDE8DD]" id="toddlers">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-14 sm:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-8 lg:gap-14">
+        <div className="grid min-w-0 grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-8 lg:gap-14">
           <div className="flex flex-col gap-3 lg:sticky lg:top-24 lg:self-start">
             <span className="font-mono text-[11px] font-medium text-[#E84A27] tracking-[0.05em] uppercase">
               Pretend play
@@ -48,7 +48,7 @@ export const ToddlersEarlyYears: React.FC<ToddlersEarlyYearsProps> = ({
             </a>
           </div>
 
-          <div className="flex gap-0 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory border border-[#DCD7CC]">
+          <div className="flex min-w-0 max-w-full gap-0 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory border border-[#DCD7CC]">
             {earlyToys.map((toy) => {
               const isAdded = addedProductIds.includes(toy.id);
               const href = productPath(toy.slug);

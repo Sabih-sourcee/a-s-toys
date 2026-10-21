@@ -1,7 +1,8 @@
 import React from 'react';
 import { useForm, ValidationError } from '@formspree/react';
-import { Building2, CheckCircle2, Mail, MessageCircle, Phone } from 'lucide-react';
+import { Building2, CheckCircle2, Mail, MessageCircle } from 'lucide-react';
 import { config } from '../config';
+import { ShopNumbers } from './ShopNumbers';
 import { WhatsAppLink } from './WhatsAppLink';
 import { WHATSAPP_HELP_MESSAGE } from '../lib/whatsapp';
 
@@ -40,19 +41,17 @@ export const ContactView: React.FC = () => {
                 {config.email}
               </a>
             </li>
-            <li className="flex items-start gap-3">
-              <Phone className="w-4 h-4 text-[#E84A27] mt-0.5 shrink-0" aria-hidden="true" />
-              <span>{config.phone}</span>
-            </li>
           </ul>
+
+          <ShopNumbers linkClassName="hover:text-[#E84A27] transition-colors" />
 
           <WhatsAppLink
             message={WHATSAPP_HELP_MESSAGE}
-            className="inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-sm font-bold px-5 py-3 rounded-[6px] border-[1.5px] border-[#182232] shadow-[0px_3px_0px_#182232]"
+            className="inline-flex max-w-full flex-wrap items-center gap-2 bg-[#25D366] hover:bg-[#1EBE5D] text-white font-headline text-sm font-bold px-5 py-3 rounded-[6px] border-[1.5px] border-[#182232] shadow-[0px_3px_0px_#182232]"
             id="contact-whatsapp"
           >
-            <MessageCircle className="w-4 h-4 fill-white" aria-hidden="true" />
-            WhatsApp {config.phone}
+            <MessageCircle className="w-4 h-4 fill-white shrink-0" aria-hidden="true" />
+            <span className="min-w-0 break-words">WhatsApp {config.whatsappPhone}</span>
           </WhatsAppLink>
 
           <p className="text-xs text-[#5A6270]">
