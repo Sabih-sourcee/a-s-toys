@@ -13,7 +13,7 @@ const HEIGHT: Record<NonNullable<BrandMarkProps['size']>, string> = {
   md: 'h-12 sm:h-14',
   lg: 'h-16 sm:h-20',
   hero: 'h-20 sm:h-24',
-  footer: 'h-20 sm:h-28 lg:h-32',
+  footer: 'h-16 sm:h-24 lg:h-32',
 };
 
 /** A & S Toys logo mark — image from /images/logo.png */

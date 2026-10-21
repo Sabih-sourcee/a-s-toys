@@ -17,15 +17,16 @@ interface NavbarProps {
 }
 
 const SCROLL_THRESHOLD = 72;
-const NARROW_QUERY = '(width < 40rem)';
+/** Laptop and phone. Large desktops (1440px and up) keep the floating pill. */
+const COMPACT_QUERY = '(width < 90rem)';
 
-function useNarrowViewport(): boolean {
+function useCompactViewport(): boolean {
   const [matches, setMatches] = useState(() =>
-    typeof window !== 'undefined' ? window.matchMedia(NARROW_QUERY).matches : false
+    typeof window !== 'undefined' ? window.matchMedia(COMPACT_QUERY).matches : false
   );
 
   useEffect(() => {
-    const media = window.matchMedia(NARROW_QUERY);
+    const media = window.matchMedia(COMPACT_QUERY);
     const update = () => setMatches(media.matches);
     update();
     media.addEventListener('change', update);
@@ -48,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [manualOpen, setManualOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const isNarrow = useNarrowViewport();
+  const isCompact = useCompactViewport();
   const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const prefersReducedMotion = useMemo(
@@ -88,24 +89,22 @@ export const Navbar: React.FC<NavbarProps> = ({
     if (currentView !== 'shop') onNavigate('shop');
   };
 
-  return (
-    <>
-      <div className="fixed top-3 sm:top-4 inset-x-0 z-50 flex justify-center px-3 pointer-events-none">
-        {isNarrow ? (
-          <div className="pointer-events-auto w-full max-w-full min-w-0 rounded-[6px] border-[1.5px] border-[#182232] bg-[#F6F3EC] shadow-[0px_3px_0px_#182232] overflow-hidden">
-            <div className="flex items-center gap-1 px-2 py-1.5">
-              <a
-                href="/"
-                onClick={(event) => {
-                  event.preventDefault();
-                  goto(() => onNavigate('home'));
-                }}
-                className="mr-auto shrink min-w-0 pl-1 pr-1.5 cursor-pointer"
-                aria-label="A & S Toys home"
-                id="nav-brand-logo"
-              >
-                <BrandMark tone="on-light" size="md" />
-              </a>
+  if (isCompact) {
+    return (
+      <header className="sticky top-0 z-50 w-full border-b border-[#DCD7CC] bg-[#F6F3EC]">
+        <div className="mx-auto flex h-14 w-full max-w-[1200px] min-w-0 items-center gap-2 px-3 sm:px-4">
+          <a
+            href="/"
+            onClick={(event) => {
+              event.preventDefault();
+              goto(() => onNavigate('home'));
+            }}
+            className="mr-auto shrink min-w-0 cursor-pointer"
+            aria-label="A & S Toys home"
+            id="nav-brand-logo"
+          >
+            <BrandMark tone="on-light" size="sm" />
+          </a>
 
               <div className="flex shrink-0 items-center gap-1 border-l border-[#DCD7CC] pl-1">
                 <button
@@ -150,9 +149,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
             </div>
 
-            {showSearch && (
-              <div className="px-2 pb-1.5">
-                <div className="flex items-center bg-[#EDE8DD] border border-[#DCD7CC] rounded-[6px] px-3 h-11 w-full min-w-0">
+        {showSearch && (
+          <div className="border-t border-[#DCD7CC] px-3 py-2 sm:px-4">
+            <div className="mx-auto flex h-11 w-full max-w-[1200px] min-w-0 items-center rounded-[6px] border border-[#DCD7CC] bg-[#EDE8DD] px-3">
                   <Search aria-hidden="true" className="w-4 h-4 shrink-0 text-[#5A6270]" />
                   <input
                     type="text"
@@ -168,8 +167,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
             )}
 
-            {mobileMenuOpen && (
-              <nav id="nav-mobile-menu" className="border-t border-[#DCD7CC] px-1.5 py-1.5 flex flex-col" aria-label="Menu">
+        {mobileMenuOpen && (
+          <nav id="nav-mobile-menu" className="border-t border-[#DCD7CC] px-2 py-1.5 sm:px-4 flex flex-col max-w-[1200px] mx-auto w-full" aria-label="Menu">
                 {navLinks.map((link) => {
                   const Icon = link.icon;
                   return (
@@ -204,9 +203,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                   Track order
                 </button>
               </nav>
-            )}
-          </div>
-        ) : (
+        )}
+      </header>
+    );
+  }
+
+  return (
+    <>
+      <div className="fixed top-3 sm:top-4 inset-x-0 z-50 flex justify-center px-3 pointer-events-none">
         <motion.div
           layout
           transition={pillTransition}
@@ -344,7 +348,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </AnimatePresence>
         </motion.div>
-        )}
       </div>
     </>
   );

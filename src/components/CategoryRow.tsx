@@ -69,7 +69,10 @@ export const CategoryRow: React.FC<CategoryRowProps> = ({
                   className="absolute inset-0 w-full h-full object-cover"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-[#182232]/45" aria-hidden="true" />
+                <div
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#182232]/90 via-[#182232]/50 to-transparent sm:h-28"
+                  aria-hidden="true"
+                />
 
                 <span className="spec-stamp absolute top-3 left-3 z-10">
                   {tag}
@@ -77,7 +80,7 @@ export const CategoryRow: React.FC<CategoryRowProps> = ({
                   {PRODUCTS.filter((product) => product.category === cat.slug).length} PCS
                 </span>
 
-                <div className="absolute bottom-0 left-0 right-0 p-4 flex items-end justify-between gap-3">
+                <div className="absolute bottom-0 left-0 right-0 z-10 p-4 flex items-end justify-between gap-3">
                   <h3 className="font-headline text-lg sm:text-xl font-extrabold text-[#F6F3EC] leading-tight tracking-[-0.02em]">
                     {cat.name}
                   </h3>

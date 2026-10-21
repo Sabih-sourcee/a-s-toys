@@ -21,8 +21,8 @@ export const Footer: React.FC<FooterProps> = ({
   return (
     <footer className="bg-[#182232] text-[#C8CFD8] pt-12 pb-8">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-        <div className="grid min-w-0 grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 pb-10 border-b border-[#F6F3EC]/15">
-          <div className="col-span-2 md:col-span-1 min-w-0 space-y-3">
+        <div className="grid min-w-0 grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12 pb-10 border-b border-[#F6F3EC]/15">
+          <div className="min-w-0 space-y-3">
             <h4 className="font-headline text-sm font-bold text-[#F6F3EC]">Quick links</h4>
             <ul className="space-y-2 text-sm font-body">
               <li>
@@ -114,13 +114,13 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
 
-        <div className="pt-8 flex flex-col sm:flex-row items-end sm:items-center justify-between gap-6">
-          <p className="text-xs text-[#C8CFD8]/70 order-2 sm:order-1 font-mono tracking-wider uppercase">
-            © {new Date().getFullYear()} A &amp; S Toys Pakistan
-          </p>
-          <div className="order-1 sm:order-2 self-end sm:self-auto opacity-95">
+        <div className="pt-8 flex flex-col items-start gap-5 lg:flex-row lg:items-center lg:justify-between">
+          <div className="order-1 lg:order-2 opacity-95">
             <BrandMark tone="on-dark" size="footer" />
           </div>
+          <p className="text-xs text-[#C8CFD8]/70 order-2 lg:order-1 font-mono tracking-wider uppercase">
+            © {new Date().getFullYear()} A &amp; S Toys Pakistan
+          </p>
         </div>
       </div>
     </footer>

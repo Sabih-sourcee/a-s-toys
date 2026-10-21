@@ -289,9 +289,9 @@ export default function App() {
                   </button>
                 </div>
 
-                <div className="blueprint-grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                <div className="blueprint-grid grid-cols-2 md:grid-cols-3 wide:grid-cols-4">
                   {PRODUCTS.slice(0, 8).map((product) => (
-                    <div key={product.id} className="p-3 sm:p-4 bg-[#F6F3EC]">
+                    <div key={product.id} className="p-2 sm:p-3 wide:p-4 bg-[#F6F3EC]">
                       <ProductCard
                         product={product}
                         onAddToCart={(p) => handleAddToCart(p, 1)}
@@ -334,7 +334,7 @@ export default function App() {
         )}
 
         {(route.name === 'shop' || route.name === 'category') && (
-          <div className="pt-20 sm:pt-24">
+          <div className="wide:pt-24">
             <ShopSection
               products={PRODUCTS}
               onAddToCart={(p) => handleAddToCart(p, 1)}
@@ -349,13 +349,13 @@ export default function App() {
         )}
 
         {route.name === 'about' && (
-          <div className="pt-20 sm:pt-24">
+          <div className="wide:pt-24">
             <AboutView onShopClick={() => navigateToShop('all')} />
           </div>
         )}
 
         {route.name === 'contact' && (
-          <div className="pt-20 sm:pt-24">
+          <div className="wide:pt-24">
             <ContactView />
           </div>
         )}
