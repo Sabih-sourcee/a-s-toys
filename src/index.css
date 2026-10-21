@@ -271,6 +271,18 @@ summary:focus-visible,
   gap: 0.35em;
 }
 
+/* Keep currency amounts on one line so "Rs." never wraps by itself. */
+.money {
+  display: inline-block;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Checkout sheet primary action — clears the iOS home indicator. */
+.checkout-sticky-cta {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));
+}
+
 /* Blueprint product grid — exposed cell borders */
 .blueprint-grid {
   display: grid;
