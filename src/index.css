@@ -44,6 +44,12 @@
   --shadow-tactile: 0px 3px 0px #182232;
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--color-background);

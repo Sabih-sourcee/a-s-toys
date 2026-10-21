@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence, useMotionValueEvent, useScroll } from 'motion/react';
 import { ShoppingBag, Search, Truck, X, Menu, Home, Store, Info, Mail } from 'lucide-react';
 import { CartItem } from '../types';
@@ -17,6 +17,23 @@ interface NavbarProps {
 }
 
 const SCROLL_THRESHOLD = 72;
+const NARROW_QUERY = '(width < 40rem)';
+
+function useNarrowViewport(): boolean {
+  const [matches, setMatches] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia(NARROW_QUERY).matches : false
+  );
+
+  useEffect(() => {
+    const media = window.matchMedia(NARROW_QUERY);
+    const update = () => setMatches(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+
+  return matches;
+}
 
 export const Navbar: React.FC<NavbarProps> = ({
   cartItems,
@@ -30,6 +47,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [isScrolled, setIsScrolled] = useState(false);
   const [manualOpen, setManualOpen] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isNarrow = useNarrowViewport();
   const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const prefersReducedMotion = useMemo(
@@ -60,12 +79,134 @@ export const Navbar: React.FC<NavbarProps> = ({
   const goto = (fn: () => void) => {
     fn();
     setShowSearch(false);
+    setMobileMenuOpen(false);
     if (isScrolled) setManualOpen(false);
+  };
+
+  const onSearchInput = (value: string) => {
+    onSearchChange(value);
+    if (currentView !== 'shop') onNavigate('shop');
   };
 
   return (
     <>
       <div className="fixed top-3 sm:top-4 inset-x-0 z-50 flex justify-center px-3 pointer-events-none">
+        {isNarrow ? (
+          <div className="pointer-events-auto w-full max-w-full min-w-0 rounded-[6px] border-[1.5px] border-[#182232] bg-[#F6F3EC] shadow-[0px_3px_0px_#182232] overflow-hidden">
+            <div className="flex items-center gap-1 px-2 py-1.5">
+              <a
+                href="/"
+                onClick={(event) => {
+                  event.preventDefault();
+                  goto(() => onNavigate('home'));
+                }}
+                className="mr-auto shrink min-w-0 pl-1 pr-1.5 cursor-pointer"
+                aria-label="A & S Toys home"
+                id="nav-brand-logo"
+              >
+                <BrandMark tone="on-light" size="md" />
+              </a>
+
+              <div className="flex shrink-0 items-center gap-1 border-l border-[#DCD7CC] pl-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (showSearch) onSearchChange('');
+                    setShowSearch((open) => !open);
+                  }}
+                  className="w-11 h-11 shrink-0 rounded-[6px] bg-[#EDE8DD] text-[#5A6270] hover:text-[#182232] transition-colors cursor-pointer flex items-center justify-center"
+                  id="nav-search-trigger"
+                  aria-label={showSearch ? 'Close search' : 'Search'}
+                  aria-pressed={showSearch}
+                  aria-expanded={showSearch}
+                >
+                  {showSearch ? <X aria-hidden="true" className="w-4 h-4" /> : <Search aria-hidden="true" className="w-4 h-4" />}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setMobileMenuOpen((open) => !open)}
+                  className="w-11 h-11 shrink-0 rounded-[6px] bg-[#EDE8DD] text-[#5A6270] hover:text-[#182232] transition-colors cursor-pointer flex items-center justify-center"
+                  id="nav-menu-button"
+                  aria-label={mobileMenuOpen ? 'Close menu' : 'Menu'}
+                  aria-expanded={mobileMenuOpen}
+                  aria-controls="nav-mobile-menu"
+                >
+                  {mobileMenuOpen ? <X aria-hidden="true" className="w-4 h-4" /> : <Menu aria-hidden="true" className="w-5 h-5" />}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={onOpenCart}
+                  className="flex items-center gap-1.5 bg-[#E84A27] hover:translate-y-[2px] text-[#F6F3EC] pl-3 pr-2.5 h-11 rounded-[6px] border-[1.5px] border-[#182232] shadow-[0px_3px_0px_#182232] hover:shadow-[0px_1px_0px_#182232] transition-all cursor-pointer shrink-0"
+                  id="header-cart-button"
+                  aria-label={`Cart, ${totalCartCount} item${totalCartCount === 1 ? '' : 's'}`}
+                >
+                  <ShoppingBag aria-hidden="true" className="w-4 h-4" />
+                  <span aria-hidden="true" className="bg-[#182232] text-[#F6F3EC] text-[10px] font-mono font-medium tracking-wider rounded-[4px] w-5 h-5 flex items-center justify-center">
+                    {totalCartCount}
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            {showSearch && (
+              <div className="px-2 pb-1.5">
+                <div className="flex items-center bg-[#EDE8DD] border border-[#DCD7CC] rounded-[6px] px-3 h-11 w-full min-w-0">
+                  <Search aria-hidden="true" className="w-4 h-4 shrink-0 text-[#5A6270]" />
+                  <input
+                    type="text"
+                    placeholder="Search toys…"
+                    value={searchQuery}
+                    onChange={(event) => onSearchInput(event.target.value)}
+                    autoFocus
+                    aria-label="Search toys"
+                    className="w-full min-w-0 ml-2 text-xs font-body text-[#182232] bg-transparent outline-none"
+                    id="nav-search-input"
+                  />
+                </div>
+              </div>
+            )}
+
+            {mobileMenuOpen && (
+              <nav id="nav-mobile-menu" className="border-t border-[#DCD7CC] px-1.5 py-1.5 flex flex-col" aria-label="Menu">
+                {navLinks.map((link) => {
+                  const Icon = link.icon;
+                  return (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        goto(link.onClick);
+                      }}
+                      className={`px-3 min-h-[44px] rounded-[6px] font-headline text-sm font-bold transition-colors cursor-pointer inline-flex items-center gap-2 ${
+                        link.active
+                          ? 'bg-[#182232] text-[#F6F3EC]'
+                          : 'text-[#5A6270] hover:text-[#182232] hover:bg-[#EDE8DD]'
+                      }`}
+                      id={`nav-link-${link.label.toLowerCase()}`}
+                      aria-current={link.active ? 'page' : undefined}
+                    >
+                      <Icon aria-hidden="true" className="w-4 h-4" />
+                      {link.label}
+                    </a>
+                  );
+                })}
+                <button
+                  type="button"
+                  onClick={() => goto(onOpenTracker)}
+                  className="px-3 min-h-[44px] rounded-[6px] font-headline text-sm font-bold text-[#5A6270] hover:text-[#182232] hover:bg-[#EDE8DD] transition-colors inline-flex items-center gap-2 cursor-pointer text-left"
+                  id="nav-link-track"
+                  aria-label="Track order"
+                >
+                  <Truck aria-hidden="true" className="w-4 h-4" />
+                  Track order
+                </button>
+              </nav>
+            )}
+          </div>
+        ) : (
         <motion.div
           layout
           transition={pillTransition}
@@ -119,36 +260,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                     onClick={() => goto(onOpenTracker)}
                     className="px-3 py-2.5 rounded-[6px] text-[#5A6270] hover:text-[#182232] hover:bg-[#EDE8DD] transition-colors flex items-center gap-1.5 cursor-pointer min-h-[44px]"
                     id="nav-link-track"
-                    aria-label="Track order"
-                  >
-                    <Truck aria-hidden="true" className="w-4 h-4" />
-                  </button>
-                </div>
-
-                <div className="flex sm:hidden items-center gap-0.5 border-l border-[#DCD7CC] pl-1">
-                  {navLinks.map((link) => {
-                    const Icon = link.icon;
-                    return (
-                      <a
-                        key={link.label}
-                        href={link.href}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          goto(link.onClick);
-                        }}
-                        className={`w-11 h-11 rounded-[6px] flex items-center justify-center transition-colors cursor-pointer ${
-                          link.active ? 'bg-[#182232] text-[#F6F3EC]' : 'text-[#5A6270] hover:bg-[#EDE8DD]'
-                        }`}
-                        aria-label={link.label}
-                        aria-current={link.active ? 'page' : undefined}
-                      >
-                        <Icon aria-hidden="true" className="w-4 h-4" />
-                      </a>
-                    );
-                  })}
-                  <button
-                    onClick={() => goto(onOpenTracker)}
-                    className="w-11 h-11 rounded-[6px] flex items-center justify-center text-[#5A6270] hover:bg-[#EDE8DD] transition-colors cursor-pointer"
                     aria-label="Track order"
                   >
                     <Truck aria-hidden="true" className="w-4 h-4" />
@@ -233,6 +344,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </AnimatePresence>
         </motion.div>
+        )}
       </div>
     </>
   );

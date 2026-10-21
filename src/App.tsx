@@ -208,13 +208,13 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F6F3EC] text-[#182232] flex flex-col font-body antialiased selection:bg-[#182232] selection:text-white">
+    <div className="min-h-screen min-w-0 bg-[#F6F3EC] text-[#182232] flex flex-col font-body antialiased selection:bg-[#182232] selection:text-white">
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-[#182232] text-white px-5 py-2.5 rounded-[6px] shadow-[0px_3px_0px_#182232] flex items-center gap-2 text-xs sm:text-sm font-headline font-bold animate-in fade-in slide-in-from-bottom-3 duration-200">
+        <div className="fixed bottom-20 left-1/2 z-50 flex w-max max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-2 rounded-[6px] bg-[#182232] px-5 py-2.5 text-xs font-headline font-bold text-white shadow-[0px_3px_0px_#182232] animate-in fade-in slide-in-from-bottom-3 duration-200 sm:text-sm">
           <Check className="w-4 h-4 text-[#E84A27] stroke-2" />
-          <span>{toastMessage}</span>
+          <span className="min-w-0">{toastMessage}</span>
           <button
             onClick={() => setIsCartOpen(true)}
             className="ml-2 underline text-[#E84A27] hover:text-white"
@@ -253,7 +253,7 @@ export default function App() {
       />
 
       {/* View Content */}
-      <main className="flex-1">
+      <main className="min-w-0 flex-1">
         {route.name === 'home' && (
           <>
             <Hero

@@ -96,7 +96,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
     }`;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12" id="shop-catalog">
+    <div className="max-w-7xl mx-auto min-w-0 px-4 sm:px-6 lg:px-8 py-8 sm:py-12" id="shop-catalog">
       <div className="border-[1.5px] border-[#182232] rounded-[6px] bg-[#F6F3EC] p-6 sm:p-8 mb-8 shadow-[0px_3px_0px_#182232]">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
@@ -134,7 +134,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-[#DCD7CC] flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <div className="mt-6 pt-6 border-t border-[#DCD7CC] flex w-full min-w-0 max-w-full items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
           <a
             href="/shop"
             onClick={(event) => {
