@@ -145,7 +145,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
               id="product-whatsapp"
             >
               <MessageCircle className="w-4 h-4 fill-white" />
-              WhatsApp {config.phone}
+              <span className="min-w-0 break-words">WhatsApp {config.whatsappPhone}</span>
             </WhatsAppLink>
           </div>
           <p className="text-xs text-[#58554F] mt-3">Payment on the website is cash on delivery.</p>

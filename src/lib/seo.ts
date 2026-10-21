@@ -1,3 +1,4 @@
+import { config } from '../config';
 import { Product } from '../types';
 
 export const BRAND = 'A&S Toys';
@@ -54,6 +55,25 @@ export function productJsonLd(product: Product, siteUrl: string) {
       availability: product.inStock && product.stock > 0
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
+      seller: {
+        '@type': 'Organization',
+        name: BRAND,
+        telephone: config.phoneTel,
+        url: siteUrl,
+      },
     },
+  };
+}
+
+/** Store details for every page. telephone is the call line, never WhatsApp. */
+export function organizationJsonLd(siteUrl: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: BRAND,
+    url: siteUrl,
+    logo: absoluteAsset(siteUrl, '/favicon-512x512.png'),
+    telephone: config.phoneTel,
+    email: config.email,
   };
 }

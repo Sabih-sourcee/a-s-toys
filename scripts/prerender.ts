@@ -2,11 +2,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { loadEnv } from 'vite';
 import { CATEGORIES, PRODUCTS } from '../src/data/products';
+import { config } from '../src/config';
 import {
   HOME_DESCRIPTION,
   HOME_TITLE,
   categoryDescription,
   categoryTitle,
+  organizationJsonLd,
   productDescription,
   productJsonLd,
   productPhotoAlt,
@@ -16,7 +18,10 @@ import {
 const env = loadEnv('production', process.cwd(), '');
 const siteUrl = (env.VITE_SITE_URL || 'https://usmanitoys.com').replace(/\/$/, '');
 const verification = env.VITE_GOOGLE_SITE_VERIFICATION || '';
-const phone = env.VITE_SHOP_PHONE || 'TODO: shop phone';
+const phone = env.VITE_SHOP_PHONE || config.phone;
+const phoneTel = config.phoneTel;
+const whatsappPhone = config.whatsappPhone;
+const whatsappUrl = `https://wa.me/${config.whatsappNumber}`;
 const address = env.VITE_SHOP_ADDRESS || 'TODO: shop address';
 const exchangePolicy = env.VITE_EXCHANGE_POLICY || 'TODO: 7-day exchange policy';
 const deliveryCharges = env.VITE_DELIVERY_CHARGES || 'TODO: delivery charges';
@@ -57,6 +62,7 @@ function render(opts: { title: string; description: string; urlPath: string; bod
     `<meta property="og:url" content="${esc(canonicalHref)}" />`,
     image ? `<meta property="og:image" content="${esc(image)}" />` : '',
     verification ? `<meta name="google-site-verification" content="${esc(verification)}" />` : '',
+    `<script type="application/ld+json">${JSON.stringify(organizationJsonLd(siteUrl)).replace(/</g, '\\u003c')}</script>`,
     opts.jsonLd
       ? `<script type="application/ld+json">${JSON.stringify(opts.jsonLd).replace(/</g, '\\u003c')}</script>`
       : '',
@@ -82,7 +88,8 @@ function productList(products: typeof PRODUCTS): string {
 }
 
 const trust = `<ul>
-  <li>Phone: ${esc(phone)}</li>
+  <li>Call: <a href="tel:${esc(phoneTel)}">${esc(phone)}</a></li>
+  <li>WhatsApp: <a href="${esc(whatsappUrl)}">${esc(whatsappPhone)}</a></li>
   <li>Address: ${esc(address)}</li>
   <li>7-day exchange: ${esc(exchangePolicy)}</li>
   <li>Delivery charges: ${esc(deliveryCharges)}</li>
