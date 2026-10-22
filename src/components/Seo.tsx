@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { config } from '../config';
-import { organizationJsonLd } from '../lib/seo';
+import { absolutePageUrl, organizationJsonLd } from '../lib/seo';
 
 interface SeoProps {
   title: string;
@@ -35,7 +35,8 @@ export function Seo({ title, description, path, image, jsonLd }: SeoProps) {
     upsertMeta('name', 'description', description);
     upsertMeta('property', 'og:title', title);
     upsertMeta('property', 'og:description', description);
-    upsertMeta('property', 'og:url', `${config.siteUrl}${path}`);
+    const pageUrl = absolutePageUrl(config.siteUrl, path);
+    upsertMeta('property', 'og:url', pageUrl);
     if (image) upsertMeta('property', 'og:image', absoluteImage(image));
     else removeMeta('property', 'og:image');
 
@@ -45,7 +46,7 @@ export function Seo({ title, description, path, image, jsonLd }: SeoProps) {
       canonical.rel = 'canonical';
       document.head.appendChild(canonical);
     }
-    canonical.href = `${config.siteUrl}${path}`;
+    canonical.href = pageUrl;
 
     if (config.googleSiteVerification) {
       upsertMeta('name', 'google-site-verification', config.googleSiteVerification);
