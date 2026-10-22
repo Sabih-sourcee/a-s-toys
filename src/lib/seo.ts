@@ -37,24 +37,82 @@ function absoluteAsset(siteUrl: string, src: string): string {
   return `${siteUrl}${src.startsWith('/') ? src : `/${src}`}`;
 }
 
+/** Flat delivery charge. Free delivery over Rs 3,500 is a cart rule; Google only accepts a MonetaryAmount here. */
+function shippingRateValue(): number {
+  const raw = config.deliveryCharges.trim();
+  const parsed = Number(raw.replace(/[^0-9.]/g, ''));
+  if (!raw || /^todo\b/i.test(raw) || !Number.isFinite(parsed) || parsed < 0) return 250;
+  return parsed;
+}
+
+function priceValidUntil(now = new Date()): string {
+  const valid = new Date(Date.UTC(now.getUTCFullYear() + 1, now.getUTCMonth(), now.getUTCDate()));
+  return valid.toISOString().slice(0, 10);
+}
+
+function merchantReturnPolicy() {
+  return {
+    '@type': 'MerchantReturnPolicy',
+    applicableCountry: 'PK',
+    returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+    merchantReturnDays: 7,
+    returnMethod: 'https://schema.org/ReturnByMail',
+    returnFees: 'https://schema.org/FreeReturn',
+  };
+}
+
+function offerShippingDetails() {
+  return {
+    '@type': 'OfferShippingDetails',
+    shippingDestination: {
+      '@type': 'DefinedRegion',
+      addressCountry: 'PK',
+    },
+    shippingRate: {
+      '@type': 'MonetaryAmount',
+      value: shippingRateValue(),
+      currency: 'PKR',
+    },
+    deliveryTime: {
+      '@type': 'ShippingDeliveryTime',
+      handlingTime: {
+        '@type': 'QuantitativeValue',
+        minValue: 0,
+        maxValue: 1,
+        unitCode: 'DAY',
+      },
+      transitTime: {
+        '@type': 'QuantitativeValue',
+        minValue: 1,
+        maxValue: 5,
+        unitCode: 'DAY',
+      },
+    },
+  };
+}
+
 export function productJsonLd(product: Product, siteUrl: string) {
   const photos = [product.image, ...product.galleryImages.filter((src) => src !== product.image)];
+  const description = product.shortDescription || product.fullDescription;
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.title,
-    description: product.shortDescription,
+    description,
     image: photos.map((src) => absoluteAsset(siteUrl, src)),
-    sku: product.id,
+    ...(product.id ? { sku: product.id } : {}),
     brand: { '@type': 'Brand', name: BRAND },
     offers: {
       '@type': 'Offer',
       url: `${siteUrl}/products/${product.slug}`,
       priceCurrency: 'PKR',
       price: String(product.price),
+      priceValidUntil: priceValidUntil(),
       availability: product.inStock && product.stock > 0
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
+      shippingDetails: offerShippingDetails(),
+      hasMerchantReturnPolicy: merchantReturnPolicy(),
       seller: {
         '@type': 'Organization',
         name: BRAND,
@@ -75,5 +133,6 @@ export function organizationJsonLd(siteUrl: string) {
     logo: absoluteAsset(siteUrl, '/favicon-512x512.png'),
     telephone: config.phoneTel,
     email: config.email,
+    hasMerchantReturnPolicy: merchantReturnPolicy(),
   };
 }
