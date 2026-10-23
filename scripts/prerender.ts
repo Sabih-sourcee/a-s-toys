@@ -6,6 +6,8 @@ import { config } from '../src/config';
 import {
   HOME_DESCRIPTION,
   HOME_TITLE,
+  absolutePageUrl,
+  canonicalPath,
   categoryDescription,
   categoryTitle,
   organizationJsonLd,
@@ -37,8 +39,7 @@ function esc(value: string): string {
 }
 
 function render(opts: { title: string; description: string; urlPath: string; body: string; image?: string; jsonLd?: unknown }): string {
-  const canonical = `${siteUrl}${opts.urlPath === '/' ? '' : opts.urlPath}` || siteUrl;
-  const canonicalHref = opts.urlPath === '/' ? `${siteUrl}/` : `${siteUrl}${opts.urlPath}`;
+  const canonicalHref = absolutePageUrl(siteUrl, opts.urlPath);
   let html = template;
   html = html.replace(/<title>[\s\S]*?<\/title>/, `<title>${esc(opts.title)}</title>`);
   html = html.replace(
@@ -70,12 +71,12 @@ function render(opts: { title: string; description: string; urlPath: string; bod
 
   html = html.replace('</head>', `    ${head}\n  </head>`);
   html = html.replace('<div id="root"></div>', `<div id="root">${opts.body}</div>`);
-  void canonical;
   return html;
 }
 
 function writePage(urlPath: string, html: string) {
-  const rel = urlPath === '/' ? 'index.html' : path.join(urlPath.replace(/^\//, ''), 'index.html');
+  const canon = canonicalPath(urlPath);
+  const rel = canon === '/' ? 'index.html' : path.join(canon.replace(/^\//, ''), 'index.html');
   const file = path.join(dist, rel);
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, html);
@@ -146,9 +147,17 @@ const urls = [
   ...PRODUCTS.map((product) => `/products/${product.slug}`),
 ];
 
+const notFound = render({
+  title: 'Page not found | A&S Toys',
+  description: 'That page is not on A&S Toys.',
+  urlPath: '/404.html',
+  body: '<main><h1>Page not found</h1><p><a href="/">Back home</a></p></main>',
+}).replace('</head>', '    <meta name="robots" content="noindex" />\n  </head>');
+fs.writeFileSync(path.join(dist, '404.html'), notFound);
+
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((urlPath) => `  <url><loc>${siteUrl}${urlPath === '/' ? '/' : urlPath}</loc></url>`).join('\n')}
+${urls.map((urlPath) => `  <url><loc>${absolutePageUrl(siteUrl, urlPath)}</loc></url>`).join('\n')}
 </urlset>
 `;
 fs.writeFileSync(path.join(dist, 'sitemap.xml'), sitemap);
@@ -159,4 +168,4 @@ if (fs.existsSync(htaccess)) {
   fs.copyFileSync(htaccess, path.join(dist, '.htaccess'));
 }
 
-console.log(`Prerendered ${urls.length} routes, sitemap.xml, robots.txt, .htaccess`);
+console.log(`Prerendered ${urls.length} routes, 404.html, sitemap.xml, robots.txt, .htaccess`);

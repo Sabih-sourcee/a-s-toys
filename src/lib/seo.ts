@@ -32,9 +32,24 @@ export function productPhotoAlt(title: string, index: number): string {
   return `${title}, angle ${index + 1}`;
 }
 
+/** Path with no trailing slash. The homepage stays "/". */
+export function canonicalPath(path: string): string {
+  const withLeading = path.startsWith('/') ? path : `/${path}`;
+  if (withLeading === '/') return '/';
+  return withLeading.replace(/\/+$/, '') || '/';
+}
+
+/** Absolute page URL. Root is https://host/; every other path has no trailing slash. */
+export function absolutePageUrl(siteUrl: string, path: string): string {
+  const origin = siteUrl.replace(/\/+$/, '');
+  const canon = canonicalPath(path);
+  return canon === '/' ? `${origin}/` : `${origin}${canon}`;
+}
+
 function absoluteAsset(siteUrl: string, src: string): string {
+  const origin = siteUrl.replace(/\/+$/, '');
   if (/^https?:\/\//i.test(src)) return src;
-  return `${siteUrl}${src.startsWith('/') ? src : `/${src}`}`;
+  return `${origin}${src.startsWith('/') ? src : `/${src}`}`;
 }
 
 /** Flat delivery charge. Free delivery over Rs 3,500 is a cart rule; Google only accepts a MonetaryAmount here. */
@@ -104,7 +119,7 @@ export function productJsonLd(product: Product, siteUrl: string) {
     brand: { '@type': 'Brand', name: BRAND },
     offers: {
       '@type': 'Offer',
-      url: `${siteUrl}/products/${product.slug}`,
+      url: absolutePageUrl(siteUrl, `/products/${product.slug}`),
       priceCurrency: 'PKR',
       price: String(product.price),
       priceValidUntil: priceValidUntil(),
@@ -117,7 +132,7 @@ export function productJsonLd(product: Product, siteUrl: string) {
         '@type': 'Organization',
         name: BRAND,
         telephone: config.phoneTel,
-        url: siteUrl,
+        url: absolutePageUrl(siteUrl, '/'),
       },
     },
   };
@@ -129,7 +144,7 @@ export function organizationJsonLd(siteUrl: string) {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: BRAND,
-    url: siteUrl,
+    url: absolutePageUrl(siteUrl, '/'),
     logo: absoluteAsset(siteUrl, '/favicon-512x512.png'),
     telephone: config.phoneTel,
     email: config.email,

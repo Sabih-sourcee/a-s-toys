@@ -9,8 +9,14 @@ export type AppRoute =
   | { name: 'product'; slug: string }
   | { name: 'notfound' };
 
+/** Address-bar path. Homepage stays "/"; every other path drops trailing slashes. */
+export function canonicalPath(pathname: string): string {
+  if (!pathname || pathname === '/') return '/';
+  return pathname.replace(/\/+$/, '') || '/';
+}
+
 export function parseRoute(pathname: string): AppRoute {
-  const path = pathname.replace(/\/+$/, '') || '/';
+  const path = canonicalPath(pathname);
   if (path === '/') return { name: 'home' };
   if (path === '/shop') return { name: 'shop' };
   if (path === '/about') return { name: 'about' };
@@ -23,26 +29,37 @@ export function parseRoute(pathname: string): AppRoute {
 }
 
 export function categoryPath(slug: string): string {
-  return slug === 'all' ? '/shop' : `/category/${slug}`;
+  const clean = slug.replace(/^\/+|\/+$/g, '');
+  return clean === 'all' ? '/shop' : `/category/${clean}`;
 }
 
 export function productPath(slug: string): string {
-  return `/products/${slug}`;
+  return `/products/${slug.replace(/^\/+|\/+$/g, '')}`;
 }
 
 export function useRoute() {
-  const [pathname, setPathname] = useState(() => window.location.pathname);
+  const [pathname, setPathname] = useState(() => canonicalPath(window.location.pathname));
 
   useEffect(() => {
-    const sync = () => setPathname(window.location.pathname);
+    const sync = () => {
+      const raw = window.location.pathname;
+      const next = canonicalPath(raw);
+      if (next !== raw) {
+        const search = window.location.search;
+        const hash = window.location.hash;
+        window.history.replaceState(window.history.state, '', `${next}${search}${hash}`);
+      }
+      setPathname(next);
+    };
+    sync();
     window.addEventListener('popstate', sync);
     return () => window.removeEventListener('popstate', sync);
   }, []);
 
   const navigate = (to: string) => {
     const url = new URL(to, window.location.origin);
-    const next = url.pathname + url.search;
-    const current = window.location.pathname + window.location.search;
+    const next = canonicalPath(url.pathname) + url.search;
+    const current = canonicalPath(window.location.pathname) + window.location.search;
     if (next !== current) {
       window.history.pushState({}, '', next);
       window.dispatchEvent(new PopStateEvent('popstate'));
