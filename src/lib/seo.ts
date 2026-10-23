@@ -22,7 +22,7 @@ export function categoryDescription(name: string, blurb: string): string {
   return text.length > 160 ? `${text.slice(0, 157)}...` : text;
 }
 
-export const HOME_TITLE = `Toy Prices in Karachi, Pakistan | ${BRAND}`;
+export const HOME_TITLE = 'A & S Toys | Toy Prices in Karachi, Pakistan';
 export const HOME_DESCRIPTION =
   'Toy prices in Karachi, Pakistan from A&S Toys, an online toy store with nationwide delivery. Browse building blocks, pretend play, vehicles, and more.';
 
@@ -140,14 +140,21 @@ export function productJsonLd(product: Product, siteUrl: string) {
 
 /** Store details for every page. telephone is the call line, never WhatsApp. */
 export function organizationJsonLd(siteUrl: string) {
+  const origin = siteUrl.replace(/\/+$/, '');
   return {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: BRAND,
-    url: absolutePageUrl(siteUrl, '/'),
-    logo: absoluteAsset(siteUrl, '/favicon-512x512.png'),
-    telephone: config.phoneTel,
+    '@type': ['Organization', 'LocalBusiness'],
+    name: 'A & S Toys',
+    alternateName: ['A&S Toys', 'AS Toys', 'Usmani Toys'],
+    url: origin,
+    logo: absoluteAsset(siteUrl, '/images/logo.png'),
+    telephone: '+92-331-7676995',
     email: config.email,
+    areaServed: [
+      { '@type': 'City', name: 'Karachi' },
+      { '@type': 'Country', name: 'Pakistan' },
+    ],
+    sameAs: ['https://www.facebook.com/profile.php?id=61595591558717'],
     hasMerchantReturnPolicy: merchantReturnPolicy(),
   };
 }
