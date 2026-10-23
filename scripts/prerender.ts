@@ -147,6 +147,14 @@ const urls = [
   ...PRODUCTS.map((product) => `/products/${product.slug}`),
 ];
 
+const notFound = render({
+  title: 'Page not found | A&S Toys',
+  description: 'That page is not on A&S Toys.',
+  urlPath: '/404.html',
+  body: '<main><h1>Page not found</h1><p><a href="/">Back home</a></p></main>',
+}).replace('</head>', '    <meta name="robots" content="noindex" />\n  </head>');
+fs.writeFileSync(path.join(dist, '404.html'), notFound);
+
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((urlPath) => `  <url><loc>${absolutePageUrl(siteUrl, urlPath)}</loc></url>`).join('\n')}
@@ -160,4 +168,4 @@ if (fs.existsSync(htaccess)) {
   fs.copyFileSync(htaccess, path.join(dist, '.htaccess'));
 }
 
-console.log(`Prerendered ${urls.length} routes, sitemap.xml, robots.txt, .htaccess`);
+console.log(`Prerendered ${urls.length} routes, 404.html, sitemap.xml, robots.txt, .htaccess`);
