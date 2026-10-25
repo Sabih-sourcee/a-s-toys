@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { loadEnv } from 'vite';
+import { LANDINGS, landingJsonLd, landingProducts } from '../src/data/landings';
 import { CATEGORIES, PRODUCTS } from '../src/data/products';
 import { config } from '../src/config';
 import {
@@ -101,7 +102,7 @@ writePage('/', render({
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
   urlPath: '/',
-  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>${esc(HOME_DESCRIPTION)}</p>${productList(PRODUCTS)}<p><a href="/about">About A&amp;S Toys</a></p>${trust}</main>`,
+  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>${esc(HOME_DESCRIPTION)}</p>${productList(PRODUCTS)}<p><a href="/about">About A&amp;S Toys</a></p><h2>Toy guides</h2><ul>${LANDINGS.map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>${trust}</main>`,
 }));
 
 writePage('/shop', render({
@@ -128,6 +129,17 @@ for (const category of CATEGORIES) {
   }));
 }
 
+for (const page of LANDINGS) {
+  const linked = landingProducts(page);
+  writePage(page.path, render({
+    title: page.title,
+    description: page.description,
+    urlPath: page.path,
+    jsonLd: landingJsonLd(page, siteUrl),
+    body: `<main><h1>${esc(page.h1)}</h1>${page.paragraphs.map((paragraph) => `<p>${esc(paragraph)}</p>`).join('')}<h2>Questions</h2>${page.faqs.map((faq) => `<section><h3>${esc(faq.question)}</h3><p>${esc(faq.answer)}</p></section>`).join('')}<h2>Toys on this page</h2><ul>${linked.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul></main>`,
+  }));
+}
+
 for (const product of PRODUCTS) {
   writePage(`/products/${product.slug}`, render({
     title: productTitle(product),
@@ -144,6 +156,7 @@ const urls = [
   '/shop',
   '/about',
   ...CATEGORIES.map((category) => `/category/${category.slug}`),
+  ...LANDINGS.map((page) => page.path),
   ...PRODUCTS.map((product) => `/products/${product.slug}`),
 ];
 
