@@ -13,6 +13,10 @@ ErrorDocument 404 /404.html
   RewriteBase /
   DirectorySlash Off
 
+  # www.usmanitoys.com -> https://usmanitoys.com. The next request still hits the slash rules.
+  RewriteCond %{HTTP_HOST} ^www\.usmanitoys.com(?::[0-9]+)?$ [NC]
+  RewriteRule ^ https://usmanitoys.com%{REQUEST_URI} [R=301,L]
+
   RewriteRule ^index\.html$ - [L]
 
   # /about/ and /about// -> /about. "/" is not matched: in .htaccess the

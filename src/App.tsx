@@ -8,6 +8,8 @@ import { ToddlersEarlyYears } from './components/ToddlersEarlyYears';
 import { Guarantees } from './components/Guarantees';
 import { Newsletter } from './components/Newsletter';
 import { Footer } from './components/Footer';
+import { GuideLinks, LandingPage } from './components/LandingPage';
+import { landingByPath, landingJsonLd } from './data/landings';
 import { CartDrawer } from './components/CartDrawer';
 import { ProductPage } from './components/ProductPage';
 import { Seo } from './components/Seo';
@@ -162,7 +164,16 @@ export default function App() {
     ? PRODUCTS.find((product) => product.slug === route.slug)
     : undefined;
 
-  const seo = route.name === 'product' && activeProduct
+  const activeLanding = route.name === 'landing' ? landingByPath(route.path) : undefined;
+
+  const seo = route.name === 'landing' && activeLanding
+    ? {
+        title: activeLanding.title,
+        description: activeLanding.description,
+        path: activeLanding.path,
+        jsonLd: landingJsonLd(activeLanding, config.siteUrl),
+      }
+    : route.name === 'product' && activeProduct
     ? {
         title: productTitle(activeProduct),
         description: productDescription(activeProduct),
@@ -329,8 +340,19 @@ export default function App() {
               onShopClick={() => navigateToShop('all')}
             />
 
+            <GuideLinks onOpen={(path) => navigate(path)} />
+
             <Newsletter />
           </>
+        )}
+
+        {route.name === 'landing' && activeLanding && (
+          <div className="wide:pt-24">
+            <LandingPage
+              page={activeLanding}
+              onOpenProduct={(slug) => navigate(`/products/${slug}`)}
+            />
+          </div>
         )}
 
         {(route.name === 'shop' || route.name === 'category') && (
@@ -403,6 +425,7 @@ export default function App() {
         }}
         onSelectCategory={(cat) => navigateToShop(cat)}
         onOpenTracker={() => setIsTrackerOpen(true)}
+        onOpenGuide={(path) => navigate(path)}
       />
 
       {/* Floating Bottom Sticky Cart Bar (Mobile/Tablet) */}

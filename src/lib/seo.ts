@@ -3,14 +3,13 @@ import { Product } from '../types';
 
 export const BRAND = 'A&S Toys';
 
-export function productTitle(product: Pick<Product, 'title' | 'seoTitle'>): string {
-  return product.seoTitle || `${product.title} Price in Karachi, Pakistan | ${BRAND}`;
+export function productTitle(product: Pick<Product, 'title'>): string {
+  return `${product.title} Price in Pakistan | A & S Toys`;
 }
 
-export function productDescription(product: Pick<Product, 'title' | 'price' | 'shortDescription' | 'seoDescription'>): string {
+export function productDescription(product: Pick<Product, 'title' | 'shortDescription' | 'seoDescription'>): string {
   if (product.seoDescription) return product.seoDescription;
-  const text = `${product.title} price in Karachi, Pakistan is Rs. ${product.price.toLocaleString('en-PK')}. ${product.shortDescription} Cash on delivery from ${BRAND} in Karachi.`;
-  return text.length > 160 ? `${text.slice(0, 157)}...` : text;
+  return `${product.title} from A & S Toys. ${product.shortDescription} Plastic. Check the box for the age grade. Cash on delivery in Pakistan.`;
 }
 
 export function categoryTitle(name: string): string {

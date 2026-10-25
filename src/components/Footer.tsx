@@ -4,6 +4,7 @@ import { CATEGORIES } from '../data/products';
 import { BrandMark } from './BrandMark';
 import { ShopNumbers } from './ShopNumbers';
 import { WhatsAppLink } from './WhatsAppLink';
+import { LANDINGS } from '../data/landings';
 import { categoryPath } from '../lib/router';
 import { config } from '../config';
 
@@ -11,12 +12,14 @@ interface FooterProps {
   onNavigate: (view: 'home' | 'shop' | 'about' | 'contact') => void;
   onSelectCategory: (cat: string) => void;
   onOpenTracker: () => void;
+  onOpenGuide: (path: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   onNavigate,
   onSelectCategory,
   onOpenTracker,
+  onOpenGuide,
 }) => {
   return (
     <footer className="bg-[#182232] text-[#C8CFD8] pt-12 pb-8">
@@ -45,6 +48,20 @@ export const Footer: React.FC<FooterProps> = ({
                   Contact / Wholesale
                 </a>
               </li>
+              {LANDINGS.map((page) => (
+                <li key={page.path}>
+                  <a
+                    href={page.path}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      onOpenGuide(page.path);
+                    }}
+                    className="hover:text-[#F6F3EC] transition-colors cursor-pointer text-left"
+                  >
+                    {page.navLabel}
+                  </a>
+                </li>
+              ))}
               <li>
                 <button
                   onClick={onOpenTracker}

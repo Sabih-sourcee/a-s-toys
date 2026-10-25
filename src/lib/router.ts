@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { LANDINGS } from '../data/landings';
 
 export type AppRoute =
   | { name: 'home' }
@@ -7,6 +8,7 @@ export type AppRoute =
   | { name: 'contact' }
   | { name: 'category'; slug: string }
   | { name: 'product'; slug: string }
+  | { name: 'landing'; path: string }
   | { name: 'notfound' };
 
 /** Address-bar path. Homepage stays "/"; every other path drops trailing slashes. */
@@ -21,6 +23,8 @@ export function parseRoute(pathname: string): AppRoute {
   if (path === '/shop') return { name: 'shop' };
   if (path === '/about') return { name: 'about' };
   if (path === '/contact') return { name: 'contact' };
+  const landing = LANDINGS.find((page) => page.path === path);
+  if (landing) return { name: 'landing', path: landing.path };
   const category = path.match(/^\/category\/([^/]+)$/);
   if (category) return { name: 'category', slug: decodeURIComponent(category[1]) };
   const product = path.match(/^\/products\/([^/]+)$/);
