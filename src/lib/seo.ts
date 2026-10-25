@@ -60,9 +60,9 @@ function shippingRateValue(): number {
   return parsed;
 }
 
-function priceValidUntil(now = new Date()): string {
-  const valid = new Date(Date.UTC(now.getUTCFullYear() + 1, now.getUTCMonth(), now.getUTCDate()));
-  return valid.toISOString().slice(0, 10);
+function isoUtcDate(now: Date, yearsAhead = 0): string {
+  const date = new Date(Date.UTC(now.getUTCFullYear() + yearsAhead, now.getUTCMonth(), now.getUTCDate()));
+  return date.toISOString().slice(0, 10);
 }
 
 function merchantReturnPolicy() {
@@ -109,6 +109,7 @@ function offerShippingDetails() {
 export function productJsonLd(product: Product, siteUrl: string) {
   const photos = [product.image, ...product.galleryImages.filter((src) => src !== product.image)];
   const description = product.shortDescription || product.fullDescription;
+  const pricedOn = new Date();
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -122,7 +123,8 @@ export function productJsonLd(product: Product, siteUrl: string) {
       url: absolutePageUrl(siteUrl, `/products/${product.slug}`),
       priceCurrency: 'PKR',
       price: String(product.price),
-      priceValidUntil: priceValidUntil(),
+      validFrom: isoUtcDate(pricedOn),
+      priceValidUntil: isoUtcDate(pricedOn, 1),
       availability: product.inStock && product.stock > 0
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
