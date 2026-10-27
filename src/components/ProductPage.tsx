@@ -4,15 +4,19 @@ import { Product } from '../types';
 import { WhatsAppLink } from './WhatsAppLink';
 import { config } from '../config';
 import { productPhotoAlt } from '../lib/seo';
+import { relatedProducts } from '../data/products';
+import { productPath } from '../lib/router';
 
 interface ProductPageProps {
   product: Product;
   onAddToCart: (product: Product, quantity: number) => void;
   onBack: () => void;
+  onOpenProduct: (slug: string) => void;
   isAdded?: boolean;
 }
 
-export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, onBack, isAdded }) => {
+export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, onBack, onOpenProduct, isAdded }) => {
+  const related = relatedProducts(product);
   const [quantity, setQuantity] = useState(1);
   const photos = [product.image, ...product.galleryImages.filter((src) => src && src !== product.image)];
   const [active, setActive] = useState(0);
@@ -151,6 +155,28 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
           <p className="text-xs text-[#58554F] mt-3">Payment on the website is cash on delivery.</p>
         </div>
       </div>
+
+      <section className="mt-8" aria-labelledby="related-toys">
+        <h2 id="related-toys" className="font-headline text-xl font-bold text-[#182232]">
+          Related toys
+        </h2>
+        <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+          {related.map((item) => (
+            <li key={item.slug}>
+              <a
+                href={productPath(item.slug)}
+                onClick={(event) => {
+                  event.preventDefault();
+                  onOpenProduct(item.slug);
+                }}
+                className="font-headline font-bold text-[#0F3D9C] hover:text-[#E84A27]"
+              >
+                {item.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
     </article>
   );
 };

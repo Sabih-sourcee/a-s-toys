@@ -9,6 +9,7 @@ import { Guarantees } from './components/Guarantees';
 import { Newsletter } from './components/Newsletter';
 import { Footer } from './components/Footer';
 import { GuideLinks, LandingPage } from './components/LandingPage';
+import { CatalogIndex } from './components/CatalogIndex';
 import { landingByPath, landingJsonLd } from './data/landings';
 import { CartDrawer } from './components/CartDrawer';
 import { ProductPage } from './components/ProductPage';
@@ -27,6 +28,8 @@ import { categoryPath, useRoute } from './lib/router';
 import { WHATSAPP_HELP_MESSAGE } from './lib/whatsapp';
 import { config } from './config';
 import {
+  ABOUT_DESCRIPTION,
+  ABOUT_TITLE,
   HOME_DESCRIPTION,
   HOME_TITLE,
   categoryDescription,
@@ -189,8 +192,8 @@ export default function App() {
         }
       : route.name === 'about'
         ? {
-            title: 'About A&S Toys | Online Toy Store in Karachi',
-            description: 'A&S Toys is a Karachi-based online toy store with nationwide delivery. Cash on delivery, exchange policy, and contact.',
+            title: ABOUT_TITLE,
+            description: ABOUT_DESCRIPTION,
             path: '/about',
           }
         : route.name === 'contact'
@@ -342,6 +345,8 @@ export default function App() {
 
             <GuideLinks onOpen={(path) => navigate(path)} />
 
+            <CatalogIndex onOpen={(path) => navigate(path)} />
+
             <Newsletter />
           </>
         )}
@@ -372,7 +377,10 @@ export default function App() {
 
         {route.name === 'about' && (
           <div className="wide:pt-24">
-            <AboutView onShopClick={() => navigateToShop('all')} />
+            <AboutView
+              onShopClick={() => navigateToShop('all')}
+              onOpenProduct={(slug) => navigate(`/products/${slug}`)}
+            />
           </div>
         )}
 
@@ -387,6 +395,7 @@ export default function App() {
             product={activeProduct}
             onAddToCart={handleAddToCart}
             onBack={() => navigate(categoryPath(activeProduct.category))}
+            onOpenProduct={(slug) => navigate(`/products/${slug}`)}
             isAdded={recentlyAddedId === activeProduct.id}
           />
         )}
