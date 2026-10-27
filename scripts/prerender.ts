@@ -2,9 +2,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { loadEnv } from 'vite';
 import { LANDINGS, landingJsonLd, landingProducts } from '../src/data/landings';
-import { CATEGORIES, PRODUCTS } from '../src/data/products';
+import { ABOUT_FEATURED_SLUGS, CATEGORIES, PRODUCTS, relatedProducts } from '../src/data/products';
 import { config } from '../src/config';
 import {
+  ABOUT_DESCRIPTION,
+  ABOUT_TITLE,
   HOME_DESCRIPTION,
   HOME_TITLE,
   absolutePageUrl,
@@ -89,6 +91,18 @@ function productList(products: typeof PRODUCTS): string {
   )).join('')}</ul>`;
 }
 
+function namedLinks(items: { href: string; name: string }[]): string {
+  return `<ul>${items.map((item) => `<li><a href="${esc(item.href)}">${esc(item.name)}</a></li>`).join('')}</ul>`;
+}
+
+const catalogIndex = `<section><h2>All toys from A &amp; S Toys</h2><h3>Categories</h3>${namedLinks(CATEGORIES.map((category) => ({ href: `/category/${category.slug}`, name: category.name })))}<h3>Products</h3>${namedLinks(PRODUCTS.map((product) => ({ href: `/products/${product.slug}`, name: product.title })))}</section>`;
+
+const aboutFeatured = ABOUT_FEATURED_SLUGS.map((slug) => {
+  const product = PRODUCTS.find((item) => item.slug === slug);
+  if (!product) throw new Error(`Missing about-page product: ${slug}`);
+  return product;
+});
+
 const trust = `<ul>
   <li>Call: <a href="tel:${esc(phoneTel)}">${esc(phone)}</a></li>
   <li>WhatsApp: <a href="${esc(whatsappUrl)}">${esc(whatsappPhone)}</a></li>
@@ -102,7 +116,7 @@ writePage('/', render({
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
   urlPath: '/',
-  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>${esc(HOME_DESCRIPTION)}</p>${productList(PRODUCTS)}<p><a href="/about">About A&amp;S Toys</a></p><h2>Toy guides</h2><ul>${LANDINGS.map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>${trust}</main>`,
+  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>${esc(HOME_DESCRIPTION)}</p>${catalogIndex}<p><a href="/about">About A &amp; S Toys</a></p><h2>Toy guides</h2><ul>${LANDINGS.map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>${trust}</main>`,
 }));
 
 writePage('/shop', render({
@@ -113,10 +127,10 @@ writePage('/shop', render({
 }));
 
 writePage('/about', render({
-  title: `About A&S Toys | Toy Shop in Pakistan`,
-  description: 'About A&S Toys. Cash on delivery toy shop in Pakistan. Exchange policy, delivery charges, and contact.',
+  title: ABOUT_TITLE,
+  description: ABOUT_DESCRIPTION,
   urlPath: '/about',
-  body: `<main><h1>About A&amp;S Toys</h1><p>Cash on delivery toy shop. Contact and policy details:</p>${trust}</main>`,
+  body: `<main><h1>A &amp; S Toys Shop</h1><p>A &amp; S Toys is an online toy shop in Karachi with delivery across Pakistan. Shop prices are up to Rs 1,200. Payment on the website is cash on delivery.</p><p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${trust}</main>`,
 }));
 
 for (const category of CATEGORIES) {
@@ -147,7 +161,7 @@ for (const product of PRODUCTS) {
     urlPath: `/products/${product.slug}`,
     image: product.image,
     jsonLd: productJsonLd(product, siteUrl),
-    body: `<article><h1>${esc(product.title)} Price in Pakistan</h1><p>Rs. ${product.price.toLocaleString('en-PK')} PKR</p><img src="${esc(product.image)}" alt="${esc(productPhotoAlt(product.title, 0))}" />${product.galleryImages.map((src, index) => `<img src="${esc(src)}" alt="${esc(productPhotoAlt(product.title, index + 1))}" />`).join('')}<p>${esc(product.shortDescription)}</p><p>${esc(product.fullDescription)}</p><p><a href="/category/${esc(product.category)}">${esc(product.categoryName)}</a></p></article>`,
+    body: `<article><h1>${esc(product.title)} Price in Pakistan</h1><p>Rs. ${product.price.toLocaleString('en-PK')} PKR</p><img src="${esc(product.image)}" alt="${esc(productPhotoAlt(product.title, 0))}" />${product.galleryImages.map((src, index) => `<img src="${esc(src)}" alt="${esc(productPhotoAlt(product.title, index + 1))}" />`).join('')}<p>${esc(product.shortDescription)}</p><p>${esc(product.fullDescription)}</p><p><a href="/category/${esc(product.category)}">${esc(product.categoryName)}</a></p><h2>Related toys</h2>${namedLinks(relatedProducts(product).map((item) => ({ href: `/products/${item.slug}`, name: item.title })))}</article>`,
   }));
 }
 

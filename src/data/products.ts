@@ -371,6 +371,21 @@ export const PRODUCTS: Product[] = [
   }),
 ];
 
+/** Kitchen set and both building-block products, linked from the about page. */
+export const ABOUT_FEATURED_SLUGS = [
+  'kitchen-play-set',
+  'building-blocks-play-set',
+  'big-building-blocks-bag',
+] as const;
+
+/** Same-category toys first, then the rest of the catalog. */
+export function relatedProducts(product: Pick<Product, 'slug' | 'category'>, limit = 4): Product[] {
+  const others = PRODUCTS.filter((item) => item.slug !== product.slug);
+  const same = others.filter((item) => item.category === product.category);
+  const rest = others.filter((item) => item.category !== product.category);
+  return [...same, ...rest].slice(0, limit);
+}
+
 export const PAKISTANI_CITIES = [
   'Karachi',
   'Lahore',

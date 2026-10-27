@@ -4,12 +4,20 @@ import { WhatsAppLink } from './WhatsAppLink';
 import { TrustFacts } from './TrustFacts';
 import { WHATSAPP_HELP_MESSAGE } from '../lib/whatsapp';
 import { config } from '../config';
+import { ABOUT_FEATURED_SLUGS, PRODUCTS } from '../data/products';
+import { productPath } from '../lib/router';
 
 interface AboutViewProps {
   onShopClick: () => void;
+  onOpenProduct: (slug: string) => void;
 }
 
-export const AboutView: React.FC<AboutViewProps> = ({ onShopClick }) => {
+export const AboutView: React.FC<AboutViewProps> = ({ onShopClick, onOpenProduct }) => {
+  const featured = ABOUT_FEATURED_SLUGS.map((slug) => {
+    const product = PRODUCTS.find((item) => item.slug === slug);
+    if (!product) throw new Error(`Missing about-page product: ${slug}`);
+    return product;
+  });
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="about-section">
       <div className="bg-[#F6F3EC] rounded-[6px] border border-[#DCD7CC] p-6 sm:p-12  space-y-8">
@@ -26,6 +34,35 @@ export const AboutView: React.FC<AboutViewProps> = ({ onShopClick }) => {
           <p className="font-body text-base text-[#5A6270] mt-3 leading-relaxed">
             A &amp; S Toys is an online toy store based in Karachi. Orders ship nationwide. There is no walk-in counter.
           </p>
+          <p className="mt-5">
+            <a
+              href="/shop"
+              onClick={(event) => {
+                event.preventDefault();
+                onShopClick();
+              }}
+              className="btn-push-red inline-flex text-white font-headline text-sm font-bold px-5 py-2.5 rounded-[6px] items-center gap-1.5"
+            >
+              Shop all toys
+              <ArrowRight aria-hidden="true" className="w-4 h-4" />
+            </a>
+          </p>
+          <ul className="mt-4 space-y-2 text-sm font-headline font-bold">
+            {featured.map((product) => (
+              <li key={product.slug}>
+                <a
+                  href={productPath(product.slug)}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    onOpenProduct(product.slug);
+                  }}
+                  className="text-[#0F3D9C] hover:text-[#E84A27]"
+                >
+                  {product.title}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/* Story Grid */}
@@ -90,13 +127,17 @@ export const AboutView: React.FC<AboutViewProps> = ({ onShopClick }) => {
               <MessageCircle aria-hidden="true" className="w-4 h-4 fill-white" />
               <span>WhatsApp us</span>
             </WhatsAppLink>
-            <button
-              onClick={onShopClick}
-              className="btn-push-red text-white font-headline text-xs font-bold px-5 py-2.5 rounded-[6px] flex items-center gap-1.5 cursor-pointer"
+            <a
+              href="/shop"
+              onClick={(event) => {
+                event.preventDefault();
+                onShopClick();
+              }}
+              className="btn-push-red text-white font-headline text-xs font-bold px-5 py-2.5 rounded-[6px] flex items-center gap-1.5"
             >
-              <span>Explore All Toys</span>
+              <span>Shop all toys</span>
               <ArrowRight aria-hidden="true" className="w-4 h-4" />
-            </button>
+            </a>
           </div>
         </div>
 
