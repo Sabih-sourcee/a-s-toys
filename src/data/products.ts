@@ -50,6 +50,8 @@ const ORDER_NOTES =
 function item(input: {
   id: string;
   title: string;
+  /** PKR. Never above 1200. */
+  price: number;
   slug: string;
   category: string;
   categoryName: string;
@@ -63,7 +65,6 @@ function item(input: {
   return {
     ...fields,
     fullDescription: `${fullDescription.trim()} ${ORDER_NOTES}`,
-    price: 1200,
     stock: 10,
     inStock: true,
     image: photo(fields.slug, 1),
@@ -129,6 +130,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-001',
     title: 'Building Blocks Play Set',
+    price: 600,
     slug: 'building-blocks-play-set',
     category: 'building-blocks',
     categoryName: 'Building Blocks',
@@ -140,6 +142,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-002',
     title: 'Kitchen Play Set',
+    price: 500,
     slug: 'kitchen-play-set',
     category: 'pretend-play',
     categoryName: 'Pretend Play',
@@ -151,6 +154,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-003',
     title: 'Web Shooter Glove Set',
+    price: 600,
     slug: 'web-shooter-glove-set',
     category: 'gadgets-music',
     categoryName: 'Gadgets & Music',
@@ -162,6 +166,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-004',
     title: 'Mini Water Dispenser Toy',
+    price: 380,
     slug: 'mini-water-dispenser-toy',
     category: 'pretend-play',
     categoryName: 'Pretend Play',
@@ -173,6 +178,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-005',
     title: 'Big Building Blocks Bag',
+    price: 850,
     slug: 'big-building-blocks-bag',
     category: 'building-blocks',
     categoryName: 'Building Blocks',
@@ -184,6 +190,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-006',
     title: 'Crawling Baby Doll',
+    price: 1200,
     slug: 'crawling-baby-doll',
     category: 'dolls-figures',
     categoryName: 'Dolls & Figures',
@@ -195,6 +202,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-007',
     title: 'Gatling Bubble Gun',
+    price: 550,
     slug: 'gatling-bubble-gun',
     category: 'bubble-water',
     categoryName: 'Bubble & Water',
@@ -206,6 +214,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-008',
     title: 'Dancing Cactus Toy',
+    price: 1000,
     slug: 'dancing-cactus-toy',
     category: 'gadgets-music',
     categoryName: 'Gadgets & Music',
@@ -217,6 +226,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-009',
     title: 'Duck Slide Track',
+    price: 1100,
     slug: 'duck-slide-track',
     category: 'dolls-figures',
     categoryName: 'Dolls & Figures',
@@ -228,6 +238,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-010',
     title: 'Animal Water Dispenser',
+    price: 580,
     slug: 'animal-water-dispenser',
     category: 'pretend-play',
     categoryName: 'Pretend Play',
@@ -239,6 +250,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-011',
     title: 'Kitchen Water Dispenser',
+    price: 390,
     slug: 'kitchen-water-dispenser',
     category: 'pretend-play',
     categoryName: 'Pretend Play',
@@ -250,6 +262,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-012',
     title: 'Toy Flip Phone',
+    price: 300,
     slug: 'toy-flip-phone',
     category: 'gadgets-music',
     categoryName: 'Gadgets & Music',
@@ -261,6 +274,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-013',
     title: 'Friction Off-Road Vehicle',
+    price: 500,
     slug: 'friction-off-road-vehicle',
     category: 'vehicles',
     categoryName: 'Vehicles',
@@ -272,6 +286,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-014',
     title: 'Karaoke Speaker Set',
+    price: 1200,
     slug: 'karaoke-speaker-set',
     category: 'gadgets-music',
     categoryName: 'Gadgets & Music',
@@ -283,6 +298,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-015',
     title: 'Light and Music Car Set',
+    price: 950,
     slug: 'light-music-car-set',
     category: 'vehicles',
     categoryName: 'Vehicles',
@@ -294,6 +310,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-016',
     title: 'RC Flying Helicopter Toy',
+    price: 960,
     slug: 'rc-flying-helicopter-toy',
     category: 'vehicles',
     categoryName: 'Vehicles',
@@ -305,6 +322,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-017',
     title: 'Friction Construction Trucks',
+    price: 1000,
     slug: 'friction-construction-trucks',
     category: 'vehicles',
     categoryName: 'Vehicles',
@@ -316,6 +334,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-018',
     title: 'Water Bullet Gun',
+    price: 750,
     slug: 'water-bullet-gun',
     category: 'bubble-water',
     categoryName: 'Bubble & Water',
@@ -327,6 +346,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-019',
     title: 'Dinosaur Figure Set',
+    price: 700,
     slug: 'dinosaur-figure-set',
     category: 'dolls-figures',
     categoryName: 'Dolls & Figures',
@@ -338,6 +358,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-020',
     title: 'Battery Bubble Gun',
+    price: 500,
     slug: 'battery-bubble-gun',
     category: 'bubble-water',
     categoryName: 'Bubble & Water',
@@ -349,6 +370,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-021',
     title: 'Mini Handheld Fan',
+    price: 440,
     slug: 'mini-handheld-fan',
     category: 'gadgets-music',
     categoryName: 'Gadgets & Music',
@@ -360,6 +382,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-022',
     title: 'Hungry Turtle Game',
+    price: 1200,
     slug: 'hungry-turtle-game',
     category: 'games',
     categoryName: 'Games',
