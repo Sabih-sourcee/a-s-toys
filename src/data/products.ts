@@ -282,6 +282,7 @@ export const PRODUCTS: Product[] = [
     fullDescription: 'The Friction Off-Road Vehicle is an off-road toy vehicle in a window box. Photos show the front of the pack and the truck from other sides. It is in Vehicles. It is a push-along style vehicle sold as a friction toy. The record does not list a motor, remote, or scale.',
     seoDescription: 'Friction Off-Road Vehicle from A & S Toys. An off-road toy vehicle in a window box. Plastic. Check the box for the age grade. Cash on delivery in Pakistan.',
     features: ['Off-road toy vehicle', 'Window box'],
+    angles: 3,
   }),
   item({
     id: 'ast-014',
