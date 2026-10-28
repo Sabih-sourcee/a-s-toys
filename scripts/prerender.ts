@@ -130,7 +130,7 @@ writePage('/about', render({
   title: ABOUT_TITLE,
   description: ABOUT_DESCRIPTION,
   urlPath: '/about',
-  body: `<main><h1>A &amp; S Toys Shop</h1><p>A &amp; S Toys is an online toy shop in Karachi with delivery across Pakistan. Shop prices are up to Rs 1,200. Payment on the website is cash on delivery.</p><p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${trust}</main>`,
+  body: `<main><h1>A &amp; S Toys Shop</h1><p>A &amp; S Toys is an online toy shop in Karachi with delivery across Pakistan. Shop prices are from Rs 300. Payment on the website is cash on delivery.</p><p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${trust}</main>`,
 }));
 
 for (const category of CATEGORIES) {
