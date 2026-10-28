@@ -23,7 +23,7 @@ export function categoryDescription(name: string, blurb: string): string {
 
 export const ABOUT_TITLE = 'A & S Toys Shop | Online Toy Store in Karachi, Pakistan';
 export const ABOUT_DESCRIPTION =
-  'A & S Toys is an online toy shop in Karachi with delivery across Pakistan. Kitchen sets, building blocks, RC toys and more, up to Rs 1,200. Cash on delivery.';
+  'A & S Toys is an online toy shop in Karachi with delivery across Pakistan. Kitchen sets, building blocks, RC toys and more, from Rs 300. Cash on delivery.';
 
 export const HOME_TITLE = 'A & S Toys | Toy Prices in Karachi, Pakistan';
 export const HOME_DESCRIPTION =

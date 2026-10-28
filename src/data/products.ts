@@ -45,12 +45,12 @@ const photo = (slug: string, angle: number) =>
 
 /** Facts already on the shop record. Appended so every description stays inside those facts. */
 const ORDER_NOTES =
-  'A & S Toys sells this from Karachi and ships nationwide across Pakistan. Payment on the website is cash on delivery. A delivery charge applies, and delivery is free when the order total reaches Rs 3,500. The courier named by the shop is TCS/Leopards. The exchange note is a 7-day replacement for transit damage. There is no walk-in address listed. The material on the product record is plastic. The catalog does not give an age range, a piece count, or measurements, so check the box for the age grade and do not expect those specs on this page. Shop prices are up to Rs 1,200.';
+  'A & S Toys sells this from Karachi and ships nationwide across Pakistan. Payment on the website is cash on delivery. A delivery charge applies, and delivery is free when the order total reaches Rs 3,500. The courier named by the shop is TCS/Leopards. The exchange note is a 7-day replacement for transit damage. There is no walk-in address listed. The material on the product record is plastic. The catalog does not give an age range, a piece count, or measurements, so check the box for the age grade and do not expect those specs on this page. Shop prices are from Rs 300.';
 
 function item(input: {
   id: string;
   title: string;
-  /** PKR. Never above 1200. */
+  /** PKR. Never above 2300. */
   price: number;
   slug: string;
   category: string;
@@ -142,7 +142,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-002',
     title: 'Kitchen Play Set',
-    price: 500,
+    price: 1400,
     slug: 'kitchen-play-set',
     category: 'pretend-play',
     categoryName: 'Pretend Play',
@@ -178,7 +178,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-005',
     title: 'Big Building Blocks Bag',
-    price: 850,
+    price: 1200,
     slug: 'big-building-blocks-bag',
     category: 'building-blocks',
     categoryName: 'Building Blocks',
@@ -214,7 +214,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-008',
     title: 'Dancing Cactus Toy',
-    price: 1000,
+    price: 1100,
     slug: 'dancing-cactus-toy',
     category: 'gadgets-music',
     categoryName: 'Gadgets & Music',
@@ -382,7 +382,7 @@ export const PRODUCTS: Product[] = [
   item({
     id: 'ast-022',
     title: 'Hungry Turtle Game',
-    price: 1200,
+    price: 2300,
     slug: 'hungry-turtle-game',
     category: 'games',
     categoryName: 'Games',
