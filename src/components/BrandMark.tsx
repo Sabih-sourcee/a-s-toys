@@ -30,7 +30,7 @@ export const BrandMark: React.FC<BrandMarkProps> = ({
     >
       <img
         src="/images/logo.png"
-        alt="A & S Toys"
+        alt="A & S Toys online toy shop Karachi"
         className={`${HEIGHT[size]} w-auto object-contain block`}
         decoding="async"
       />

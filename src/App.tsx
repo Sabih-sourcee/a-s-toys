@@ -34,6 +34,8 @@ import {
   HOME_TITLE,
   categoryDescription,
   categoryTitle,
+  VEHICLES_DESCRIPTION,
+  VEHICLES_TITLE,
   productDescription,
   productJsonLd,
   productTitle,
@@ -186,8 +188,10 @@ export default function App() {
       }
     : route.name === 'category' && activeCategory
       ? {
-          title: categoryTitle(activeCategory.name),
-          description: categoryDescription(activeCategory.name, activeCategory.description),
+          title: categoryTitle(activeCategory.name, activeCategory.slug),
+          description: activeCategory.slug === 'vehicles'
+            ? VEHICLES_DESCRIPTION
+            : categoryDescription(activeCategory.name, activeCategory.description),
           path: `/category/${activeCategory.slug}`,
         }
       : route.name === 'about'
@@ -264,6 +268,7 @@ export default function App() {
           }
         }}
         onOpenTracker={() => setIsTrackerOpen(true)}
+        onOpenGuide={(path) => navigate(path)}
       />
 
       {/* View Content */}
@@ -356,6 +361,7 @@ export default function App() {
             <LandingPage
               page={activeLanding}
               onOpenProduct={(slug) => navigate(`/products/${slug}`)}
+              onOpenPath={(path) => navigate(path)}
             />
           </div>
         )}
@@ -380,6 +386,7 @@ export default function App() {
             <AboutView
               onShopClick={() => navigateToShop('all')}
               onOpenProduct={(slug) => navigate(`/products/${slug}`)}
+              onOpenPath={(path) => navigate(path)}
             />
           </div>
         )}
@@ -396,6 +403,7 @@ export default function App() {
             onAddToCart={handleAddToCart}
             onBack={() => navigate(categoryPath(activeProduct.category))}
             onOpenProduct={(slug) => navigate(`/products/${slug}`)}
+            onOpenPath={(path) => navigate(path)}
             isAdded={recentlyAddedId === activeProduct.id}
           />
         )}

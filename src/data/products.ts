@@ -33,7 +33,7 @@ import { Product, Category } from '../types';
  * - dimensions?: string
  * - isTrending?: boolean — sorts first in the shop
  * - isEarlyYears?: boolean — shows in the ages 0–3 row
- * - seoTitle?: unused. The title is always "{title} Price in Pakistan | A & S Toys"
+ * - seoTitle?: document title. Default is "{title} Price in Pakistan | A & S Toys"
  * - seoDescription?: meta description, about 150 characters
  *
  * Do not add review counts, piece counts, or age ranges that are not on the box.
@@ -57,6 +57,7 @@ function item(input: {
   fullDescription: string;
   features: string[];
   seoDescription: string;
+  seoTitle?: string;
   angles?: number;
 }): Product {
   const { angles = 4, fullDescription, ...fields } = input;
@@ -144,7 +145,8 @@ export const PRODUCTS: Product[] = [
     category: 'pretend-play',
     categoryName: 'Pretend Play',
     shortDescription: 'A toy kitchen with a stove, oven, and utensils.',
-    fullDescription: 'The Kitchen Play Set is a toy kitchen packed in a window box. The pack shows a stove, an oven, and utensils. It is in the Pretend Play category. Children can use the pictured stove, oven, and utensils for pretend cooking. The page does not list extra food pieces or a sound button, because those are not on the record.',
+    fullDescription: 'Kitchen set toy price in Pakistan: the Kitchen Play Set is a toy kitchen packed in a window box. The pack shows a stove, an oven, and utensils. It is in the Pretend Play category. Children can use the pictured stove, oven, and utensils for pretend cooking. Check the box for the age grade.',
+    seoTitle: 'Kitchen Play Set Price in Pakistan | Toy Kitchen Set',
     seoDescription: 'Kitchen Play Set from A & S Toys. A toy kitchen in a window box with a stove, oven, and utensils. Plastic. Check the age on the box. COD in Pakistan.',
     features: ['Toy stove and oven', 'Utensils pictured with the set', 'Window box'],
   }),
@@ -155,7 +157,8 @@ export const PRODUCTS: Product[] = [
     category: 'gadgets-music',
     categoryName: 'Gadgets & Music',
     shortDescription: 'A glove and wrist launcher set.',
-    fullDescription: 'The Web Shooter Glove Set is a glove and a wrist launcher packed together. The box shows the glove on a hand, and other photos show the pieces beside the box. It is in Gadgets and Music. It is a role-play glove set. The record does not say what the launcher shoots or whether it needs batteries.',
+    fullDescription: 'Web shooter toy price in Pakistan: the Web Shooter Glove Set is a glove and a wrist launcher packed together. The box shows the glove on a hand, and other photos show the pieces beside the box. It is in Gadgets and Music. It is a role-play glove set. Check the box for the age grade.',
+    seoTitle: 'Web Shooter Toy Price in Pakistan | A & S Toys',
     seoDescription: 'Web Shooter Glove Set from A & S Toys. A glove and wrist launcher in a window box, shown on a hand. Plastic. Check the age on the box. COD in Pakistan.',
     features: ['Glove and wrist launcher', 'Shown on a hand on the box', 'Window box'],
   }),
@@ -166,7 +169,7 @@ export const PRODUCTS: Product[] = [
     category: 'pretend-play',
     categoryName: 'Pretend Play',
     shortDescription: 'A small toy water dispenser in a window box.',
-    fullDescription: 'The Mini Water Dispenser Toy is a small toy water dispenser in a window box. One photo shows it out of the box, and the others show the pack. It is in Pretend Play. It is for pretend play beside a toy kitchen. The record does not say that it pumps real water or how much it holds.',
+    fullDescription: 'Mini dispenser toy / water dispenser toy from A & S Toys. The Mini Water Dispenser Toy is the small toy water dispenser in a window box. One photo shows it out of the box, and the others show the pack. It is in Pretend Play, for pretend play beside a toy kitchen. Check the box for the age grade.',
     seoDescription: 'Mini Water Dispenser Toy from A & S Toys. A small toy dispenser in a window box, shown in and out of the pack. Check the age on the box. COD in Pakistan.',
     features: ['Small toy water dispenser', 'Shown in and out of the box'],
   }),
@@ -178,7 +181,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Building Blocks',
     shortDescription: 'Large colorful building blocks in a mesh storage bag.',
     fullDescription: 'The Big Building Blocks Bag is large colorful building blocks in a mesh storage bag. Photos show the bag from the front and from the side. The blocks come in several colors. It is in Building Blocks. Use the large blocks for floor building, then put them back in the mesh bag. The record does not give a block count.',
-    seoDescription: 'Big Building Blocks Bag from A & S Toys. Large colorful blocks in a mesh storage bag. Plastic. Check the box for the age grade. Cash on delivery in Pakistan.',
+    seoDescription: 'Big Building Blocks Bag from A & S Toys. Large colorful blocks in a mesh storage bag. Plastic. Check the box for the age grade. COD in Pakistan.',
     features: ['Mesh storage bag', 'Large blocks', 'Several colors'],
   }),
   item({
@@ -188,7 +191,8 @@ export const PRODUCTS: Product[] = [
     category: 'dolls-figures',
     categoryName: 'Dolls & Figures',
     shortDescription: 'A baby doll in pink packaging, shown on its hands and knees.',
-    fullDescription: 'The Crawling Baby Doll is a baby doll in pink packaging, shown on its hands and knees. The open pack also shows a bottle and a small toy phone. It is in Dolls and Figures. It is for doll play with the pictured bottle and phone. The record does not say that the doll crawls on its own or makes a sound.',
+    fullDescription: 'Baby doll price in Pakistan: the Crawling Baby Doll is a baby doll in pink packaging, shown on its hands and knees. The open pack also shows a bottle and a small toy phone. It is in Dolls and Figures, for doll play with the pictured bottle and phone. Check the box for the age grade.',
+    seoTitle: 'Baby Doll Price in Pakistan | Crawling Baby | A & S Toys',
     seoDescription: 'Crawling Baby Doll from A & S Toys. A baby doll in a pink window box, with a bottle and toy phone pictured. Check the age on the box. COD in Pakistan.',
     features: ['Baby doll in a crawling pose', 'Bottle and toy phone pictured in the pack', 'Pink window box'],
   }),
@@ -199,7 +203,7 @@ export const PRODUCTS: Product[] = [
     category: 'bubble-water',
     categoryName: 'Bubble & Water',
     shortDescription: 'A multi-barrel bubble gun in a colorful box.',
-    fullDescription: 'The Gatling Bubble Gun is a multi-barrel bubble gun in a colorful window box. Photos show the box and the gun held in a hand with bubbles. It is in Bubble and Water. It is for bubble play. The record says several barrels, not a numbered count, and it does not list a bubble-solution bottle with this gun.',
+    fullDescription: 'Gatling bubble gun price in Pakistan: the Gatling Bubble Gun is a multi-barrel bubble gun in a colorful window box. Photos show the box and the gun held in a hand with bubbles. It is in Bubble and Water, for bubble play. The listing says several barrels and does not number them, and it does not list a bubble-solution bottle with this gun.',
     seoDescription: 'Gatling Bubble Gun from A & S Toys. A multi-barrel bubble gun in a colorful window box, shown with bubbles. Check the age on the box. COD in Pakistan.',
     features: ['Multi-barrel bubble gun', 'Colorful window box'],
   }),
@@ -210,8 +214,8 @@ export const PRODUCTS: Product[] = [
     category: 'gadgets-music',
     categoryName: 'Gadgets & Music',
     shortDescription: 'A cactus-shaped toy in a box, shown with a small remote.',
-    fullDescription: 'The Dancing Cactus Toy is a cactus-shaped toy in a box, shown with a small remote. The box calls it a dancing cactus. It is in Gadgets and Music. The pictured remote is part of what the pack shows. The record does not list songs, volumes, or a battery size.',
-    seoDescription: 'Dancing Cactus Toy from A & S Toys. A cactus-shaped toy in a box with a small remote pictured. Plastic. Check the age on the box. Cash on delivery in Pakistan.',
+    fullDescription: 'Dancing cactus toy price in Pakistan: the Dancing Cactus Toy is a cactus-shaped toy in a box, shown with a small remote. The box calls it a dancing cactus. It is in Gadgets and Music. The pictured remote is part of what the pack shows. Check the box for the age grade.',
+    seoDescription: 'Dancing Cactus Toy from A & S Toys. A cactus-shaped toy in a box with a small remote pictured. Plastic. Check the age on the box. COD in Pakistan.',
     features: ['Cactus-shaped toy', 'Small remote pictured on the box'],
   }),
   item({
@@ -254,8 +258,9 @@ export const PRODUCTS: Product[] = [
     category: 'gadgets-music',
     categoryName: 'Gadgets & Music',
     shortDescription: 'A flip-style toy phone shown with its box.',
-    fullDescription: 'The Toy Flip Phone is a flip-style toy phone that folds open, shown with its box. The photos are four angles of the same set. It is in Gadgets and Music. It is a pretend phone. The record does not say that it places real calls or name any sounds.',
-    seoDescription: 'Toy Flip Phone from A & S Toys. A flip-style toy phone that folds open, shown with its box. Plastic. Check the age on the box. Cash on delivery in Pakistan.',
+    fullDescription: 'Toy phone price in Pakistan: the Toy Flip Phone is a flip-style toy phone that folds open, shown with its box. It is a toy mobile for pretend play, in Gadgets and Music. The photos are four views of the same set. Check the box for the age grade.',
+    seoTitle: 'Toy Phone Price in Pakistan | Toy Flip Phone | A & S Toys',
+    seoDescription: 'Toy Flip Phone from A & S Toys. A flip-style toy phone that folds open, shown with its box. Plastic. Check the age on the box. COD in Pakistan.',
     features: ['Flip-style toy phone', 'Shown with its box'],
   }),
   item({
@@ -277,7 +282,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Gadgets & Music',
     shortDescription: 'A toy speaker set with two microphones.',
     fullDescription: 'The Karaoke Speaker Set is a toy speaker with two microphones. The photos are four angles of the same set. It is in Gadgets and Music. The set is for pretend singing with the two pictured microphones and the toy speaker. The record does not list songs or a battery size.',
-    seoDescription: 'Karaoke Speaker Set from A & S Toys. A toy speaker with two microphones, shown from four angles. Plastic. Check the age on the box. Cash on delivery in Pakistan.',
+    seoDescription: 'Karaoke Speaker Set from A & S Toys. A toy speaker with two microphones, shown from four views. Plastic. Check the age on the box. COD in Pakistan.',
     features: ['Toy speaker', 'Two microphones'],
   }),
   item({
@@ -298,7 +303,8 @@ export const PRODUCTS: Product[] = [
     category: 'vehicles',
     categoryName: 'Vehicles',
     shortDescription: 'A remote-control flying toy with a hand controller.',
-    fullDescription: 'The RC Flying Helicopter Toy is a remote-control flying toy in a window box, with a hand controller pictured on the pack. It is sold as an RC flying helicopter toy and sits in Vehicles. The hand controller is what the box shows. The record does not list a range, a channel count, or a charge time.',
+    fullDescription: 'RC helicopter price in Pakistan: the RC Flying Helicopter Toy is a remote-control flying toy in a window box, with a hand controller pictured on the pack. It sits in Vehicles. The hand controller is what the box shows. Check the box for the age grade.',
+    seoTitle: 'RC Helicopter Toy Price in Pakistan | A & S Toys',
     seoDescription: 'RC Flying Helicopter Toy from A & S Toys. A remote-control flying toy with a hand controller on the box. Check the age on the box. COD in Pakistan.',
     features: ['Hand controller pictured on the box', 'Remote-control flying toy', 'Window box'],
   }),
@@ -310,7 +316,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Vehicles',
     shortDescription: 'Construction toy trucks in a window box.',
     fullDescription: 'The Friction Construction Trucks are construction toy trucks in a window box. Photos show the front of the pack and the trucks from other sides. They are in Vehicles. They are friction trucks for push play. The record does not say how many trucks are in the box or name each truck body.',
-    seoDescription: 'Friction Construction Trucks from A & S Toys. Construction toy trucks in a window box. Plastic. Check the box for the age grade. Cash on delivery in Pakistan.',
+    seoDescription: 'Friction Construction Trucks from A & S Toys. Construction toy trucks in a window box. Plastic. Check the box for the age grade. COD in Pakistan.',
     features: ['Construction toy trucks', 'Window box'],
   }),
   item({
@@ -320,8 +326,8 @@ export const PRODUCTS: Product[] = [
     category: 'bubble-water',
     categoryName: 'Bubble & Water',
     shortDescription: 'A water bullet gun in a window box.',
-    fullDescription: 'The Water Bullet Gun is a water bullet gun in a window box. Photos show the front of the pack and the gun from other sides. It is in Bubble and Water. It is a toy gun sold under that name. The record does not say it is a bubble gun, and it does not list a water capacity or pellet count.',
-    seoDescription: 'Water Bullet Gun from A & S Toys. A water bullet gun in a window box, shown from several sides. Plastic. Check the age on the box. Cash on delivery in Pakistan.',
+    fullDescription: 'Water gun price in Pakistan: the Water Bullet Gun is a water gun in a window box. Photos show the front of the pack and the gun from other sides. It is in Bubble and Water. It is not a bubble gun. Check the box for the age grade.',
+    seoDescription: 'Water Bullet Gun from A & S Toys. A water gun in a window box, shown from several sides. Plastic. Check the age on the box. COD in Pakistan.',
     features: ['Water bullet gun', 'Window box'],
   }),
   item({
@@ -331,7 +337,8 @@ export const PRODUCTS: Product[] = [
     category: 'dolls-figures',
     categoryName: 'Dolls & Figures',
     shortDescription: 'Dinosaur figures in a mesh bag, packed in a window box.',
-    fullDescription: 'The Dinosaur Figure Set is dinosaur figures in a mesh bag, packed in a window box. Photos show the bag inside the box and the bag on its own. It is in Dolls and Figures. The figures stay in the mesh bag for storage. The record does not name the dinosaur species or give a figure count.',
+    fullDescription: 'Dinosaur toys price in Pakistan: the Dinosaur Figure Set is dinosaur figures in a mesh bag, packed in a window box. Photos show the bag inside the box and the bag on its own. It is in Dolls and Figures. The figures stay in the mesh bag for storage. Check the box for the age grade.',
+    seoTitle: 'Dinosaur Toys Price in Pakistan | A & S Toys',
     seoDescription: 'Dinosaur Figure Set from A & S Toys. Dinosaur figures in a mesh bag, packed in a window box. Plastic. Check the age on the box. COD in Pakistan.',
     features: ['Dinosaur figures', 'Mesh bag', 'Window box'],
   }),
@@ -342,7 +349,7 @@ export const PRODUCTS: Product[] = [
     category: 'bubble-water',
     categoryName: 'Bubble & Water',
     shortDescription: 'A bubble gun with bubble solution, in a window box.',
-    fullDescription: 'The Battery Bubble Gun is a bubble gun with a bottle of bubble solution, packed in a window box. The photos are four angles of the same set. It is in Bubble and Water and is sold as a battery bubble gun. The record shows the gun and the solution bottle. It does not name a battery size or a bubble count.',
+    fullDescription: 'Battery bubble gun price in Pakistan: the Battery Bubble Gun is a bubble gun with a bottle of bubble solution, packed in a window box. The photos are four views of the same set. It is in Bubble and Water. The listing shows the gun and the solution bottle. Check the box for the age grade.',
     seoDescription: 'Battery Bubble Gun from A & S Toys. A bubble gun with a bottle of bubble solution in a window box. Check the age on the box. COD in Pakistan.',
     features: ['Bubble gun', 'Bubble solution bottle', 'Window box'],
   }),
@@ -353,7 +360,7 @@ export const PRODUCTS: Product[] = [
     category: 'gadgets-music',
     categoryName: 'Gadgets & Music',
     shortDescription: 'A small handheld fan in a blister pack.',
-    fullDescription: 'The Mini Handheld Fan is a small fan made to hold in the hand, packed in a blister. Photos show the blister from the front, the back, and the side. It is in Gadgets and Music. It is a handheld fan toy. The record does not say whether it is battery powered or how strong the airflow is.',
+    fullDescription: 'Mini handheld fan price in Pakistan: the Mini Handheld Fan is a small fan made to hold in the hand, packed in a blister. Photos show the blister from the front, the back, and the side. It is in Gadgets and Music. Check the box for the age grade.',
     seoDescription: 'Mini Handheld Fan from A & S Toys. A small fan in a blister pack, shown from the front, back, and side. Check the age on the box. COD in Pakistan.',
     features: ['Handheld fan', 'Blister pack'],
   }),

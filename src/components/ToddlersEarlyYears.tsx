@@ -2,6 +2,7 @@ import React from 'react';
 import { Plus, Check, ArrowRight } from 'lucide-react';
 import { Product } from '../types';
 import { productPath } from '../lib/router';
+import { productPhotoAlt } from '../lib/seo';
 
 interface ToddlersEarlyYearsProps {
   products: Product[];
@@ -66,7 +67,7 @@ export const ToddlersEarlyYears: React.FC<ToddlersEarlyYearsProps> = ({
                     onClick={open}
                     className="w-full aspect-square bg-[#EAE5D9] p-3 mb-2 overflow-hidden cursor-pointer block focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#182232]"
                   >
-                    <img src={toy.image} alt={toy.title} className="w-full h-full object-contain" loading="lazy" />
+                    <img src={toy.image} alt={productPhotoAlt(toy.title, 0)} className="w-full h-full object-contain" loading="lazy" />
                   </a>
                   {toy.ageLabel ? (
                     <span className="spec-stamp self-start mb-1.5 text-[9px]">{toy.ageLabel}</span>

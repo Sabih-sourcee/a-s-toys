@@ -10,9 +10,10 @@ import { productPath } from '../lib/router';
 interface AboutViewProps {
   onShopClick: () => void;
   onOpenProduct: (slug: string) => void;
+  onOpenPath: (path: string) => void;
 }
 
-export const AboutView: React.FC<AboutViewProps> = ({ onShopClick, onOpenProduct }) => {
+export const AboutView: React.FC<AboutViewProps> = ({ onShopClick, onOpenProduct, onOpenPath }) => {
   const featured = ABOUT_FEATURED_SLUGS.map((slug) => {
     const product = PRODUCTS.find((item) => item.slug === slug);
     if (!product) throw new Error(`Missing about-page product: ${slug}`);
@@ -32,7 +33,21 @@ export const AboutView: React.FC<AboutViewProps> = ({ onShopClick, onOpenProduct
             Toys ordered online in Karachi, delivered across Pakistan
           </h1>
           <p className="font-body text-base text-[#5A6270] mt-3 leading-relaxed">
-            A &amp; S Toys is an online toy store based in Karachi. Orders ship nationwide. There is no walk-in counter.
+            A &amp; S Toys shop is an online toy store in Karachi. Also written A&amp;S Toys, AS Toys or A and S Toys.
+          </p>
+          <p className="font-body text-base text-[#5A6270] mt-3 leading-relaxed">
+            Orders ship nationwide. There is no walk-in counter.{' '}
+            <a
+              href="/toys-online-karachi"
+              onClick={(event) => {
+                event.preventDefault();
+                onOpenPath('/toys-online-karachi');
+              }}
+              className="font-headline font-bold text-[#0F3D9C] hover:text-[#E84A27]"
+            >
+              order toys online in Karachi
+            </a>
+            .
           </p>
           <p className="mt-5">
             <a

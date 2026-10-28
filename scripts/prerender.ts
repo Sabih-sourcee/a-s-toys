@@ -1,14 +1,18 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { loadEnv } from 'vite';
-import { LANDINGS, landingJsonLd, landingProducts } from '../src/data/landings';
+import { LANDINGS, landingJsonLd, landingMoreLinks, landingProducts, productGuideLinks, splitLandingText } from '../src/data/landings';
 import { ABOUT_FEATURED_SLUGS, CATEGORIES, PRODUCTS, relatedProducts } from '../src/data/products';
 import { config } from '../src/config';
 import {
   ABOUT_DESCRIPTION,
   ABOUT_TITLE,
   HOME_DESCRIPTION,
+  HOME_H1,
+  HOME_INTRO,
   HOME_TITLE,
+  VEHICLES_DESCRIPTION,
+  VEHICLES_TITLE,
   absolutePageUrl,
   canonicalPath,
   categoryDescription,
@@ -112,11 +116,17 @@ const trust = `<ul>
   <li>Courier: ${esc(courier)}</li>
 </ul>`;
 
+function inlineHtml(text: string): string {
+  return splitLandingText(text).map((part) => (
+    part.type === 'text' ? esc(part.value) : `<a href="${esc(part.href)}">${esc(part.label)}</a>`
+  )).join('');
+}
+
 writePage('/', render({
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
   urlPath: '/',
-  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>${esc(HOME_DESCRIPTION)}</p>${catalogIndex}<p><a href="/about">About A &amp; S Toys</a></p><h2>Toy guides</h2><ul>${LANDINGS.map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>${trust}</main>`,
+  body: `<main><h1>${esc(HOME_H1)}</h1><p>${esc(HOME_INTRO)}</p>${catalogIndex}<p><a href="/about">About A &amp; S Toys</a></p><h2>Toy guides</h2><ul>${LANDINGS.map((page) => `<li><a href="${esc(page.path)}">${esc(page.homeAnchor)}</a></li>`).join('')}</ul>${trust}</main>`,
 }));
 
 writePage('/shop', render({
@@ -130,14 +140,14 @@ writePage('/about', render({
   title: ABOUT_TITLE,
   description: ABOUT_DESCRIPTION,
   urlPath: '/about',
-  body: `<main><h1>A &amp; S Toys Shop</h1><p>A &amp; S Toys is an online toy shop in Karachi with delivery across Pakistan. Shop prices are up to Rs 1,200. Payment on the website is cash on delivery.</p><p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${trust}</main>`,
+  body: `<main><h1>A &amp; S Toys Shop</h1><p>A &amp; S Toys shop is an online toy store in Karachi. Also written A&amp;S Toys, AS Toys or A and S Toys.</p><p><a href="/toys-online-karachi">order toys online in Karachi</a></p><p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${trust}</main>`,
 }));
 
 for (const category of CATEGORIES) {
   const items = PRODUCTS.filter((product) => product.category === category.slug);
   writePage(`/category/${category.slug}`, render({
-    title: categoryTitle(category.name),
-    description: categoryDescription(category.name, category.description),
+    title: category.slug === 'vehicles' ? VEHICLES_TITLE : categoryTitle(category.name, category.slug),
+    description: category.slug === 'vehicles' ? VEHICLES_DESCRIPTION : categoryDescription(category.name, category.description),
     urlPath: `/category/${category.slug}`,
     body: `<main><h1>${esc(category.name)} Price in Pakistan</h1><p>${esc(category.description)}</p>${productList(items)}</main>`,
   }));
@@ -150,7 +160,7 @@ for (const page of LANDINGS) {
     description: page.description,
     urlPath: page.path,
     jsonLd: landingJsonLd(page, siteUrl),
-    body: `<main><h1>${esc(page.h1)}</h1>${page.paragraphs.map((paragraph) => `<p>${esc(paragraph)}</p>`).join('')}<h2>Questions</h2>${page.faqs.map((faq) => `<section><h3>${esc(faq.question)}</h3><p>${esc(faq.answer)}</p></section>`).join('')}<h2>Toys on this page</h2><ul>${linked.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul></main>`,
+    body: `<main><h1>${esc(page.h1)}</h1>${page.blocks.map((block) => block.kind === 'h2' ? `<h2>${esc(block.text)}</h2>` : `<p>${inlineHtml(block.text)}</p>`).join('')}<h2>Questions</h2>${page.faqs.map((faq) => `<section><h3>${esc(faq.question)}</h3><p>${esc(faq.answer)}</p></section>`).join('')}<h2>Toys on this page</h2><ul>${linked.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul><h2>More from A &amp; S Toys</h2>${namedLinks(landingMoreLinks(page).map((link) => ({ href: link.href, name: link.anchor })))}</main>`,
   }));
 }
 
@@ -161,7 +171,7 @@ for (const product of PRODUCTS) {
     urlPath: `/products/${product.slug}`,
     image: product.image,
     jsonLd: productJsonLd(product, siteUrl),
-    body: `<article><h1>${esc(product.title)} Price in Pakistan</h1><p>Rs. ${product.price.toLocaleString('en-PK')} PKR</p><img src="${esc(product.image)}" alt="${esc(productPhotoAlt(product.title, 0))}" />${product.galleryImages.map((src, index) => `<img src="${esc(src)}" alt="${esc(productPhotoAlt(product.title, index + 1))}" />`).join('')}<p>${esc(product.shortDescription)}</p><p>${esc(product.fullDescription)}</p><p><a href="/category/${esc(product.category)}">${esc(product.categoryName)}</a></p><h2>Related toys</h2>${namedLinks(relatedProducts(product).map((item) => ({ href: `/products/${item.slug}`, name: item.title })))}</article>`,
+    body: `<article><h1>${esc(product.title)} Price in Pakistan</h1><p>Rs. ${product.price.toLocaleString('en-PK')} PKR</p><img src="${esc(product.image)}" alt="${esc(productPhotoAlt(product.title, 0))}" />${product.galleryImages.map((src, index) => `<img src="${esc(src)}" alt="${esc(productPhotoAlt(product.title, index + 1))}" />`).join('')}<p>${esc(product.shortDescription)}</p><p>${esc(product.fullDescription)}</p><ul>${productGuideLinks(product.slug).map((link) => `<li><a href="${esc(link.href)}">${esc(link.anchor)}</a></li>`).join('')}</ul><p><a href="/category/${esc(product.category)}">${esc(product.categoryName)}</a></p><h2>Related toys</h2>${namedLinks(relatedProducts(product).map((item) => ({ href: `/products/${item.slug}`, name: item.title })))}</article>`,
   }));
 }
 

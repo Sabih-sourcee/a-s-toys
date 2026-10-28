@@ -4,6 +4,7 @@ import { CartItem, CustomerDetails, Order, PaymentMethod } from '../types';
 import { PAKISTANI_CITIES } from '../data/products';
 import { config, shippingQuote } from '../config';
 import { paymentLabel, submitOrder } from '../lib/orders';
+import { productPhotoAlt } from '../lib/seo';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -209,7 +210,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-[#EDE8DD]/60 p-1">
             <img
               src={item.product.image}
-              alt={item.product.title}
+              alt={productPhotoAlt(item.product.title, 0)}
               className="h-full w-full object-contain"
             />
           </div>
