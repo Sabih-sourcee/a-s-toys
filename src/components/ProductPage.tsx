@@ -5,6 +5,7 @@ import { WhatsAppLink } from './WhatsAppLink';
 import { config } from '../config';
 import { productPhotoAlt } from '../lib/seo';
 import { relatedProducts } from '../data/products';
+import { productGuideLinks } from '../data/landings';
 import { productPath } from '../lib/router';
 
 interface ProductPageProps {
@@ -12,11 +13,13 @@ interface ProductPageProps {
   onAddToCart: (product: Product, quantity: number) => void;
   onBack: () => void;
   onOpenProduct: (slug: string) => void;
+  onOpenPath: (path: string) => void;
   isAdded?: boolean;
 }
 
-export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, onBack, onOpenProduct, isAdded }) => {
+export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, onBack, onOpenProduct, onOpenPath, isAdded }) => {
   const related = relatedProducts(product);
+  const guides = productGuideLinks(product.slug);
   const [quantity, setQuantity] = useState(1);
   const photos = [product.image, ...product.galleryImages.filter((src) => src && src !== product.image)];
   const [active, setActive] = useState(0);
@@ -64,7 +67,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
                         : 'border-[#EBE5DA] opacity-80 hover:opacity-100'
                     }`}
                   >
-                    <img src={src} alt="" className="w-full h-full object-contain" />
+                    <img src={src} alt={productPhotoAlt(product.title, index)} className="w-full h-full object-contain" />
                   </button>
                 );
               })}
@@ -89,6 +92,24 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
             ) : null}
           </p>
           <p className="text-sm text-[#58554F] mt-4 leading-relaxed">{product.fullDescription}</p>
+          <ul className="mt-4 space-y-1 text-sm">
+            {guides.map((link) => (
+              <li key={link.href + link.anchor}>
+                <a
+                  href={link.href}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    const productLink = link.href.match(/^\/products\/([^/]+)$/);
+                    if (productLink) onOpenProduct(productLink[1]);
+                    else onOpenPath(link.href);
+                  }}
+                  className="font-headline font-bold text-[#0F3D9C] hover:text-[#E84A27]"
+                >
+                  {link.anchor}
+                </a>
+              </li>
+            ))}
+          </ul>
           {product.features.length > 0 && (
             <ul className="mt-4 space-y-1 text-sm text-[#211F1C] list-disc list-inside">
               {product.features.map((feature) => (

@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useMotionValueEvent, useScroll } from 'motion/
 import { ShoppingBag, Search, Truck, X, Menu, Home, Store, Info, Mail } from 'lucide-react';
 import { CartItem } from '../types';
 import { BrandMark } from './BrandMark';
+import { LANDINGS } from '../data/landings';
 
 type NavView = 'home' | 'shop' | 'about' | 'contact';
 
@@ -14,6 +15,7 @@ interface NavbarProps {
   onSearchChange: (query: string) => void;
   searchQuery: string;
   onOpenTracker: () => void;
+  onOpenGuide: (path: string) => void;
 }
 
 const SCROLL_THRESHOLD = 72;
@@ -44,6 +46,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onSearchChange,
   searchQuery,
   onOpenTracker,
+  onOpenGuide,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [manualOpen, setManualOpen] = useState(false);
@@ -192,6 +195,19 @@ export const Navbar: React.FC<NavbarProps> = ({
                     </a>
                   );
                 })}
+                {LANDINGS.map((page) => (
+                  <a
+                    key={page.path}
+                    href={page.path}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      goto(() => onOpenGuide(page.path));
+                    }}
+                    className="px-3 min-h-[44px] rounded-[6px] font-headline text-sm font-bold text-[#5A6270] hover:text-[#182232] hover:bg-[#EDE8DD] transition-colors inline-flex items-center cursor-pointer"
+                  >
+                    {page.navLabel}
+                  </a>
+                ))}
                 <button
                   type="button"
                   onClick={() => goto(onOpenTracker)}

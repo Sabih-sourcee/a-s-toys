@@ -3,6 +3,7 @@ import { X, Trash2, ShoppingBag, ArrowRight, ShieldCheck, Tag, MessageCircle, Tr
 import { CartItem } from '../types';
 import { config, shippingQuote } from '../config';
 import { WhatsAppLink } from './WhatsAppLink';
+import { productPhotoAlt } from '../lib/seo';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -187,7 +188,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     <div className="flex h-18 w-18 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#EDE8DD]/50 p-1.5">
                       <img
                         src={item.product.image}
-                        alt={item.product.title}
+                        alt={productPhotoAlt(item.product.title, 0)}
                         className="h-full w-full object-contain"
                       />
                     </div>

@@ -94,7 +94,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                   >
                     <img
                       src={imgUrl}
-                      alt=""
+                      alt={productPhotoAlt(product.title, idx)}
                       className="w-full h-full object-contain"
                     />
                   </button>
