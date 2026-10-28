@@ -60,15 +60,18 @@ function item(input: {
   features: string[];
   seoDescription: string;
   angles?: number;
+  /** Overrides the numbered /images/products/{slug}-N.webp set. */
+  image?: string;
+  galleryImages?: string[];
 }): Product {
-  const { angles = 4, fullDescription, ...fields } = input;
+  const { angles = 4, fullDescription, image, galleryImages, ...fields } = input;
   return {
     ...fields,
     fullDescription: `${fullDescription.trim()} ${ORDER_NOTES}`,
     stock: 10,
     inStock: true,
-    image: photo(fields.slug, 1),
-    galleryImages: Array.from({ length: Math.max(0, angles - 1) }, (_, index) => photo(fields.slug, index + 2)),
+    image: image ?? photo(fields.slug, 1),
+    galleryImages: galleryImages ?? Array.from({ length: Math.max(0, angles - 1) }, (_, index) => photo(fields.slug, index + 2)),
     materials: 'Plastic',
     safetyNotes: 'Check the box for the age grade.',
   };
@@ -101,7 +104,7 @@ export const CATEGORIES: Category[] = [
     name: 'Vehicles',
     slug: 'vehicles',
     description: 'Off-road and construction vehicles, a light-up car set, and an RC flying helicopter toy.',
-    image: photo('friction-off-road-vehicle', 1),
+    image: '/images/products/friction-off-road-vehicle-jeep-desert.webp',
   },
   {
     id: 'bubble-water',
@@ -282,7 +285,8 @@ export const PRODUCTS: Product[] = [
     fullDescription: 'The Friction Off-Road Vehicle is an off-road toy vehicle in a window box. Photos show the front of the pack and the truck from other sides. It is in Vehicles. It is a push-along style vehicle sold as a friction toy. The record does not list a motor, remote, or scale.',
     seoDescription: 'Friction Off-Road Vehicle from A & S Toys. An off-road toy vehicle in a window box. Plastic. Check the box for the age grade. Cash on delivery in Pakistan.',
     features: ['Off-road toy vehicle', 'Window box'],
-    angles: 3,
+    image: '/images/products/friction-off-road-vehicle-jeep-desert.webp',
+    galleryImages: ['/images/products/friction-off-road-vehicle-jeep-white.webp'],
   }),
   item({
     id: 'ast-014',
