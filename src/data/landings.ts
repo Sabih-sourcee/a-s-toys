@@ -50,13 +50,13 @@ export const LANDINGS: LandingPage[] = [
     crossAnchor: 'kitchen set toys',
     title: 'Kitchen Set Toys in Pakistan | Price in Karachi | A & S Toys',
     description:
-      'Kitchen set toys in Pakistan and Karachi from A & S Toys: toy kitchen play set and toy dispensers up to Rs 1,200. COD, 7-day replacement.',
+      'Kitchen set toys in Pakistan and Karachi from A & S Toys: toy kitchen play set and toy dispensers from Rs 300. COD, 7-day replacement.',
     h1: 'Kitchen set toys in Pakistan',
     productSlugs: kitchenSlugs,
     blocks: [
       {
         kind: 'p',
-        text: 'Looking for a kitchen set toy price in Pakistan? A & S Toys in Karachi sells a Kitchen Play Set and three toy water dispensers. The Kitchen Play Set is a toy kitchen in a window box. The pack shows a stove, an oven, and utensils. Those pictured pieces are what you use for pretend cooking. Shop prices are up to Rs 1,200. Payment on the website is cash on delivery. Delivery is Rs 250, and delivery is free when the order total reaches Rs 3,500. The exchange note is a 7-day replacement for transit damage. Check the box for the age grade.',
+        text: 'Looking for a kitchen set toy price in Pakistan? A & S Toys in Karachi sells a Kitchen Play Set and three toy water dispensers. The Kitchen Play Set is a toy kitchen in a window box. The pack shows a stove, an oven, and utensils. Those pictured pieces are what you use for pretend cooking. Shop prices are from Rs 300. Payment on the website is cash on delivery. Delivery is Rs 250, and delivery is free when the order total reaches Rs 3,500. The exchange note is a 7-day replacement for transit damage. Check the box for the age grade.',
       },
       { kind: 'h2', text: 'Kids kitchen set in Karachi' },
       {
@@ -101,13 +101,13 @@ export const LANDINGS: LandingPage[] = [
     crossAnchor: 'water dispenser toy price in Pakistan',
     title: 'Water Dispenser Toy Price in Pakistan | A & S Toys',
     description:
-      'Water dispenser toy in Pakistan from A & S Toys: mini, animal and kitchen dispenser toys, up to Rs 1,200. Karachi shop, COD, 7-day replacement.',
+      'Water dispenser toy in Pakistan from A & S Toys: mini, animal and kitchen dispenser toys, from Rs 300. Karachi shop, COD, 7-day replacement.',
     h1: 'Water dispenser toys in Pakistan',
     productSlugs: dispenserSlugs,
     blocks: [
       {
         kind: 'p',
-        text: 'Water dispenser toy price in Pakistan is what this page is for. A & S Toys in Karachi sells three toy water dispensers: the Mini Water Dispenser Toy, the Animal Water Dispenser, and the Kitchen Water Dispenser. Each one is plastic and sits in Pretend Play. Shop prices are up to Rs 1,200. Payment on the website is cash on delivery. Delivery is Rs 250, and delivery is free when the order total reaches Rs 3,500. The exchange note is a 7-day replacement for transit damage. The courier is TCS/Leopards. There is no walk-in counter. Check the box for the age grade.',
+        text: 'Water dispenser toy price in Pakistan is what this page is for. A & S Toys in Karachi sells three toy water dispensers: the Mini Water Dispenser Toy, the Animal Water Dispenser, and the Kitchen Water Dispenser. Each one is plastic and sits in Pretend Play. Shop prices are from Rs 300. Payment on the website is cash on delivery. Delivery is Rs 250, and delivery is free when the order total reaches Rs 3,500. The exchange note is a 7-day replacement for transit damage. The courier is TCS/Leopards. There is no walk-in counter. Check the box for the age grade.',
       },
       {
         kind: 'p',
@@ -151,13 +151,13 @@ export const LANDINGS: LandingPage[] = [
     crossAnchor: 'building blocks toys price in Pakistan',
     title: 'Building Blocks Toys in Pakistan | Price | A & S Toys',
     description:
-      'Building blocks toys in Pakistan: handled carry case set and big blocks bag from A & S Toys, up to Rs 1,200. COD, 7-day replacement.',
+      'Building blocks toys in Pakistan: handled carry case set and big blocks bag from A & S Toys, from Rs 300. COD, 7-day replacement.',
     h1: 'Building blocks toys in Pakistan',
     productSlugs: blockSlugs,
     blocks: [
       {
         kind: 'p',
-        text: 'Looking for building blocks toys price in Pakistan? A & S Toys in Karachi has two plastic building-block toys. One is the Building Blocks Play Set. The other is the Big Building Blocks Bag. Shop prices are up to Rs 1,200. Payment on the website is cash on delivery. Delivery is Rs 250, and delivery is free when the order total reaches Rs 3,500. The courier is TCS/Leopards. The exchange note is a 7-day replacement for transit damage. There is no walk-in counter. Check the box for the age grade.',
+        text: 'Looking for building blocks toys price in Pakistan? A & S Toys in Karachi has two plastic building-block toys. One is the Building Blocks Play Set. The other is the Big Building Blocks Bag. Shop prices are from Rs 300. Payment on the website is cash on delivery. Delivery is Rs 250, and delivery is free when the order total reaches Rs 3,500. The courier is TCS/Leopards. The exchange note is a 7-day replacement for transit damage. There is no walk-in counter. Check the box for the age grade.',
       },
       {
         kind: 'p',
@@ -204,13 +204,13 @@ export const LANDINGS: LandingPage[] = [
     crossAnchor: 'buy toys online in Karachi',
     title: 'Toys Online in Karachi | Buy Kids Toys, COD | A & S Toys',
     description:
-      'Buy toys online in Karachi from A & S Toys. Kitchen sets, blocks, bubble guns, RC toys up to Rs 1,200. COD, 7-day replacement, Rs 250 delivery.',
+      'Buy toys online in Karachi from A & S Toys. Kitchen sets, blocks, bubble guns, RC toys from Rs 300. COD, 7-day replacement, Rs 250 delivery.',
     h1: 'Toys online in Karachi',
     productSlugs: PRODUCTS.map((product) => product.slug),
     blocks: [
       {
         kind: 'p',
-        text: 'A & S Toys is a Karachi toy shop that sells online to the rest of Pakistan. There is no walk-in address, so you order for delivery. Payment on the website is cash on delivery. Delivery is Rs 250, and delivery is free when the order total reaches Rs 3,500. The courier is TCS/Leopards. The exchange note is a 7-day replacement for transit damage. Shop prices are up to Rs 1,200. Every toy on the record is plastic. Check the box for the age grade.',
+        text: 'A & S Toys is a Karachi toy shop that sells online to the rest of Pakistan. There is no walk-in address, so you order for delivery. Payment on the website is cash on delivery. Delivery is Rs 250, and delivery is free when the order total reaches Rs 3,500. The courier is TCS/Leopards. The exchange note is a 7-day replacement for transit damage. Shop prices are from Rs 300. Every toy on the record is plastic. Check the box for the age grade.',
       },
       { kind: 'h2', text: 'Online toys shop in Karachi' },
       {
@@ -259,13 +259,13 @@ export const LANDINGS: LandingPage[] = [
     crossAnchor: 'bubble gun price in Pakistan',
     title: 'Bubble Gun Price in Pakistan | A & S Toys',
     description:
-      'Bubble gun in Pakistan from A & S Toys: gatling and battery bubble guns up to Rs 1,200. Karachi shop, COD, 7-day replacement.',
+      'Bubble gun in Pakistan from A & S Toys: gatling and battery bubble guns from Rs 300. Karachi shop, COD, 7-day replacement.',
     h1: 'Bubble guns in Pakistan',
     productSlugs: bubbleSlugs,
     blocks: [
       {
         kind: 'p',
-        text: 'Bubble gun price in Pakistan, for the two guns A & S Toys actually sells, is on this page. They are the Gatling Bubble Gun and the Battery Bubble Gun. The [water gun](/products/water-bullet-gun) in the same Bubble and Water category is not a bubble gun, so it is not in the list below. The shop is in Karachi and ships nationwide. Payment on the website is cash on delivery. Delivery is Rs 250, and delivery is free when the order total reaches Rs 3,500. The exchange note is a 7-day replacement for transit damage. Both guns are plastic. Shop prices are up to Rs 1,200. Check the box for the age grade.',
+        text: 'Bubble gun price in Pakistan, for the two guns A & S Toys actually sells, is on this page. They are the Gatling Bubble Gun and the Battery Bubble Gun. The [water gun](/products/water-bullet-gun) in the same Bubble and Water category is not a bubble gun, so it is not in the list below. The shop is in Karachi and ships nationwide. Payment on the website is cash on delivery. Delivery is Rs 250, and delivery is free when the order total reaches Rs 3,500. The exchange note is a 7-day replacement for transit damage. Both guns are plastic. Shop prices are from Rs 300. Check the box for the age grade.',
       },
       {
         kind: 'p',
@@ -303,7 +303,7 @@ export const LANDINGS: LandingPage[] = [
       {
         question: 'How do I order?',
         answer:
-          'Order on the product page. Payment on the website is cash on delivery. A & S Toys ships nationwide from Karachi. Delivery is Rs 250, and it is free when the order total reaches Rs 3,500. Prices are up to Rs 1,200.',
+          'Order on the product page. Payment on the website is cash on delivery. A & S Toys ships nationwide from Karachi. Delivery is Rs 250, and it is free when the order total reaches Rs 3,500. Prices are from Rs 300.',
       },
     ],
   },

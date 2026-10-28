@@ -14,7 +14,7 @@ export function productDescription(product: Pick<Product, 'title' | 'shortDescri
 
 export const VEHICLES_TITLE = 'Toy Cars & Vehicles Price in Pakistan | A & S Toys';
 export const VEHICLES_DESCRIPTION =
-  'Toy cars and vehicles from A & S Toys: friction cars, construction trucks, a light and music car, and an RC helicopter. Up to Rs 1,200. COD.';
+  'Toy cars and vehicles from A & S Toys: friction cars, construction trucks, a light and music car, and an RC helicopter. From Rs 300. COD.';
 
 export function categoryTitle(name: string, slug?: string): string {
   if (slug === 'vehicles') return VEHICLES_TITLE;
@@ -28,14 +28,14 @@ export function categoryDescription(name: string, blurb: string): string {
 
 export const ABOUT_TITLE = 'A & S Toys Shop | Online Toy Store in Karachi, Pakistan';
 export const ABOUT_DESCRIPTION =
-  'A & S Toys is an online toy shop in Karachi with delivery across Pakistan. Kitchen sets, building blocks, RC toys and more, up to Rs 1,200. Cash on delivery.';
+  'A & S Toys is an online toy shop in Karachi with delivery across Pakistan. Kitchen sets, building blocks, RC toys and more, from Rs 300. Cash on delivery.';
 
 export const HOME_TITLE = 'A & S Toys | Buy Toys Online in Karachi & Pakistan';
 export const HOME_H1 = 'A & S Toys: online toy shop in Karachi';
 export const HOME_INTRO =
   'A & S Toys (also written A&S Toys, AS Toys or A and S Toys) is an online toy shop in Karachi that delivers across Pakistan. Cash on delivery, 7-day replacement for transit damage, Rs 250 delivery, free over Rs 3,500.';
 export const HOME_DESCRIPTION =
-  'A & S Toys (A&S Toys) is an online toy shop in Karachi delivering across Pakistan. Kitchen sets, blocks, bubble guns, RC toys up to Rs 1,200. COD.';
+  'A & S Toys (A&S Toys) is an online toy shop in Karachi delivering across Pakistan. Kitchen sets, blocks, bubble guns, RC toys from Rs 300. COD.';
 
 /** Card and main photo, then gallery photos numbered from 2. */
 export function productPhotoAlt(title: string, index: number): string {
