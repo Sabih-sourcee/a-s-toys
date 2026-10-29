@@ -38,7 +38,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
   const whatsappOrderMsg =
     `Assalam-o-Alaikum! I would like to order ${quantity}x "${product.title}" (Rs. ${(
       product.price * quantity
-    ).toLocaleString()}) with Cash on Delivery to my address.`;
+    ).toLocaleString()}). Payment is cash on delivery, JazzCash, EasyPaisa, or bank transfer.`;
 
   const whatsappVideoMsg =
     `Assalam-o-Alaikum! Could you please share a 15-second video clip of "${product.title}"? Thank you!`;
@@ -152,7 +152,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                     )}
                   </div>
                   <span className="text-[11px] font-bold text-[#182232] block mt-0.5">
-                    Cash on Delivery (0% advance required)
+                    Cash on delivery, JazzCash, EasyPaisa, or bank transfer.
                   </span>
                 </div>
 
@@ -198,7 +198,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Truck aria-hidden="true" className="w-4 h-4 text-[#182232]" />
-                  <span>TCS / Leopards (2-3 days)</span>
+                  <span>TCS or Leopards, 2-5 business days</span>
                 </div>
               </div>
             </div>
@@ -265,7 +265,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 id="modal-whatsapp-instant-buy"
               >
                 <MessageCircle aria-hidden="true" className="w-4 h-4 fill-white" />
-                <span>WhatsApp order (COD)</span>
+                <span>WhatsApp order</span>
               </WhatsAppLink>
             </div>
           </div>

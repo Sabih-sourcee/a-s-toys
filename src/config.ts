@@ -42,7 +42,7 @@ export const config = {
   email: env('VITE_SHOP_EMAIL', 'atarehman@usmanitoys.com'),
   /** Optional. Hidden wherever it is empty. There is no walk-in address. */
   address: env('VITE_SHOP_ADDRESS'),
-  exchangePolicy: env('VITE_EXCHANGE_POLICY', '7-day replacement for transit damage'),
+  exchangePolicy: env('VITE_EXCHANGE_POLICY', '7-day return or replacement, counted from delivery, only for a wrong item or significant damage such as cracked or broken pieces. Not for scratches, scuffs, box dents, or change of mind.'),
   /** A number such as 250. A TODO placeholder adds no fee. */
   deliveryCharges: env('VITE_DELIVERY_CHARGES', '250'),
   courier: env('VITE_COURIER', 'TCS/Leopards'),

@@ -31,7 +31,7 @@ export const StoryTeaser: React.FC<StoryTeaserProps> = ({ onAboutClick, onShopCl
             </h2>
             <p className="font-body text-sm sm:text-base text-[#C8CFD8] leading-relaxed max-w-lg">
               A&amp;S Toys sells toys online from Karachi and delivers across Pakistan.
-              Cash on delivery, WhatsApp video clips, and real product photos.
+              Cash on delivery, JazzCash, EasyPaisa, or bank transfer. Delivery takes 2-5 business days. WhatsApp video clips and real product photos.
               No fake reviews.
             </p>
             <div className="flex flex-wrap gap-3 pt-1">

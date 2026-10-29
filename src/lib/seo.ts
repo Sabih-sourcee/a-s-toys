@@ -9,7 +9,7 @@ export function productTitle(product: Pick<Product, 'title'>): string {
 
 export function productDescription(product: Pick<Product, 'title' | 'shortDescription' | 'seoDescription'>): string {
   if (product.seoDescription) return product.seoDescription;
-  return `${product.title} from A & S Toys. ${product.shortDescription} Plastic. Check the box for the age grade. Cash on delivery in Pakistan.`;
+  return `${product.title} from A & S Toys. ${product.shortDescription} Plastic. Check the box for the age grade. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.`;
 }
 
 export function categoryTitle(name: string): string {
@@ -17,13 +17,18 @@ export function categoryTitle(name: string): string {
 }
 
 export function categoryDescription(name: string, blurb: string): string {
-  const text = `${name} price in Karachi, Pakistan. ${blurb} Cash on delivery from ${BRAND} in Karachi.`;
+  const text = `${name} price in Karachi, Pakistan. ${blurb} Cash on delivery, JazzCash, EasyPaisa, or bank transfer from ${BRAND} in Karachi.`;
   return text.length > 160 ? `${text.slice(0, 157)}...` : text;
 }
 
 export const ABOUT_TITLE = 'A & S Toys Shop | Online Toy Store in Karachi, Pakistan';
 export const ABOUT_DESCRIPTION =
-  'A & S Toys is an online toy shop in Karachi with delivery across Pakistan. Kitchen sets, building blocks, RC toys and more, from Rs 300. Cash on delivery.';
+  'A & S Toys in Karachi. Pay by cash on delivery, JazzCash, EasyPaisa, or bank transfer. Delivery is Rs 250, free over Rs 3,500, in 2-5 business days.';
+
+export const RETURN_POLICY_PATH = '/return-policy';
+export const RETURN_POLICY_TITLE = 'Return & Replacement Policy | A & S Toys';
+export const RETURN_POLICY_DESCRIPTION =
+  'A 7-day return or replacement only for a wrong item or significant damage. Not for scratches, scuffs, box dents, or change of mind.';
 
 export const HOME_TITLE = 'A & S Toys | Toy Prices in Karachi, Pakistan';
 export const HOME_DESCRIPTION =
@@ -96,12 +101,12 @@ function offerShippingDetails() {
       handlingTime: {
         '@type': 'QuantitativeValue',
         minValue: 0,
-        maxValue: 1,
+        maxValue: 0,
         unitCode: 'DAY',
       },
       transitTime: {
         '@type': 'QuantitativeValue',
-        minValue: 1,
+        minValue: 2,
         maxValue: 5,
         unitCode: 'DAY',
       },

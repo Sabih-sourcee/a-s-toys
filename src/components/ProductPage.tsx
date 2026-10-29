@@ -27,7 +27,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
   const photoIndex = active >= 0 && active < photos.length ? active : 0;
   const out = !product.inStock || product.stock <= 0;
   const message =
-    `Assalam-o-Alaikum! I want to order ${product.title} (Rs. ${product.price.toLocaleString('en-PK')}) from A&S Toys. Payment: COD.`;
+    `Assalam-o-Alaikum! I want to order ${product.title} (Rs. ${product.price.toLocaleString('en-PK')}) from A&S Toys. Payment is cash on delivery, JazzCash, EasyPaisa, or bank transfer.`;
 
   return (
     <article className="max-w-5xl mx-auto min-w-0 px-4 sm:px-6 py-8 sm:py-12" id="product-page">
@@ -152,7 +152,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
               <span className="min-w-0 break-words">WhatsApp {config.whatsappPhone}</span>
             </WhatsAppLink>
           </div>
-          <p className="text-xs text-[#58554F] mt-3">Payment on the website is cash on delivery.</p>
+          <p className="text-xs text-[#58554F] mt-3">Payment is cash on delivery, JazzCash, EasyPaisa, or bank transfer. Delivery takes 2-5 business days.</p>
         </div>
       </div>
 

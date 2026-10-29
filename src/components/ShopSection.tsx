@@ -107,7 +107,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
                 : `${CATEGORIES.find((cat) => cat.slug === selectedCategory)?.name || 'Toys'} Price in Karachi, Pakistan`}
             </h1>
             <p className="font-body text-sm sm:text-base text-[#5A6270] mt-2 max-w-2xl">
-              A Karachi-based online toy store. Cash on delivery nationwide.
+              A Karachi-based online toy store. Cash on delivery, JazzCash, EasyPaisa, or bank transfer. Delivery takes 2-5 business days.
             </p>
           </div>
 
@@ -225,7 +225,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
             <span className="font-mono text-[11px] font-medium text-[#182232] tracking-[0.05em] uppercase">
               {filteredProducts.length} {filteredProducts.length === 1 ? 'set' : 'sets'}
             </span>
-            <span className="text-xs text-[#5A6270] font-body">· COD across Pakistan</span>
+            <span className="text-xs text-[#5A6270] font-body">· Cash on delivery, JazzCash, EasyPaisa, or bank transfer</span>
           </div>
 
           {hasActiveFilters && (

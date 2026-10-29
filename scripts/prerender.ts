@@ -9,6 +9,9 @@ import {
   ABOUT_TITLE,
   HOME_DESCRIPTION,
   HOME_TITLE,
+  RETURN_POLICY_DESCRIPTION,
+  RETURN_POLICY_PATH,
+  RETURN_POLICY_TITLE,
   absolutePageUrl,
   canonicalPath,
   categoryDescription,
@@ -28,7 +31,7 @@ const phoneTel = config.phoneTel;
 const whatsappPhone = config.whatsappPhone;
 const whatsappUrl = `https://wa.me/${config.whatsappNumber}`;
 const address = env.VITE_SHOP_ADDRESS || 'TODO: shop address';
-const exchangePolicy = env.VITE_EXCHANGE_POLICY || 'TODO: 7-day exchange policy';
+const exchangePolicy = env.VITE_EXCHANGE_POLICY || config.exchangePolicy;
 const deliveryCharges = env.VITE_DELIVERY_CHARGES || 'TODO: delivery charges';
 const courier = env.VITE_COURIER || 'TODO: courier';
 
@@ -121,7 +124,7 @@ writePage('/', render({
 
 writePage('/shop', render({
   title: `All Toys Price in Pakistan | A&S Toys`,
-  description: 'All toy prices in Pakistan from A&S Toys. Cash on delivery.',
+  description: 'All toy prices in Pakistan from A&S Toys. Cash on delivery, JazzCash, EasyPaisa, or bank transfer. Delivery takes 2-5 business days.',
   urlPath: '/shop',
   body: `<main><h1>All Toys Price in Pakistan</h1>${productList(PRODUCTS)}</main>`,
 }));
@@ -130,7 +133,14 @@ writePage('/about', render({
   title: ABOUT_TITLE,
   description: ABOUT_DESCRIPTION,
   urlPath: '/about',
-  body: `<main><h1>A &amp; S Toys Shop</h1><p>A &amp; S Toys is an online toy shop in Karachi with delivery across Pakistan. Shop prices are from Rs 300. Payment on the website is cash on delivery.</p><p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${trust}</main>`,
+  body: `<main><h1>A &amp; S Toys Shop</h1><p>A &amp; S Toys is an online toy shop in Karachi with delivery across Pakistan. Shop prices are from Rs 300. Payment is cash on delivery, JazzCash, EasyPaisa, or bank transfer. Delivery takes 2-5 business days.</p><p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${trust}</main>`,
+}));
+
+writePage(RETURN_POLICY_PATH, render({
+  title: RETURN_POLICY_TITLE,
+  description: RETURN_POLICY_DESCRIPTION,
+  urlPath: RETURN_POLICY_PATH,
+  body: `<main><h1>Return &amp; Replacement Policy</h1><p>A &amp; S Toys accepts a return or replacement only in two cases. The claim window is 7 days, counted from delivery.</p><h2>When a return or replacement is accepted</h2><ol><li>The item received is different from what was ordered.</li><li>The item arrived with significant damage, such as cracked or broken pieces. For example, cracked blocks in a block set.</li></ol><h2>What is not eligible</h2><p>Minor cosmetic damage, such as small scratches, scuffs, or box dents, is not eligible. There are no returns for change of mind.</p><h2>How to claim</h2><p>Within 7 days of delivery, contact us via <a href="/contact">usmanitoys.com</a> or send photos of the item on WhatsApp at ${esc(whatsappPhone)}.</p><h2>Payment</h2><p>Payment is cash on delivery, JazzCash, EasyPaisa, or bank transfer.</p><h2>Shipping</h2><p>Delivery is Rs ${esc(Number(config.deliveryCharges).toLocaleString('en-PK'))} across Pakistan, and it is free on orders of Rs ${esc(Number(config.freeShippingOver).toLocaleString('en-PK'))} or more. Delivery takes 2-5 business days via TCS or Leopards.</p></main>`,
 }));
 
 for (const category of CATEGORIES) {
@@ -169,6 +179,7 @@ const urls = [
   '/',
   '/shop',
   '/about',
+  RETURN_POLICY_PATH,
   ...CATEGORIES.map((category) => `/category/${category.slug}`),
   ...LANDINGS.map((page) => page.path),
   ...PRODUCTS.map((product) => `/products/${product.slug}`),
