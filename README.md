@@ -1,6 +1,6 @@
-# A&S Toys (usmanitoys.com)
+# A & S Toys (usmanitoys.com)
 
-React + Vite online store for A&S Toys, based in Karachi, with nationwide delivery. Orders go to a Google Sheet through a Google Apps Script web app. There is no walk-in shop, no shop server, and no WooCommerce.
+React + Vite online store for A & S Toys, based in Karachi, with nationwide delivery. Orders go to a Google Sheet through a Google Apps Script web app. There is no walk-in shop, no shop server, and no WooCommerce.
 
 The live site was checked against this repo on 16 Oct 2026 (same page title, product names, and Vite bundle).
 

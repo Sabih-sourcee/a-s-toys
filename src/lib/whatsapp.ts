@@ -8,4 +8,4 @@ export function whatsappHref(message?: string): string | null {
 }
 
 export const WHATSAPP_HELP_MESSAGE =
-  'Assalam-o-Alaikum! I am browsing A&S Toys and would like help choosing a toy.';
+  'Assalam-o-Alaikum! I am browsing A & S Toys and would like help choosing a toy.';

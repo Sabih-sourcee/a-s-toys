@@ -198,15 +198,15 @@ export default function App() {
           }
         : route.name === 'contact'
           ? {
-              title: 'Contact & Wholesale | A&S Toys Pakistan',
+              title: 'Contact & Wholesale | A & S Toys Pakistan',
               description:
-                'Wholesale and partnership inquiries for A&S Toys. Sourcing toys for wholesalers for more than 10 years. Karachi-based, nationwide.',
+                'Wholesale and partnership inquiries for A & S Toys. Sourcing toys for wholesalers for more than 10 years. Karachi-based, nationwide.',
               path: '/contact',
             }
         : route.name === 'shop'
           ? {
-              title: 'All Toys Price in Karachi, Pakistan | A&S Toys',
-              description: 'All toy prices in Karachi, Pakistan from A&S Toys. Cash on delivery.',
+              title: 'All Toys Price in Karachi, Pakistan | A & S Toys',
+              description: 'All toy prices in Karachi, Pakistan from A & S Toys. Cash on delivery.',
               path: '/shop',
             }
           : {

@@ -30,7 +30,7 @@ export const StoryTeaser: React.FC<StoryTeaserProps> = ({ onAboutClick, onShopCl
               A Karachi-based online toy store
             </h2>
             <p className="font-body text-sm sm:text-base text-[#C8CFD8] leading-relaxed max-w-lg">
-              A&amp;S Toys sells toys online from Karachi and delivers across Pakistan.
+              A &amp; S Toys sells toys online from Karachi and delivers across Pakistan.
               Cash on delivery, WhatsApp video clips, and real product photos.
               No fake reviews.
             </p>
@@ -40,7 +40,7 @@ export const StoryTeaser: React.FC<StoryTeaserProps> = ({ onAboutClick, onShopCl
                 className="btn-on-dark px-6 py-3 inline-flex items-center gap-2 cursor-pointer"
                 id="btn-story-about"
               >
-                About A&amp;S Toys
+                About A &amp; S Toys
                 <ArrowRight aria-hidden="true" className="w-4 h-4" />
               </button>
               <button
