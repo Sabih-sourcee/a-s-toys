@@ -57,6 +57,14 @@ function render(opts: { title: string; description: string; urlPath: string; bod
     /<meta property="og:description" content="[^"]*"\s*\/?>/,
     `<meta property="og:description" content="${esc(opts.description)}" />`
   );
+  html = html.replace(
+    /<meta name="twitter:title" content="[^"]*"\s*\/?>/,
+    `<meta name="twitter:title" content="${esc(opts.title)}" />`
+  );
+  html = html.replace(
+    /<meta name="twitter:description" content="[^"]*"\s*\/?>/,
+    `<meta name="twitter:description" content="${esc(opts.description)}" />`
+  );
 
   const image = opts.image
     ? (opts.image.startsWith('http') ? opts.image : `${siteUrl}${opts.image.startsWith('/') ? opts.image : `/${opts.image}`}`)
@@ -120,8 +128,8 @@ writePage('/', render({
 }));
 
 writePage('/shop', render({
-  title: `All Toys Price in Pakistan | A&S Toys`,
-  description: 'All toy prices in Pakistan from A&S Toys. Cash on delivery.',
+  title: `All Toys Price in Pakistan | A & S Toys`,
+  description: 'All toy prices in Pakistan from A & S Toys. Cash on delivery.',
   urlPath: '/shop',
   body: `<main><h1>All Toys Price in Pakistan</h1>${productList(PRODUCTS)}</main>`,
 }));
@@ -175,8 +183,8 @@ const urls = [
 ];
 
 const notFound = render({
-  title: 'Page not found | A&S Toys',
-  description: 'That page is not on A&S Toys.',
+  title: 'Page not found | A & S Toys',
+  description: 'That page is not on A & S Toys.',
   urlPath: '/404.html',
   body: '<main><h1>Page not found</h1><p><a href="/">Back home</a></p></main>',
 }).replace('</head>', '    <meta name="robots" content="noindex" />\n  </head>');

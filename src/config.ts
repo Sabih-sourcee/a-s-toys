@@ -23,7 +23,7 @@ const whatsappNumber = env('VITE_WHATSAPP_NUMBER', WHATSAPP_NUMBER_DEFAULT).repl
 
 export const config = {
   siteUrl: env('VITE_SITE_URL', 'https://usmanitoys.com').replace(/\/$/, ''),
-  siteName: 'A&S Toys',
+  siteName: 'A & S Toys',
   /** Digits only, country code included, no plus. Default PK WhatsApp 0314… → 92314… */
   whatsappNumber,
   /** Local display for the WhatsApp line, e.g. 0314 3814591. */

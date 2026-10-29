@@ -72,7 +72,7 @@ export const ContactView: React.FC = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                <input type="hidden" name="_subject" value="A&S Toys wholesale inquiry" />
+                <input type="hidden" name="_subject" value="A & S Toys wholesale inquiry" />
 
                 <div>
                   <label htmlFor="contact-name" className="block text-xs font-headline font-bold text-[#182232] mb-1">

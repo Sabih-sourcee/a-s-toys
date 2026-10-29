@@ -40,7 +40,7 @@ export async function submitOrder(payload: OrderPayload): Promise<void> {
     .join('\n');
 
   const body = {
-    _subject: `New A&S Toys order ${payload.orderId}`,
+    _subject: `New A & S Toys order ${payload.orderId}`,
     orderId: payload.orderId,
     name: payload.name,
     email: payload.email || 'no-email@customer.local',
