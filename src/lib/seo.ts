@@ -28,7 +28,7 @@ export const ABOUT_DESCRIPTION =
 export const RETURN_POLICY_PATH = '/return-policy';
 export const RETURN_POLICY_TITLE = 'Return & Replacement Policy | A & S Toys';
 export const RETURN_POLICY_DESCRIPTION =
-  'A & S Toys replaces transit-damaged items within 7 days of delivery. No change-of-mind returns. Rs 250 delivery in Pakistan, free over Rs 3,500.';
+  'A 7-day return or replacement only for a wrong item or significant damage. Not for scratches, scuffs, box dents, or change of mind.';
 
 export const HOME_TITLE = 'A & S Toys | Toy Prices in Karachi, Pakistan';
 export const HOME_DESCRIPTION =

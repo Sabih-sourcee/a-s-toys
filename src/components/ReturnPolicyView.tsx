@@ -4,7 +4,7 @@ import { config } from '../config';
 import { WhatsAppLink } from './WhatsAppLink';
 
 const CLAIM_MESSAGE =
-  'Assalam-o-Alaikum! I want to claim a replacement for an item damaged in transit. I will send photos of the item.';
+  'Assalam-o-Alaikum! I want to claim a return or replacement within 7 days of delivery. The item is different from my order, or it arrived with significant damage. I will send photos on WhatsApp.';
 
 interface ReturnPolicyViewProps {
   onOpenContact: () => void;
@@ -22,14 +22,31 @@ export const ReturnPolicyView: React.FC<ReturnPolicyViewProps> = ({ onOpenContac
             Return &amp; Replacement Policy
           </h1>
           <p className="font-body text-base text-[#5A6270] mt-3 leading-relaxed">
-            A &amp; S Toys offers a 7-day replacement, counted from delivery, for items damaged in transit.
+            A &amp; S Toys accepts a return or replacement only in the two cases below. The claim window is 7 days, counted from delivery.
           </p>
         </header>
+
+        <section className="space-y-3">
+          <h2 className="font-headline text-lg font-bold text-[#182232]">When a return or replacement is accepted</h2>
+          <ol className="list-decimal pl-5 space-y-2 font-body text-sm sm:text-base text-[#211F1C] leading-relaxed">
+            <li>The item received is different from what was ordered.</li>
+            <li>
+              The item arrived with significant damage, such as cracked or broken pieces. For example, cracked blocks in a block set.
+            </li>
+          </ol>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="font-headline text-lg font-bold text-[#182232]">What is not eligible</h2>
+          <p className="font-body text-sm sm:text-base text-[#211F1C] leading-relaxed">
+            Minor cosmetic damage, such as small scratches, scuffs, or box dents, is not eligible. There are no returns for change of mind.
+          </p>
+        </section>
 
         <section className="space-y-2">
           <h2 className="font-headline text-lg font-bold text-[#182232]">How to claim</h2>
           <p className="font-body text-sm sm:text-base text-[#211F1C] leading-relaxed">
-            Contact us via{' '}
+            Within 7 days of delivery, contact us via{' '}
             <a
               href="/contact"
               onClick={(event) => {
@@ -40,7 +57,7 @@ export const ReturnPolicyView: React.FC<ReturnPolicyViewProps> = ({ onOpenContac
             >
               usmanitoys.com
             </a>{' '}
-            or WhatsApp at {config.whatsappPhone} with photos of the item, and we send a replacement at no cost.
+            or send photos of the item on WhatsApp at {config.whatsappPhone}.
           </p>
           <WhatsAppLink
             message={CLAIM_MESSAGE}
@@ -49,13 +66,6 @@ export const ReturnPolicyView: React.FC<ReturnPolicyViewProps> = ({ onOpenContac
             <MessageCircle aria-hidden="true" className="w-4 h-4 fill-white" />
             <span>WhatsApp {config.whatsappPhone}</span>
           </WhatsAppLink>
-        </section>
-
-        <section className="space-y-2">
-          <h2 className="font-headline text-lg font-bold text-[#182232]">Change of mind</h2>
-          <p className="font-body text-sm sm:text-base text-[#211F1C] leading-relaxed">
-            No returns for change of mind.
-          </p>
         </section>
 
         <section className="space-y-2">
