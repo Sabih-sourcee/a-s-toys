@@ -61,7 +61,7 @@ export const ReturnPolicyView: React.FC<ReturnPolicyViewProps> = ({ onOpenContac
         <section className="space-y-2">
           <h2 className="font-headline text-lg font-bold text-[#182232]">Payment</h2>
           <p className="font-body text-sm sm:text-base text-[#211F1C] leading-relaxed">
-            Checkout accepts cash on delivery, JazzCash, EasyPaisa, and bank transfer.
+            Payment is cash on delivery, JazzCash, EasyPaisa, or bank transfer.
           </p>
         </section>
 
@@ -69,7 +69,7 @@ export const ReturnPolicyView: React.FC<ReturnPolicyViewProps> = ({ onOpenContac
           <h2 className="font-headline text-lg font-bold text-[#182232]">Shipping</h2>
           <p className="font-body text-sm sm:text-base text-[#211F1C] leading-relaxed">
             Delivery is Rs {delivery} across Pakistan, and it is free on orders of Rs {freeOver} or more.
-            Orders arrive in 2-5 business days via TCS or Leopards.
+            Delivery takes 2-5 business days via TCS or Leopards.
           </p>
         </section>
       </div>

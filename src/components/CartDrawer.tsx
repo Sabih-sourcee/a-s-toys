@@ -86,7 +86,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       `\nShipping: ${shippingFee === 0 ? 'FREE' : `Rs. ${shippingFee}`}` +
       (discountAmount > 0 ? `\nDiscount: -Rs. ${discountAmount.toLocaleString()}` : '') +
       `\n*Total Amount:* Rs. ${total.toLocaleString()}` +
-      `\nPayment: Cash on Delivery (COD)`;
+      `\nPayment: cash on delivery, JazzCash, EasyPaisa, or bank transfer`;
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
@@ -347,7 +347,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
               <div className="flex items-center justify-center gap-1 text-[11px] leading-tight text-[#5A6270]">
                 <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-[#182232]" />
-                <span>Cash on Delivery available • No advance required</span>
+                <span>Cash on delivery, JazzCash, EasyPaisa, or bank transfer</span>
               </div>
             </div>
           )}

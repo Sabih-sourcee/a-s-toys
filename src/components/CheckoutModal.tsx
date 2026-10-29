@@ -419,11 +419,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     </div>
 
                     <div>
-                      <span className={labelClass}>Fulfillment hub</span>
+                      <span className={labelClass}>Delivery</span>
                       <div className="flex min-h-11 items-center rounded-[6px] border border-[#182232]/20 bg-[#EDE8DD] px-3.5 text-sm font-semibold text-[#182232]">
-                        {customer.city === 'Karachi'
-                          ? 'Same-day / next-day delivery'
-                          : 'TCS Air Express (2–3 days)'}
+                        TCS or Leopards, 2-5 business days
                       </div>
                     </div>
                   </div>

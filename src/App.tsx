@@ -216,7 +216,7 @@ export default function App() {
         : route.name === 'shop'
           ? {
               title: 'All Toys Price in Karachi, Pakistan | A&S Toys',
-              description: 'All toy prices in Karachi, Pakistan from A&S Toys. Cash on delivery.',
+              description: 'All toy prices in Karachi, Pakistan from A&S Toys. Cash on delivery, JazzCash, EasyPaisa, or bank transfer. Delivery takes 2-5 business days.',
               path: '/shop',
             }
           : {

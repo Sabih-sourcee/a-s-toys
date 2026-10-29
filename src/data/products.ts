@@ -45,7 +45,7 @@ const photo = (slug: string, angle: number) =>
 
 /** Facts already on the shop record. Appended so every description stays inside those facts. */
 const ORDER_NOTES =
-  'A & S Toys sells this from Karachi and ships nationwide across Pakistan. Payment on the website is cash on delivery. A delivery charge applies, and delivery is free when the order total reaches Rs 3,500. The courier named by the shop is TCS/Leopards. The exchange note is a 7-day replacement for transit damage. There is no walk-in address listed. The material on the product record is plastic. The catalog does not give an age range, a piece count, or measurements, so check the box for the age grade and do not expect those specs on this page. Shop prices are from Rs 300.';
+  'A & S Toys sells this from Karachi and ships nationwide across Pakistan. Payment is cash on delivery, JazzCash, EasyPaisa, or bank transfer. Delivery is Rs 250, takes 2-5 business days, and is free when the order total reaches Rs 3,500. The courier is TCS or Leopards. The exchange note is a 7-day replacement for transit damage. There is no walk-in address listed. The material on the product record is plastic. The catalog does not give an age range, a piece count, or measurements, so check the box for the age grade and do not expect those specs on this page. Shop prices are from Rs 300.';
 
 function item(input: {
   id: string;
@@ -139,7 +139,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Building Blocks',
     shortDescription: 'A carry case of colorful building blocks.',
     fullDescription: 'The Building Blocks Play Set is a carry case of colorful building blocks. A handle is part of the case. Photos show the case closed and the blocks beside it, and the blocks are shown both inside and outside the case. It sits in the Building Blocks category. Use it for stacking and simple building play. Nothing on the record says how many blocks are in the case.',
-    seoDescription: 'Building Blocks Play Set from A & S Toys. Colorful blocks in a handled carry case. Plastic. Check the box for the age grade. Cash on delivery in Pakistan.',
+    seoDescription: 'Building Blocks Play Set from A & S Toys. Colorful blocks in a handled carry case. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Handled carry case', 'Colorful blocks', 'Blocks shown inside and outside the case'],
   }),
   item({
@@ -151,7 +151,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Pretend Play',
     shortDescription: 'A toy kitchen with a stove, oven, and utensils.',
     fullDescription: 'The Kitchen Play Set is a toy kitchen packed in a window box. The pack shows a stove, an oven, and utensils. It is in the Pretend Play category. Children can use the pictured stove, oven, and utensils for pretend cooking. The page does not list extra food pieces or a sound button, because those are not on the record.',
-    seoDescription: 'Kitchen Play Set from A & S Toys. A toy kitchen in a window box with a stove, oven, and utensils. Plastic. Check the age on the box. COD in Pakistan.',
+    seoDescription: 'Kitchen Play Set from A & S Toys. A toy kitchen in a window box with a stove, oven, and utensils. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Toy stove and oven', 'Utensils pictured with the set', 'Window box'],
   }),
   item({
@@ -163,7 +163,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Gadgets & Music',
     shortDescription: 'A glove and wrist launcher set.',
     fullDescription: 'The Web Shooter Glove Set is a glove and a wrist launcher packed together. The box shows the glove on a hand, and other photos show the pieces beside the box. It is in Gadgets and Music. It is a role-play glove set. The record does not say what the launcher shoots or whether it needs batteries.',
-    seoDescription: 'Web Shooter Glove Set from A & S Toys. A glove and wrist launcher in a window box, shown on a hand. Plastic. Check the age on the box. COD in Pakistan.',
+    seoDescription: 'Web Shooter Glove Set from A & S Toys. A glove and wrist launcher in a window box, shown on a hand. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Glove and wrist launcher', 'Shown on a hand on the box', 'Window box'],
   }),
   item({
@@ -175,7 +175,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Pretend Play',
     shortDescription: 'A small toy water dispenser in a window box.',
     fullDescription: 'The Mini Water Dispenser Toy is a small toy water dispenser in a window box. One photo shows it out of the box, and the others show the pack. It is in Pretend Play. It is for pretend play beside a toy kitchen. The record does not say that it pumps real water or how much it holds.',
-    seoDescription: 'Mini Water Dispenser Toy from A & S Toys. A small toy dispenser in a window box, shown in and out of the pack. Check the age on the box. COD in Pakistan.',
+    seoDescription: 'Mini Water Dispenser Toy from A & S Toys. A small toy dispenser in a window box. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Small toy water dispenser', 'Shown in and out of the box'],
   }),
   item({
@@ -187,7 +187,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Building Blocks',
     shortDescription: 'Large colorful building blocks in a mesh storage bag.',
     fullDescription: 'The Big Building Blocks Bag is large colorful building blocks in a mesh storage bag. Photos show the bag from the front and from the side. The blocks come in several colors. It is in Building Blocks. Use the large blocks for floor building, then put them back in the mesh bag. The record does not give a block count.',
-    seoDescription: 'Big Building Blocks Bag from A & S Toys. Large colorful blocks in a mesh storage bag. Plastic. Check the box for the age grade. Cash on delivery in Pakistan.',
+    seoDescription: 'Big Building Blocks Bag from A & S Toys. Large colorful blocks in a mesh storage bag. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Mesh storage bag', 'Large blocks', 'Several colors'],
   }),
   item({
@@ -199,7 +199,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Dolls & Figures',
     shortDescription: 'A baby doll in pink packaging, shown on its hands and knees.',
     fullDescription: 'The Crawling Baby Doll is a baby doll in pink packaging, shown on its hands and knees. The open pack also shows a bottle and a small toy phone. It is in Dolls and Figures. It is for doll play with the pictured bottle and phone. The record does not say that the doll crawls on its own or makes a sound.',
-    seoDescription: 'Crawling Baby Doll from A & S Toys. A baby doll in a pink window box, with a bottle and toy phone pictured. Check the age on the box. COD in Pakistan.',
+    seoDescription: 'Crawling Baby Doll from A & S Toys. A baby doll in a pink window box, with a bottle and toy phone pictured. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Baby doll in a crawling pose', 'Bottle and toy phone pictured in the pack', 'Pink window box'],
   }),
   item({
@@ -211,7 +211,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Bubble & Water',
     shortDescription: 'A multi-barrel bubble gun in a colorful box.',
     fullDescription: 'The Gatling Bubble Gun is a multi-barrel bubble gun in a colorful window box. Photos show the box and the gun held in a hand with bubbles. It is in Bubble and Water. It is for bubble play. The record says several barrels, not a numbered count, and it does not list a bubble-solution bottle with this gun.',
-    seoDescription: 'Gatling Bubble Gun from A & S Toys. A multi-barrel bubble gun in a colorful window box, shown with bubbles. Check the age on the box. COD in Pakistan.',
+    seoDescription: 'Gatling Bubble Gun from A & S Toys. A multi-barrel bubble gun in a colorful window box, shown with bubbles. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Multi-barrel bubble gun', 'Colorful window box'],
   }),
   item({
@@ -223,7 +223,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Gadgets & Music',
     shortDescription: 'A cactus-shaped toy in a box, shown with a small remote.',
     fullDescription: 'The Dancing Cactus Toy is a cactus-shaped toy in a box, shown with a small remote. The box calls it a dancing cactus. It is in Gadgets and Music. The pictured remote is part of what the pack shows. The record does not list songs, volumes, or a battery size.',
-    seoDescription: 'Dancing Cactus Toy from A & S Toys. A cactus-shaped toy in a box with a small remote pictured. Plastic. Check the age on the box. Cash on delivery in Pakistan.',
+    seoDescription: 'Dancing Cactus Toy from A & S Toys. A cactus-shaped toy in a box with a small remote pictured. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Cactus-shaped toy', 'Small remote pictured on the box'],
   }),
   item({
@@ -235,7 +235,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Dolls & Figures',
     shortDescription: 'A small slide track with duck figures.',
     fullDescription: 'The Duck Slide Track is a small slide track with duck figures, packed in a window box. Photos show the front of the box and the track from other sides. It is in Dolls and Figures. The ducks and the track are the play pieces shown. The record does not say how many ducks or how the track is assembled.',
-    seoDescription: 'Duck Slide Track from A & S Toys. A small slide track with duck figures in a window box. Plastic. Check the box for the age grade. COD in Pakistan.',
+    seoDescription: 'Duck Slide Track from A & S Toys. A small slide track with duck figures in a window box. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Duck figures', 'Slide track', 'Window box'],
   }),
   item({
@@ -247,7 +247,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Pretend Play',
     shortDescription: 'A toy water dispenser with an animal face on the front.',
     fullDescription: 'The Animal Water Dispenser is a toy water dispenser with an animal face on the front of the pack. Other photos show the box from the side and the back. It is in Pretend Play, in a window box. Use it as a pretend dispenser. The record does not name the animal or say that it dispenses real water.',
-    seoDescription: 'Animal Water Dispenser from A & S Toys. A toy dispenser with an animal face on the window box. Plastic. Check the age on the box. COD in Pakistan.',
+    seoDescription: 'Animal Water Dispenser from A & S Toys. A toy dispenser with an animal face on the window box. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Toy water dispenser', 'Animal face on the front', 'Window box'],
   }),
   item({
@@ -259,7 +259,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Pretend Play',
     shortDescription: 'A toy water dispenser styled like a small kitchen appliance.',
     fullDescription: 'The Kitchen Water Dispenser is a toy water dispenser with a tap, packed like a small kitchen appliance. Photos show the box from four sides. It is in Pretend Play and comes in a window box. The tap and the kitchen-style body are what the pack shows. The record does not list a tank size.',
-    seoDescription: 'Kitchen Water Dispenser from A & S Toys. A toy dispenser with a tap, styled like a small kitchen appliance. Check the age on the box. COD in Pakistan.',
+    seoDescription: 'Kitchen Water Dispenser from A & S Toys. A toy dispenser with a tap, styled like a small kitchen appliance. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Toy tap', 'Kitchen-style body', 'Window box'],
   }),
   item({
@@ -271,7 +271,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Gadgets & Music',
     shortDescription: 'A flip-style toy phone shown with its box.',
     fullDescription: 'The Toy Flip Phone is a flip-style toy phone that folds open, shown with its box. The photos are four angles of the same set. It is in Gadgets and Music. It is a pretend phone. The record does not say that it places real calls or name any sounds.',
-    seoDescription: 'Toy Flip Phone from A & S Toys. A flip-style toy phone that folds open, shown with its box. Plastic. Check the age on the box. Cash on delivery in Pakistan.',
+    seoDescription: 'Toy Flip Phone from A & S Toys. A flip-style toy phone that folds open, shown with its box. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Flip-style toy phone', 'Shown with its box'],
   }),
   item({
@@ -283,7 +283,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Vehicles',
     shortDescription: 'An off-road toy vehicle in a window box.',
     fullDescription: 'The Friction Off-Road Vehicle is an off-road toy vehicle in a window box. Photos show the front of the pack and the truck from other sides. It is in Vehicles. It is a push-along style vehicle sold as a friction toy. The record does not list a motor, remote, or scale.',
-    seoDescription: 'Friction Off-Road Vehicle from A & S Toys. An off-road toy vehicle in a window box. Plastic. Check the box for the age grade. Cash on delivery in Pakistan.',
+    seoDescription: 'Friction Off-Road Vehicle from A & S Toys. An off-road toy vehicle in a window box. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Off-road toy vehicle', 'Window box'],
     image: '/images/products/friction-off-road-vehicle-jeep-desert.webp',
     galleryImages: ['/images/products/friction-off-road-vehicle-jeep-white.webp'],
@@ -297,7 +297,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Gadgets & Music',
     shortDescription: 'A toy speaker set with two microphones.',
     fullDescription: 'The Karaoke Speaker Set is a toy speaker with two microphones. The photos are four angles of the same set. It is in Gadgets and Music. The set is for pretend singing with the two pictured microphones and the toy speaker. The record does not list songs or a battery size.',
-    seoDescription: 'Karaoke Speaker Set from A & S Toys. A toy speaker with two microphones, shown from four angles. Plastic. Check the age on the box. Cash on delivery in Pakistan.',
+    seoDescription: 'Karaoke Speaker Set from A & S Toys. A toy speaker with two microphones, shown from four angles. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Toy speaker', 'Two microphones'],
   }),
   item({
@@ -309,7 +309,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Vehicles',
     shortDescription: 'A toy car set in a window box, with lights and music on the pack.',
     fullDescription: 'The Light and Music Car Set is a toy car set in a window box. The pack shows lights and music. Photos are four sides of the same box. It is in Vehicles. The lights and music are claims printed on the pack, not extra specs measured here. The record does not say how many cars are in the set.',
-    seoDescription: 'Light and Music Car Set from A & S Toys. A toy car set in a window box with lights and music on the pack. Check the age on the box. COD in Pakistan.',
+    seoDescription: 'Light and Music Car Set from A & S Toys. A toy car set in a window box with lights and music on the pack. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Toy car set', 'Lights and music shown on the pack', 'Window box'],
   }),
   item({
@@ -321,7 +321,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Vehicles',
     shortDescription: 'A remote-control flying toy with a hand controller.',
     fullDescription: 'The RC Flying Helicopter Toy is a remote-control flying toy in a window box, with a hand controller pictured on the pack. It is sold as an RC flying helicopter toy and sits in Vehicles. The hand controller is what the box shows. The record does not list a range, a channel count, or a charge time.',
-    seoDescription: 'RC Flying Helicopter Toy from A & S Toys. A remote-control flying toy with a hand controller on the box. Check the age on the box. COD in Pakistan.',
+    seoDescription: 'RC Flying Helicopter Toy from A & S Toys. A remote-control flying toy with a hand controller on the box. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Hand controller pictured on the box', 'Remote-control flying toy', 'Window box'],
   }),
   item({
@@ -333,7 +333,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Vehicles',
     shortDescription: 'Construction toy trucks in a window box.',
     fullDescription: 'The Friction Construction Trucks are construction toy trucks in a window box. Photos show the front of the pack and the trucks from other sides. They are in Vehicles. They are friction trucks for push play. The record does not say how many trucks are in the box or name each truck body.',
-    seoDescription: 'Friction Construction Trucks from A & S Toys. Construction toy trucks in a window box. Plastic. Check the box for the age grade. Cash on delivery in Pakistan.',
+    seoDescription: 'Friction Construction Trucks from A & S Toys. Construction toy trucks in a window box. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Construction toy trucks', 'Window box'],
   }),
   item({
@@ -345,7 +345,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Bubble & Water',
     shortDescription: 'A water bullet gun in a window box.',
     fullDescription: 'The Water Bullet Gun is a water bullet gun in a window box. Photos show the front of the pack and the gun from other sides. It is in Bubble and Water. It is a toy gun sold under that name. The record does not say it is a bubble gun, and it does not list a water capacity or pellet count.',
-    seoDescription: 'Water Bullet Gun from A & S Toys. A water bullet gun in a window box, shown from several sides. Plastic. Check the age on the box. Cash on delivery in Pakistan.',
+    seoDescription: 'Water Bullet Gun from A & S Toys. A water bullet gun in a window box, shown from several sides. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Water bullet gun', 'Window box'],
   }),
   item({
@@ -357,7 +357,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Dolls & Figures',
     shortDescription: 'Dinosaur figures in a mesh bag, packed in a window box.',
     fullDescription: 'The Dinosaur Figure Set is dinosaur figures in a mesh bag, packed in a window box. Photos show the bag inside the box and the bag on its own. It is in Dolls and Figures. The figures stay in the mesh bag for storage. The record does not name the dinosaur species or give a figure count.',
-    seoDescription: 'Dinosaur Figure Set from A & S Toys. Dinosaur figures in a mesh bag, packed in a window box. Plastic. Check the age on the box. COD in Pakistan.',
+    seoDescription: 'Dinosaur Figure Set from A & S Toys. Dinosaur figures in a mesh bag, packed in a window box. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Dinosaur figures', 'Mesh bag', 'Window box'],
   }),
   item({
@@ -369,7 +369,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Bubble & Water',
     shortDescription: 'A bubble gun with bubble solution, in a window box.',
     fullDescription: 'The Battery Bubble Gun is a bubble gun with a bottle of bubble solution, packed in a window box. The photos are four angles of the same set. It is in Bubble and Water and is sold as a battery bubble gun. The record shows the gun and the solution bottle. It does not name a battery size or a bubble count.',
-    seoDescription: 'Battery Bubble Gun from A & S Toys. A bubble gun with a bottle of bubble solution in a window box. Check the age on the box. COD in Pakistan.',
+    seoDescription: 'Battery Bubble Gun from A & S Toys. A bubble gun with a bottle of bubble solution in a window box. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Bubble gun', 'Bubble solution bottle', 'Window box'],
   }),
   item({
@@ -381,7 +381,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Gadgets & Music',
     shortDescription: 'A small handheld fan in a blister pack.',
     fullDescription: 'The Mini Handheld Fan is a small fan made to hold in the hand, packed in a blister. Photos show the blister from the front, the back, and the side. It is in Gadgets and Music. It is a handheld fan toy. The record does not say whether it is battery powered or how strong the airflow is.',
-    seoDescription: 'Mini Handheld Fan from A & S Toys. A small fan in a blister pack, shown from the front, back, and side. Check the age on the box. COD in Pakistan.',
+    seoDescription: 'Mini Handheld Fan from A & S Toys. A small fan in a blister pack, shown from the front, back, and side. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Handheld fan', 'Blister pack'],
   }),
   item({
@@ -393,7 +393,7 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Games',
     shortDescription: 'A tray game with colorful turtle pieces and yellow balls.',
     fullDescription: 'The Hungry Turtle Game is a green plastic tray with colorful turtle pieces around the edge and yellow balls in the middle. The photos are three angles of the same set, so this product has three photos rather than four. It is in Games. Play uses the turtle pieces, the yellow balls, and the tray. The record does not explain the rules or give a piece count.',
-    seoDescription: 'Hungry Turtle Game from A & S Toys. A green tray with colorful turtle pieces and yellow balls. Plastic. Check the age on the box. COD in Pakistan.',
+    seoDescription: 'Hungry Turtle Game from A & S Toys. A green tray with colorful turtle pieces and yellow balls. Cash on delivery, JazzCash, EasyPaisa, or bank transfer.',
     features: ['Turtle pieces', 'Yellow balls', 'Green tray'],
     angles: 3,
   }),

@@ -138,7 +138,7 @@ export const Footer: React.FC<FooterProps> = ({
                   {config.email}
                 </a>
               </li>
-              <li>Courier: {config.courier}. Nationwide delivery.</li>
+              <li>Delivery takes 2-5 business days via TCS or Leopards.</li>
             </ul>
           </div>
         </div>
