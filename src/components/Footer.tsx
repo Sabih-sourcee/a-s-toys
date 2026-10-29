@@ -48,6 +48,18 @@ export const Footer: React.FC<FooterProps> = ({
                   Contact / Wholesale
                 </a>
               </li>
+              <li>
+                <a
+                  href="/return-policy"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    onOpenGuide('/return-policy');
+                  }}
+                  className="hover:text-[#F6F3EC] transition-colors cursor-pointer text-left"
+                >
+                  Return &amp; replacement
+                </a>
+              </li>
               {LANDINGS.map((page) => (
                 <li key={page.path}>
                   <a

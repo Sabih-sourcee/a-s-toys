@@ -18,6 +18,7 @@ import { WhatsAppLink } from './components/WhatsAppLink';
 import { CheckoutModal } from './components/CheckoutModal';
 import { OrderSuccessModal } from './components/OrderSuccessModal';
 import { OrderTrackerModal } from './components/OrderTrackerModal';
+import { ReturnPolicyView } from './components/ReturnPolicyView';
 import { AboutView } from './components/AboutView';
 import { ContactView } from './components/ContactView';
 import { StoryTeaser } from './components/StoryTeaser';
@@ -30,6 +31,9 @@ import { config } from './config';
 import {
   ABOUT_DESCRIPTION,
   ABOUT_TITLE,
+  RETURN_POLICY_DESCRIPTION,
+  RETURN_POLICY_PATH,
+  RETURN_POLICY_TITLE,
   HOME_DESCRIPTION,
   HOME_TITLE,
   categoryDescription,
@@ -203,6 +207,12 @@ export default function App() {
                 'Wholesale and partnership inquiries for A&S Toys. Sourcing toys for wholesalers for more than 10 years. Karachi-based, nationwide.',
               path: '/contact',
             }
+          : route.name === 'policy'
+            ? {
+                title: RETURN_POLICY_TITLE,
+                description: RETURN_POLICY_DESCRIPTION,
+                path: RETURN_POLICY_PATH,
+              }
         : route.name === 'shop'
           ? {
               title: 'All Toys Price in Karachi, Pakistan | A&S Toys',
@@ -387,6 +397,12 @@ export default function App() {
         {route.name === 'contact' && (
           <div className="wide:pt-24">
             <ContactView />
+          </div>
+        )}
+
+        {route.name === 'policy' && (
+          <div className="wide:pt-24">
+            <ReturnPolicyView onOpenContact={() => navigate('/contact')} />
           </div>
         )}
 

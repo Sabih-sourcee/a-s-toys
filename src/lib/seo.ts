@@ -25,6 +25,11 @@ export const ABOUT_TITLE = 'A & S Toys Shop | Online Toy Store in Karachi, Pakis
 export const ABOUT_DESCRIPTION =
   'A & S Toys is an online toy shop in Karachi with delivery across Pakistan. Kitchen sets, building blocks, RC toys and more, from Rs 300. Cash on delivery.';
 
+export const RETURN_POLICY_PATH = '/return-policy';
+export const RETURN_POLICY_TITLE = 'Return & Replacement Policy | A & S Toys';
+export const RETURN_POLICY_DESCRIPTION =
+  'A & S Toys replaces transit-damaged items within 7 days of delivery. No change-of-mind returns. Rs 250 delivery in Pakistan, free over Rs 3,500.';
+
 export const HOME_TITLE = 'A & S Toys | Toy Prices in Karachi, Pakistan';
 export const HOME_DESCRIPTION =
   'Toy prices in Karachi, Pakistan from A&S Toys, an online toy store with nationwide delivery. Browse building blocks, pretend play, vehicles, and more.';
