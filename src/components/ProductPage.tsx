@@ -44,7 +44,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
         <div>
           <img
             src={photos[photoIndex]}
-            alt={productPhotoAlt(product.title, photoIndex)}
+            alt={productPhotoAlt(product, photoIndex)}
             className="w-full aspect-square object-contain rounded-xl bg-[#F4EFE6]"
           />
           {photos.length > 1 && (

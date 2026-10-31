@@ -35,8 +35,10 @@ export function Seo({ title, description, path, image, jsonLd }: SeoProps) {
     upsertMeta('name', 'description', description);
     upsertMeta('property', 'og:title', title);
     upsertMeta('property', 'og:description', description);
+    upsertMeta('property', 'og:locale', 'en_PK');
     upsertMeta('name', 'twitter:title', title);
     upsertMeta('name', 'twitter:description', description);
+    upsertMeta('name', 'robots', 'max-image-preview:large');
     const pageUrl = absolutePageUrl(config.siteUrl, path);
     upsertMeta('property', 'og:url', pageUrl);
     if (image) upsertMeta('property', 'og:image', absoluteImage(image));

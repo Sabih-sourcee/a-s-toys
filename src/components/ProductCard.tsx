@@ -2,6 +2,7 @@ import React from 'react';
 import { Check, Plus } from 'lucide-react';
 import { Product } from '../types';
 import { productPath } from '../lib/router';
+import { productPhotoAlt } from '../lib/seo';
 
 interface ProductCardProps {
   product: Product;
@@ -41,7 +42,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       >
         <img
           src={product.image}
-          alt={product.title}
+          alt={productPhotoAlt(product, 0)}
           className={`h-full w-full object-cover wide:object-contain wide:p-5 ${isOutOfStock ? 'opacity-45' : ''}`}
           loading="lazy"
         />
