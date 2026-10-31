@@ -12,13 +12,16 @@ import {
   absolutePageUrl,
   canonicalPath,
   categoryDescription,
+  categoryItemListJsonLd,
   categoryTitle,
   organizationJsonLd,
   productDescription,
   productJsonLd,
   productPhotoAlt,
   productTitle,
+  homeJsonLd,
 } from '../src/lib/seo';
+import { HOME_FAQS, ORDER_STEPS, SHOP } from '../src/data/homeFaq';
 
 const env = loadEnv('production', process.cwd(), '');
 const siteUrl = (env.VITE_SITE_URL || 'https://usmanitoys.com').replace(/\/$/, '');
@@ -72,6 +75,11 @@ function render(opts: { title: string; description: string; urlPath: string; bod
   const head = [
     `<link rel="canonical" href="${esc(canonicalHref)}" />`,
     `<meta property="og:url" content="${esc(canonicalHref)}" />`,
+    `<meta property="og:locale" content="en_PK" />`,
+    `<meta name="twitter:title" content="${esc(opts.title)}" />`,
+    `<meta name="twitter:description" content="${esc(opts.description)}" />`,
+    `<meta name="robots" content="max-image-preview:large" />`,
+    `<link rel="alternate" type="text/plain" href="${esc(absolutePageUrl(siteUrl, '/llms.txt'))}" title="llms.txt" />`,
     image ? `<meta property="og:image" content="${esc(image)}" />` : '',
     verification ? `<meta name="google-site-verification" content="${esc(verification)}" />` : '',
     `<script type="application/ld+json">${JSON.stringify(organizationJsonLd(siteUrl)).replace(/</g, '\\u003c')}</script>`,
@@ -82,6 +90,8 @@ function render(opts: { title: string; description: string; urlPath: string; bod
 
   html = html.replace('</head>', `    ${head}\n  </head>`);
   html = html.replace('<div id="root"></div>', `<div id="root">${opts.body}</div>`);
+  const noscript = `<noscript><p>${esc(SHOP.brand)} is a toy shop in ${esc(SHOP.city)}, ${esc(SHOP.country)}. ${esc(SHOP.noWalkIn)} Call ${esc(SHOP.phone)}. WhatsApp ${esc(SHOP.whatsapp)}. Email ${esc(SHOP.email)}. ${esc(SHOP.returns)} Delivery is free over ${esc(SHOP.freeOver)}. Courier: ${esc(SHOP.courier)}.</p><ul>${PRODUCTS.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul></noscript>`;
+  html = html.replace('</body>', `  ${noscript}\n  </body>`);
   return html;
 }
 
@@ -124,7 +134,8 @@ writePage('/', render({
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
   urlPath: '/',
-  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>${esc(HOME_DESCRIPTION)}</p>${catalogIndex}<p><a href="/about">About A &amp; S Toys</a></p><h2>Toy guides</h2><ul>${LANDINGS.map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>${trust}</main>`,
+  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>A &amp; S Toys is a Karachi toy shop that sells its own A &amp; S toys online and delivers them across Pakistan.</p><p>${esc(HOME_DESCRIPTION)}</p><h2>Questions</h2>${HOME_FAQS.map((faq) => `<section><h3>${esc(faq.question)}</h3><p>${esc(faq.answer)}</p></section>`).join('')}<h2>How to order from A &amp; S Toys</h2><ol>${ORDER_STEPS.map((step) => `<li>${esc(step)}</li>`).join('')}</ol>${catalogIndex}<p><a href="/about">About A &amp; S Toys</a></p><h2>Toy guides</h2><ul>${LANDINGS.map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>${trust}</main>`,
+  jsonLd: homeJsonLd(siteUrl),
 }));
 
 writePage('/shop', render({
@@ -147,6 +158,7 @@ for (const category of CATEGORIES) {
     title: categoryTitle(category.name),
     description: categoryDescription(category.name, category.description),
     urlPath: `/category/${category.slug}`,
+    jsonLd: categoryItemListJsonLd(siteUrl, category.name, items),
     body: `<main><h1>${esc(category.name)} Price in Pakistan</h1><p>${esc(category.description)}</p>${productList(items)}</main>`,
   }));
 }
@@ -169,7 +181,7 @@ for (const product of PRODUCTS) {
     urlPath: `/products/${product.slug}`,
     image: product.image,
     jsonLd: productJsonLd(product, siteUrl),
-    body: `<article><h1>${esc(product.title)} Price in Pakistan</h1><p>Rs. ${product.price.toLocaleString('en-PK')} PKR</p><img src="${esc(product.image)}" alt="${esc(productPhotoAlt(product.title, 0))}" />${product.galleryImages.map((src, index) => `<img src="${esc(src)}" alt="${esc(productPhotoAlt(product.title, index + 1))}" />`).join('')}<p>${esc(product.shortDescription)}</p><p>${esc(product.fullDescription)}</p><p><a href="/category/${esc(product.category)}">${esc(product.categoryName)}</a></p><h2>Related toys</h2>${namedLinks(relatedProducts(product).map((item) => ({ href: `/products/${item.slug}`, name: item.title })))}</article>`,
+    body: `<article><h1>${esc(product.title)} Price in Pakistan</h1><p>Rs. ${product.price.toLocaleString('en-PK')} PKR</p><img src="${esc(product.image)}" alt="${esc(productPhotoAlt(product, 0))}" />${product.galleryImages.map((src, index) => `<img src="${esc(src)}" alt="${esc(productPhotoAlt(product, index + 1))}" />`).join('')}<p>${esc(product.shortDescription)}</p><p>${esc(product.fullDescription)}</p><p><a href="/category/${esc(product.category)}">${esc(product.categoryName)}</a></p><h2>Related toys</h2>${namedLinks(relatedProducts(product).map((item) => ({ href: `/products/${item.slug}`, name: item.title })))}</article>`,
   }));
 }
 
@@ -187,20 +199,86 @@ const notFound = render({
   description: 'That page is not on A & S Toys.',
   urlPath: '/404.html',
   body: '<main><h1>Page not found</h1><p><a href="/">Back home</a></p></main>',
-}).replace('</head>', '    <meta name="robots" content="noindex" />\n  </head>');
+}).replaceAll('content="max-image-preview:large"', 'content="noindex"');
 fs.writeFileSync(path.join(dist, '404.html'), notFound);
 
+function imageSitemapBlock(urlPath: string, images: { src: string; title: string }[]): string {
+  const loc = absolutePageUrl(siteUrl, urlPath);
+  const tags = images.map((image) => `    <image:image><image:loc>${absolutePageUrl(siteUrl, image.src)}</image:loc><image:title>${esc(image.title)}</image:title></image:image>`).join('\n');
+  return `  <url><loc>${loc}</loc>\n${tags}\n  </url>`;
+}
+
+const pageUrls = urls.filter((urlPath) => !urlPath.startsWith('/products/'));
+const productUrls = PRODUCTS.map((product) => imageSitemapBlock(`/products/${product.slug}`, [
+  { src: product.image, title: product.title },
+  ...product.galleryImages.map((src) => ({ src, title: product.title })),
+]));
+const extraUrls = ['/llms.txt', '/llms-full.txt', '/.well-known/llms.txt'];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((urlPath) => `  <url><loc>${absolutePageUrl(siteUrl, urlPath)}</loc></url>`).join('\n')}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${pageUrls.map((urlPath) => `  <url><loc>${absolutePageUrl(siteUrl, urlPath)}</loc></url>`).join('\n')}
+${productUrls.join('\n')}
+${extraUrls.map((urlPath) => `  <url><loc>${absolutePageUrl(siteUrl, urlPath)}</loc></url>`).join('\n')}
 </urlset>
 `;
 fs.writeFileSync(path.join(dist, 'sitemap.xml'), sitemap);
-fs.writeFileSync(path.join(dist, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}/sitemap.xml\n`);
+
+const bots = ['GPTBot', 'Google-Extended', 'ClaudeBot', 'PerplexityBot', 'Applebot-Extended', 'CCBot', 'cohere-ai', 'Amazonbot', 'FacebookBot', 'Bytespider'];
+const robots = [
+  'User-agent: *',
+  'Allow: /',
+  '',
+  ...bots.flatMap((bot) => [`User-agent: ${bot}`, 'Allow: /', '']),
+  `Sitemap: ${siteUrl}/sitemap.xml`,
+  '',
+].join('\n');
+fs.writeFileSync(path.join(dist, 'robots.txt'), robots);
+
+const llms = [
+  `# ${SHOP.brand}`,
+  '',
+  `${SHOP.brand} is a ${SHOP.city} toy shop selling A & S toys from ${SHOP.priceFrom}, with cash on delivery and delivery across ${SHOP.country} in ${SHOP.deliveryTime}.`,
+  '',
+  `Website: ${SHOP.url}`,
+  `Phone: ${SHOP.phone}`,
+  `WhatsApp: ${SHOP.whatsapp}`,
+  `Email: ${SHOP.email}`,
+  SHOP.noWalkIn,
+  `Delivery: ${SHOP.deliveryFee}, free over ${SHOP.freeOver}, ${SHOP.deliveryTime}, ${SHOP.courier}.`,
+  `Payment: ${SHOP.payment}`,
+  `Returns: ${SHOP.returns}`,
+  '',
+  '## Products',
+  ...PRODUCTS.map((product) => `- ${product.title} (${product.price} PKR): ${SHOP.url}/products/${product.slug}`),
+  '',
+  '## Questions',
+  ...HOME_FAQS.flatMap((faq) => [`Q: ${faq.question}`, `A: ${faq.answer}`, '']),
+  '## Target queries',
+  '- A & S kitchen set',
+  '- A & S building blocks',
+  '- building blocks set Pakistan',
+  '- kitchen set toys Pakistan',
+  '- toys online Karachi',
+  '- toys with COD Pakistan',
+  '',
+].join('\n');
+const llmsFull = `${llms}\n## How to order\n${ORDER_STEPS.map((step, index) => `${index + 1}. ${step}`).join('\n')}\n`;
+for (const [rel, body] of [
+  ['llms.txt', llms],
+  ['llms-full.txt', llmsFull],
+  [path.join('.well-known', 'llms.txt'), llms],
+] as const) {
+  const out = path.join(dist, rel);
+  fs.mkdirSync(path.dirname(out), { recursive: true });
+  fs.writeFileSync(out, body);
+  const pub = path.join('public', rel);
+  fs.mkdirSync(path.dirname(pub), { recursive: true });
+  fs.writeFileSync(pub, body);
+}
 
 const htaccess = path.resolve('public/.htaccess');
 if (fs.existsSync(htaccess)) {
   fs.copyFileSync(htaccess, path.join(dist, '.htaccess'));
 }
 
-console.log(`Prerendered ${urls.length} routes, 404.html, sitemap.xml, robots.txt, .htaccess`);
+console.log(`Prerendered ${urls.length} routes, 404.html, sitemap.xml, robots.txt, llms.txt, .htaccess`);

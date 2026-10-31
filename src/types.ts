@@ -27,6 +27,10 @@ export interface Product {
   /** Override. Default is "{title} Price in Karachi, Pakistan | A & S Toys". */
   seoTitle?: string;
   seoDescription?: string;
+  /** Previous shop name, used as Product JSON-LD alternateName. */
+  oldName?: string;
+  /** Photo 1 alt detail. Facts already on the product record. */
+  altDetail?: string;
 }
 
 export interface Category {

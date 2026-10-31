@@ -10,6 +10,7 @@ import { Newsletter } from './components/Newsletter';
 import { Footer } from './components/Footer';
 import { GuideLinks, LandingPage } from './components/LandingPage';
 import { CatalogIndex } from './components/CatalogIndex';
+import { HomeGuide } from './components/HomeGuide';
 import { landingByPath, landingJsonLd } from './data/landings';
 import { CartDrawer } from './components/CartDrawer';
 import { ProductPage } from './components/ProductPage';
@@ -33,7 +34,9 @@ import {
   HOME_DESCRIPTION,
   HOME_TITLE,
   categoryDescription,
+  categoryItemListJsonLd,
   categoryTitle,
+  homeJsonLd,
   productDescription,
   productJsonLd,
   productTitle,
@@ -189,6 +192,11 @@ export default function App() {
           title: categoryTitle(activeCategory.name),
           description: categoryDescription(activeCategory.name, activeCategory.description),
           path: `/category/${activeCategory.slug}`,
+          jsonLd: categoryItemListJsonLd(
+            config.siteUrl,
+            activeCategory.name,
+            PRODUCTS.filter((product) => product.category === activeCategory.slug),
+          ),
         }
       : route.name === 'about'
         ? {
@@ -213,6 +221,7 @@ export default function App() {
               title: HOME_TITLE,
               description: HOME_DESCRIPTION,
               path: '/',
+              jsonLd: homeJsonLd(config.siteUrl),
             };
 
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -346,6 +355,8 @@ export default function App() {
             <GuideLinks onOpen={(path) => navigate(path)} />
 
             <CatalogIndex onOpen={(path) => navigate(path)} />
+
+            <HomeGuide />
 
             <Newsletter />
           </>
