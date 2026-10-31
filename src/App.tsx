@@ -8,9 +8,7 @@ import { ToddlersEarlyYears } from './components/ToddlersEarlyYears';
 import { Guarantees } from './components/Guarantees';
 import { Newsletter } from './components/Newsletter';
 import { Footer } from './components/Footer';
-import { GuideLinks, LandingPage } from './components/LandingPage';
-import { CatalogIndex } from './components/CatalogIndex';
-import { HomeGuide } from './components/HomeGuide';
+import { LandingPage } from './components/LandingPage';
 import { landingByPath, landingJsonLd } from './data/landings';
 import { CartDrawer } from './components/CartDrawer';
 import { ProductPage } from './components/ProductPage';
@@ -35,6 +33,7 @@ import {
   HOME_TITLE,
   categoryDescription,
   categoryItemListJsonLd,
+  aboutPageJsonLd,
   categoryTitle,
   homeJsonLd,
   productDescription,
@@ -203,6 +202,7 @@ export default function App() {
             title: ABOUT_TITLE,
             description: ABOUT_DESCRIPTION,
             path: '/about',
+            jsonLd: aboutPageJsonLd(),
           }
         : route.name === 'contact'
           ? {
@@ -352,12 +352,6 @@ export default function App() {
               onShopClick={() => navigateToShop('all')}
             />
 
-            <GuideLinks onOpen={(path) => navigate(path)} />
-
-            <CatalogIndex onOpen={(path) => navigate(path)} />
-
-            <HomeGuide />
-
             <Newsletter />
           </>
         )}
@@ -391,6 +385,7 @@ export default function App() {
             <AboutView
               onShopClick={() => navigateToShop('all')}
               onOpenProduct={(slug) => navigate(`/products/${slug}`)}
+              onOpen={(path) => navigate(path)}
             />
           </div>
         )}

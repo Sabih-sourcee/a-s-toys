@@ -40,7 +40,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a href="/about" onClick={(event) => { event.preventDefault(); onNavigate('about'); }} className="hover:text-[#F6F3EC] transition-colors cursor-pointer text-left">
-                  About
+                  About &amp; FAQ
                 </a>
               </li>
               <li>

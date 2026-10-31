@@ -22,9 +22,9 @@ export function categoryDescription(name: string, blurb: string): string {
   return text.length > 160 ? `${text.slice(0, 157)}...` : text;
 }
 
-export const ABOUT_TITLE = 'A & S Toys Shop | Online Toy Store in Karachi, Pakistan';
+export const ABOUT_TITLE = 'About A & S Toys | FAQ & All Toys';
 export const ABOUT_DESCRIPTION =
-  'A & S Toys is an online toy shop in Karachi with delivery across Pakistan. Kitchen sets, building blocks, RC toys and more, from Rs 300. Cash on delivery.';
+  'About A & S Toys: shop facts, FAQ, toy guides, and every product link. A Karachi shop with delivery across Pakistan, from Rs 300.';
 
 export const HOME_TITLE = 'A & S Toys Shop | Toys Online in Karachi & Pakistan, from Rs 300';
 export const HOME_DESCRIPTION =
@@ -219,6 +219,31 @@ export function categoryItemListJsonLd(
   };
 }
 
+function faqPageJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: HOME_FAQS.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+  };
+}
+
+function howToOrderJsonLd() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to order from A & S Toys',
+    step: ORDER_STEPS.map((text, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      text,
+    })),
+  };
+}
+
 export function homeJsonLd(siteUrl: string) {
   const origin = siteUrl.replace(/\/+$/, '');
   return [
@@ -235,24 +260,10 @@ export function homeJsonLd(siteUrl: string) {
       url: `${origin}/`,
       image: absoluteAsset(siteUrl, '/images/logo.png'),
     },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: HOME_FAQS.map((faq) => ({
-        '@type': 'Question',
-        name: faq.question,
-        acceptedAnswer: { '@type': 'Answer', text: faq.answer },
-      })),
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'HowTo',
-      name: 'How to order from A & S Toys',
-      step: ORDER_STEPS.map((text, index) => ({
-        '@type': 'HowToStep',
-        position: index + 1,
-        text,
-      })),
-    },
   ];
+}
+
+/** FAQ and order steps live on /about, so this schema is only emitted there. */
+export function aboutPageJsonLd() {
+  return [faqPageJsonLd(), howToOrderJsonLd()];
 }
