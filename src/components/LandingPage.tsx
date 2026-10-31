@@ -50,28 +50,24 @@ export const LandingPage: React.FC<LandingPageProps> = ({ page, onOpenProduct })
 
 export function GuideLinks({ onOpen }: { onOpen: (path: string) => void }) {
   return (
-    <section className="bg-[#F6F3EC] border-t border-[#DCD7CC]" id="toy-guides">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-12">
-        <h2 className="font-headline text-[24px] sm:text-[28px] font-extrabold text-[#182232] tracking-[-0.03em]">
-          Toy guides
-        </h2>
-        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-          {LANDINGS.map((page) => (
-            <li key={page.path}>
-              <a
-                href={page.path}
-                onClick={(event) => {
-                  event.preventDefault();
-                  onOpen(page.path);
-                }}
-                className="font-headline font-bold text-[#0F3D9C] hover:text-[#E84A27]"
-              >
-                {page.navLabel}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <section className="border-t border-[#DCD7CC] pt-8" id="toy-guides">
+      <h2 className="font-headline text-lg font-bold text-[#182232]">Toy guides</h2>
+      <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+        {LANDINGS.map((page) => (
+          <li key={page.path}>
+            <a
+              href={page.path}
+              onClick={(event) => {
+                event.preventDefault();
+                onOpen(page.path);
+              }}
+              className="text-[#5A6270] hover:text-[#E84A27]"
+            >
+              {page.navLabel}
+            </a>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

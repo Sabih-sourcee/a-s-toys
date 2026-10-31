@@ -6,13 +6,17 @@ import { WHATSAPP_HELP_MESSAGE } from '../lib/whatsapp';
 import { config } from '../config';
 import { ABOUT_FEATURED_SLUGS, PRODUCTS } from '../data/products';
 import { productPath } from '../lib/router';
+import { CatalogIndex } from './CatalogIndex';
+import { GuideLinks } from './LandingPage';
+import { HomeGuide } from './HomeGuide';
 
 interface AboutViewProps {
   onShopClick: () => void;
   onOpenProduct: (slug: string) => void;
+  onOpen: (path: string) => void;
 }
 
-export const AboutView: React.FC<AboutViewProps> = ({ onShopClick, onOpenProduct }) => {
+export const AboutView: React.FC<AboutViewProps> = ({ onShopClick, onOpenProduct, onOpen }) => {
   const featured = ABOUT_FEATURED_SLUGS.map((slug) => {
     const product = PRODUCTS.find((item) => item.slug === slug);
     if (!product) throw new Error(`Missing about-page product: ${slug}`);
@@ -141,6 +145,12 @@ export const AboutView: React.FC<AboutViewProps> = ({ onShopClick, onOpenProduct
           </div>
         </div>
 
+      </div>
+
+      <div className="mt-10 space-y-8">
+        <HomeGuide />
+        <GuideLinks onOpen={onOpen} />
+        <CatalogIndex onOpen={onOpen} />
       </div>
     </div>
   );

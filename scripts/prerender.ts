@@ -10,6 +10,7 @@ import {
   HOME_DESCRIPTION,
   HOME_TITLE,
   absolutePageUrl,
+  aboutPageJsonLd,
   canonicalPath,
   categoryDescription,
   categoryItemListJsonLd,
@@ -113,7 +114,11 @@ function namedLinks(items: { href: string; name: string }[]): string {
   return `<ul>${items.map((item) => `<li><a href="${esc(item.href)}">${esc(item.name)}</a></li>`).join('')}</ul>`;
 }
 
-const catalogIndex = `<section><h2>All toys from A &amp; S Toys</h2><h3>Categories</h3>${namedLinks(CATEGORIES.map((category) => ({ href: `/category/${category.slug}`, name: category.name })))}<h3>Products</h3>${namedLinks(PRODUCTS.map((product) => ({ href: `/products/${product.slug}`, name: product.title })))}</section>`;
+const catalogIndex = `<section><h2>All toys</h2><p>Categories</p><ul>${CATEGORIES.map((category) => `<li><a href="/category/${esc(category.slug)}">${esc(category.name)}</a></li>`).join('')}</ul><p>Products</p><ul>${PRODUCTS.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul></section>`;
+const aboutFacts = `<section><h2>About A &amp; S Toys</h2><p>${esc(SHOP.brand)} is a ${esc(SHOP.city)} toy shop. ${esc(SHOP.noWalkIn)} Prices from ${esc(SHOP.priceFrom)}.</p><p>Delivery is ${esc(SHOP.deliveryFee)}, free over ${esc(SHOP.freeOver)}, in ${esc(SHOP.deliveryTime)}, via ${esc(SHOP.courier)}. ${esc(SHOP.payment)}</p><p>${esc(SHOP.returns)} Call ${esc(SHOP.phone)}. WhatsApp ${esc(SHOP.whatsapp)}. ${esc(SHOP.email)}.</p></section>`;
+const aboutFaqs = HOME_FAQS.map((faq) => `<details><summary>${esc(faq.question)}</summary><p>${esc(faq.answer)}</p></details>`).join('');
+const aboutOrder = `<h2>How to order from A &amp; S Toys</h2><ol>${ORDER_STEPS.map((step) => `<li>${esc(step)}</li>`).join('')}</ol>`;
+const toyGuides = `<h2>Toy guides</h2><ul>${LANDINGS.map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>`;
 
 const aboutFeatured = ABOUT_FEATURED_SLUGS.map((slug) => {
   const product = PRODUCTS.find((item) => item.slug === slug);
@@ -134,7 +139,7 @@ writePage('/', render({
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
   urlPath: '/',
-  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>A &amp; S Toys is a Karachi toy shop that sells its own A &amp; S toys online and delivers them across Pakistan.</p><p>${esc(HOME_DESCRIPTION)}</p><h2>Questions</h2>${HOME_FAQS.map((faq) => `<section><h3>${esc(faq.question)}</h3><p>${esc(faq.answer)}</p></section>`).join('')}<h2>How to order from A &amp; S Toys</h2><ol>${ORDER_STEPS.map((step) => `<li>${esc(step)}</li>`).join('')}</ol>${catalogIndex}<p><a href="/about">About A &amp; S Toys</a></p><h2>Toy guides</h2><ul>${LANDINGS.map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>${trust}</main>`,
+  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>A &amp; S Toys is a Karachi toy shop that sells its own A &amp; S toys online and delivers them across Pakistan.</p><p>${esc(HOME_DESCRIPTION)}</p><p><a href="/about">About &amp; FAQ</a></p>${trust}</main>`,
   jsonLd: homeJsonLd(siteUrl),
 }));
 
@@ -149,7 +154,8 @@ writePage('/about', render({
   title: ABOUT_TITLE,
   description: ABOUT_DESCRIPTION,
   urlPath: '/about',
-  body: `<main><h1>A &amp; S Toys Shop</h1><p>A &amp; S Toys is an online toy shop in Karachi with delivery across Pakistan. Shop prices are from Rs 300. Payment on the website is cash on delivery.</p><p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${trust}</main>`,
+  jsonLd: aboutPageJsonLd(),
+  body: `<main><h1>Toys ordered online in Karachi, delivered across Pakistan</h1><p>A &amp; S Toys is an online toy store based in Karachi. Orders ship nationwide. There is no walk-in counter.</p><p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${aboutFacts}<h2>Questions</h2>${aboutFaqs}${aboutOrder}${toyGuides}${catalogIndex}${trust}</main>`,
 }));
 
 for (const category of CATEGORIES) {
@@ -240,6 +246,7 @@ const llms = [
   `${SHOP.brand} is a ${SHOP.city} toy shop selling A & S toys from ${SHOP.priceFrom}, with cash on delivery and delivery across ${SHOP.country} in ${SHOP.deliveryTime}.`,
   '',
   `Website: ${SHOP.url}`,
+  `About, FAQ, and all toys: ${SHOP.url}/about`,
   `Phone: ${SHOP.phone}`,
   `WhatsApp: ${SHOP.whatsapp}`,
   `Email: ${SHOP.email}`,
