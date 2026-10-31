@@ -40,8 +40,8 @@ import { Product, Category } from '../types';
  * Category item counts on the homepage are counted from PRODUCTS.
  */
 
-const photo = (slug: string, angle: number) =>
-  `/images/products/${slug}-${angle}.webp`;
+const photo = (slug: string, angle: number, brand = false) =>
+  `/images/products/${slug}-${angle}${brand ? '-brand' : ''}.webp`;
 
 /** Facts already on the shop record. Appended so every description stays inside those facts. */
 const ORDER_NOTES =
@@ -60,18 +60,20 @@ function item(input: {
   features: string[];
   seoDescription: string;
   angles?: number;
+  /** Use /images/products/{slug}-N-brand.webp for the card and gallery. */
+  brand?: boolean;
   /** Overrides the numbered /images/products/{slug}-N.webp set. */
   image?: string;
   galleryImages?: string[];
 }): Product {
-  const { angles = 4, fullDescription, image, galleryImages, ...fields } = input;
+  const { angles = 4, fullDescription, image, galleryImages, brand = false, ...fields } = input;
   return {
     ...fields,
     fullDescription: `${fullDescription.trim()} ${ORDER_NOTES}`,
     stock: 10,
     inStock: true,
-    image: image ?? photo(fields.slug, 1),
-    galleryImages: galleryImages ?? Array.from({ length: Math.max(0, angles - 1) }, (_, index) => photo(fields.slug, index + 2)),
+    image: image ?? photo(fields.slug, 1, brand),
+    galleryImages: galleryImages ?? Array.from({ length: Math.max(0, angles - 1) }, (_, index) => photo(fields.slug, index + 2, brand)),
     materials: 'Plastic',
     safetyNotes: 'Check the box for the age grade.',
   };
@@ -141,6 +143,7 @@ export const PRODUCTS: Product[] = [
     fullDescription: 'The Building Blocks Play Set is a carry case of colorful building blocks. A handle is part of the case. Photos show the case closed and the blocks beside it, and the blocks are shown both inside and outside the case. It sits in the Building Blocks category. Use it for stacking and simple building play. Nothing on the record says how many blocks are in the case.',
     seoDescription: 'Building Blocks Play Set from A & S Toys. Colorful blocks in a handled carry case. Plastic. Check the box for the age grade. Cash on delivery in Pakistan.',
     features: ['Handled carry case', 'Colorful blocks', 'Blocks shown inside and outside the case'],
+    brand: true,
   }),
   item({
     id: 'ast-002',
@@ -153,6 +156,7 @@ export const PRODUCTS: Product[] = [
     fullDescription: 'The Kitchen Play Set is a toy kitchen packed in a window box. The pack shows a stove, an oven, and utensils. It is in the Pretend Play category. Children can use the pictured stove, oven, and utensils for pretend cooking. The page does not list extra food pieces or a sound button, because those are not on the record.',
     seoDescription: 'Kitchen Play Set from A & S Toys. A toy kitchen in a window box with a stove, oven, and utensils. Plastic. Check the age on the box. COD in Pakistan.',
     features: ['Toy stove and oven', 'Utensils pictured with the set', 'Window box'],
+    brand: true,
   }),
   item({
     id: 'ast-003',
@@ -189,6 +193,7 @@ export const PRODUCTS: Product[] = [
     fullDescription: 'The Big Building Blocks Bag is large colorful building blocks in a mesh storage bag. Photos show the bag from the front and from the side. The blocks come in several colors. It is in Building Blocks. Use the large blocks for floor building, then put them back in the mesh bag. The record does not give a block count.',
     seoDescription: 'Big Building Blocks Bag from A & S Toys. Large colorful blocks in a mesh storage bag. Plastic. Check the box for the age grade. Cash on delivery in Pakistan.',
     features: ['Mesh storage bag', 'Large blocks', 'Several colors'],
+    brand: true,
   }),
   item({
     id: 'ast-006',
