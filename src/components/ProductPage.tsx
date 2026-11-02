@@ -88,7 +88,24 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
               </span>
             ) : null}
           </p>
+          {product.lead ? (
+            <p className="text-sm text-[#58554F] mt-4 leading-relaxed">{product.lead}</p>
+          ) : null}
           <p className="text-sm text-[#58554F] mt-4 leading-relaxed">{product.fullDescription}</p>
+          {product.faqs && product.faqs.length > 0 ? (
+            <section className="mt-4 border-t border-[#EBE5DA] pt-3" aria-labelledby="product-questions">
+              <h2 id="product-questions" className="font-headline text-base font-bold text-[#182232]">Questions</h2>
+              {product.faqs.map((faq) => (
+                <details key={faq.question} className="border-b border-[#EBE5DA] group">
+                  <summary className="font-headline text-sm font-bold text-[#182232] cursor-pointer py-3 list-none flex items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
+                    <span>{faq.question}</span>
+                    <span aria-hidden="true" className="text-[#E84A27] font-mono text-xs shrink-0 group-open:rotate-45 transition-transform">+</span>
+                  </summary>
+                  <p className="pb-3 text-sm leading-relaxed text-[#58554F]">{faq.answer}</p>
+                </details>
+              ))}
+            </section>
+          ) : null}
           {product.features.length > 0 && (
             <ul className="mt-4 space-y-1 text-sm text-[#211F1C] list-disc list-inside">
               {product.features.map((feature) => (

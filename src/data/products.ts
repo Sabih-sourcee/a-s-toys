@@ -66,6 +66,9 @@ function item(input: {
   oldName?: string;
   /** Photo 1 alt detail from the product record. */
   altDetail?: string;
+  /** Extra 2-3 sentence paragraph, facts already on this record. */
+  lead?: string;
+  faqs?: { question: string; answer: string }[];
   /** Overrides the numbered image set. */
   image?: string;
   galleryImages?: string[];
@@ -209,11 +212,11 @@ export const PRODUCTS: Product[] = [
     slug: 'big-building-blocks-bag',
     category: 'building-blocks',
     categoryName: 'A & S Building Blocks',
-    shortDescription: 'A & S Big Building Blocks Set in Mesh Bag: large colorful building blocks in a mesh storage bag.',
-    fullDescription: 'A & S Big Building Blocks Set in Mesh Bag is large colorful building blocks in a mesh storage bag. Photos show the bag from the front and from the side. The blocks come in several colors. It is in Building Blocks. Use the large blocks for floor building, then put them back in the mesh bag. The record does not give a block count.',
-    seoDescription: 'A & S Big Building Blocks Set in Mesh Bag. Large colorful blocks in a mesh storage bag. Plastic. Check the box for the age grade. Cash on delivery in Pakistan.',
+    shortDescription: 'A & S Big Building Blocks Set in Mesh Bag: a building blocks bag of large colorful blocks in a mesh storage bag.',
+    fullDescription: 'A & S Big Building Blocks Set in Mesh Bag is a building blocks bag of large colorful blocks in a mesh storage bag. Photos show the bag from the front and from the side. The blocks come in several colors. It is in Building Blocks. Use the large blocks for floor building, then put them back in the mesh bag. The record does not give a block count.',
+    seoDescription: 'A & S Big Building Blocks Set in Mesh Bag. This building blocks bag holds large colorful blocks in a mesh storage bag. Plastic. Check the age on the box. Cash on delivery in Pakistan.',
     features: ['Mesh storage bag', 'Large blocks', 'Several colors'],
-      }),
+  }),
   item({
     id: 'ast-006',
     title: 'A & S Crawling Baby Doll Toy',
@@ -377,8 +380,15 @@ export const PRODUCTS: Product[] = [
     category: 'vehicles',
     categoryName: 'Vehicles',
     shortDescription: 'A & S RC Flying Helicopter Toy: a remote-control flying toy with a hand controller.',
+    lead: 'The A & S RC Flying Helicopter Toy is Rs 960. It is a remote-control flying toy in a window box, with a hand controller pictured on the pack, in Vehicles. The record does not list a range, a channel count, or a charge time.',
     fullDescription: 'A & S RC Flying Helicopter Toy is a remote-control flying toy in a window box, with a hand controller pictured on the pack. It is sold as an RC flying helicopter toy and sits in Vehicles. The hand controller is what the box shows. The record does not list a range, a channel count, or a charge time.',
-    seoDescription: 'A & S RC Flying Helicopter Toy. A remote-control flying toy with a hand controller on the box. Check the age on the box. COD in Pakistan.',
+    seoDescription: 'The helicopter toy price in Pakistan is Rs 960 for the A & S RC Flying Helicopter Toy. Cash on delivery and 2-5 day delivery across Pakistan.',
+    faqs: [
+      {
+        question: 'What is the A & S RC helicopter toy price in Pakistan?',
+        answer: 'The A & S RC Flying Helicopter Toy is Rs 960.',
+      },
+    ],
     features: ['Hand controller pictured on the box', 'Remote-control flying toy', 'Window box'],
   }),
   item({

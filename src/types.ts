@@ -31,6 +31,10 @@ export interface Product {
   oldName?: string;
   /** Photo 1 alt detail. Facts already on the product record. */
   altDetail?: string;
+  /** Short on-page paragraph. Facts already on the product record. */
+  lead?: string;
+  /** Visible questions. Not turned into FAQPage JSON-LD on product pages. */
+  faqs?: { question: string; answer: string }[];
 }
 
 export interface Category {
