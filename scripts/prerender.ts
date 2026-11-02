@@ -155,7 +155,7 @@ writePage('/about', render({
   description: ABOUT_DESCRIPTION,
   urlPath: '/about',
   jsonLd: aboutPageJsonLd(),
-  body: `<main><h1>Toys ordered online in Karachi, delivered across Pakistan</h1><p>A &amp; S Toys is an online toy store based in Karachi. Orders ship nationwide. There is no walk-in counter.</p><p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${aboutFacts}<h2>Questions</h2>${aboutFaqs}${aboutOrder}${toyGuides}${catalogIndex}${trust}</main>`,
+  body: `<main><h1>About A &amp; S Toys Shop, Karachi</h1><p>A &amp; S Toys is a toy shop in Karachi that sells its own A &amp; S toys online and delivers them across Pakistan. There is no walk-in counter. Shop prices are from Rs 300.</p><p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${aboutFacts}<h2>Questions</h2>${aboutFaqs}${aboutOrder}${toyGuides}${catalogIndex}${trust}</main>`,
 }));
 
 for (const category of CATEGORIES) {
@@ -187,7 +187,7 @@ for (const product of PRODUCTS) {
     urlPath: `/products/${product.slug}`,
     image: product.image,
     jsonLd: productJsonLd(product, siteUrl),
-    body: `<article><h1>${esc(product.title)} Price in Pakistan</h1><p>Rs. ${product.price.toLocaleString('en-PK')} PKR</p><img src="${esc(product.image)}" alt="${esc(productPhotoAlt(product, 0))}" />${product.galleryImages.map((src, index) => `<img src="${esc(src)}" alt="${esc(productPhotoAlt(product, index + 1))}" />`).join('')}<p>${esc(product.shortDescription)}</p><p>${esc(product.fullDescription)}</p><p><a href="/category/${esc(product.category)}">${esc(product.categoryName)}</a></p><h2>Related toys</h2>${namedLinks(relatedProducts(product).map((item) => ({ href: `/products/${item.slug}`, name: item.title })))}</article>`,
+    body: `<article><h1>${esc(product.title)} Price in Pakistan</h1><p>Rs. ${product.price.toLocaleString('en-PK')} PKR</p><img src="${esc(product.image)}" alt="${esc(productPhotoAlt(product, 0))}" />${product.galleryImages.map((src, index) => `<img src="${esc(src)}" alt="${esc(productPhotoAlt(product, index + 1))}" />`).join('')}${product.lead ? `<p>${esc(product.lead)}</p>` : ''}<p>${esc(product.shortDescription)}</p><p>${esc(product.fullDescription)}</p>${product.faqs?.length ? `<h2>Questions</h2>${product.faqs.map((faq) => `<details><summary>${esc(faq.question)}</summary><p>${esc(faq.answer)}</p></details>`).join('')}` : ''}<p><a href="/category/${esc(product.category)}">${esc(product.categoryName)}</a></p><h2>Related toys</h2>${namedLinks(relatedProducts(product).map((item) => ({ href: `/products/${item.slug}`, name: item.title })))}</article>`,
   }));
 }
 

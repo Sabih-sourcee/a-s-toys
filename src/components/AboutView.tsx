@@ -33,10 +33,10 @@ export const AboutView: React.FC<AboutViewProps> = ({ onShopClick, onOpenProduct
             <span>Karachi-based online store</span>
           </div>
           <h1 className="font-headline text-3xl sm:text-4xl font-extrabold text-[#182232] tracking-tight">
-            Toys ordered online in Karachi, delivered across Pakistan
+            About A &amp; S Toys Shop, Karachi
           </h1>
           <p className="font-body text-base text-[#5A6270] mt-3 leading-relaxed">
-            A &amp; S Toys is an online toy store based in Karachi. Orders ship nationwide. There is no walk-in counter.
+            A &amp; S Toys is a toy shop in Karachi that sells its own A &amp; S toys online and delivers them across Pakistan. There is no walk-in counter. Shop prices are from Rs 300.
           </p>
           <p className="mt-5">
             <a
