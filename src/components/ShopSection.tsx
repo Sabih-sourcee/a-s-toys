@@ -109,6 +109,11 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
             <p className="font-body text-sm sm:text-base text-[#5A6270] mt-2 max-w-2xl">
               A Karachi-based online toy store. Cash on delivery nationwide.
             </p>
+            {selectedCategory === 'building-blocks' ? (
+              <p className="font-body text-sm sm:text-base text-[#5A6270] mt-2 max-w-2xl">
+                The building blocks price in Pakistan starts from Rs 300.
+              </p>
+            ) : null}
           </div>
 
           <div className="w-full md:w-80 relative">

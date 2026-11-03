@@ -165,7 +165,7 @@ for (const category of CATEGORIES) {
     description: categoryDescription(category.name, category.description),
     urlPath: `/category/${category.slug}`,
     jsonLd: categoryItemListJsonLd(siteUrl, category.name, items),
-    body: `<main><h1>${esc(category.name)} Price in Pakistan</h1><p>${esc(category.description)}</p>${productList(items)}</main>`,
+    body: `<main><h1>${esc(category.name)} Price in Pakistan</h1><p>${esc(category.description)}</p>${category.slug === 'building-blocks' ? '<p>The building blocks price in Pakistan starts from Rs 300.</p>' : ''}${productList(items)}</main>`,
   }));
 }
 
@@ -216,8 +216,8 @@ function imageSitemapBlock(urlPath: string, images: { src: string; title: string
 
 const pageUrls = urls.filter((urlPath) => !urlPath.startsWith('/products/'));
 const productUrls = PRODUCTS.map((product) => imageSitemapBlock(`/products/${product.slug}`, [
-  { src: product.image, title: product.title },
-  ...product.galleryImages.map((src) => ({ src, title: product.title })),
+  { src: product.image, title: productPhotoAlt(product, 0) },
+  ...product.galleryImages.map((src, index) => ({ src, title: productPhotoAlt(product, index + 1) })),
 ]));
 const extraUrls = ['/llms.txt', '/llms-full.txt', '/.well-known/llms.txt'];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
