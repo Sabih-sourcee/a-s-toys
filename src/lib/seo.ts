@@ -30,16 +30,149 @@ export const HOME_TITLE = 'A & S Toys Shop | Toys Online in Karachi & Pakistan, 
 export const HOME_DESCRIPTION =
   'A & S Toys is an online toy shop in Karachi with delivery across Pakistan in 2-5 days. Kitchen sets, building blocks, bubble guns, RC toys and more, from Rs 300.';
 
-/** Photo 1 uses the record detail. Later photos are numbered photo N of M. */
+/**
+ * What each photo shows, in image order. Details only; the product name is added in productPhotoAlt.
+ * Search phrases appear once: kids kitchen set with oven and stove, toy oven, building blocks for kids, RC helicopter toy.
+ */
+const PHOTO_ALTS: Record<string, string[]> = {
+  'building-blocks-play-set': [
+    'building blocks for kids in a clear bag, front view',
+    'three-quarter view of the colorful blocks in the bag',
+    'side of the bag of colorful blocks',
+    'other side of the bag, showing its depth',
+  ],
+  'kitchen-play-set': [
+    'kids kitchen set with oven and stove, packed with utensils',
+    'three-quarter view of the packed stove top and utensils',
+    'other side of the packed toy oven and utensils',
+    'lower angle of the packed stove top and utensils',
+  ],
+  'web-shooter-glove-set': [
+    'glove and wrist launcher in a clear bag, front view',
+    'three-quarter view of the glove and wrist launcher in the bag',
+    'another angle of the glove and wrist launcher in the bag',
+    'side angle of the packed glove and wrist launcher',
+  ],
+  'mini-water-dispenser-toy': [
+    'small toy water dispenser in a clear bag, front view',
+    'three-quarter view of the small dispenser in the bag',
+    'other side of the packed small dispenser',
+    'lower angle of the small dispenser in the bag',
+  ],
+  'big-building-blocks-bag': [
+    'mesh bag of large colorful blocks, zipper on the right',
+    'the mesh bag of large blocks from the other end',
+    'zipper panel of the mesh bag of large colorful blocks',
+    'top of the mesh bag with the zipper along the edge',
+  ],
+  'crawling-baby-doll': [
+    'crawling doll in a clear bag, side view',
+    'three-quarter front of the crawling doll in the bag',
+    'back of the crawling doll in the bag',
+    'front three-quarter of the crawling doll in the bag',
+  ],
+  'gatling-bubble-gun': [
+    'front of the colorful box with the multi-barrel bubble gun',
+    'left side of the gatling bubble gun box',
+    'right side of the gatling bubble gun box',
+    'top angle of the gatling bubble gun box',
+  ],
+  'dancing-cactus-toy': [
+    'front of the box showing the cactus-shaped toy with a small remote',
+    'side of the dancing cactus box',
+    'other side of the dancing cactus box',
+    'top of the dancing cactus box',
+  ],
+  'duck-slide-track': [
+    'duck slide track and duck figures beside the box',
+    'front view of the track and duck figures with the box',
+    'the duck figures and slide track laid out by the box',
+    'the slide track and duck figures shown with the box',
+  ],
+  'animal-water-dispenser': [
+    'front of the box with the animal face on the dispenser',
+    'left side of the animal water dispenser box',
+    'right side of the animal water dispenser box',
+    'top of the animal water dispenser box',
+  ],
+  'kitchen-water-dispenser': [
+    'front of the kitchen-style dispenser box with a tap',
+    'side panel of the kitchen water dispenser box',
+    'dispenser out of the box beside the pack',
+    'unpacked dispenser with the box beside it',
+  ],
+  'toy-flip-phone': [
+    'open flip-style toy phone beside its box',
+    'three-quarter view of the open flip phone and box',
+    'side view of the open flip phone beside the box',
+    'another three-quarter view of the flip phone and box',
+  ],
+  'friction-off-road-vehicle': [
+    'friction off-road jeep on a sandy track',
+    'the same off-road jeep on a white background',
+  ],
+  'karaoke-speaker-set': [
+    'toy speaker with two microphones, out of the box',
+    'side of the toy speaker with the two microphones',
+    'other side of the speaker and two microphones',
+    'top of the speaker with the two microphones',
+  ],
+  'light-music-car-set': [
+    'front of the window boxes, with lights and music on the pack',
+    'another front view of the boxed light and music car set',
+    'the stacked window boxes of the car set',
+    'the car set boxes from a lower front angle',
+  ],
+  'rc-flying-helicopter-toy': [
+    'RC helicopter toy in a window box with the hand controller',
+    'three-quarter view of the helicopter box and hand controller',
+    'front of the helicopter window box',
+    'another three-quarter view of the helicopter box',
+  ],
+  'friction-construction-trucks': [
+    'friction construction trucks beside the header bag',
+    'overhead view of the trucks and the bag',
+    'the trucks and bag from above',
+    'the loose trucks next to the packed bag',
+  ],
+  'water-bullet-gun': [
+    'front of the window box with the water bullet gun',
+    'the boxed water bullet gun from the front',
+    'another front view of the water bullet gun box',
+    'the water bullet gun in its window box',
+  ],
+  'dinosaur-figure-set': [
+    'dinosaur figures beside the mesh bag',
+    'overhead view of the dinosaur figures and mesh bag',
+    'the figures and mesh bag from above',
+    'another overhead view of the dinosaur figures and bag',
+  ],
+  'battery-bubble-gun': [
+    'bubble gun and solution bottle out of the box',
+    'the gun with the solution bottle on its side',
+    'the gun and upright solution bottle with the box open',
+    'the gun and solution bottle in front of the closed box',
+  ],
+  'mini-handheld-fan': [
+    'front view of the small handheld fans',
+    'the handheld fans straight on',
+    'another front view of the mini fans',
+    'lower front angle of the handheld fans',
+  ],
+  'hungry-turtle-game': [
+    'green tray with colorful turtle pieces and yellow balls',
+    'three-quarter view of the tray, turtle pieces, and yellow balls',
+    'another angle of the tray with turtle pieces and yellow balls',
+  ],
+};
+
+/** Each photo starts with the product name and says what that shot shows. */
 export function productPhotoAlt(
-  product: Pick<Product, 'title' | 'altDetail' | 'galleryImages'>,
+  product: Pick<Product, 'title' | 'slug' | 'altDetail'>,
   index: number,
 ): string {
-  const total = 1 + product.galleryImages.length;
-  if (index <= 0) {
-    return product.altDetail ? `${product.title} - ${product.altDetail}` : product.title;
-  }
-  return `${product.title}, photo ${index + 1} of ${total}`;
+  const detail = PHOTO_ALTS[product.slug]?.[index] ?? (index <= 0 ? product.altDetail : undefined);
+  return detail ? `${product.title} - ${detail}` : product.title;
 }
 
 /** Path with no trailing slash. The homepage stays "/". */
