@@ -2,7 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { assertBrandCopy, assertLandingPrices } from './content-checks';
 import { loadEnv } from 'vite';
-import { LANDINGS, landingJsonLd, landingProducts } from '../src/data/landings';
+import { LANDINGS, guidesForProduct, landingJsonLd, landingProducts, pricesCheckedLabel } from '../src/data/landings';
+import { findProduct, rupees } from '../src/lib/money';
 import { ABOUT_FEATURED_SLUGS, CATEGORIES, PRODUCTS, relatedProducts } from '../src/data/products';
 import { config } from '../src/config';
 import {
@@ -140,7 +141,7 @@ writePage('/', render({
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
   urlPath: '/',
-  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>A &amp; S Toys is a Karachi toy shop that sells its own A &amp; S toys online and delivers them across Pakistan.</p><p>${esc(HOME_DESCRIPTION)}</p><p><a href="/about">About &amp; FAQ</a></p>${trust}</main>`,
+  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>A &amp; S Toys is a Karachi toy shop that sells its own A &amp; S toys online and delivers them across Pakistan.</p><p>${esc(HOME_DESCRIPTION)}</p><p><a href="/about">About &amp; FAQ</a></p><h2>Toy guides</h2><ul>${LANDINGS.filter((page) => page.updated).map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>${trust}</main>`,
 }));
 
 writePage('/shop', render({
@@ -169,14 +170,44 @@ for (const category of CATEGORIES) {
   }));
 }
 
-for (const page of LANDINGS) {
+function renderLandingBody(page: (typeof LANDINGS)[number]): string {
   const linked = landingProducts(page);
+  const crumbs = page.breadcrumb ?? [
+    { name: 'Home', path: '/' },
+    { name: page.h1, path: page.path },
+  ];
+  const related = (page.related ?? [])
+    .map((path) => LANDINGS.find((item) => item.path === path))
+    .filter((item): item is (typeof LANDINGS)[number] => Boolean(item));
+  const sections = (page.sections ?? []).map((section) => {
+    const table = section.table
+      ? `<table><caption>${esc(section.table.caption)}</caption><thead><tr>${section.table.columns.map((column) => `<th>${esc(column)}</th>`).join('')}</tr></thead><tbody>${section.table.rows.map((row) => `<tr>${row.map((cell) => `<td>${esc(cell)}</td>`).join('')}</tr>`).join('')}</tbody></table>`
+      : '';
+    const prices = section.priceTable
+      ? `<table><caption>A &amp; S Toys prices from the catalog</caption><thead><tr><th>Product</th><th>Price</th><th>Page</th></tr></thead><tbody>${section.priceTable.map((slug) => {
+        const product = findProduct(slug);
+        return `<tr><td>${esc(product.title)}</td><td>${esc(rupees(product.price))}</td><td><a href="/products/${esc(product.slug)}">View</a></td></tr>`;
+      }).join('')}</tbody></table>`
+      : '';
+    const photos = (section.productSlugs ?? []).map((slug) => {
+      const product = findProduct(slug);
+      return `<figure><img src="${esc(product.image)}" alt="${esc(productPhotoAlt(product, 0))}" /><figcaption><a href="/products/${esc(product.slug)}">${esc(product.title)}</a> ${esc(rupees(product.price))}</figcaption></figure>`;
+    }).join('');
+    const links = section.links
+      ? `<ul>${section.links.map((link) => `<li><a href="${esc(link.href)}">${esc(link.label)}</a></li>`).join('')}</ul>`
+      : '';
+    return `<section><h2>${esc(section.heading)}</h2>${(section.paragraphs ?? []).map((paragraph) => `<p>${esc(paragraph)}</p>`).join('')}${section.list ? `<ul>${section.list.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>` : ''}${table}${prices}${photos}${links}</section>`;
+  }).join('');
+  return `<main><nav>${crumbs.map((crumb) => `<a href="${esc(crumb.path)}">${esc(crumb.name)}</a>`).join(' / ')}</nav><h1>${esc(page.h1)}</h1>${page.intro ? `<p>${esc(page.intro)}</p>` : ''}${page.updated ? `<p>${esc(pricesCheckedLabel(page.updated))}</p>` : ''}${page.paragraphs.map((paragraph) => `<p>${esc(paragraph)}</p>`).join('')}${sections}<h2>Questions</h2>${page.faqs.map((faq) => `<section><h3>${esc(faq.question)}</h3><p>${esc(faq.answer)}</p></section>`).join('')}${related.length ? `<h2>Related guides</h2><ul>${related.map((item) => `<li><a href="${esc(item.path)}">${esc(item.navLabel)}</a></li>`).join('')}</ul>` : ''}<h2>Toys on this page</h2><ul>${linked.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul></main>`;
+}
+
+for (const page of LANDINGS) {
   writePage(page.path, render({
     title: page.title,
     description: page.description,
     urlPath: page.path,
     jsonLd: landingJsonLd(page, siteUrl),
-    body: `<main><h1>${esc(page.h1)}</h1>${page.paragraphs.map((paragraph) => `<p>${esc(paragraph)}</p>`).join('')}<h2>Questions</h2>${page.faqs.map((faq) => `<section><h3>${esc(faq.question)}</h3><p>${esc(faq.answer)}</p></section>`).join('')}<h2>Toys on this page</h2><ul>${linked.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul></main>`,
+    body: renderLandingBody(page),
   }));
 }
 
@@ -187,7 +218,7 @@ for (const product of PRODUCTS) {
     urlPath: `/products/${product.slug}`,
     image: product.image,
     jsonLd: productJsonLd(product, siteUrl),
-    body: `<article><h1>${esc(product.title)} Price in Pakistan</h1><p>Rs. ${product.price.toLocaleString('en-PK')} PKR</p><img src="${esc(product.image)}" alt="${esc(productPhotoAlt(product, 0))}" />${product.galleryImages.map((src, index) => `<img src="${esc(src)}" alt="${esc(productPhotoAlt(product, index + 1))}" />`).join('')}${product.lead ? `<p>${esc(product.lead)}</p>` : ''}<p>${esc(product.shortDescription)}</p><p>${esc(product.fullDescription)}</p>${product.faqs?.length ? `<h2>Questions</h2>${product.faqs.map((faq) => `<details><summary>${esc(faq.question)}</summary><p>${esc(faq.answer)}</p></details>`).join('')}` : ''}<p><a href="/category/${esc(product.category)}">${esc(product.categoryName)}</a></p><h2>Related toys</h2>${namedLinks(relatedProducts(product).map((item) => ({ href: `/products/${item.slug}`, name: item.title })))}</article>`,
+    body: `<article><h1>${esc(product.title)} Price in Pakistan</h1><p>Rs. ${product.price.toLocaleString('en-PK')} PKR</p><img src="${esc(product.image)}" alt="${esc(productPhotoAlt(product, 0))}" />${product.galleryImages.map((src, index) => `<img src="${esc(src)}" alt="${esc(productPhotoAlt(product, index + 1))}" />`).join('')}${product.lead ? `<p>${esc(product.lead)}</p>` : ''}<p>${esc(product.shortDescription)}</p><p>${esc(product.fullDescription)}</p>${product.faqs?.length ? `<h2>Questions</h2>${product.faqs.map((faq) => `<details><summary>${esc(faq.question)}</summary><p>${esc(faq.answer)}</p></details>`).join('')}` : ''}<p><a href="/category/${esc(product.category)}">${esc(product.categoryName)}</a></p>${guidesForProduct(product.slug).length ? `<p>Guides: ${guidesForProduct(product.slug).map((guide) => `<a href="${esc(guide.href)}">${esc(guide.label)}</a>`).join(', ')}</p>` : ''}<h2>Related toys</h2>${namedLinks(relatedProducts(product).map((item) => ({ href: `/products/${item.slug}`, name: item.title })))}</article>`,
   }));
 }
 
@@ -222,7 +253,11 @@ const productUrls = PRODUCTS.map((product) => imageSitemapBlock(`/products/${pro
 const extraUrls = ['/llms.txt', '/llms-full.txt', '/.well-known/llms.txt'];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-${pageUrls.map((urlPath) => `  <url><loc>${absolutePageUrl(siteUrl, urlPath)}</loc></url>`).join('\n')}
+${pageUrls.map((urlPath) => {
+  const landing = LANDINGS.find((page) => page.path === urlPath);
+  const lastmod = landing?.updated ? `<lastmod>${landing.updated}</lastmod>` : '';
+  return `  <url><loc>${absolutePageUrl(siteUrl, urlPath)}</loc>${lastmod}</url>`;
+}).join('\n')}
 ${productUrls.join('\n')}
 ${extraUrls.map((urlPath) => `  <url><loc>${absolutePageUrl(siteUrl, urlPath)}</loc></url>`).join('\n')}
 </urlset>
@@ -257,6 +292,9 @@ const llms = [
   `Delivery: ${SHOP.deliveryFee}, free over ${SHOP.freeOver}, ${SHOP.deliveryTime}, ${SHOP.courier}.`,
   `Payment: ${SHOP.payment}`,
   `Returns: ${SHOP.returns}`,
+  '',
+  '## Guides',
+  ...LANDINGS.map((page) => `- ${page.h1}: ${SHOP.url}${page.path}`),
   '',
   '## Products',
   ...PRODUCTS.map((product) => `- ${product.title} (${product.price} PKR): ${SHOP.url}/products/${product.slug}`),

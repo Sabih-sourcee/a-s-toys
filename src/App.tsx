@@ -8,7 +8,7 @@ import { ToddlersEarlyYears } from './components/ToddlersEarlyYears';
 import { Guarantees } from './components/Guarantees';
 import { Newsletter } from './components/Newsletter';
 import { Footer } from './components/Footer';
-import { LandingPage } from './components/LandingPage';
+import { GuideLinks, LandingPage } from './components/LandingPage';
 import { landingByPath, landingJsonLd } from './data/landings';
 import { CartDrawer } from './components/CartDrawer';
 import { ProductPage } from './components/ProductPage';
@@ -350,6 +350,8 @@ export default function App() {
               onShopClick={() => navigateToShop('all')}
             />
 
+            <GuideLinks onOpen={(path) => navigate(path)} hubOnly />
+
             <Newsletter />
           </>
         )}
@@ -359,6 +361,7 @@ export default function App() {
             <LandingPage
               page={activeLanding}
               onOpenProduct={(slug) => navigate(`/products/${slug}`)}
+              onOpen={(path) => navigate(path)}
             />
           </div>
         )}
@@ -400,6 +403,7 @@ export default function App() {
             onAddToCart={handleAddToCart}
             onBack={() => navigate(categoryPath(activeProduct.category))}
             onOpenProduct={(slug) => navigate(`/products/${slug}`)}
+            onOpenGuide={(path) => navigate(path)}
             isAdded={recentlyAddedId === activeProduct.id}
           />
         )}
