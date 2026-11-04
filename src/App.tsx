@@ -35,7 +35,6 @@ import {
   categoryItemListJsonLd,
   aboutPageJsonLd,
   categoryTitle,
-  homeJsonLd,
   productDescription,
   productJsonLd,
   productTitle,
@@ -221,7 +220,6 @@ export default function App() {
               title: HOME_TITLE,
               description: HOME_DESCRIPTION,
               path: '/',
-              jsonLd: homeJsonLd(config.siteUrl),
             };
 
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
