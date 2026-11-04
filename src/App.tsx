@@ -8,7 +8,7 @@ import { ToddlersEarlyYears } from './components/ToddlersEarlyYears';
 import { Guarantees } from './components/Guarantees';
 import { Newsletter } from './components/Newsletter';
 import { Footer } from './components/Footer';
-import { LandingPage } from './components/LandingPage';
+import { GuideLinks, LandingPage } from './components/LandingPage';
 import { landingByPath, landingJsonLd } from './data/landings';
 import { CartDrawer } from './components/CartDrawer';
 import { ProductPage } from './components/ProductPage';
@@ -44,7 +44,7 @@ const CART_STORAGE_KEY = 'as_toys_cart';
 const ORDERS_STORAGE_KEY = 'as_toys_orders';
 
 export default function App() {
-  const { route, navigate } = useRoute();
+  const { pathname, route, navigate } = useRoute();
   const currentView: 'home' | 'shop' | 'about' | 'contact' =
     route.name === 'about'
       ? 'about'
@@ -250,6 +250,8 @@ export default function App() {
 
       <Navbar
         currentView={currentView}
+        currentPath={pathname}
+        onOpenPath={(path) => navigate(path)}
         onNavigate={(view) => {
           navigate(
             view === 'home'
@@ -350,6 +352,18 @@ export default function App() {
               onShopClick={() => navigateToShop('all')}
             />
 
+            <section className="bg-[#F6F3EC] border-t border-[#DCD7CC]">
+              <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8">
+                <p className="text-sm text-[#211F1C]">
+                  <a href="/toys-for-kids-pakistan" onClick={(event) => { event.preventDefault(); navigate('/toys-for-kids-pakistan'); }} className="font-headline font-bold text-[#0F3D9C] hover:text-[#E84A27]">
+                    See the full range we sell in Pakistan
+                  </a>
+                </p>
+              </div>
+            </section>
+
+            <GuideLinks onOpen={(path) => navigate(path)} hubOnly />
+
             <Newsletter />
           </>
         )}
@@ -359,6 +373,7 @@ export default function App() {
             <LandingPage
               page={activeLanding}
               onOpenProduct={(slug) => navigate(`/products/${slug}`)}
+              onOpen={(path) => navigate(path)}
             />
           </div>
         )}
@@ -374,6 +389,7 @@ export default function App() {
               searchQuery={searchQuery}
               onSearchChange={(q) => setSearchQuery(q)}
               addedProductIds={recentlyAddedId ? [recentlyAddedId] : []}
+              onOpenPath={(path) => navigate(path)}
             />
           </div>
         )}
@@ -400,6 +416,7 @@ export default function App() {
             onAddToCart={handleAddToCart}
             onBack={() => navigate(categoryPath(activeProduct.category))}
             onOpenProduct={(slug) => navigate(`/products/${slug}`)}
+            onOpenGuide={(path) => navigate(path)}
             isAdded={recentlyAddedId === activeProduct.id}
           />
         )}

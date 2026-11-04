@@ -14,6 +14,7 @@ interface ShopSectionProps {
   searchQuery: string;
   onSearchChange: (q: string) => void;
   addedProductIds: string[];
+  onOpenPath?: (path: string) => void;
 }
 
 const AGE_FILTERS = [
@@ -39,6 +40,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
   searchQuery,
   onSearchChange,
   addedProductIds,
+  onOpenPath,
 }) => {
   const [selectedAge, setSelectedAge] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('featured');
@@ -109,6 +111,21 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
             <p className="font-body text-sm sm:text-base text-[#5A6270] mt-2 max-w-2xl">
               A Karachi-based online toy store. Cash on delivery nationwide.
             </p>
+            {selectedCategory !== 'all' ? (
+              <p className="font-body text-sm sm:text-base text-[#5A6270] mt-2 max-w-2xl">
+                <a
+                  href="/toys-for-kids-pakistan"
+                  onClick={(event) => {
+                    if (!onOpenPath) return;
+                    event.preventDefault();
+                    onOpenPath('/toys-for-kids-pakistan');
+                  }}
+                  className="text-[#0F3D9C] hover:text-[#E84A27]"
+                >
+                  See this shelf beside the rest of the shop
+                </a>.
+              </p>
+            ) : null}
             {selectedCategory === 'building-blocks' ? (
               <p className="font-body text-sm sm:text-base text-[#5A6270] mt-2 max-w-2xl">
                 The building blocks price in Pakistan starts from Rs 300.

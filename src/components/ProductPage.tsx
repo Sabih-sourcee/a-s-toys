@@ -5,6 +5,7 @@ import { WhatsAppLink } from './WhatsAppLink';
 import { config } from '../config';
 import { productPhotoAlt } from '../lib/seo';
 import { relatedProducts } from '../data/products';
+import { guidesForProduct } from '../data/landings';
 import { productPath } from '../lib/router';
 
 interface ProductPageProps {
@@ -12,10 +13,11 @@ interface ProductPageProps {
   onAddToCart: (product: Product, quantity: number) => void;
   onBack: () => void;
   onOpenProduct: (slug: string) => void;
+  onOpenGuide?: (path: string) => void;
   isAdded?: boolean;
 }
 
-export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, onBack, onOpenProduct, isAdded }) => {
+export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, onBack, onOpenProduct, onOpenGuide, isAdded }) => {
   const related = relatedProducts(product);
   const [quantity, setQuantity] = useState(1);
   const photos = [product.image, ...product.galleryImages.filter((src) => src && src !== product.image)];
@@ -172,6 +174,28 @@ export const ProductPage: React.FC<ProductPageProps> = ({ product, onAddToCart, 
           <p className="text-xs text-[#58554F] mt-3">Payment on the website is cash on delivery.</p>
         </div>
       </div>
+
+      {guidesForProduct(product.slug).length > 0 ? (
+        <p className="mt-6 text-sm text-[#211F1C]">
+          <span className="font-headline font-bold">Guides: </span>
+          {guidesForProduct(product.slug).map((guide, index) => (
+            <span key={guide.href}>
+              {index > 0 ? ', ' : ''}
+              <a
+                href={guide.href}
+                onClick={(event) => {
+                  if (!onOpenGuide) return;
+                  event.preventDefault();
+                  onOpenGuide(guide.href);
+                }}
+                className="text-[#0F3D9C] hover:text-[#E84A27]"
+              >
+                {guide.label}
+              </a>
+            </span>
+          ))}
+        </p>
+      ) : null}
 
       <section className="mt-8" aria-labelledby="related-toys">
         <h2 id="related-toys" className="font-headline text-xl font-bold text-[#182232]">

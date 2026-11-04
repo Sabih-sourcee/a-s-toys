@@ -1,9 +1,24 @@
 import { PRODUCTS } from './products';
-import { absolutePageUrl } from '../lib/seo';
+import { absolutePageUrl, organizationId } from '../lib/seo';
+import { blocksGuide, helicopterGuide, karaokeGuide, kidsPillar, kitchenGuide, priceListGuide } from './wave1';
 
 export interface LandingFaq {
   question: string;
   answer: string;
+}
+
+export interface LandingSection {
+  heading: string;
+  paragraphs?: string[];
+  list?: string[];
+  table?: { caption: string; columns: string[]; rows: string[][] };
+  /** Product slugs. Rendered as Product | Price | link from PRODUCTS. */
+  priceTable?: string[];
+  /** Photos and record lines for these products. */
+  productSlugs?: string[];
+  links?: { href: string; label: string }[];
+  /** Cards for the real category pages, with count and cheapest price. */
+  categoryCards?: boolean;
 }
 
 export interface LandingPage {
@@ -15,94 +30,26 @@ export interface LandingPage {
   paragraphs: string[];
   faqs: LandingFaq[];
   productSlugs: string[];
+  kind?: 'collection' | 'guide';
+  /** Direct answer, 40-60 words, rendered first. */
+  intro?: string;
+  sections?: LandingSection[];
+  /** Other landing paths, shown as Related guides. */
+  related?: string[];
+  /** ISO date. Rendered as Prices checked, and used as dateModified. */
+  updated?: string;
+  breadcrumb?: { name: string; path: string }[];
 }
-
-const kitchenSlugs = [
-  'kitchen-play-set',
-  'mini-water-dispenser-toy',
-  'animal-water-dispenser',
-  'kitchen-water-dispenser',
-];
-
-const blockSlugs = ['building-blocks-play-set', 'big-building-blocks-bag'];
 
 const bubbleSlugs = ['gatling-bubble-gun', 'battery-bubble-gun'];
 
 export const LANDINGS: LandingPage[] = [
-  {
-    path: '/kitchen-set-toys-pakistan',
-    navLabel: 'Kitchen set toys',
-    title: 'Kitchen Set Toys in Pakistan | A & S Toys',
-    description: 'Kitchen set toys in Pakistan from A & S Toys: a toy kitchen plus three toy water dispensers. Plastic pretend-play sets. Check the age on the box. COD.',
-    h1: 'A & S Kitchen Set Toys in Pakistan',
-    productSlugs: kitchenSlugs,
-    paragraphs: [
-      'A & S Toys is the maker\u2019s own name for the sets on this page. This page is the kitchen and toy-dispenser list from A & S Toys, a Karachi shop that delivers nationwide in Pakistan. Four pretend-play products belong here. They are the A & S Kitchen Set for Kids with Stove & Oven, the A & S Mini Water Dispenser Toy, the A & S Animal Water Dispenser Toy, and the A & S Kitchen Water Dispenser Toy. Each one is a plastic toy. The catalog does not print an age range, a piece count, or measurements, so check the box for the age grade. Shop prices are from Rs 300. Payment on the website is cash on delivery, a delivery charge applies under Rs 3,500, and delivery is free when the order total reaches Rs 3,500. The courier named by the shop is TCS/Leopards. The exchange note is a 7-day replacement for transit damage. There is no walk-in address listed.',
-      'The A & S Kitchen Set for Kids with Stove & Oven is a toy kitchen in a window box. The pack shows a stove, an oven, and utensils. Those pictured pieces are the ones to expect. The record does not add food toys, a sound button, or a water connection. Use it for pretend cooking with the stove, the oven, and the utensils that are shown. Photos are the shop photos of that set. Nothing on this page turns the box art into extra parts.',
-      'The three dispensers are separate toys, not pieces packed inside the kitchen set. The A & S Mini Water Dispenser Toy is the small one. It comes in a window box, and one photo shows it out of the box. The A & S Animal Water Dispenser Toy has an animal face on the front. The other photos show that box from the side and the back. The record does not name the animal. The A & S Kitchen Water Dispenser Toy has a tap and a kitchen-style body, packed like a small kitchen appliance. Its photos are four sides of the same window box. The record does not list a tank size, and it does not say that they pump real water. Treat them as pretend dispensers you can line up with the toy kitchen.',
-      'Pick the A & S Kitchen Set for Kids with Stove & Oven when you want the stove, oven, and utensils. Pick the mini dispenser when you want the smallest of the three, including a photo of it outside the box. Pick the animal dispenser when the front of the box, with the animal face, is the look you want. Pick the kitchen-style dispenser when you want the tap and the appliance-shaped body. All four are plastic and sit in Pretend Play. Open each product page for the photos, the short feature list, and the current catalog price. Shop prices are from Rs 300.',
-      'Add the toy on its product page, or send a WhatsApp message from the shop. Read the box for the age grade before you hand the toy over, because that grade is not copied into the catalog. Piece counts, sizes, and whether a dispenser holds water are not on the product record, so they are not guessed on this page.',
-    ],
-    faqs: [
-      {
-        question: 'Which kitchen toys are listed on this page?',
-        answer: 'The A & S Kitchen Set for Kids with Stove & Oven, the A & S Mini Water Dispenser Toy, the A & S Animal Water Dispenser Toy, and the A & S Kitchen Water Dispenser Toy.',
-      },
-      {
-        question: 'What does the A & S Kitchen Set for Kids with Stove & Oven show?',
-        answer: 'A toy kitchen in a window box. The pack shows a stove, an oven, and utensils.',
-      },
-      {
-        question: 'How do the water dispenser toys differ?',
-        answer: 'The mini one is small and is shown in and out of the box. The animal one has an animal face on the front. The kitchen one has a tap and a kitchen-style body. The record does not say they dispense real water.',
-      },
-      {
-        question: 'What age are these kitchen toys for?',
-        answer: 'The catalog does not give an age range. Check the box for the age grade.',
-      },
-      {
-        question: 'How do I pay and get delivery?',
-        answer: 'Payment on the website is cash on delivery. A & S Toys is in Karachi and ships nationwide. Delivery is free when the order total reaches Rs 3,500. The exchange note is a 7-day replacement for transit damage.',
-      },
-    ],
-  },
-  {
-    path: '/building-blocks-toys-pakistan',
-    navLabel: 'Building block toys',
-    title: 'Building Block Toys in Pakistan | A & S Toys',
-    description: 'Building block toys in Pakistan from A & S Toys: a handled carry case and a mesh bag of large blocks. Plastic. Check the age on the box. Cash on delivery.',
-    h1: 'A & S Building Blocks Toys in Pakistan',
-    productSlugs: blockSlugs,
-    paragraphs: [
-      'A & S Toys is the maker\u2019s own name for the sets on this page. A & S Toys has two building-block products on this page, both plastic, both for shoppers in Pakistan. One is the A & S Building Blocks Set with Carry Case. The other is the A & S Big Building Blocks Set in Mesh Bag. The shop is in Karachi and ships nationwide. Payment on the website is cash on delivery. A delivery charge applies below Rs 3,500, and delivery is free when the order total reaches Rs 3,500. The courier named by the shop is TCS/Leopards. The exchange note is a 7-day replacement for transit damage. There is no walk-in address. Shop prices are from Rs 300. The catalog does not give an age range, a block count, or measurements, so check the box for the age grade.',
-      'The A & S Building Blocks Set with Carry Case is a carry case of colorful building blocks. The case has a handle. Photos show the closed case and the blocks beside it. The blocks are also shown inside the case and outside it. The features on the record are the handled carry case, the colorful blocks, and those inside-and-outside views. Use the set for stacking and simple building, then close the case to carry it. The record never says how many blocks are inside. Do not treat a guess as a spec.',
-      'The A & S Big Building Blocks Set in Mesh Bag is the larger-looking option. It is large colorful building blocks in a mesh storage bag. Photos show the bag from the front and from the side. The blocks come in several colors. The features are the mesh storage bag, the large blocks, and those colors. Use the blocks for floor building, then put them back in the mesh bag. This one is a bag, not a hard carry case. It is still in the Building Blocks category, and it is still plastic. The record does not give a block count for the bag either.',
-      'Choose the carry case if you want a handled box you can close, with blocks shown both in the case and out of it. Choose the mesh bag if you want large blocks in several colors and a soft bag you can see from the front and the side. They are sold as two products, not as one combined kit. Open each product page for the photos and the current catalog price. Shop prices are from Rs 300.',
-      'Stack them, sort them by color, and put them away in the case or the bag that the photos show. There is no claim here of electronic lights, motors, or numbered building plans, because none of that is on the record. If the box prints an age grade or a piece count, that print is the source. The catalog text does not copy it.',
-    ],
-    faqs: [
-      {
-        question: 'Which building block toys are on this page?',
-        answer: 'The A & S Building Blocks Set with Carry Case and the A & S Big Building Blocks Set in Mesh Bag.',
-      },
-      {
-        question: 'What is the difference between the case and the bag?',
-        answer: 'The play set is colorful blocks in a handled carry case, shown inside and outside the case. The bag is large blocks in several colors in a mesh storage bag, shown from the front and the side.',
-      },
-      {
-        question: 'How many blocks are in each set?',
-        answer: 'The catalog does not give a block count. Check the box.',
-      },
-      {
-        question: 'What age are the blocks for?',
-        answer: 'The catalog does not give an age range. Check the box for the age grade. The material on the record is plastic.',
-      },
-      {
-        question: 'How does delivery work?',
-        answer: 'A & S Toys is in Karachi and ships nationwide. Payment on the website is cash on delivery. Delivery is free when the order total reaches Rs 3,500.',
-      },
-    ],
-  },
+  kidsPillar,
+  priceListGuide,
+  helicopterGuide,
+  karaokeGuide,
+  kitchenGuide,
+  blocksGuide,
   {
     path: '/toys-online-karachi',
     navLabel: 'Toys online in Karachi',
@@ -179,6 +126,15 @@ export const LANDINGS: LandingPage[] = [
   },
 ];
 
+export function guidesForProduct(slug: string): { href: string; label: string }[] {
+  return LANDINGS.filter((page) => (
+    page.path !== '/toys-online-karachi'
+    && page.path !== '/toys-for-kids-pakistan'
+    && page.productSlugs.includes(slug)
+  ))
+    .map((page) => ({ href: page.path, label: page.navLabel }));
+}
+
 export function landingByPath(path: string): LandingPage | undefined {
   return LANDINGS.find((page) => page.path === path);
 }
@@ -191,19 +147,28 @@ export function landingProducts(page: LandingPage) {
   });
 }
 
+export function pricesCheckedLabel(iso: string): string {
+  const [year, month, day] = iso.split('-').map(Number);
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  return `Prices checked ${day} ${months[month - 1]} ${year}`;
+}
+
 export function landingJsonLd(page: LandingPage, siteUrl: string) {
   const products = landingProducts(page);
-  return [
+  const pageUrl = absolutePageUrl(siteUrl, page.path);
+  const crumbs = page.breadcrumb ?? [
+    { name: 'Home', path: '/' },
+    { name: page.h1, path: page.path },
+  ];
+  const nodes: Record<string, unknown>[] = [
     {
       '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: page.faqs.map((faq) => ({
-        '@type': 'Question',
-        name: faq.question,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: faq.answer,
-        },
+      '@type': 'BreadcrumbList',
+      itemListElement: crumbs.map((crumb, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: crumb.name,
+        item: absolutePageUrl(siteUrl, crumb.path),
       })),
     },
     {
@@ -217,5 +182,26 @@ export function landingJsonLd(page: LandingPage, siteUrl: string) {
         url: absolutePageUrl(siteUrl, `/products/${product.slug}`),
       })),
     },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: page.faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+      })),
+    },
   ];
+  if (page.kind) {
+    nodes.push({
+      '@context': 'https://schema.org',
+      '@type': page.kind === 'collection' ? 'CollectionPage' : 'Article',
+      headline: page.h1,
+      name: page.h1,
+      dateModified: page.updated,
+      publisher: { '@id': organizationId(siteUrl) },
+      mainEntityOfPage: pageUrl,
+    });
+  }
+  return nodes;
 }

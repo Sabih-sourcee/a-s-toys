@@ -39,6 +39,11 @@ export const Footer: React.FC<FooterProps> = ({
                 </a>
               </li>
               <li>
+                <a href="/toys-for-kids-pakistan" onClick={(event) => { event.preventDefault(); onOpenGuide('/toys-for-kids-pakistan'); }} className="hover:text-[#F6F3EC] transition-colors cursor-pointer text-left">
+                  Toys for kids
+                </a>
+              </li>
+              <li>
                 <a href="/about" onClick={(event) => { event.preventDefault(); onNavigate('about'); }} className="hover:text-[#F6F3EC] transition-colors cursor-pointer text-left">
                   About &amp; FAQ
                 </a>
@@ -48,7 +53,7 @@ export const Footer: React.FC<FooterProps> = ({
                   Contact / Wholesale
                 </a>
               </li>
-              {LANDINGS.map((page) => (
+              {LANDINGS.filter((page) => page.path !== '/toys-for-kids-pakistan').map((page) => (
                 <li key={page.path}>
                   <a
                     href={page.path}
