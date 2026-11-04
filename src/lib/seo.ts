@@ -1,5 +1,5 @@
 import { HOME_FAQS, ORDER_STEPS } from '../data/homeFaq';
-import { config } from '../config';
+import { config, officialProfiles } from '../config';
 import { Product } from '../types';
 
 export const BRAND = 'A & S Toys';
@@ -26,7 +26,7 @@ export const ABOUT_TITLE = 'A & S Toys Shop Karachi | About, FAQ & Delivery in P
 export const ABOUT_DESCRIPTION =
   'A & S Toys is a Karachi toy shop with branded toys from Rs 300, cash on delivery and delivery across Pakistan in 2-5 business days. FAQ, policies and all toys.';
 
-export const HOME_TITLE = 'A & S Toys Shop | Toys Online in Karachi & Pakistan, from Rs 300';
+export const HOME_TITLE = 'A & S Toys | Online Toy Shop in Karachi, Pakistan';
 export const HOME_DESCRIPTION =
   'A & S Toys is an online toy shop in Karachi with delivery across Pakistan in 2-5 days. Kitchen sets, building blocks, bubble guns, RC toys and more, from Rs 300.';
 
@@ -261,7 +261,7 @@ export function productJsonLd(product: Product, siteUrl: string) {
     description,
     image: photos.map((src) => absoluteAsset(siteUrl, src)),
     ...(product.id ? { sku: product.id } : {}),
-    brand: { '@type': 'Brand', name: BRAND },
+    brand: { '@id': organizationId(siteUrl) },
     offers: {
       '@type': 'Offer',
       url: absolutePageUrl(siteUrl, `/products/${product.slug}`),
@@ -274,12 +274,7 @@ export function productJsonLd(product: Product, siteUrl: string) {
         : 'https://schema.org/OutOfStock',
       shippingDetails: offerShippingDetails(),
       hasMerchantReturnPolicy: merchantReturnPolicy(),
-      seller: {
-        '@type': 'Organization',
-        name: BRAND,
-        telephone: config.phoneTel,
-        url: absolutePageUrl(siteUrl, '/'),
-      },
+      seller: { '@id': organizationId(siteUrl) },
     },
   };
   return [
@@ -292,32 +287,52 @@ export function productJsonLd(product: Product, siteUrl: string) {
   ];
 }
 
-/** Store details for every page. telephone is the call line, never WhatsApp. */
+export function organizationId(siteUrl: string): string {
+  return `${siteUrl.replace(/\/+$/, '')}/#organization`;
+}
+
+/** One linked graph for every page. OnlineStore, not LocalBusiness. No street address. */
 export function organizationJsonLd(siteUrl: string) {
   const origin = siteUrl.replace(/\/+$/, '');
-  return {
-    '@context': 'https://schema.org',
-    '@type': ['Organization', 'LocalBusiness'],
+  const id = organizationId(siteUrl);
+  const sameAs = officialProfiles().map((profile) => profile.url);
+  const store: Record<string, unknown> = {
+    '@type': 'OnlineStore',
+    '@id': id,
     name: 'A & S Toys',
     alternateName: ['A&S Toys', 'AS Toys', 'A and S Toys', 'Usmani Toys'],
-    knowsAbout: ['Toys', 'Building blocks', 'Kitchen play sets', 'Bubble guns', 'Remote-control toys'],
-    contactPoint: {
-      '@type': 'ContactPoint',
-      telephone: '+92-331-7676995',
-      contactType: 'customer service',
-      areaServed: 'PK',
-      availableLanguage: ['en', 'ur'],
-    },
     url: origin,
     logo: absoluteAsset(siteUrl, '/images/logo.png'),
     telephone: '+92-331-7676995',
     email: config.email,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Karachi',
+      addressRegion: 'Sindh',
+      addressCountry: 'PK',
+    },
     areaServed: [
       { '@type': 'City', name: 'Karachi' },
       { '@type': 'Country', name: 'Pakistan' },
     ],
-    sameAs: ['https://www.facebook.com/profile.php?id=61595591558717'],
+    disambiguatingDescription:
+      'Pakistani toy shop based in Karachi that sells its own A & S toys at usmanitoys.com',
     hasMerchantReturnPolicy: merchantReturnPolicy(),
+  };
+  if (config.googleBusinessProfileUrl) store.hasMap = config.googleBusinessProfileUrl;
+  if (sameAs.length) store.sameAs = sameAs;
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      store,
+      {
+        '@type': 'WebSite',
+        name: 'A & S Toys',
+        alternateName: ['A&S Toys', 'usmanitoys.com'],
+        url: `${origin}/`,
+        publisher: { '@id': id },
+      },
+    ],
   };
 }
 
@@ -377,23 +392,9 @@ function howToOrderJsonLd() {
   };
 }
 
-export function homeJsonLd(siteUrl: string) {
-  const origin = siteUrl.replace(/\/+$/, '');
-  return [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      name: 'A & S Toys',
-      url: `${origin}/`,
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': ['OnlineStore', 'Store'],
-      name: 'A & S Toys',
-      url: `${origin}/`,
-      image: absoluteAsset(siteUrl, '/images/logo.png'),
-    },
-  ];
+/** Store and website live in organizationJsonLd. The homepage does not repeat them. */
+export function homeJsonLd(_siteUrl: string) {
+  return [];
 }
 
 /** FAQ and order steps live on /about, so this schema is only emitted there. */

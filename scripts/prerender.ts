@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { assertBrandCopy, assertLandingPrices } from './content-checks';
 import { loadEnv } from 'vite';
 import { LANDINGS, landingJsonLd, landingProducts } from '../src/data/landings';
 import { ABOUT_FEATURED_SLUGS, CATEGORIES, PRODUCTS, relatedProducts } from '../src/data/products';
@@ -20,8 +21,8 @@ import {
   productJsonLd,
   productPhotoAlt,
   productTitle,
-  homeJsonLd,
 } from '../src/lib/seo';
+import { officialProfiles } from '../src/config';
 import { HOME_FAQS, ORDER_STEPS, SHOP } from '../src/data/homeFaq';
 
 const env = loadEnv('production', process.cwd(), '');
@@ -140,7 +141,6 @@ writePage('/', render({
   description: HOME_DESCRIPTION,
   urlPath: '/',
   body: `<main><h1>${esc(HOME_TITLE)}</h1><p>A &amp; S Toys is a Karachi toy shop that sells its own A &amp; S toys online and delivers them across Pakistan.</p><p>${esc(HOME_DESCRIPTION)}</p><p><a href="/about">About &amp; FAQ</a></p>${trust}</main>`,
-  jsonLd: homeJsonLd(siteUrl),
 }));
 
 writePage('/shop', render({
@@ -155,7 +155,7 @@ writePage('/about', render({
   description: ABOUT_DESCRIPTION,
   urlPath: '/about',
   jsonLd: aboutPageJsonLd(),
-  body: `<main><h1>About A &amp; S Toys Shop, Karachi</h1><p>A &amp; S Toys is a toy shop in Karachi that sells its own A &amp; S toys online and delivers them across Pakistan. There is no walk-in counter. Shop prices are from Rs 300.</p><p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${aboutFacts}<h2>Questions</h2>${aboutFaqs}${aboutOrder}${toyGuides}${catalogIndex}${trust}</main>`,
+  body: `<main><h1>About A &amp; S Toys Shop, Karachi</h1><p>A &amp; S Toys is a toy shop in Karachi that sells its own A &amp; S toys online and delivers them across Pakistan. There is no walk-in counter. Shop prices are from Rs 300.</p><h2>Who we are</h2><p>A &amp; S Toys is a toy shop in Karachi. It sells its own A &amp; S toys online at usmanitoys.com.</p>${officialProfiles().length ? `<h2>Official profiles</h2><ul>${officialProfiles().map((profile) => `<li><a href="${esc(profile.url)}">${esc(profile.label)}</a></li>`).join('')}</ul>` : ''}<p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${aboutFacts}<h2>Questions</h2>${aboutFaqs}${aboutOrder}${toyGuides}${catalogIndex}${trust}</main>`,
 }));
 
 for (const category of CATEGORIES) {
@@ -245,6 +245,9 @@ const llms = [
   '',
   `${SHOP.brand} is a ${SHOP.city} toy shop selling A & S toys from ${SHOP.priceFrom}, with cash on delivery and delivery across ${SHOP.country} in ${SHOP.deliveryTime}.`,
   '',
+  'A & S Toys is a Pakistani toy shop based in Karachi. It sells its own A & S toys online at usmanitoys.com.',
+  ...officialProfiles().map((profile) => `${profile.label}: ${profile.url}`),
+  '',
   `Website: ${SHOP.url}`,
   `About, FAQ, and all toys: ${SHOP.url}/about`,
   `Phone: ${SHOP.phone}`,
@@ -288,4 +291,6 @@ if (fs.existsSync(htaccess)) {
   fs.copyFileSync(htaccess, path.join(dist, '.htaccess'));
 }
 
+assertLandingPrices();
+assertBrandCopy(dist);
 console.log(`Prerendered ${urls.length} routes, 404.html, sitemap.xml, robots.txt, llms.txt, .htaccess`);

@@ -3,7 +3,7 @@ import { Store, ShieldCheck, Heart, MessageCircle, ArrowRight } from 'lucide-rea
 import { WhatsAppLink } from './WhatsAppLink';
 import { TrustFacts } from './TrustFacts';
 import { WHATSAPP_HELP_MESSAGE } from '../lib/whatsapp';
-import { config } from '../config';
+import { config, officialProfiles } from '../config';
 import { ABOUT_FEATURED_SLUGS, PRODUCTS } from '../data/products';
 import { productPath } from '../lib/router';
 import { CatalogIndex } from './CatalogIndex';
@@ -38,6 +38,26 @@ export const AboutView: React.FC<AboutViewProps> = ({ onShopClick, onOpenProduct
           <p className="font-body text-base text-[#5A6270] mt-3 leading-relaxed">
             A &amp; S Toys is a toy shop in Karachi that sells its own A &amp; S toys online and delivers them across Pakistan. There is no walk-in counter. Shop prices are from Rs 300.
           </p>
+          <div className="mt-6 text-left text-sm leading-relaxed text-[#211F1C]">
+            <h2 className="font-headline text-lg font-bold text-[#182232]">Who we are</h2>
+            <p className="mt-2">
+              A &amp; S Toys is a toy shop in Karachi. It sells its own A &amp; S toys online at usmanitoys.com.
+            </p>
+            {officialProfiles().length > 0 ? (
+              <>
+                <h2 className="font-headline text-lg font-bold text-[#182232] mt-4">Official profiles</h2>
+                <ul className="mt-2 space-y-1">
+                  {officialProfiles().map((profile) => (
+                    <li key={profile.url}>
+                      <a href={profile.url} className="text-[#0F3D9C] hover:text-[#E84A27]" rel="noopener noreferrer">
+                        {profile.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+          </div>
           <p className="mt-5">
             <a
               href="/shop"

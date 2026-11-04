@@ -48,7 +48,31 @@ export const config = {
   courier: env('VITE_COURIER', 'TCS/Leopards'),
   /** Subtotal at which delivery becomes free. Empty disables the offer. */
   freeShippingOver: env('VITE_FREE_SHIPPING_OVER', '3500'),
+  /** TODO: Google Business Profile URL. Left empty until the real profile link is confirmed. */
+  googleBusinessProfileUrl: '',
+  facebookPageUrl: 'https://www.facebook.com/profile.php?id=61595591558717',
+  /** TODO: Instagram profile URL. */
+  instagramUrl: '',
+  /** TODO: TikTok profile URL. */
+  tiktokUrl: '',
+  /** TODO: LinkedIn page URL. */
+  linkedinUrl: '',
+  /** TODO: extra directory profile URLs. Empty entries are ignored. */
+  directoryUrls: [] as string[],
 };
+
+/** Official profiles that have a real URL. Empty TODO fields are left out. */
+export function officialProfiles(): { label: string; url: string }[] {
+  const named: { label: string; url: string }[] = [
+    { label: 'Google Business Profile', url: config.googleBusinessProfileUrl },
+    { label: 'Facebook', url: config.facebookPageUrl },
+    { label: 'Instagram', url: config.instagramUrl },
+    { label: 'TikTok', url: config.tiktokUrl },
+    { label: 'LinkedIn', url: config.linkedinUrl },
+    ...config.directoryUrls.filter(Boolean).map((url) => ({ label: 'Directory', url })),
+  ];
+  return named.filter((item) => item.url.trim());
+}
 
 export function shippingQuote(subtotal: number): {
   fee: number;

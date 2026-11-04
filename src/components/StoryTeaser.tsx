@@ -16,7 +16,7 @@ export const StoryTeaser: React.FC<StoryTeaserProps> = ({ onAboutClick, onShopCl
             <div className="relative rounded-[6px] overflow-hidden border-[1.5px] border-[#F6F3EC]/20">
               <img
                 src="/images/karachi-shop-floor.png"
-                alt="Toys from the A and S Toys online catalog"
+                alt="Toys from the A & S Toys online catalog"
                 className="w-full h-56 sm:h-72 lg:h-80 object-cover object-center"
               />
             </div>
