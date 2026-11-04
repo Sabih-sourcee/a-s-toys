@@ -3,7 +3,7 @@ import path from 'node:path';
 import { assertBrandCopy, assertLandingPrices } from './content-checks';
 import { loadEnv } from 'vite';
 import { LANDINGS, guidesForProduct, landingJsonLd, landingProducts, pricesCheckedLabel } from '../src/data/landings';
-import { findProduct, rupees } from '../src/lib/money';
+import { categorySummaries, findProduct, rupees } from '../src/lib/money';
 import { ABOUT_FEATURED_SLUGS, CATEGORIES, PRODUCTS, relatedProducts } from '../src/data/products';
 import { config } from '../src/config';
 import {
@@ -120,7 +120,7 @@ const catalogIndex = `<section><h2>All toys</h2><p>Categories</p><ul>${CATEGORIE
 const aboutFacts = `<section><h2>About A &amp; S Toys</h2><p>${esc(SHOP.brand)} is a ${esc(SHOP.city)} toy shop. ${esc(SHOP.noWalkIn)} Prices from ${esc(SHOP.priceFrom)}.</p><p>Delivery is ${esc(SHOP.deliveryFee)}, free over ${esc(SHOP.freeOver)}, in ${esc(SHOP.deliveryTime)}, via ${esc(SHOP.courier)}. ${esc(SHOP.payment)}</p><p>${esc(SHOP.returns)} Call ${esc(SHOP.phone)}. WhatsApp ${esc(SHOP.whatsapp)}. ${esc(SHOP.email)}.</p></section>`;
 const aboutFaqs = HOME_FAQS.map((faq) => `<details><summary>${esc(faq.question)}</summary><p>${esc(faq.answer)}</p></details>`).join('');
 const aboutOrder = `<h2>How to order from A &amp; S Toys</h2><ol>${ORDER_STEPS.map((step) => `<li>${esc(step)}</li>`).join('')}</ol>`;
-const toyGuides = `<h2>Toy guides</h2><ul>${LANDINGS.map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>`;
+const toyGuides = `<h2>Toy guides</h2><ul>${LANDINGS.filter((page) => page.path !== '/toys-for-kids-pakistan').map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>`;
 
 const aboutFeatured = ABOUT_FEATURED_SLUGS.map((slug) => {
   const product = PRODUCTS.find((item) => item.slug === slug);
@@ -141,7 +141,7 @@ writePage('/', render({
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
   urlPath: '/',
-  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>A &amp; S Toys is a Karachi toy shop that sells its own A &amp; S toys online and delivers them across Pakistan.</p><p>${esc(HOME_DESCRIPTION)}</p><p><a href="/about">About &amp; FAQ</a></p><h2>Toy guides</h2><ul>${LANDINGS.filter((page) => page.updated).map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>${trust}</main>`,
+  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>A &amp; S Toys is a Karachi toy shop that sells its own A &amp; S toys online and delivers them across Pakistan.</p><p>${esc(HOME_DESCRIPTION)}</p><p><a href="/about">About &amp; FAQ</a></p><p><a href="/toys-for-kids-pakistan">See the full range we sell in Pakistan</a></p><h2>Toy guides</h2><ul>${LANDINGS.filter((page) => page.updated && page.path !== '/toys-for-kids-pakistan').map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>${trust}</main>`,
 }));
 
 writePage('/shop', render({
@@ -166,7 +166,7 @@ for (const category of CATEGORIES) {
     description: categoryDescription(category.name, category.description),
     urlPath: `/category/${category.slug}`,
     jsonLd: categoryItemListJsonLd(siteUrl, category.name, items),
-    body: `<main><h1>${esc(category.name)} Price in Pakistan</h1><p>${esc(category.description)}</p>${category.slug === 'building-blocks' ? '<p>The building blocks price in Pakistan starts from Rs 300.</p>' : ''}${productList(items)}</main>`,
+    body: `<main><h1>${esc(category.name)} Price in Pakistan</h1><p>${esc(category.description)}</p><p><a href="/toys-for-kids-pakistan">See this shelf beside the rest of the shop</a></p>${category.slug === 'building-blocks' ? '<p>The building blocks price in Pakistan starts from Rs 300.</p>' : ''}${productList(items)}</main>`,
   }));
 }
 
@@ -193,10 +193,13 @@ function renderLandingBody(page: (typeof LANDINGS)[number]): string {
       const product = findProduct(slug);
       return `<figure><img src="${esc(product.image)}" alt="${esc(productPhotoAlt(product, 0))}" /><figcaption><a href="/products/${esc(product.slug)}">${esc(product.title)}</a> ${esc(rupees(product.price))}</figcaption></figure>`;
     }).join('');
+    const cards = section.categoryCards
+      ? `<div>${categorySummaries().map((card) => `<a href="${esc(card.href)}">${esc(card.name)}: ${card.count} ${card.count === 1 ? 'toy' : 'toys'}, from ${esc(rupees(card.cheapest))}</a>`).join('')}</div>`
+      : '';
     const links = section.links
       ? `<ul>${section.links.map((link) => `<li><a href="${esc(link.href)}">${esc(link.label)}</a></li>`).join('')}</ul>`
       : '';
-    return `<section><h2>${esc(section.heading)}</h2>${(section.paragraphs ?? []).map((paragraph) => `<p>${esc(paragraph)}</p>`).join('')}${section.list ? `<ul>${section.list.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>` : ''}${table}${prices}${photos}${links}</section>`;
+    return `<section><h2>${esc(section.heading)}</h2>${(section.paragraphs ?? []).map((paragraph) => `<p>${esc(paragraph)}</p>`).join('')}${section.list ? `<ul>${section.list.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>` : ''}${table}${prices}${photos}${cards}${links}</section>`;
   }).join('');
   return `<main><nav>${crumbs.map((crumb) => `<a href="${esc(crumb.path)}">${esc(crumb.name)}</a>`).join(' / ')}</nav><h1>${esc(page.h1)}</h1>${page.intro ? `<p>${esc(page.intro)}</p>` : ''}${page.updated ? `<p>${esc(pricesCheckedLabel(page.updated))}</p>` : ''}${page.paragraphs.map((paragraph) => `<p>${esc(paragraph)}</p>`).join('')}${sections}<h2>Questions</h2>${page.faqs.map((faq) => `<section><h3>${esc(faq.question)}</h3><p>${esc(faq.answer)}</p></section>`).join('')}${related.length ? `<h2>Related guides</h2><ul>${related.map((item) => `<li><a href="${esc(item.path)}">${esc(item.navLabel)}</a></li>`).join('')}</ul>` : ''}<h2>Toys on this page</h2><ul>${linked.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul></main>`;
 }

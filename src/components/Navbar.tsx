@@ -10,6 +10,8 @@ interface NavbarProps {
   cartItems: CartItem[];
   onOpenCart: () => void;
   onNavigate: (view: NavView) => void;
+  onOpenPath: (path: string) => void;
+  currentPath: string;
   currentView: NavView;
   onSearchChange: (query: string) => void;
   searchQuery: string;
@@ -40,6 +42,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   cartItems,
   onOpenCart,
   onNavigate,
+  onOpenPath,
+  currentPath,
   currentView,
   onSearchChange,
   searchQuery,
@@ -73,6 +77,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const navLinks = [
     { label: 'Home', href: '/', icon: Home, onClick: () => onNavigate('home'), active: currentView === 'home' },
     { label: 'Shop', href: '/shop', icon: Store, onClick: () => onNavigate('shop'), active: currentView === 'shop' },
+    { label: 'Toys for kids', href: '/toys-for-kids-pakistan', icon: Store, onClick: () => onOpenPath('/toys-for-kids-pakistan'), active: currentPath === '/toys-for-kids-pakistan' },
     { label: 'About', href: '/about', icon: Info, onClick: () => onNavigate('about'), active: currentView === 'about' },
     { label: 'Contact', href: '/contact', icon: Mail, onClick: () => onNavigate('contact'), active: currentView === 'contact' },
   ];

@@ -1,6 +1,6 @@
 import { PRODUCTS } from './products';
 import { absolutePageUrl, organizationId } from '../lib/seo';
-import { blocksGuide, helicopterGuide, karaokeGuide, kitchenGuide, priceListGuide } from './wave1';
+import { blocksGuide, helicopterGuide, karaokeGuide, kidsPillar, kitchenGuide, priceListGuide } from './wave1';
 
 export interface LandingFaq {
   question: string;
@@ -17,6 +17,8 @@ export interface LandingSection {
   /** Photos and record lines for these products. */
   productSlugs?: string[];
   links?: { href: string; label: string }[];
+  /** Cards for the real category pages, with count and cheapest price. */
+  categoryCards?: boolean;
 }
 
 export interface LandingPage {
@@ -42,6 +44,7 @@ export interface LandingPage {
 const bubbleSlugs = ['gatling-bubble-gun', 'battery-bubble-gun'];
 
 export const LANDINGS: LandingPage[] = [
+  kidsPillar,
   priceListGuide,
   helicopterGuide,
   karaokeGuide,
@@ -124,7 +127,11 @@ export const LANDINGS: LandingPage[] = [
 ];
 
 export function guidesForProduct(slug: string): { href: string; label: string }[] {
-  return LANDINGS.filter((page) => page.path !== '/toys-online-karachi' && page.productSlugs.includes(slug))
+  return LANDINGS.filter((page) => (
+    page.path !== '/toys-online-karachi'
+    && page.path !== '/toys-for-kids-pakistan'
+    && page.productSlugs.includes(slug)
+  ))
     .map((page) => ({ href: page.path, label: page.navLabel }));
 }
 

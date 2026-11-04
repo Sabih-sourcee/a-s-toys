@@ -1,6 +1,6 @@
 import React from 'react';
 import { LANDINGS, LandingPage as Landing, landingProducts, pricesCheckedLabel } from '../data/landings';
-import { findProduct, rupees } from '../lib/money';
+import { categorySummaries, findProduct, rupees } from '../lib/money';
 import { productPhotoAlt } from '../lib/seo';
 
 interface LandingPageProps {
@@ -145,6 +145,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({ page, onOpenProduct, o
               </figure>
             );
           })}
+          {section.categoryCards ? (
+            <div className="mt-4 grid sm:grid-cols-2 gap-3">
+              {categorySummaries().map((card) => (
+                <a
+                  key={card.href}
+                  href={card.href}
+                  onClick={(event) => openLink(event, card.href, onOpen)}
+                  className="border border-[#DCD7CC] rounded-[6px] p-3 hover:border-[#182232]"
+                >
+                  <span className="block font-headline font-bold text-[#182232]">{card.name}</span>
+                  <span className="block text-sm text-[#5A6270] mt-1">{card.count} {card.count === 1 ? 'toy' : 'toys'}, from {rupees(card.cheapest)}</span>
+                </a>
+              ))}
+            </div>
+          ) : null}
           {section.links ? (
             <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
               {section.links.map((link) => (
@@ -203,9 +218,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ page, onOpenProduct, o
 };
 
 export function GuideLinks({ onOpen, hubOnly = false }: { onOpen: (path: string) => void; hubOnly?: boolean }) {
-  const pages = hubOnly
-    ? LANDINGS.filter((page) => page.updated)
-    : LANDINGS;
+  const pages = (hubOnly ? LANDINGS.filter((page) => page.updated) : LANDINGS)
+    .filter((page) => page.path !== '/toys-for-kids-pakistan');
   return (
     <section className="border-t border-[#DCD7CC] pt-8" id="toy-guides">
       <h2 className="font-headline text-lg font-bold text-[#182232]">Toy guides</h2>

@@ -1,6 +1,7 @@
+import { config } from '../config';
 import { PRODUCTS } from './products';
 import type { LandingPage } from './landings';
-import { LISTINGS, deliveryFee, findProduct, freeDeliveryOver, rupees } from '../lib/money';
+import { LISTINGS, deliveryFee, findProduct, freeDeliveryOver, pricedAtMost, rupees } from '../lib/money';
 
 const UPDATED = '2026-11-04';
 const heli = findProduct('rc-flying-helicopter-toy');
@@ -20,6 +21,12 @@ const highest = priced[priced.length - 1];
 function payLine(): string {
   return `You can pay by cash on delivery, JazzCash, EasyPaisa, or bank transfer. Delivery is ${deliveryFee()}, and it is free over ${freeDeliveryOver()}. The courier is TCS or Leopards, in 2-5 days.`;
 }
+
+function damageLine(): string {
+  return `If a toy is damaged in transit, the shop note is a ${config.exchangePolicy}.`;
+}
+
+const pillarLink = { href: '/toys-for-kids-pakistan', label: 'toys for kids in Pakistan' };
 
 export const helicopterGuide: LandingPage = {
   path: '/rc-helicopter-price-pakistan',
@@ -99,12 +106,12 @@ export const helicopterGuide: LandingPage = {
       paragraphs: [
         `Add the ${heli.title} from its product page, or send the WhatsApp message there if you want the photo confirmed first.`,
         payLine(),
-        `There is no walk-in counter. If the parcel is damaged in transit, the written note is a 7-day replacement for that damage. Read it on the return page before you need it.`,
+        `There is no walk-in counter. ${damageLine()}`,
       ],
       links: [
         { href: `/products/${heli.slug}`, label: heli.title },
         { href: '/toys-price-list-pakistan', label: 'Toys price list in Pakistan' },
-        { href: '/return-policy', label: 'Return and replacement policy' },
+        pillarLink,
         { href: '/toys-online-karachi', label: 'Toys online in Karachi' },
       ],
     },
@@ -205,12 +212,12 @@ export const karaokeGuide: LandingPage = {
       paragraphs: [
         `Open the product page, look at the four photos, and add the set if it is the one you want.`,
         payLine(),
-        `Read the return page if you want the transit-damage note before the parcel moves. There is no walk-in counter in Karachi.`,
+        `${damageLine()} There is no walk-in counter in Karachi.`,
       ],
       links: [
         { href: `/products/${karaoke.slug}`, label: karaoke.title },
         { href: '/toys-price-list-pakistan', label: 'Toys price list in Pakistan' },
-        { href: '/return-policy', label: 'Return and replacement policy' },
+        pillarLink,
       ],
     },
   ],
@@ -256,10 +263,10 @@ export const priceListGuide: LandingPage = {
     '/bubble-guns-pakistan',
     '/toys-online-karachi',
   ],
-  intro: `Toys for kids on this site run from ${rupees(lowest.price)} to ${rupees(highest.price)}. That is the A & S Toys list, not every shop in Pakistan. Other listings, ${LISTINGS}, sit in wider bands, and those bands are labelled below so you can see which number is ours.`,
+  intro: `This list runs from ${rupees(lowest.price)} to ${rupees(highest.price)}. That is the A & S Toys list, not every shop in Pakistan. Other listings, ${LISTINGS}, sit in wider bands, and those bands are labelled below so you can see which number is ours.`,
   sections: [
     {
-      heading: 'Toys for kids by price',
+      heading: 'Every A & S toy by price',
       paragraphs: [
         `The table under this heading is every toy we sell, sorted by price. The ${lowest.title} is ${rupees(lowest.price)}. The ${highest.title} is ${rupees(highest.price)}. Nothing on the list is hidden in a WhatsApp chat.`,
         `Shop prices start from ${rupees(300)}. That phrase means the lowest price in our own catalog, not a claim about other shops. Open a row when you want the photos.`,
@@ -306,10 +313,10 @@ export const priceListGuide: LandingPage = {
       heading: 'Delivery and payment',
       paragraphs: [
         payLine(),
-        `There is no walk-in address. Orders leave Karachi for the rest of Pakistan. The return note for transit damage is on /return-policy.`,
+        `There is no walk-in address. Orders leave Karachi for the rest of Pakistan. ${damageLine()}`,
       ],
       links: [
-        { href: '/return-policy', label: 'Return and replacement policy' },
+        pillarLink,
         { href: '/kitchen-set-toys-pakistan', label: 'Kitchen set price guide' },
         { href: '/building-blocks-toys-pakistan', label: 'Building blocks price guide' },
         { href: '/rc-helicopter-price-pakistan', label: 'RC helicopter price guide' },
@@ -425,12 +432,12 @@ export const kitchenGuide: LandingPage = {
       paragraphs: [
         `Pick the kitchen, or one dispenser, from its own page. They are separate lines in the bag.`,
         payLine(),
-        `The return page covers transit damage. There is no shop floor to visit.`,
+        `${damageLine()} There is no shop floor to visit.`,
       ],
       links: [
         { href: `/products/${kitchen.slug}`, label: kitchen.title },
         { href: '/toys-price-list-pakistan', label: 'Toys price list in Pakistan' },
-        { href: '/return-policy', label: 'Return and replacement policy' },
+        pillarLink,
         { href: '/category/pretend-play', label: 'A & S Pretend Play' },
       ],
     },
@@ -528,11 +535,11 @@ export const blocksGuide: LandingPage = {
       paragraphs: [
         `Open the set you want. The price on the product page is the price in the table.`,
         payLine(),
-        `Transit damage is covered in the return note. Read /return-policy if you want it in writing. There is no walk-in counter.`,
+        `${damageLine()} There is no walk-in counter.`,
       ],
       links: [
         { href: '/toys-price-list-pakistan', label: 'Toys price list in Pakistan' },
-        { href: '/return-policy', label: 'Return and replacement policy' },
+        pillarLink,
         { href: '/kitchen-set-toys-pakistan', label: 'Kitchen set price guide' },
       ],
     },
@@ -553,6 +560,174 @@ export const blocksGuide: LandingPage = {
     {
       question: 'How does delivery work?',
       answer: payLine(),
+    },
+  ],
+};
+
+const phone = findProduct('toy-flip-phone');
+const fan = findProduct('mini-handheld-fan');
+const gatling = findProduct('gatling-bubble-gun');
+const trucks = findProduct('friction-construction-trucks');
+const upTo500 = pricedAtMost(500).map((product) => product.slug);
+const upTo1000 = pricedAtMost(1000, 501).map((product) => product.slug);
+const upTo2300 = pricedAtMost(2300, 1001).map((product) => product.slug);
+
+export const kidsPillar: LandingPage = {
+  path: '/toys-for-kids-pakistan',
+  navLabel: 'Toys for kids',
+  title: 'Toys for Kids in Pakistan with Price | A & S Toys',
+  description: `Toys for kids in Pakistan from ${rupees(lowest.price)} to ${rupees(highest.price)}: kitchen sets, building blocks, RC helicopter, trucks and more. Prices listed, COD, delivery in 2-5 days.`,
+  h1: 'Toys for Kids in Pakistan',
+  kind: 'collection',
+  updated: UPDATED,
+  paragraphs: [],
+  productSlugs: priced.map((product) => product.slug),
+  breadcrumb: [
+    { name: 'Home', path: '/' },
+    { name: 'Toys for Kids in Pakistan', path: '/toys-for-kids-pakistan' },
+  ],
+  related: [
+    '/toys-price-list-pakistan',
+    '/kitchen-set-toys-pakistan',
+    '/building-blocks-toys-pakistan',
+    '/rc-helicopter-price-pakistan',
+    '/kids-karaoke-mic-speaker-price-pakistan',
+    '/bubble-guns-pakistan',
+    '/toys-online-karachi',
+  ],
+  intro: `A & S Toys sells ${PRODUCTS.length} toys for kids in Pakistan, from ${rupees(lowest.price)} to ${rupees(highest.price)}, with cash on delivery and delivery in 2 to 5 days. Browse by type or budget below, then check the age printed on the box.`,
+  sections: [
+    {
+      heading: 'Shop toys for kids by type',
+      paragraphs: [
+        `Start with the kind of play, not with a random advert. Each card below is a real category on this site. The count is how many toys we list there. The price is the lowest one in that category, taken from the catalog.`,
+        `A category is a shelf, not a promise that every toy on it plays the same way. Open the card, look at the photos, and read the price on that toy's own page. If two toys share a shelf, they still have two prices.`,
+      ],
+      categoryCards: true,
+    },
+    {
+      heading: 'Toys for kids by budget',
+      paragraphs: [
+        `Each toy is listed once. The first table stops at ${rupees(500)}. The second runs from just over that up to ${rupees(1000)}. The third runs up to ${rupees(highest.price)}. The full sorted list, with nothing left out, is on the price-list page.`,
+      ],
+      links: [{ href: '/toys-price-list-pakistan', label: 'Full toys price list' }],
+    },
+    {
+      heading: `Up to ${rupees(500)}`,
+      paragraphs: [
+        `These are the smaller prices in the shop. They are still complete toys, with their own photos and their own pages.`,
+      ],
+      priceTable: upTo500,
+    },
+    {
+      heading: `Up to ${rupees(1000)}`,
+      paragraphs: [
+        `This band starts after ${rupees(500)} and stops at ${rupees(1000)}. It is where a lot of the vehicles and pretend toys sit.`,
+      ],
+      priceTable: upTo1000,
+    },
+    {
+      heading: `Up to ${rupees(highest.price)}`,
+      paragraphs: [
+        `This band is everything above ${rupees(1000)}, up to the top of our own list. Nothing here is a market guess. Each row is a catalog price.`,
+      ],
+      priceTable: upTo2300,
+    },
+    {
+      heading: 'Toys for kids by who they are for',
+      paragraphs: [
+        `Boys and girls can use the same shelves. Building is one kind of play. The ${carry.title} is ${rupees(carry.price)}. The ${bag.title} is ${rupees(bag.price)}.`,
+        `Pretend play is another kind. The ${kitchen.title} is ${rupees(kitchen.price)}. The ${mini.title} is ${rupees(mini.price)}. A child who likes to copy a kitchen at home will use either one. We do not split those toys by gender.`,
+        `Moving toys are a third kind. The ${heli.title} is ${rupees(heli.price)}. The ${trucks.title} is ${rupees(trucks.price)}. One is a remote-control flying toy with a hand controller on the box. The other is friction construction trucks in a window box.`,
+        `For a gift, pick a price you are happy to spend and then a kind of play. The ${phone.title} is ${rupees(phone.price)}. The ${fan.title} is ${rupees(fan.price)}. The ${gatling.title} is ${rupees(gatling.price)}. A small gift does not need a speech. The product page has the photo.`,
+        `Delivery to a Karachi address uses the same rule as delivery to any other city in Pakistan. The ${animal.title} is ${rupees(animal.price)}. The ${tap.title} is ${rupees(tap.price)}. Both leave from this Karachi shop. There is no counter to collect them from.`,
+      ],
+    },
+    {
+      heading: 'What toys cost in Pakistan',
+      paragraphs: [
+        `The table is what other shops were asking. It is labelled so it cannot be mistaken for our price list. We are not the cheapest shop on every item. A basic kitchen or a small bag of blocks can be listed for less somewhere else. Our number is the one next to the A & S name.`,
+        `When you compare, compare the photo as well as the rupee. A lower listing can be a smaller toy. A higher listing can be lights, spray, or a larger model. Those extras are their claim, not ours, unless our own page says the same thing.`,
+      ],
+      table: {
+        caption: `Market ranges, ${LISTINGS}.`,
+        columns: ['Toy', 'Range seen elsewhere'],
+        rows: [
+          ['Kitchen sets, basic', 'Rs 199 to Rs 1,250'],
+          ['Kitchen sets, 20-29 piece', 'Rs 1,750 to Rs 3,149'],
+          ['Kitchen sets, spray, steam or light', 'Rs 3,950 to Rs 19,999'],
+          ['Blocks, 51-150 piece bags', 'Rs 249 to Rs 525'],
+          ['Blocks, 90-110 piece', 'Rs 579 to Rs 1,899'],
+          ['Blocks, large or themed', 'Rs 3,449 to Rs 6,999'],
+          ['RC helicopters', 'Rs 1,090 to Rs 13,895'],
+          ['Karaoke speakers', 'Rs 1,700 to Rs 4,895'],
+          ['Bubble guns', 'Rs 449 to Rs 2,499'],
+          ['Water guns', 'Rs 775 to Rs 5,900'],
+          ['Toy phones', 'Rs 250 to Rs 799'],
+          ['Baby dolls, simple', 'Rs 750 to Rs 1,595'],
+          ['Baby dolls, larger', 'Rs 2,000 and up'],
+          ['Dinosaur figures', 'Rs 495 to Rs 1,390'],
+          ['Friction trucks, single', 'Rs 299 to Rs 399'],
+          ['Friction truck packs', 'Rs 1,499 to Rs 2,199'],
+        ],
+      },
+    },
+    {
+      heading: 'How to choose a toy for a child',
+      paragraphs: [
+        `Match the age label printed on the box to the child in front of you. This shop does not reprint that label onto the page. The box is the place to read it.`,
+        `Keep small parts away from young children. A block, a utensil, or a wheel can be the wrong size for a toddler even when an older child is fine with it. If you are unsure, do not hand it over.`,
+        `Check batteries and screws before the first play. A loose battery door or a missing screw is a reason to stop, not a reason to hope. Fit what the box asks for, and only that.`,
+        `Prefer a toy that gets used in more than one way. Blocks stack and get put away. A kitchen set is pretend cooking. A truck is push play. A toy that only does one trick for one afternoon is a weaker gift than one that comes out again next week.`,
+        `Plan the storage before you open the bag. A case, a mesh bag, or the original box should have a home. A toy with nowhere to go ends up under the sofa, and then it feels like a waste.`,
+      ],
+    },
+    {
+      heading: 'Why buy from A & S Toys',
+      paragraphs: [
+        `A & S Toys sells its own A & S range. The name on the toy matches the name on the site. Prices are on every product page, not hidden until checkout.`,
+        `${payLine()} You can also message us on WhatsApp at ${config.whatsappPhone} if you want the photo confirmed before you pay.`,
+        `${damageLine()} We do not add a longer promise than that sentence. There is no walk-in shop to visit in Karachi. The order is delivered.`,
+      ],
+      links: [
+        { href: '/toys-price-list-pakistan', label: 'Toys price list in Pakistan' },
+        { href: '/about', label: 'About A & S Toys' },
+        { href: '/contact', label: 'Contact' },
+      ],
+    },
+  ],
+  faqs: [
+    {
+      question: 'What are good toys for kids in Pakistan?',
+      answer: `Pick by budget and by play. The ${phone.title} is ${rupees(phone.price)}. The ${carry.title} is ${rupees(carry.price)}. The ${heli.title} is ${rupees(heli.price)}.`,
+    },
+    {
+      question: 'How much do toys for kids cost in Pakistan?',
+      answer: `On this site the range is ${rupees(lowest.price)} to ${rupees(highest.price)}. Other shops, ${LISTINGS}, ask about Rs 199 to Rs 1,250 for a basic kitchen and about Rs 1,090 to Rs 13,895 for an RC helicopter.`,
+    },
+    {
+      question: 'Where can I buy toys online in Pakistan with cash on delivery?',
+      answer: 'A & S Toys takes cash on delivery on usmanitoys.com. JazzCash, EasyPaisa, and bank transfer are there too.',
+    },
+    {
+      question: 'Do you deliver in Karachi and across Pakistan, and how long does it take?',
+      answer: `Yes. Karachi and the rest of Pakistan use the same delivery. ${payLine()}`,
+    },
+    {
+      question: `Which toys are under ${rupees(1000)}?`,
+      answer: `The budget tables on this page split the catalog at ${rupees(500)} and at ${rupees(1000)}. Open either table. The price beside the name is the catalog price.`,
+    },
+    {
+      question: 'How is A & S Toys different from Daraz?',
+      answer: 'Daraz is a marketplace with many sellers. A & S Toys is one Karachi shop selling the toys named on this site. This page does not rank the two.',
+    },
+    {
+      question: 'How do I tell if a toy is safe for a child\'s age?',
+      answer: 'Read the age label on the box. Keep small parts away from young children. Check the battery door and the screws before play. This site does not replace that label.',
+    },
+    {
+      question: 'What is the return policy?',
+      answer: damageLine(),
     },
   ],
 };
