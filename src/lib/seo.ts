@@ -26,7 +26,7 @@ export const ABOUT_TITLE = 'A & S Toys Shop Karachi | About, FAQ & Delivery in P
 export const ABOUT_DESCRIPTION =
   'A & S Toys is a Karachi toy shop with branded toys from Rs 300, cash on delivery and delivery across Pakistan in 2-5 business days. FAQ, policies and all toys.';
 
-export const HOME_TITLE = 'A & S Toys | Online Toy Shop in Karachi, Pakistan';
+export const HOME_TITLE = 'A & S Toys | Toys Online in Karachi & Pakistan, from Rs 300';
 export const HOME_DESCRIPTION =
   'A & S Toys is an online toy shop in Karachi with delivery across Pakistan in 2-5 days. Kitchen sets, building blocks, bubble guns, RC toys and more, from Rs 300.';
 

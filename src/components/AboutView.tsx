@@ -65,6 +65,18 @@ export const AboutView: React.FC<AboutViewProps> = ({ onShopClick, onOpenProduct
                 event.preventDefault();
                 onShopClick();
               }}
+              className="font-headline font-bold text-[#0F3D9C] hover:text-[#E84A27]"
+            >
+              Shop toys from Rs 300
+            </a>
+          </p>
+          <p className="mt-5">
+            <a
+              href="/shop"
+              onClick={(event) => {
+                event.preventDefault();
+                onShopClick();
+              }}
               className="btn-push-red inline-flex text-white font-headline text-sm font-bold px-5 py-2.5 rounded-[6px] items-center gap-1.5"
             >
               Shop all toys

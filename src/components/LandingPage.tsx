@@ -218,8 +218,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ page, onOpenProduct, o
 };
 
 export function GuideLinks({ onOpen, hubOnly = false }: { onOpen: (path: string) => void; hubOnly?: boolean }) {
-  const pages = (hubOnly ? LANDINGS.filter((page) => page.updated) : LANDINGS)
-    .filter((page) => page.path !== '/toys-for-kids-pakistan');
+  const pages = (hubOnly
+    ? LANDINGS.filter((page) => page.updated || page.path === '/water-dispenser-toys-pakistan')
+    : LANDINGS
+  ).filter((page) => page.path !== '/toys-for-kids-pakistan');
   return (
     <section className="border-t border-[#DCD7CC] pt-8" id="toy-guides">
       <h2 className="font-headline text-lg font-bold text-[#182232]">Toy guides</h2>
