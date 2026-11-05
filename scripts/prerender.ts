@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { assertBrandCopy, assertLandingPrices } from './content-checks';
+import { assertBrandCopy, assertLandingPrices, assertNoTrailingSlash } from './content-checks';
 import { loadEnv } from 'vite';
 import { LANDINGS, guidesForProduct, landingJsonLd, landingProducts, pricesCheckedLabel } from '../src/data/landings';
 import { categorySummaries, findProduct, rupees } from '../src/lib/money';
@@ -334,4 +334,5 @@ if (fs.existsSync(htaccess)) {
 
 assertLandingPrices();
 assertBrandCopy(dist);
+assertNoTrailingSlash(dist);
 console.log(`Prerendered ${urls.length} routes, 404.html, sitemap.xml, robots.txt, llms.txt, .htaccess`);

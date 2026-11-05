@@ -301,7 +301,7 @@ export function organizationJsonLd(siteUrl: string) {
     '@id': id,
     name: 'A & S Toys',
     alternateName: ['A&S Toys', 'AS Toys', 'A and S Toys', 'Usmani Toys'],
-    url: origin,
+    url: `${origin}/`,
     logo: absoluteAsset(siteUrl, '/images/logo.png'),
     telephone: '+92-331-7676995',
     email: config.email,
