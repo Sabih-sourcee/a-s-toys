@@ -83,3 +83,49 @@ export function assertLandingPrices(): void {
     throw new Error(`Landing price mismatch:\n${problems.join('\n')}`);
   }
 }
+
+const SITE_HOSTS = new Set(['usmanitoys.com', 'www.usmanitoys.com']);
+
+/** Same-site path ends in a slash. The bare root "/" is the only exception. */
+function sameSiteSlashPath(value: string): string | null {
+  const trimmed = value.trim();
+  if (!trimmed || trimmed.startsWith('#')) return null;
+  let path = '';
+  if (/^https?:\/\//i.test(trimmed)) {
+    let parsed: URL;
+    try {
+      parsed = new URL(trimmed);
+    } catch {
+      return null;
+    }
+    if (!SITE_HOSTS.has(parsed.hostname.toLowerCase())) return null;
+    path = parsed.pathname;
+  } else if (trimmed.startsWith('/')) {
+    path = trimmed.split(/[?#]/)[0];
+  } else {
+    return null;
+  }
+  if (path === '/') return null;
+  return path.endsWith('/') ? path : null;
+}
+
+/**
+ * Prerendered HTML must not link to or declare a same-site URL with a trailing
+ * slash. Root https://usmanitoys.com/ is allowed.
+ */
+export function assertNoTrailingSlash(distDir: string): void {
+  const hits: string[] = [];
+  const files = walk(distDir).filter((file) => file.endsWith('.html') || file.endsWith('.xml'));
+  const pattern = /(?:href|content|item)\s*=\s*"([^"]+)"|<(?:loc|image:loc)>([^<]+)<|"(@id|url|item)"\s*:\s*"([^"]+)"/g;
+  for (const file of files) {
+    const text = fs.readFileSync(file, 'utf8');
+    for (const match of text.matchAll(pattern)) {
+      const value = match[1] || match[2] || match[4] || '';
+      const bad = sameSiteSlashPath(value);
+      if (bad) hits.push(`${path.relative(distDir, file)}: ${value}`);
+    }
+  }
+  if (hits.length) {
+    throw new Error(`Trailing-slash URL in prerendered output:\n${hits.join('\n')}`);
+  }
+}
