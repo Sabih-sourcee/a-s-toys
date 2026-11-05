@@ -141,7 +141,7 @@ writePage('/', render({
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
   urlPath: '/',
-  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>A &amp; S Toys is a Karachi toy shop that sells its own A &amp; S toys online and delivers them across Pakistan.</p><p>${esc(HOME_DESCRIPTION)}</p><p><a href="/about">About &amp; FAQ</a></p><p><a href="/toys-for-kids-pakistan">See the full range we sell in Pakistan</a></p><h2>Toy guides</h2><ul>${LANDINGS.filter((page) => page.updated && page.path !== '/toys-for-kids-pakistan').map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>${trust}</main>`,
+  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>A &amp; S Toys is a Karachi toy shop that sells its own A &amp; S toys online and delivers them across Pakistan.</p><p>${esc(HOME_DESCRIPTION)}</p><p><a href="/about">About &amp; FAQ</a></p><p><a href="/toys-for-kids-pakistan">See the full range we sell in Pakistan</a></p><h2>Toy guides</h2><ul>${LANDINGS.filter((page) => (page.updated || page.path === '/water-dispenser-toys-pakistan') && page.path !== '/toys-for-kids-pakistan').map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>${trust}</main>`,
 }));
 
 writePage('/shop', render({
@@ -156,7 +156,7 @@ writePage('/about', render({
   description: ABOUT_DESCRIPTION,
   urlPath: '/about',
   jsonLd: aboutPageJsonLd(),
-  body: `<main><h1>About A &amp; S Toys Shop, Karachi</h1><p>A &amp; S Toys is a toy shop in Karachi that sells its own A &amp; S toys online and delivers them across Pakistan. There is no walk-in counter. Shop prices are from Rs 300.</p><h2>Who we are</h2><p>A &amp; S Toys is a toy shop in Karachi. It sells its own A &amp; S toys online at usmanitoys.com.</p>${officialProfiles().length ? `<h2>Official profiles</h2><ul>${officialProfiles().map((profile) => `<li><a href="${esc(profile.url)}">${esc(profile.label)}</a></li>`).join('')}</ul>` : ''}<p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${aboutFacts}<h2>Questions</h2>${aboutFaqs}${aboutOrder}${toyGuides}${catalogIndex}${trust}</main>`,
+  body: `<main><h1>About A &amp; S Toys Shop, Karachi</h1><p>A &amp; S Toys is a toy shop in Karachi that sells its own A &amp; S toys online and delivers them across Pakistan. There is no walk-in counter. Shop prices are from Rs 300.</p><h2>Who we are</h2><p>A &amp; S Toys is a toy shop in Karachi. It sells its own A &amp; S toys online at usmanitoys.com.</p>${officialProfiles().length ? `<h2>Official profiles</h2><ul>${officialProfiles().map((profile) => `<li><a href="${esc(profile.url)}">${esc(profile.label)}</a></li>`).join('')}</ul>` : ''}<p><a href="/shop">Shop toys from Rs 300</a></p><p><a href="/shop">Shop all toys</a></p><ul>${aboutFeatured.map((product) => `<li><a href="/products/${esc(product.slug)}">${esc(product.title)}</a></li>`).join('')}</ul>${aboutFacts}<h2>Questions</h2>${aboutFaqs}${aboutOrder}${toyGuides}${catalogIndex}${trust}</main>`,
 }));
 
 for (const category of CATEGORIES) {

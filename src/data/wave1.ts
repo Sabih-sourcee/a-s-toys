@@ -419,6 +419,7 @@ export const kitchenGuide: LandingPage = {
         `Treat them as pretend dispensers. The record does not say they pump real water, and it does not list a tank size.`,
       ],
       productSlugs: [mini.slug, animal.slug, tap.slug],
+      links: [{ href: '/water-dispenser-toys-pakistan', label: 'water dispenser toys' }],
     },
     {
       heading: 'Safety',

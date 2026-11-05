@@ -1,4 +1,6 @@
+import { config } from '../config';
 import { PRODUCTS } from './products';
+import { deliveryFee, findProduct, freeDeliveryOver, rupees } from '../lib/money';
 import { absolutePageUrl, organizationId } from '../lib/seo';
 import { blocksGuide, helicopterGuide, karaokeGuide, kidsPillar, kitchenGuide, priceListGuide } from './wave1';
 
@@ -42,9 +44,52 @@ export interface LandingPage {
 }
 
 const bubbleSlugs = ['gatling-bubble-gun', 'battery-bubble-gun'];
+const miniDispenser = findProduct('mini-water-dispenser-toy');
+const animalDispenser = findProduct('animal-water-dispenser');
+const kitchenDispenser = findProduct('kitchen-water-dispenser');
+
+const waterDispenserPage: LandingPage = {
+  path: '/water-dispenser-toys-pakistan',
+  navLabel: 'Water dispenser toys',
+  title: 'Water Dispenser Toy Price in Pakistan | A & S Toys',
+  description: 'Water dispenser toy in Pakistan from A & S Toys: mini, animal and kitchen dispenser toys, from Rs 300. Karachi shop, COD, delivery across Pakistan.',
+  h1: 'Water dispenser toys in Pakistan',
+  productSlugs: [miniDispenser.slug, animalDispenser.slug, kitchenDispenser.slug],
+  paragraphs: [
+    `A & S Toys lists three water dispenser toys. They are pretend-play pieces from a Karachi shop, and shop prices start from Rs 300. You can pay cash on delivery, and the parcel goes across Pakistan.`,
+    `The ${miniDispenser.title} is ${rupees(miniDispenser.price)}. It is a mini water dispenser toy in a window box. One photo shows it out of the box. The other photos show the same pack. It sits in Pretend Play, beside a toy kitchen, not packed inside that kitchen.`,
+    `The ${animalDispenser.title} is ${rupees(animalDispenser.price)}. It is a water dispenser toy with an animal face on the front of the pack. The other photos show that box from the side and the back. The record does not name the animal.`,
+    `The ${kitchenDispenser.title} is ${rupees(kitchenDispenser.price)}. It is a water dispenser toy with a tap and a kitchen-style body, packed like a small appliance. The photos are four sides of the same window box. The record does not list a tank size.`,
+    `All three are plastic. Treat them as pretend dispensers. The record does not say that they pump real water. Check the age on the box before you hand one to a child.`,
+    `Pick the mini when you want the smallest of the three, including a photo of it outside the box. Pick the animal dispenser when the face on the front of the box is the look you want. Pick the kitchen dispenser when you want the tap and the appliance-shaped body. Each product page has the photos and the catalog price.`,
+    `The water dispenser toy price in Pakistan on this page is the number beside each name. Those three prices are separate. You do not have to buy the kitchen set to order one dispenser.`,
+    `You can pay by cash on delivery, JazzCash, EasyPaisa, or bank transfer. Delivery is ${deliveryFee()}, and it is free when the order reaches ${freeDeliveryOver()}. The courier is TCS or Leopards, in 2-5 days. There is no walk-in counter.`,
+    `If a toy is damaged in transit, the shop note is a ${config.exchangePolicy}. WhatsApp ${config.whatsappPhone} is the line on the product page if you want a photo checked before you pay.`,
+    `Line a dispenser up with the toy kitchen if you want a pretend corner. Or keep the order to one toy. The mini, the animal face, and the tap are three looks, not three sizes of the same box.`,
+  ],
+  faqs: [
+    {
+      question: 'Can I pay cash on delivery?',
+      answer: 'Yes. Cash on delivery is available. Checkout also lists JazzCash, EasyPaisa, and bank transfer.',
+    },
+    {
+      question: 'What does shipping cost?',
+      answer: `Delivery is ${deliveryFee()}. It is free when the order reaches ${freeDeliveryOver()}.`,
+    },
+    {
+      question: 'How long does delivery take, and who carries it?',
+      answer: 'Allow 2-5 days. The courier named by the shop is TCS or Leopards. Orders leave Karachi for the rest of Pakistan.',
+    },
+    {
+      question: 'What if the dispenser arrives damaged?',
+      answer: `The shop note is a ${config.exchangePolicy}. Send the photos on WhatsApp ${config.whatsappPhone}.`,
+    },
+  ],
+};
 
 export const LANDINGS: LandingPage[] = [
   kidsPillar,
+  waterDispenserPage,
   priceListGuide,
   helicopterGuide,
   karaokeGuide,

@@ -42,7 +42,7 @@ export const HOME_FAQS = [
   },
   {
     question: 'Can I pay cash on delivery?',
-    answer: 'Yes. Payment on the website is cash on delivery. Checkout also lists JazzCash, EasyPaisa, and bank transfer.',
+    answer: 'Yes. Cash on delivery is available, and A & S Toys delivers from Karachi across Pakistan. Payment on the website is cash on delivery. Checkout also lists JazzCash, EasyPaisa, and bank transfer.',
   },
   {
     question: 'What is the return policy?',
