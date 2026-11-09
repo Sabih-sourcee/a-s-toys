@@ -22,9 +22,9 @@ export function categoryDescription(name: string, blurb: string): string {
   return text.length > 160 ? `${text.slice(0, 157)}...` : text;
 }
 
-export const ABOUT_TITLE = 'A & S Toys Shop Karachi | About, FAQ & Delivery in Pakistan';
+export const ABOUT_TITLE = 'About A & S Toys | Karachi Toy Shop, Toys from Rs 300';
 export const ABOUT_DESCRIPTION =
-  'A & S Toys is a Karachi toy shop with branded toys from Rs 300, cash on delivery and delivery across Pakistan in 2-5 business days. FAQ, policies and all toys.';
+  'A & S Toys is a Karachi toy shop. Toys from Rs 300, cash on delivery, and delivery across Pakistan. Open the shop for prices and photos.';
 
 export const HOME_TITLE = 'A & S Toys | Toys Online in Karachi & Pakistan, from Rs 300';
 export const HOME_DESCRIPTION =
