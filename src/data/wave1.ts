@@ -483,7 +483,7 @@ export const blocksGuide: LandingPage = {
     { name: 'Building blocks price', path: '/building-blocks-toys-pakistan' },
   ],
   related: ['/toys-price-list-pakistan', '/kitchen-set-toys-pakistan', '/toys-online-karachi'],
-  intro: `Other listings run from Rs 249 for a block bag to past Rs 3,449 for a large set, ${LISTINGS}. The ${carry.title} is ${rupees(carry.price)}. The ${bag.title} is ${rupees(bag.price)}. Compare the photos, not a piece count.`,
+  intro: `Building Blocks Price in Pakistan: the ${carry.title} is ${rupees(carry.price)}. The ${bag.title} is ${rupees(bag.price)}. Other listings, ${LISTINGS}, run from Rs 249 to past Rs 3,449. Compare the photos, not a piece count.`,
   sections: [
     {
       heading: 'Price tiers',
@@ -547,7 +547,7 @@ export const blocksGuide: LandingPage = {
   ],
   faqs: [
     {
-      question: 'What do the two A & S block sets cost?',
+      question: 'What is the Building Blocks Price in Pakistan?',
       answer: `The ${carry.title} is ${rupees(carry.price)}. The ${bag.title} is ${rupees(bag.price)}.`,
     },
     {
