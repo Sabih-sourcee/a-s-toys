@@ -2,8 +2,10 @@ import React, { useState, useMemo } from 'react';
 import { Search, SlidersHorizontal, RotateCcw, X } from 'lucide-react';
 import { Product } from '../types';
 import { CATEGORIES } from '../data/products';
+import { categoryGuideLinks, shopGuideLinks } from '../data/landings';
 import { ProductCard } from './ProductCard';
 import { categoryPath } from '../lib/router';
+import { SHOP_H1, categoryHeading } from '../lib/seo';
 
 interface ShopSectionProps {
   products: Product[];
@@ -103,10 +105,23 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <span className="spec-stamp mb-3">Catalog · Karachi</span>
+            <nav className="text-xs text-[#5A6270] mt-3" aria-label="Breadcrumb">
+              <a href="/" className="hover:text-[#E84A27]">Home</a>
+              {' / '}
+              {selectedCategory === 'all' ? (
+                <a href="/shop" className="hover:text-[#E84A27]">Shop</a>
+              ) : (
+                <a href={categoryPath(selectedCategory)} className="hover:text-[#E84A27]">
+                  {CATEGORIES.find((cat) => cat.slug === selectedCategory)?.name || 'Toys'}
+                </a>
+              )}
+            </nav>
             <h1 className="font-headline text-2xl sm:text-3xl wide:text-4xl font-extrabold text-[#182232] tracking-[-0.03em] mt-3">
               {selectedCategory === 'all'
-                ? 'All Toys Price in Karachi, Pakistan'
-                : `${CATEGORIES.find((cat) => cat.slug === selectedCategory)?.name || 'Toys'} Price in Karachi, Pakistan`}
+                ? SHOP_H1
+                : CATEGORIES.some((cat) => cat.slug === selectedCategory)
+                  ? categoryHeading(selectedCategory)
+                  : 'Toys'}
             </h1>
             <p className="font-body text-sm sm:text-base text-[#5A6270] mt-2 max-w-2xl">
               A Karachi-based online toy store. Cash on delivery nationwide.
@@ -126,11 +141,47 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
                 </a>.
               </p>
             ) : null}
-            {selectedCategory === 'building-blocks' ? (
-              <p className="font-body text-sm sm:text-base text-[#5A6270] mt-2 max-w-2xl">
-                The building blocks price in Pakistan starts from Rs 300.
+            {selectedCategory === 'all' ? (
+              <p className="font-body text-sm text-[#182232] mt-3">
+                Guides:{' '}
+                {shopGuideLinks().map((guide, index) => (
+                  <span key={guide.href}>
+                    {index > 0 ? ', ' : ''}
+                    <a
+                      href={guide.href}
+                      onClick={(event) => {
+                        if (!onOpenPath) return;
+                        event.preventDefault();
+                        onOpenPath(guide.href);
+                      }}
+                      className="font-headline font-bold text-[#0F3D9C] hover:text-[#E84A27]"
+                    >
+                      {guide.label}
+                    </a>
+                  </span>
+                ))}
               </p>
-            ) : null}
+            ) : (
+              <p className="font-body text-sm text-[#182232] mt-3">
+                Guides:{' '}
+                {categoryGuideLinks(selectedCategory).map((guide, index) => (
+                  <span key={guide.href}>
+                    {index > 0 ? ', ' : ''}
+                    <a
+                      href={guide.href}
+                      onClick={(event) => {
+                        if (!onOpenPath) return;
+                        event.preventDefault();
+                        onOpenPath(guide.href);
+                      }}
+                      className="font-headline font-bold text-[#0F3D9C] hover:text-[#E84A27]"
+                    >
+                      {guide.label}
+                    </a>
+                  </span>
+                ))}
+              </p>
+            )}
           </div>
 
           <div className="w-full md:w-80 relative">

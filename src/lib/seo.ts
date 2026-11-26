@@ -1,34 +1,98 @@
 import { HOME_FAQS, ORDER_STEPS } from '../data/homeFaq';
 import { config, officialProfiles } from '../config';
+import { PRODUCTS } from '../data/products';
+import { rupees } from './money';
 import { Product } from '../types';
 
 export const BRAND = 'A & S Toys';
 
-export function productTitle(product: Pick<Product, 'title'>): string {
-  return `${product.title} Price in Pakistan`;
+const lowestCatalogPrice = Math.min(...PRODUCTS.map((product) => product.price));
+const highestCatalogPrice = Math.max(...PRODUCTS.map((product) => product.price));
+
+export function productTitle(product: Pick<Product, 'title' | 'price'>): string {
+  return `${product.title} | ${rupees(product.price)} | Price in Pakistan | Cash on Delivery`;
 }
 
-export function productDescription(product: Pick<Product, 'title' | 'shortDescription' | 'seoDescription'>): string {
-  if (product.seoDescription) return product.seoDescription;
-  return `${product.title}. ${product.shortDescription} Plastic. Check the box for the age grade. Cash on delivery in Pakistan.`;
+/** Price-led sentence. Used even when a product record has no seoDescription. */
+export function productDescription(product: Pick<Product, 'title' | 'price'>): string {
+  return `${product.title} is ${rupees(product.price)}. Cash on delivery from ${BRAND} in Karachi, with delivery across Pakistan in 2-5 days.`;
 }
 
-export function categoryTitle(name: string): string {
-  return `${name} Price in Karachi, Pakistan | ${BRAND}`;
+/** Plain shelf name and the description clause. Titles must not repeat the brand. */
+const CATEGORY_SHELF: Record<string, { name: string; blurb: string }> = {
+  'building-blocks': {
+    name: 'Building Blocks',
+    blurb: 'Building block sets, in a carry case and a storage bag.',
+  },
+  'pretend-play': {
+    name: 'Pretend Play',
+    blurb: 'Toy kitchens and water dispensers for pretend play.',
+  },
+  'dolls-figures': {
+    name: 'Dolls & Figures',
+    blurb: 'A crawling baby doll, a duck slide track, and dinosaur figures.',
+  },
+  vehicles: {
+    name: 'Vehicles',
+    blurb: 'Off-road jeep, construction trucks, a light-up car set, and an RC flying helicopter.',
+  },
+  'bubble-water': {
+    name: 'Bubble & Water',
+    blurb: 'Bubble guns and a water bullet gun.',
+  },
+  'gadgets-music': {
+    name: 'Gadgets & Music',
+    blurb: 'Web shooter glove, dancing cactus, toy phone, karaoke set, and a mini fan.',
+  },
+  games: {
+    name: 'Games',
+    blurb: 'A tray game with turtle pieces and yellow balls.',
+  },
+};
+
+function cheapestInCategory(slug: string): number {
+  const prices = PRODUCTS.filter((product) => product.category === slug).map((product) => product.price);
+  if (!prices.length) throw new Error(`No products in category ${slug}`);
+  return Math.min(...prices);
 }
 
-export function categoryDescription(name: string, blurb: string): string {
-  const text = `${name} price in Karachi, Pakistan. ${blurb} Cash on delivery from ${BRAND} in Karachi.`;
-  return text.length > 160 ? `${text.slice(0, 157)}...` : text;
+function shelfFor(slug: string): { name: string; blurb: string } {
+  const shelf = CATEGORY_SHELF[slug];
+  if (!shelf) throw new Error(`No shelf copy for category ${slug}`);
+  return shelf;
 }
 
-export const ABOUT_TITLE = 'A & S Toys Shop Karachi | About, FAQ & Delivery in Pakistan';
+/** First clause of the category title, also used as the H1. */
+export function categoryHeading(slug: string): string {
+  return `${shelfFor(slug).name} Price in Pakistan from ${rupees(cheapestInCategory(slug))}`;
+}
+
+export function categoryTitle(slug: string): string {
+  return `${categoryHeading(slug)} | Cash on Delivery | ${BRAND}`;
+}
+
+export function categoryDescription(slug: string): string {
+  const shelf = shelfFor(slug);
+  return `${shelf.name} in Pakistan from ${rupees(cheapestInCategory(slug))}. ${shelf.blurb} Cash on delivery from ${BRAND} in Karachi.`;
+}
+
+export const ABOUT_TITLE = 'A & S Toys Shop Karachi | About, FAQ and Delivery in Pakistan';
 export const ABOUT_DESCRIPTION =
-  'A & S Toys is a Karachi toy shop with branded toys from Rs 300, cash on delivery and delivery across Pakistan in 2-5 business days. FAQ, policies and all toys.';
+  `A & S Toys is a Karachi toy shop with toys from ${rupees(lowestCatalogPrice)}, cash on delivery, and delivery across Pakistan in 2-5 business days. FAQ, policies, and all toys.`;
 
-export const HOME_TITLE = 'A & S Toys | Toys Online in Karachi & Pakistan, from Rs 300';
+export const HOME_TITLE = `A & S Toys | Toys Online in Karachi & Pakistan from ${rupees(lowestCatalogPrice)} | Cash on Delivery`;
 export const HOME_DESCRIPTION =
-  'A & S Toys is an online toy shop in Karachi with delivery across Pakistan in 2-5 days. Kitchen sets, building blocks, bubble guns, RC toys and more, from Rs 300.';
+  `A & S Toys is a Karachi toy shop. Order toys online from ${rupees(lowestCatalogPrice)} with cash on delivery and delivery across Pakistan in 2-5 days.`;
+
+export const SHOP_TITLE = `All Toys Price in Pakistan from ${rupees(lowestCatalogPrice)} | Cash on Delivery | ${BRAND}`;
+export const SHOP_DESCRIPTION =
+  `All A & S Toys prices in Pakistan, from ${rupees(lowestCatalogPrice)} to ${rupees(highestCatalogPrice)}. Cash on delivery from the Karachi shop, with delivery across Pakistan in 2-5 days.`;
+export const SHOP_H1 = `All Toys Price in Pakistan from ${rupees(lowestCatalogPrice)}`;
+
+export const CONTACT_TITLE = 'Contact and Wholesale | A & S Toys Pakistan';
+export const CONTACT_DESCRIPTION =
+  'Wholesale and partnership inquiries for A & S Toys. Sourcing toys for wholesalers for more than 10 years. Karachi-based, nationwide. Cash on delivery for website orders.';
+export const CONTACT_H1 = 'Wholesale & brand inquiries';
 
 /**
  * What each photo shows, in image order. Details only; the product name is added in productPhotoAlt.
@@ -277,7 +341,7 @@ export function productJsonLd(product: Product, siteUrl: string) {
       seller: { '@id': organizationId(siteUrl) },
     },
   };
-  return [
+  const nodes: Record<string, unknown>[] = [
     productLd,
     breadcrumbJsonLd(siteUrl, [
       { name: 'Home', path: '/' },
@@ -285,6 +349,10 @@ export function productJsonLd(product: Product, siteUrl: string) {
       { name: product.title, path: `/products/${product.slug}` },
     ]),
   ];
+  if (product.faqs && product.faqs.length > 0) {
+    nodes.push(faqPageFrom(product.faqs));
+  }
+  return nodes;
 }
 
 export function organizationId(siteUrl: string): string {
@@ -365,6 +433,54 @@ export function categoryItemListJsonLd(
       url: absolutePageUrl(siteUrl, `/products/${product.slug}`),
     })),
   };
+}
+
+function faqPageFrom(faqs: { question: string; answer: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+  };
+}
+
+/** ItemList plus Home > category. */
+export function categoryPageJsonLd(
+  siteUrl: string,
+  category: { name: string; slug: string },
+  products: { title: string; slug: string }[],
+) {
+  return [
+    breadcrumbJsonLd(siteUrl, [
+      { name: 'Home', path: '/' },
+      { name: category.name, path: `/category/${category.slug}` },
+    ]),
+    categoryItemListJsonLd(siteUrl, category.name, products),
+  ];
+}
+
+/** Home > Shop, plus every catalog product. */
+export function shopJsonLd(siteUrl: string, products: { title: string; slug: string }[]) {
+  return [
+    breadcrumbJsonLd(siteUrl, [
+      { name: 'Home', path: '/' },
+      { name: 'Shop', path: '/shop' },
+    ]),
+    categoryItemListJsonLd(siteUrl, SHOP_H1, products),
+  ];
+}
+
+/** Home > Contact. No street address and no LocalBusiness. */
+export function contactJsonLd(siteUrl: string) {
+  return [
+    breadcrumbJsonLd(siteUrl, [
+      { name: 'Home', path: '/' },
+      { name: 'Contact', path: '/contact' },
+    ]),
+  ];
 }
 
 function faqPageJsonLd() {
