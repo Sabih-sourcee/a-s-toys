@@ -29,15 +29,21 @@ import { config } from './config';
 import {
   ABOUT_DESCRIPTION,
   ABOUT_TITLE,
+  CONTACT_DESCRIPTION,
+  CONTACT_TITLE,
   HOME_DESCRIPTION,
   HOME_TITLE,
-  categoryDescription,
-  categoryItemListJsonLd,
+  SHOP_DESCRIPTION,
+  SHOP_TITLE,
   aboutPageJsonLd,
+  categoryDescription,
+  categoryPageJsonLd,
   categoryTitle,
+  contactJsonLd,
   productDescription,
   productJsonLd,
   productTitle,
+  shopJsonLd,
 } from './lib/seo';
 
 const CART_STORAGE_KEY = 'as_toys_cart';
@@ -187,12 +193,12 @@ export default function App() {
       }
     : route.name === 'category' && activeCategory
       ? {
-          title: categoryTitle(activeCategory.name),
-          description: categoryDescription(activeCategory.name, activeCategory.description),
+          title: categoryTitle(activeCategory.slug),
+          description: categoryDescription(activeCategory.slug),
           path: `/category/${activeCategory.slug}`,
-          jsonLd: categoryItemListJsonLd(
+          jsonLd: categoryPageJsonLd(
             config.siteUrl,
-            activeCategory.name,
+            activeCategory,
             PRODUCTS.filter((product) => product.category === activeCategory.slug),
           ),
         }
@@ -205,16 +211,17 @@ export default function App() {
           }
         : route.name === 'contact'
           ? {
-              title: 'Contact & Wholesale | A & S Toys Pakistan',
-              description:
-                'Wholesale and partnership inquiries for A & S Toys. Sourcing toys for wholesalers for more than 10 years. Karachi-based, nationwide.',
+              title: CONTACT_TITLE,
+              description: CONTACT_DESCRIPTION,
               path: '/contact',
+              jsonLd: contactJsonLd(config.siteUrl),
             }
         : route.name === 'shop'
           ? {
-              title: 'All Toys Price in Karachi, Pakistan | A & S Toys',
-              description: 'All toy prices in Karachi, Pakistan from A & S Toys. Cash on delivery.',
+              title: SHOP_TITLE,
+              description: SHOP_DESCRIPTION,
               path: '/shop',
+              jsonLd: shopJsonLd(config.siteUrl, PRODUCTS),
             }
           : {
               title: HOME_TITLE,

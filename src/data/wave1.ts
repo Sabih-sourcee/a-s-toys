@@ -31,7 +31,7 @@ const pillarLink = { href: '/toys-for-kids-pakistan', label: 'toys for kids in P
 export const helicopterGuide: LandingPage = {
   path: '/rc-helicopter-price-pakistan',
   navLabel: 'RC helicopter price',
-  title: `RC Helicopter Price in Pakistan from ${rupees(heli.price)} | A & S Toys`,
+  title: `RC Helicopter Price in Pakistan from ${rupees(heli.price)} | Cash on Delivery | A & S Toys`,
   description: `RC helicopter price in Pakistan: what mini, 2-channel and 4-channel models cost, and the ${heli.title} at ${rupees(heli.price)}. COD, delivery in 2-5 days.`,
   h1: 'RC Helicopter Price in Pakistan',
   kind: 'guide',
@@ -44,7 +44,7 @@ export const helicopterGuide: LandingPage = {
     { name: 'RC helicopter price', path: '/rc-helicopter-price-pakistan' },
   ],
   related: ['/toys-price-list-pakistan', '/kids-karaoke-mic-speaker-price-pakistan', '/toys-online-karachi'],
-  intro: `The ${heli.title} is ${rupees(heli.price)}, with cash on delivery. Other shops, ${LISTINGS}, list a palm-sensor mini from about Rs 1,090, a 2-channel from about Rs 1,850, a 3.5-channel rechargeable around Rs 5,000, a 4-channel gyro around Rs 7,500, and large alloy models over Rs 13,000.`,
+  intro: `The helicopter toy price in Pakistan for the ${heli.title} is ${rupees(heli.price)}, with cash on delivery. Other shops, ${LISTINGS}, list a palm-sensor mini from about Rs 1,090, a 2-channel from about Rs 1,850, a 3.5-channel rechargeable around Rs 5,000, a 4-channel gyro around Rs 7,500, and large alloy models over Rs 13,000.`,
   sections: [
     {
       heading: 'Price by type',
@@ -139,8 +139,8 @@ export const helicopterGuide: LandingPage = {
 export const karaokeGuide: LandingPage = {
   path: '/kids-karaoke-mic-speaker-price-pakistan',
   navLabel: 'Kids karaoke price',
-  title: 'Kids Karaoke Mic Speaker Price in Pakistan | A & S Toys',
-  description: `Kids karaoke speaker with mics: prices in Pakistan from Rs 1,700 to Rs 4,895 elsewhere, and the ${karaoke.title} at ${rupees(karaoke.price)}. COD.`,
+  title: `Kids Karaoke Mic Speaker Price in Pakistan from ${rupees(karaoke.price)} | A & S Toys`,
+  description: `The ${karaoke.title} is ${rupees(karaoke.price)}. Other shops list a kids karaoke speaker with mics from about Rs 1,700 to about Rs 4,895. Cash on delivery from A & S Toys.`,
   h1: 'Kids Karaoke Mic and Speaker Price in Pakistan',
   kind: 'guide',
   updated: UPDATED,
@@ -244,7 +244,7 @@ export const karaokeGuide: LandingPage = {
 export const priceListGuide: LandingPage = {
   path: '/toys-price-list-pakistan',
   navLabel: 'Toys price list',
-  title: 'Toys Price List in Pakistan 2026 | A & S Toys',
+  title: `Toys Price List in Pakistan 2026 from ${rupees(lowest.price)} | A & S Toys`,
   description: `Full A & S Toys price list from ${rupees(lowest.price)} to ${rupees(highest.price)}, plus what kitchen sets, blocks, RC toys, bubble guns and dolls usually cost in Pakistan in November 2026.`,
   h1: 'Toys Price List in Pakistan (November 2026)',
   kind: 'collection',
@@ -262,6 +262,10 @@ export const priceListGuide: LandingPage = {
     '/building-blocks-toys-pakistan',
     '/bubble-guns-pakistan',
     '/toys-online-karachi',
+    '/return-gifts-for-kids-pakistan',
+    '/dinosaur-toys-pakistan',
+    '/toys-cash-on-delivery-pakistan',
+    '/toys-under-500-pakistan',
   ],
   intro: `This list runs from ${rupees(lowest.price)} to ${rupees(highest.price)}. That is the A & S Toys list, not every shop in Pakistan. Other listings, ${LISTINGS}, sit in wider bands, and those bands are labelled below so you can see which number is ours.`,
   sections: [
@@ -364,8 +368,8 @@ export const priceListGuide: LandingPage = {
 export const kitchenGuide: LandingPage = {
   path: '/kitchen-set-toys-pakistan',
   navLabel: 'Kitchen set price',
-  title: 'Kitchen Set for Kids Price in Pakistan | A & S Toys',
-  description: `Kids kitchen set price in Pakistan: basic sets Rs 199 to 1,250, 20-piece sets Rs 1,750+, spray kitchens Rs 3,950+. ${kitchen.title} is ${rupees(kitchen.price)}. COD.`,
+  title: `Kitchen Set for Kids Price in Pakistan from ${rupees(kitchen.price)} | Cash on Delivery | A & S Toys`,
+  description: `The ${kitchen.title} is ${rupees(kitchen.price)}. Cash on delivery from A & S Toys. Other shops list basic kids kitchen sets from about Rs 199.`,
   h1: 'Kitchen Set for Kids Price in Pakistan',
   kind: 'guide',
   updated: UPDATED,
@@ -470,8 +474,8 @@ export const kitchenGuide: LandingPage = {
 export const blocksGuide: LandingPage = {
   path: '/building-blocks-toys-pakistan',
   navLabel: 'Building blocks price',
-  title: 'Building Blocks Price in Pakistan | A & S Toys',
-  description: `Building blocks price in Pakistan: bags from Rs 249, big sets Rs 3,449+. ${carry.title} is ${rupees(carry.price)}. ${bag.title} is ${rupees(bag.price)}. COD.`,
+  title: `Building Blocks Price in Pakistan from ${rupees(carry.price)} | Cash on Delivery | A & S Toys`,
+  description: `The ${carry.title} is ${rupees(carry.price)}. The ${bag.title} is ${rupees(bag.price)}. Cash on delivery from A & S Toys.`,
   h1: 'Building Blocks Price in Pakistan',
   kind: 'guide',
   updated: UPDATED,
@@ -483,7 +487,7 @@ export const blocksGuide: LandingPage = {
     { name: 'Building blocks price', path: '/building-blocks-toys-pakistan' },
   ],
   related: ['/toys-price-list-pakistan', '/kitchen-set-toys-pakistan', '/toys-online-karachi'],
-  intro: `Other listings run from Rs 249 for a block bag to past Rs 3,449 for a large set, ${LISTINGS}. The ${carry.title} is ${rupees(carry.price)}. The ${bag.title} is ${rupees(bag.price)}. Compare the photos, not a piece count.`,
+  intro: `Parents looking for block building toys will see other listings from Rs 249 for a block bag to past Rs 3,449 for a large set, ${LISTINGS}. The ${carry.title} is ${rupees(carry.price)}. The ${bag.title} is ${rupees(bag.price)}. Compare the photos, not a piece count.`,
   sections: [
     {
       heading: 'Price tiers',
@@ -576,7 +580,7 @@ const upTo2300 = pricedAtMost(2300, 1001).map((product) => product.slug);
 export const kidsPillar: LandingPage = {
   path: '/toys-for-kids-pakistan',
   navLabel: 'Toys for kids',
-  title: 'Toys for Kids in Pakistan with Price | A & S Toys',
+  title: `Toys for Kids in Pakistan from ${rupees(lowest.price)} | Cash on Delivery | A & S Toys`,
   description: `Toys for kids in Pakistan from ${rupees(lowest.price)} to ${rupees(highest.price)}: kitchen sets, building blocks, RC helicopter, trucks and more. Prices listed, COD, delivery in 2-5 days.`,
   h1: 'Toys for Kids in Pakistan',
   kind: 'collection',
@@ -595,6 +599,10 @@ export const kidsPillar: LandingPage = {
     '/kids-karaoke-mic-speaker-price-pakistan',
     '/bubble-guns-pakistan',
     '/toys-online-karachi',
+    '/return-gifts-for-kids-pakistan',
+    '/dinosaur-toys-pakistan',
+    '/toys-cash-on-delivery-pakistan',
+    '/toys-under-500-pakistan',
   ],
   intro: `A & S Toys sells ${PRODUCTS.length} toys for kids in Pakistan, from ${rupees(lowest.price)} to ${rupees(highest.price)}, with cash on delivery and delivery in 2 to 5 days. Browse by type or budget below, then check the age printed on the box.`,
   sections: [

@@ -44,6 +44,13 @@ export interface LandingPage {
 }
 
 const bubbleSlugs = ['gatling-bubble-gun', 'battery-bubble-gun'];
+const gatlingGun = findProduct('gatling-bubble-gun');
+const batteryGun = findProduct('battery-bubble-gun');
+const catalogLow = Math.min(...PRODUCTS.map((product) => product.price));
+const catalogHigh = Math.max(...PRODUCTS.map((product) => product.price));
+const pricedSlugs = [...PRODUCTS]
+  .sort((a, b) => a.price - b.price || a.title.localeCompare(b.title))
+  .map((product) => product.slug);
 const miniDispenser = findProduct('mini-water-dispenser-toy');
 const animalDispenser = findProduct('animal-water-dispenser');
 const kitchenDispenser = findProduct('kitchen-water-dispenser');
@@ -51,9 +58,11 @@ const kitchenDispenser = findProduct('kitchen-water-dispenser');
 const waterDispenserPage: LandingPage = {
   path: '/water-dispenser-toys-pakistan',
   navLabel: 'Water dispenser toys',
-  title: 'Water Dispenser Toy Price in Pakistan | A & S Toys',
-  description: 'Water dispenser toy in Pakistan from A & S Toys: mini, animal and kitchen dispenser toys, from Rs 300. Karachi shop, COD, delivery across Pakistan.',
-  h1: 'Water dispenser toys in Pakistan',
+  title: `Dispenser Toy for Kids Price in Pakistan from ${rupees(miniDispenser.price)} | A & S Toys`,
+  description: `The ${miniDispenser.title} is ${rupees(miniDispenser.price)}. The ${kitchenDispenser.title} is ${rupees(kitchenDispenser.price)}. The ${animalDispenser.title} is ${rupees(animalDispenser.price)}. Cash on delivery from A & S Toys.`,
+  h1: 'Dispenser toy for kids in Pakistan',
+  kind: 'collection',
+  updated: '2026-11-26',
   productSlugs: [miniDispenser.slug, animalDispenser.slug, kitchenDispenser.slug],
   paragraphs: [
     `A & S Toys lists three water dispenser toys. They are pretend-play pieces from a Karachi shop, and shop prices start from Rs 300. You can pay cash on delivery, and the parcel goes across Pakistan.`,
@@ -87,6 +96,298 @@ const waterDispenserPage: LandingPage = {
   ],
 };
 
+const flipPhone = findProduct('toy-flip-phone');
+const handheldFan = findProduct('mini-handheld-fan');
+const offRoadJeep = findProduct('friction-off-road-vehicle');
+const blocksCarry = findProduct('building-blocks-play-set');
+const webShooter = findProduct('web-shooter-glove-set');
+const dinosaurSet = findProduct('dinosaur-figure-set');
+const crawlingDoll = findProduct('crawling-baby-doll');
+const duckTrack = findProduct('duck-slide-track');
+
+const returnGiftSlugs = [
+  flipPhone.slug,
+  miniDispenser.slug,
+  kitchenDispenser.slug,
+  handheldFan.slug,
+  offRoadJeep.slug,
+  batteryGun.slug,
+  gatlingGun.slug,
+  animalDispenser.slug,
+  blocksCarry.slug,
+  webShooter.slug,
+  dinosaurSet.slug,
+];
+
+const under500Slugs = [
+  flipPhone.slug,
+  miniDispenser.slug,
+  kitchenDispenser.slug,
+  handheldFan.slug,
+  offRoadJeep.slug,
+  batteryGun.slug,
+];
+
+const returnGiftsPage: LandingPage = {
+  path: '/return-gifts-for-kids-pakistan',
+  navLabel: 'Return gifts',
+  title: `Return Gifts for Kids in Pakistan from ${rupees(catalogLow)} | Cash on Delivery | A & S Toys`,
+  description: `Return gifts for kids in Pakistan from ${rupees(catalogLow)}. Flip phone, mini fan, water dispensers, bubble guns and more, with cash on delivery from A & S Toys in Karachi.`,
+  h1: 'Return gifts for kids in Pakistan',
+  kind: 'collection',
+  updated: '2026-11-26',
+  paragraphs: [],
+  productSlugs: returnGiftSlugs,
+  breadcrumb: [
+    { name: 'Home', path: '/' },
+    { name: 'Return gifts for kids', path: '/return-gifts-for-kids-pakistan' },
+  ],
+  related: [
+    '/toys-under-500-pakistan',
+    '/toys-cash-on-delivery-pakistan',
+    '/toys-price-list-pakistan',
+    '/toys-online-karachi',
+  ],
+  intro: `Return gifts for kids in Pakistan on this page are single toys from the catalog, from ${rupees(flipPhone.price)}, with cash on delivery. There is no walk-in address and no return-gift bundle. Wholesale questions go to the contact page or WhatsApp. Check the age on the box.`,
+  sections: [
+    {
+      heading: 'Toys at or under Rs 700',
+      paragraphs: [
+        'Each row is one catalog toy, from the cheapest to the dearest. The price is the price on that product page.',
+      ],
+      priceTable: returnGiftSlugs,
+    },
+    {
+      heading: 'How the delivery math works',
+      paragraphs: [
+        `The ${flipPhone.title} is ${rupees(flipPhone.price)}.`,
+        `10 of them come to ${rupees(flipPhone.price * 10)}. That is under ${freeDeliveryOver()}, so the ${deliveryFee()} delivery charge still applies.`,
+        `The ${miniDispenser.title} is ${rupees(miniDispenser.price)}.`,
+        `10 of them come to ${rupees(miniDispenser.price * 10)}. That meets ${freeDeliveryOver()}, so delivery is free.`,
+        'These are separate toys at the catalog price. This page does not sell a bundle, and it does not offer a wholesale discount.',
+        `Wholesale questions go to the contact page or WhatsApp ${config.whatsappPhone}.`,
+        'Check the age on the box. The catalog does not copy an age range.',
+      ],
+      links: [{ href: '/contact', label: 'Contact and wholesale' }],
+    },
+  ],
+  faqs: [
+    {
+      question: 'Do you sell a return-gift bundle?',
+      answer: `No. Each toy keeps its catalog price. Wholesale questions go to the contact page or WhatsApp ${config.whatsappPhone}.`,
+    },
+    {
+      question: 'Can I pay cash on delivery?',
+      answer: 'Yes. You pay the rider. Checkout also lists JazzCash, EasyPaisa, and bank transfer.',
+    },
+    {
+      question: 'When is delivery free?',
+      answer: `Delivery is ${deliveryFee()}. It is free when the order reaches ${freeDeliveryOver()}. The courier is TCS or Leopards, in 2-5 days.`,
+    },
+  ],
+};
+
+const dinosaurPage: LandingPage = {
+  path: '/dinosaur-toys-pakistan',
+  navLabel: 'Dinosaur toys',
+  title: `Dinosaur Toys Price in Pakistan from ${rupees(dinosaurSet.price)} | Cash on Delivery | A & S Toys`,
+  description: `The ${dinosaurSet.title} is ${rupees(dinosaurSet.price)}. Dinosaur figures in a mesh bag, packed in a window box. Cash on delivery from A & S Toys in Karachi.`,
+  h1: 'Dinosaur toys price in Pakistan',
+  kind: 'guide',
+  updated: '2026-11-26',
+  paragraphs: [],
+  productSlugs: [dinosaurSet.slug, crawlingDoll.slug, duckTrack.slug],
+  breadcrumb: [
+    { name: 'Home', path: '/' },
+    { name: 'Dolls & Figures', path: '/category/dolls-figures' },
+    { name: 'Dinosaur toys', path: '/dinosaur-toys-pakistan' },
+  ],
+  related: [
+    '/return-gifts-for-kids-pakistan',
+    '/toys-price-list-pakistan',
+    '/toys-for-kids-pakistan',
+  ],
+  intro: `The ${dinosaurSet.title} is ${rupees(dinosaurSet.price)}. It is dinosaur figures in a mesh bag, packed in a window box. Cash on delivery from A & S Toys in Karachi, with delivery across Pakistan in 2-5 days.`,
+  sections: [
+    {
+      heading: 'The dinosaur set',
+      paragraphs: [
+        `The ${dinosaurSet.title} is ${rupees(dinosaurSet.price)}.`,
+        'Open the product page for the photos and the catalog price.',
+      ],
+      links: [{ href: `/products/${dinosaurSet.slug}`, label: dinosaurSet.title }],
+    },
+    {
+      heading: 'What the photos show',
+      paragraphs: [
+        'The photos show dinosaur figures in a mesh bag, packed in a window box, and the bag on its own.',
+        'The record does not give a piece count or a species list. Check the age on the box.',
+      ],
+      productSlugs: [dinosaurSet.slug],
+    },
+    {
+      heading: 'Cash on delivery',
+      paragraphs: [
+        `You can pay by cash on delivery, JazzCash, EasyPaisa, or bank transfer. Delivery is ${deliveryFee()}, and it is free when the order reaches ${freeDeliveryOver()}. The courier is TCS or Leopards, in 2-5 days.`,
+        'There is no walk-in address.',
+      ],
+    },
+    {
+      heading: 'Related toys in Dolls & Figures',
+      paragraphs: [
+        'These two are other toys on the Dolls & Figures shelf. They are not extra dinosaur sets.',
+        `The ${crawlingDoll.title} is ${rupees(crawlingDoll.price)}. It is a baby doll in pink packaging, with a bottle and a toy phone pictured.`,
+        `The ${duckTrack.title} is ${rupees(duckTrack.price)}. It is a small slide track with duck figures in a window box.`,
+      ],
+      productSlugs: [crawlingDoll.slug, duckTrack.slug],
+      links: [{ href: '/category/dolls-figures', label: 'Dolls & Figures' }],
+    },
+  ],
+  faqs: [
+    {
+      question: 'What is the dinosaur toy price?',
+      answer: `The ${dinosaurSet.title} is ${rupees(dinosaurSet.price)}.`,
+    },
+    {
+      question: 'How many dinosaurs are in the set?',
+      answer: 'The record does not give a piece count or a species list. Check the box.',
+    },
+    {
+      question: 'Can I pay cash on delivery?',
+      answer: `Yes. Delivery is ${deliveryFee()}, and it is free when the order reaches ${freeDeliveryOver()}.`,
+    },
+  ],
+};
+
+const cashOnDeliveryPage: LandingPage = {
+  path: '/toys-cash-on-delivery-pakistan',
+  navLabel: 'Cash on delivery',
+  title: `Toys Online in Pakistan with Cash on Delivery | From ${rupees(catalogLow)} | A & S Toys`,
+  description: `Order toys online in Pakistan with cash on delivery from A & S Toys in Karachi. Prices from ${rupees(catalogLow)} to ${rupees(catalogHigh)}. Delivery across Pakistan in 2-5 days.`,
+  h1: 'Toys online in Pakistan with cash on delivery',
+  kind: 'guide',
+  updated: '2026-11-26',
+  paragraphs: [],
+  productSlugs: pricedSlugs,
+  breadcrumb: [
+    { name: 'Home', path: '/' },
+    { name: 'Cash on delivery', path: '/toys-cash-on-delivery-pakistan' },
+  ],
+  related: [
+    '/toys-online-karachi',
+    '/toys-for-kids-pakistan',
+    '/return-gifts-for-kids-pakistan',
+    '/toys-under-500-pakistan',
+  ],
+  intro: `Cash on delivery on this website means you pay the rider when the parcel arrives. JazzCash, EasyPaisa, and bank transfer are also on the checkout. Catalog prices run from ${rupees(catalogLow)} to ${rupees(catalogHigh)}.`,
+  sections: [
+    {
+      heading: 'What cash on delivery means here',
+      paragraphs: [
+        'You place the order on the website and pay the rider in cash. You do not have to pay before the parcel leaves.',
+        'Checkout also lists JazzCash, EasyPaisa, and bank transfer if you would rather pay first.',
+      ],
+    },
+    {
+      heading: 'Delivery charge',
+      paragraphs: [
+        `Delivery is ${deliveryFee()}. It is free when the order reaches ${freeDeliveryOver()}. The courier is TCS or Leopards, in 2-5 days.`,
+        'There is no walk-in address. The order is delivered.',
+      ],
+    },
+    {
+      heading: 'How to order',
+      paragraphs: [
+        `Open a product page and check out, or send a WhatsApp message to ${config.whatsappPhone}. The call line is ${config.phone}.`,
+      ],
+      links: [
+        { href: '/shop', label: 'Shop all toys' },
+        { href: '/toys-price-list-pakistan', label: 'Toys price list in Pakistan' },
+      ],
+    },
+    {
+      heading: 'Every toy by price',
+      paragraphs: [
+        `The table is every toy in the catalog, sorted by price, from ${rupees(catalogLow)} to ${rupees(catalogHigh)}.`,
+      ],
+      priceTable: pricedSlugs,
+    },
+  ],
+  faqs: [
+    {
+      question: 'Can I pay the rider?',
+      answer: 'Yes. Cash on delivery means you pay the rider. JazzCash, EasyPaisa, and bank transfer are also on the checkout.',
+    },
+    {
+      question: 'What does delivery cost?',
+      answer: `Delivery is ${deliveryFee()}. It is free when the order reaches ${freeDeliveryOver()}. The courier is TCS or Leopards, in 2-5 days.`,
+    },
+    {
+      question: 'Is there a shop to visit?',
+      answer: 'No walk-in address is listed. Order from a product page or on WhatsApp.',
+    },
+  ],
+};
+
+const under500Page: LandingPage = {
+  path: '/toys-under-500-pakistan',
+  navLabel: 'Toys under Rs 500',
+  title: 'Toys Under Rs 500 in Pakistan | Cash on Delivery | A & S Toys',
+  description: `Toys under Rs 500 at A & S Toys: flip phone ${rupees(flipPhone.price)}, mini water dispenser ${rupees(miniDispenser.price)}, kitchen water dispenser ${rupees(kitchenDispenser.price)}, mini handheld fan ${rupees(handheldFan.price)}, off-road jeep ${rupees(offRoadJeep.price)}, battery bubble gun ${rupees(batteryGun.price)}. Cash on delivery.`,
+  h1: 'Toys under Rs 500 in Pakistan',
+  kind: 'collection',
+  updated: '2026-11-26',
+  paragraphs: [],
+  productSlugs: under500Slugs,
+  breadcrumb: [
+    { name: 'Home', path: '/' },
+    { name: 'Toys under Rs 500', path: '/toys-under-500-pakistan' },
+  ],
+  related: [
+    '/return-gifts-for-kids-pakistan',
+    '/toys-cash-on-delivery-pakistan',
+    '/toys-price-list-pakistan',
+  ],
+  intro: `Six toys in the catalog are at or under Rs 500, with cash on delivery. The lowest is ${rupees(flipPhone.price)}. Delivery is ${deliveryFee()} unless the order reaches ${freeDeliveryOver()}.`,
+  sections: [
+    {
+      heading: 'The six toys',
+      paragraphs: [
+        'Each row links to the product page. The price is the catalog price.',
+      ],
+      priceTable: under500Slugs,
+    },
+    {
+      heading: 'What the photos show',
+      paragraphs: [
+        `The ${flipPhone.title} is ${rupees(flipPhone.price)}. The photos show a flip-style toy phone that folds open, beside its box.`,
+        `The ${miniDispenser.title} is ${rupees(miniDispenser.price)}. The photos show a small toy water dispenser in a window box, including one photo out of the box.`,
+        `The ${kitchenDispenser.title} is ${rupees(kitchenDispenser.price)}. The photos show a toy dispenser with a tap and a kitchen-style body, in a window box.`,
+        `The ${handheldFan.title} is ${rupees(handheldFan.price)}. The photos show a small handheld fan in a blister pack, from the front, the back, and the side.`,
+        `The ${offRoadJeep.title} is ${rupees(offRoadJeep.price)}. The photos show an off-road toy vehicle in a window box.`,
+        `The ${batteryGun.title} is ${rupees(batteryGun.price)}. The photos show a bubble gun with a bottle of bubble solution, in a window box.`,
+      ],
+    },
+    {
+      heading: 'Delivery on a small order',
+      paragraphs: [
+        `Delivery is ${deliveryFee()} unless the order reaches ${freeDeliveryOver()}.`,
+        `The ${flipPhone.title} is ${rupees(flipPhone.price)}. One of them still has the delivery charge, because that order is under the free-delivery line.`,
+      ],
+    },
+  ],
+  faqs: [
+    {
+      question: 'Which toys are at or under Rs 500?',
+      answer: `The ${flipPhone.title} is ${rupees(flipPhone.price)}. The ${miniDispenser.title} is ${rupees(miniDispenser.price)}. The ${kitchenDispenser.title} is ${rupees(kitchenDispenser.price)}. The ${handheldFan.title} is ${rupees(handheldFan.price)}. The ${offRoadJeep.title} is ${rupees(offRoadJeep.price)}. The ${batteryGun.title} is ${rupees(batteryGun.price)}.`,
+    },
+    {
+      question: 'Is delivery included in a Rs 300 toy?',
+      answer: `No. The ${flipPhone.title} is ${rupees(flipPhone.price)}. Delivery is ${deliveryFee()} unless the order reaches ${freeDeliveryOver()}.`,
+    },
+  ],
+};
+
 export const LANDINGS: LandingPage[] = [
   kidsPillar,
   waterDispenserPage,
@@ -98,10 +399,18 @@ export const LANDINGS: LandingPage[] = [
   {
     path: '/toys-online-karachi',
     navLabel: 'Toys online in Karachi',
-    title: 'Toys Online in Karachi | A & S Toys',
-    description: 'Order toys online in Karachi from A & S Toys. Nationwide delivery, cash on delivery, and a catalog of plastic toys. Check each box for the age grade.',
+    title: `Toys Online in Karachi from ${rupees(catalogLow)} | Cash on Delivery | A & S Toys`,
+    description: `Toys online in Karachi from ${rupees(catalogLow)} with cash on delivery from A & S Toys. Delivery across Pakistan in 2-5 days.`,
     h1: 'Toys online in Karachi',
+    kind: 'collection',
+    updated: '2026-11-26',
     productSlugs: PRODUCTS.map((product) => product.slug),
+    related: [
+      '/return-gifts-for-kids-pakistan',
+      '/dinosaur-toys-pakistan',
+      '/toys-cash-on-delivery-pakistan',
+      '/toys-under-500-pakistan',
+    ],
     paragraphs: [
       'A & S Toys is the maker\u2019s own name for the toys in this catalog. A & S Toys is a Karachi toy shop that sells online to the rest of Pakistan. This page is the plain guide to ordering from that catalog. There is no walk-in address listed, so the shop is set up as delivery, not as a store you visit. Payment on the website is cash on delivery. A delivery charge applies, and delivery is free when the order total reaches Rs 3,500. The courier named by the shop is TCS/Leopards. The exchange note is a 7-day replacement for transit damage. Shop prices are from Rs 300. Every toy on the record is plastic, and the catalog does not copy an age range, so check the box for the age grade.',
       'The catalog is small and specific. Building blocks are two products: a handled carry case of colorful blocks, and a mesh bag of large blocks in several colors. Pretend play is the A & S Kitchen Set for Kids with Stove & Oven, with a stove, an oven, and utensils in a window box, plus three toy water dispensers. One dispenser is small and shown out of the box. One has an animal face on the front. One has a tap and a kitchen-style body. Dolls and figures are a crawling baby doll in pink packaging with a bottle and a toy phone pictured, a duck slide track, and dinosaur figures in a mesh bag.',
@@ -135,9 +444,11 @@ export const LANDINGS: LandingPage[] = [
   {
     path: '/bubble-guns-pakistan',
     navLabel: 'Bubble guns',
-    title: 'Bubble Guns in Pakistan | A & S Toys',
-    description: 'Bubble guns in Pakistan from A & S Toys: a multi-barrel gatling bubble gun and a battery bubble gun with solution. Check the age on the box. COD.',
+    title: `Bubble Guns in Pakistan from ${rupees(batteryGun.price)} | Cash on Delivery | A & S Toys`,
+    description: `The ${batteryGun.title} is ${rupees(batteryGun.price)}. The ${gatlingGun.title} is ${rupees(gatlingGun.price)}. Cash on delivery from A & S Toys in Karachi.`,
     h1: 'Bubble guns in Pakistan',
+    kind: 'collection',
+    updated: '2026-11-26',
     productSlugs: bubbleSlugs,
     paragraphs: [
       'A & S Toys is the maker\u2019s own name for the guns on this page. Two bubble guns are in the A & S Toys catalog, and both are on this page. They are the A & S Gatling Bubble Gun for Kids and the A & S Battery Bubble Gun with Solution. A third toy in the Bubble and Water category, the A & S Water Bullet Gun Toy, is not a bubble gun on the record, so it is not listed here. The shop is in Karachi and ships nationwide across Pakistan. Payment on the website is cash on delivery. A delivery charge applies, and delivery is free when the order total reaches Rs 3,500. The courier named by the shop is TCS/Leopards. The exchange note is a 7-day replacement for transit damage. There is no walk-in address. Both guns are plastic. Shop prices are from Rs 300. The catalog does not give an age range, so check the box for the age grade.',
@@ -169,7 +480,52 @@ export const LANDINGS: LandingPage[] = [
       },
     ],
   },
+  returnGiftsPage,
+  dinosaurPage,
+  cashOnDeliveryPage,
+  under500Page,
 ];
+
+const CATEGORY_GUIDES: Record<string, string[]> = {
+  'building-blocks': ['/building-blocks-toys-pakistan'],
+  'pretend-play': [
+    '/water-dispenser-toys-pakistan',
+    '/kitchen-set-toys-pakistan',
+    '/return-gifts-for-kids-pakistan',
+  ],
+  'dolls-figures': ['/dinosaur-toys-pakistan'],
+  vehicles: ['/rc-helicopter-price-pakistan'],
+  'bubble-water': ['/bubble-guns-pakistan', '/return-gifts-for-kids-pakistan'],
+  'gadgets-music': [
+    '/kids-karaoke-mic-speaker-price-pakistan',
+    '/return-gifts-for-kids-pakistan',
+  ],
+  games: ['/toys-price-list-pakistan'],
+};
+
+const SHOP_GUIDES = [
+  '/toys-price-list-pakistan',
+  '/return-gifts-for-kids-pakistan',
+  '/toys-cash-on-delivery-pakistan',
+  '/toys-under-500-pakistan',
+  '/toys-for-kids-pakistan',
+];
+
+function linksFor(paths: string[]): { href: string; label: string }[] {
+  return paths.map((path) => {
+    const page = LANDINGS.find((item) => item.path === path);
+    if (!page) throw new Error(`Missing landing ${path}`);
+    return { href: page.path, label: page.navLabel };
+  });
+}
+
+export function categoryGuideLinks(slug: string): { href: string; label: string }[] {
+  return linksFor(CATEGORY_GUIDES[slug] ?? []);
+}
+
+export function shopGuideLinks(): { href: string; label: string }[] {
+  return linksFor(SHOP_GUIDES);
+}
 
 export function guidesForProduct(slug: string): { href: string; label: string }[] {
   return LANDINGS.filter((page) => (

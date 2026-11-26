@@ -1,3 +1,4 @@
+import { config } from '../config';
 import { Product, Category } from '../types';
 
 /**
@@ -33,8 +34,8 @@ import { Product, Category } from '../types';
  * - dimensions?: string
  * - isTrending?: boolean — sorts first in the shop
  * - isEarlyYears?: boolean — shows in the ages 0–3 row
- * - seoTitle?: unused. The title is always "{title} Price in Pakistan | A & S Toys"
- * - seoDescription?: meta description, about 150 characters
+ * - seoTitle?: unused. productTitle() builds "{title} | Rs X | Price in Pakistan | Cash on Delivery"
+ * - seoDescription: set in item() to the price-led meta sentence
  *
  * Do not add review counts, piece counts, or age ranges that are not on the box.
  * Category item counts on the homepage are counted from PRODUCTS.
@@ -42,6 +43,36 @@ import { Product, Category } from '../types';
 
 const photo = (base: string, angle: number) =>
   `/images/products/${base}-${angle}.webp`;
+
+function rs(amount: number): string {
+  return `Rs ${amount.toLocaleString('en-PK')}`;
+}
+
+function settingRupees(raw: string): string {
+  return rs(Number(String(raw).replace(/[^0-9.]/g, '')));
+}
+
+/** Same sentence as productDescription() in src/lib/seo.ts. */
+function catalogSeoDescription(title: string, price: number): string {
+  return `${title} is ${rs(price)}. Cash on delivery from A & S Toys in Karachi, with delivery across Pakistan in 2-5 days.`;
+}
+
+function standardFaqs(title: string, price: number): { question: string; answer: string }[] {
+  return [
+    {
+      question: `How much is the ${title}?`,
+      answer: `The ${title} is ${rs(price)}.`,
+    },
+    {
+      question: 'Can I pay cash on delivery?',
+      answer: 'Yes. You pay the rider on delivery. Checkout also lists JazzCash, EasyPaisa, and bank transfer.',
+    },
+    {
+      question: 'What does delivery cost?',
+      answer: `Delivery is ${settingRupees(config.deliveryCharges)}. It is free when the order reaches ${settingRupees(config.freeShippingOver)}. The courier named by the shop is ${config.courier}. Allow 2-5 days.`,
+    },
+  ];
+}
 
 /** Facts already on the shop record. Appended so every description stays inside those facts. */
 const ORDER_NOTES =
@@ -58,7 +89,6 @@ function item(input: {
   shortDescription: string;
   fullDescription: string;
   features: string[];
-  seoDescription: string;
   angles?: number;
   /** Filename base for /images/products/${imageBase}-N.webp. Defaults to the slug. */
   imageBase?: string;
@@ -73,12 +103,14 @@ function item(input: {
   image?: string;
   galleryImages?: string[];
 }): Product {
-  const { angles = 4, fullDescription, image, galleryImages, imageBase, oldName, altDetail, ...fields } = input;
+  const { angles = 4, fullDescription, image, galleryImages, imageBase, oldName, altDetail, faqs, ...fields } = input;
   const base = imageBase || fields.slug;
   return {
     ...fields,
     oldName,
     altDetail,
+    seoDescription: catalogSeoDescription(fields.title, fields.price),
+    faqs: [...standardFaqs(fields.title, fields.price), ...(faqs ?? [])],
     fullDescription: `${fullDescription.trim()} ${ORDER_NOTES}`,
     stock: 10,
     inStock: true,
@@ -155,7 +187,6 @@ export const PRODUCTS: Product[] = [
     lead: 'The building blocks price in Pakistan for this carry case is Rs 600.',
     shortDescription: 'A & S Building Blocks Set with Carry Case: a carry case of colorful building blocks.',
     fullDescription: 'A & S Building Blocks Set with Carry Case is a carry case of colorful building blocks. A handle is part of the case. Photos show the case closed and the blocks beside it, and the blocks are shown both inside and outside the case. It sits in the Building Blocks category. Use it for stacking and simple building play. Nothing on the record says how many blocks are in the case.',
-    seoDescription: 'A & S Building Blocks Set with Carry Case. Colorful blocks in a handled carry case. Plastic. Check the box for the age grade. Cash on delivery in Pakistan.',
     features: ['Handled carry case', 'Colorful blocks', 'Blocks shown inside and outside the case'],
       }),
   item({
@@ -171,7 +202,6 @@ export const PRODUCTS: Product[] = [
     lead: 'The kids kitchen set price in Pakistan is Rs 1,400.',
     shortDescription: 'A & S Kitchen Set for Kids with Stove & Oven: a toy kitchen with a stove, oven, and utensils.',
     fullDescription: 'A & S Kitchen Set for Kids with Stove & Oven is a toy kitchen packed in a window box. The pack shows a stove, an oven, and utensils. It is in the Pretend Play category. Children can use the pictured stove, oven, and utensils for pretend cooking. The page does not list extra food pieces or a sound button, because those are not on the record.',
-    seoDescription: 'A & S Kitchen Set for Kids with Stove & Oven. A toy kitchen in a window box with a stove, oven, and utensils. Plastic. Check the age on the box. COD in Pakistan.',
     features: ['Toy stove and oven', 'Utensils pictured with the set', 'Window box'],
       }),
   item({
@@ -186,7 +216,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Gadgets & Music',
     shortDescription: 'A & S Web Shooter Glove Set for Kids: a glove and wrist launcher set.',
     fullDescription: 'A & S Web Shooter Glove Set for Kids is a glove and a wrist launcher packed together. The box shows the glove on a hand, and other photos show the pieces beside the box. It is in Gadgets and Music. It is a role-play glove set. The record does not say what the launcher shoots or whether it needs batteries.',
-    seoDescription: 'A & S Web Shooter Glove Set for Kids. A glove and wrist launcher in a window box, shown on a hand. Plastic. Check the age on the box. COD in Pakistan.',
     features: ['Glove and wrist launcher', 'Shown on a hand on the box', 'Window box'],
   }),
   item({
@@ -202,7 +231,6 @@ export const PRODUCTS: Product[] = [
     lead: 'The water dispenser toy price in Pakistan for this mini water dispenser toy is Rs 380. The A & S Mini Water Dispenser Toy is the small one, shown in a window box and also out of the pack.',
     shortDescription: 'A & S Mini Water Dispenser Toy: a small toy water dispenser in a window box.',
     fullDescription: 'A & S Mini Water Dispenser Toy is a small toy water dispenser in a window box. One photo shows it out of the box, and the others show the pack. It is in Pretend Play. It is for pretend play beside a toy kitchen. The record does not say that it pumps real water or how much it holds.',
-    seoDescription: 'A & S Mini Water Dispenser Toy. A small toy dispenser in a window box, shown in and out of the pack. Check the age on the box. COD in Pakistan.',
     features: ['Small toy water dispenser', 'Shown in and out of the box'],
   }),
   item({
@@ -217,7 +245,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'A & S Building Blocks',
     shortDescription: 'A & S Big Building Blocks Set in Mesh Bag: a building blocks bag of large colorful blocks in a mesh storage bag.',
     fullDescription: 'A & S Big Building Blocks Set in Mesh Bag is a building blocks bag of large colorful blocks in a mesh storage bag. Photos show the bag from the front and from the side. The blocks come in several colors. It is in Building Blocks. Use the large blocks for floor building, then put them back in the mesh bag. The record does not give a block count.',
-    seoDescription: 'A & S Big Building Blocks Set in Mesh Bag. This building blocks bag holds large colorful blocks in a mesh storage bag. Plastic. Check the age on the box. Cash on delivery in Pakistan.',
     features: ['Mesh storage bag', 'Large blocks', 'Several colors'],
   }),
   item({
@@ -232,7 +259,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Dolls & Figures',
     shortDescription: 'A & S Crawling Baby Doll Toy: a baby doll in pink packaging, shown on its hands and knees.',
     fullDescription: 'A & S Crawling Baby Doll Toy is a baby doll in pink packaging, shown on its hands and knees. The open pack also shows a bottle and a small toy phone. It is in Dolls and Figures. It is for doll play with the pictured bottle and phone. The record does not say that the doll crawls on its own or makes a sound.',
-    seoDescription: 'A & S Crawling Baby Doll Toy. A baby doll in a pink window box, with a bottle and toy phone pictured. Check the age on the box. COD in Pakistan.',
     features: ['Baby doll in a crawling pose', 'Bottle and toy phone pictured in the pack', 'Pink window box'],
   }),
   item({
@@ -247,7 +273,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Bubble & Water',
     shortDescription: 'A & S Gatling Bubble Gun for Kids: a multi-barrel bubble gun in a colorful box.',
     fullDescription: 'A & S Gatling Bubble Gun for Kids is a multi-barrel bubble gun in a colorful window box. Photos show the box and the gun held in a hand with bubbles. It is in Bubble and Water. It is for bubble play. The record says several barrels, not a numbered count, and it does not list a bubble-solution bottle with this gun.',
-    seoDescription: 'A & S Gatling Bubble Gun for Kids. A multi-barrel bubble gun in a colorful window box, shown with bubbles. Check the age on the box. COD in Pakistan.',
     features: ['Multi-barrel bubble gun', 'Colorful window box'],
   }),
   item({
@@ -262,7 +287,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Gadgets & Music',
     shortDescription: 'A & S Dancing Cactus Toy with Remote: a cactus-shaped toy in a box, shown with a small remote.',
     fullDescription: 'A & S Dancing Cactus Toy with Remote is a cactus-shaped toy in a box, shown with a small remote. The box calls it a dancing cactus. It is in Gadgets and Music. The pictured remote is part of what the pack shows. The record does not list songs, volumes, or a battery size.',
-    seoDescription: 'A & S Dancing Cactus Toy with Remote. A cactus-shaped toy in a box with a small remote pictured. Plastic. Check the age on the box. Cash on delivery in Pakistan.',
     features: ['Cactus-shaped toy', 'Small remote pictured on the box'],
   }),
   item({
@@ -277,7 +301,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Dolls & Figures',
     shortDescription: 'A & S Duck Slide Track Toy: a small slide track with duck figures.',
     fullDescription: 'A & S Duck Slide Track Toy is a small slide track with duck figures, packed in a window box. Photos show the front of the box and the track from other sides. It is in Dolls and Figures. The ducks and the track are the play pieces shown. The record does not say how many ducks or how the track is assembled.',
-    seoDescription: 'A & S Duck Slide Track Toy. A small slide track with duck figures in a window box. Plastic. Check the box for the age grade. COD in Pakistan.',
     features: ['Duck figures', 'Slide track', 'Window box'],
   }),
   item({
@@ -293,7 +316,6 @@ export const PRODUCTS: Product[] = [
     lead: 'The A & S Animal Water Dispenser Toy is Rs 580. It is a water dispenser toy with an animal face on the front of the pack.',
     shortDescription: 'A & S Animal Water Dispenser Toy: a toy water dispenser with an animal face on the front.',
     fullDescription: 'A & S Animal Water Dispenser Toy is a toy water dispenser with an animal face on the front of the pack. Other photos show the box from the side and the back. It is in Pretend Play, in a window box. Use it as a pretend dispenser. The record does not name the animal or say that it dispenses real water.',
-    seoDescription: 'A & S Animal Water Dispenser Toy. A toy dispenser with an animal face on the window box. Plastic. Check the age on the box. COD in Pakistan.',
     features: ['Toy water dispenser', 'Animal face on the front', 'Window box'],
   }),
   item({
@@ -309,7 +331,6 @@ export const PRODUCTS: Product[] = [
     lead: 'The A & S Kitchen Water Dispenser Toy is Rs 390. It is a water dispenser toy with a tap and a kitchen-style body.',
     shortDescription: 'A & S Kitchen Water Dispenser Toy: a toy water dispenser styled like a small kitchen appliance.',
     fullDescription: 'A & S Kitchen Water Dispenser Toy is a toy water dispenser with a tap, packed like a small kitchen appliance. Photos show the box from four sides. It is in Pretend Play and comes in a window box. The tap and the kitchen-style body are what the pack shows. The record does not list a tank size.',
-    seoDescription: 'A & S Kitchen Water Dispenser Toy. A toy dispenser with a tap, styled like a small kitchen appliance. Check the age on the box. COD in Pakistan.',
     features: ['Toy tap', 'Kitchen-style body', 'Window box'],
   }),
   item({
@@ -324,7 +345,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Gadgets & Music',
     shortDescription: 'A & S Toy Flip Phone for Kids: a flip-style toy phone shown with its box.',
     fullDescription: 'A & S Toy Flip Phone for Kids is a flip-style toy phone that folds open, shown with its box. The photos are four angles of the same set. It is in Gadgets and Music. It is a pretend phone. The record does not say that it places real calls or name any sounds.',
-    seoDescription: 'A & S Toy Flip Phone for Kids. A flip-style toy phone that folds open, shown with its box. Plastic. Check the age on the box. Cash on delivery in Pakistan.',
     features: ['Flip-style toy phone', 'Shown with its box'],
   }),
   item({
@@ -339,7 +359,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Vehicles',
     shortDescription: 'A & S Friction Off-Road Jeep Toy: an off-road toy vehicle in a window box.',
     fullDescription: 'A & S Friction Off-Road Jeep Toy is an off-road toy vehicle in a window box. Photos show the front of the pack and the truck from other sides. It is in Vehicles. It is a push-along style vehicle sold as a friction toy. The record does not list a motor, remote, or scale.',
-    seoDescription: 'A & S Friction Off-Road Jeep Toy. An off-road toy vehicle in a window box. Plastic. Check the box for the age grade. Cash on delivery in Pakistan.',
     features: ['Off-road toy vehicle', 'Window box'],
     image: '/images/products/a-s-friction-off-road-jeep-toy-1.webp',
     galleryImages: ['/images/products/a-s-friction-off-road-jeep-toy-2.webp'],
@@ -356,7 +375,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Gadgets & Music',
     shortDescription: 'A & S Karaoke Speaker Set with 2 Mics: a toy speaker set with two microphones.',
     fullDescription: 'A & S Karaoke Speaker Set with 2 Mics is a toy speaker with two microphones. The photos are four angles of the same set. It is in Gadgets and Music. The set is for pretend singing with the two pictured microphones and the toy speaker. The record does not list songs or a battery size.',
-    seoDescription: 'A & S Karaoke Speaker Set with 2 Mics. A toy speaker with two microphones, shown from four angles. Plastic. Check the age on the box. Cash on delivery in Pakistan.',
     features: ['Toy speaker', 'Two microphones'],
   }),
   item({
@@ -371,7 +389,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Vehicles',
     shortDescription: 'A & S Light & Music Car Toy Set: a toy car set in a window box, with lights and music on the pack.',
     fullDescription: 'A & S Light & Music Car Toy Set is a toy car set in a window box. The pack shows lights and music. Photos are four sides of the same box. It is in Vehicles. The lights and music are claims printed on the pack, not extra specs measured here. The record does not say how many cars are in the set.',
-    seoDescription: 'A & S Light & Music Car Toy Set. A toy car set in a window box with lights and music on the pack. Check the age on the box. COD in Pakistan.',
     features: ['Toy car set', 'Lights and music shown on the pack', 'Window box'],
   }),
   item({
@@ -387,7 +404,6 @@ export const PRODUCTS: Product[] = [
     shortDescription: 'A & S RC Flying Helicopter Toy: a remote-control flying toy with a hand controller.',
     lead: 'The A & S RC Flying Helicopter Toy is Rs 960. It is a remote-control flying toy in a window box, with a hand controller pictured on the pack, in Vehicles. The record does not list a range, a channel count, or a charge time.',
     fullDescription: 'A & S RC Flying Helicopter Toy is a remote-control flying toy in a window box, with a hand controller pictured on the pack. It is sold as an RC flying helicopter toy and sits in Vehicles. The hand controller is what the box shows. The record does not list a range, a channel count, or a charge time.',
-    seoDescription: 'The helicopter toy price in Pakistan is Rs 960 for the A & S RC Flying Helicopter Toy. Cash on delivery and 2-5 day delivery across Pakistan.',
     faqs: [
       {
         question: 'What is the A & S RC helicopter toy price in Pakistan?',
@@ -408,7 +424,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Vehicles',
     shortDescription: 'A & S Friction Construction Trucks Toy Set: construction toy trucks in a window box.',
     fullDescription: 'A & S Friction Construction Trucks Toy Set are construction toy trucks in a window box. Photos show the front of the pack and the trucks from other sides. They are in Vehicles. They are friction trucks for push play. The record does not say how many trucks are in the box or name each truck body.',
-    seoDescription: 'A & S Friction Construction Trucks Toy Set. Construction toy trucks in a window box. Plastic. Check the box for the age grade. Cash on delivery in Pakistan.',
     features: ['Construction toy trucks', 'Window box'],
   }),
   item({
@@ -423,7 +438,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Bubble & Water',
     shortDescription: 'A & S Water Bullet Gun Toy: a water bullet gun in a window box.',
     fullDescription: 'A & S Water Bullet Gun Toy is a water bullet gun in a window box. Photos show the front of the pack and the gun from other sides. It is in Bubble and Water. It is a toy gun sold under that name. The record does not say it is a bubble gun, and it does not list a water capacity or pellet count.',
-    seoDescription: 'A & S Water Bullet Gun Toy. A water bullet gun in a window box, shown from several sides. Plastic. Check the age on the box. Cash on delivery in Pakistan.',
     features: ['Water bullet gun', 'Window box'],
   }),
   item({
@@ -438,7 +452,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Dolls & Figures',
     shortDescription: 'A & S Dinosaur Figure Set for Kids: dinosaur figures in a mesh bag, packed in a window box.',
     fullDescription: 'A & S Dinosaur Figure Set for Kids is dinosaur figures in a mesh bag, packed in a window box. Photos show the bag inside the box and the bag on its own. It is in Dolls and Figures. The figures stay in the mesh bag for storage. The record does not name the dinosaur species or give a figure count.',
-    seoDescription: 'A & S Dinosaur Figure Set for Kids. Dinosaur figures in a mesh bag, packed in a window box. Plastic. Check the age on the box. COD in Pakistan.',
     features: ['Dinosaur figures', 'Mesh bag', 'Window box'],
   }),
   item({
@@ -453,7 +466,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Bubble & Water',
     shortDescription: 'A & S Battery Bubble Gun with Solution: a bubble gun with bubble solution, in a window box.',
     fullDescription: 'A & S Battery Bubble Gun with Solution is a bubble gun with a bottle of bubble solution, packed in a window box. The photos are four angles of the same set. It is in Bubble and Water and is sold as a battery bubble gun. The record shows the gun and the solution bottle. It does not name a battery size or a bubble count.',
-    seoDescription: 'A & S Battery Bubble Gun with Solution. A bubble gun with a bottle of bubble solution in a window box. Check the age on the box. COD in Pakistan.',
     features: ['Bubble gun', 'Bubble solution bottle', 'Window box'],
   }),
   item({
@@ -468,7 +480,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Gadgets & Music',
     shortDescription: 'A & S Mini Handheld Fan for Kids: a small handheld fan in a blister pack.',
     fullDescription: 'A & S Mini Handheld Fan for Kids is a small fan made to hold in the hand, packed in a blister. Photos show the blister from the front, the back, and the side. It is in Gadgets and Music. It is a handheld fan toy. The record does not say whether it is battery powered or how strong the airflow is.',
-    seoDescription: 'A & S Mini Handheld Fan for Kids. A small fan in a blister pack, shown from the front, back, and side. Check the age on the box. COD in Pakistan.',
     features: ['Handheld fan', 'Blister pack'],
   }),
   item({
@@ -483,7 +494,6 @@ export const PRODUCTS: Product[] = [
     categoryName: 'Games',
     shortDescription: 'A & S Hungry Turtle Game for Kids: a tray game with colorful turtle pieces and yellow balls.',
     fullDescription: 'A & S Hungry Turtle Game for Kids is a green plastic tray with colorful turtle pieces around the edge and yellow balls in the middle. The photos are three angles of the same set, so this product has three photos rather than four. It is in Games. Play uses the turtle pieces, the yellow balls, and the tray. The record does not explain the rules or give a piece count.',
-    seoDescription: 'A & S Hungry Turtle Game for Kids. A green tray with colorful turtle pieces and yellow balls. Plastic. Check the age on the box. COD in Pakistan.',
     features: ['Turtle pieces', 'Yellow balls', 'Green tray'],
     angles: 3,
   }),

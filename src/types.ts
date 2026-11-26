@@ -24,7 +24,7 @@ export interface Product {
   dimensions?: string;
   isTrending?: boolean;
   isEarlyYears?: boolean;
-  /** Override. Default is "{title} Price in Karachi, Pakistan | A & S Toys". */
+  /** Unused. productTitle() builds "{title} | Rs X | Price in Pakistan | Cash on Delivery". */
   seoTitle?: string;
   seoDescription?: string;
   /** Previous shop name, used as Product JSON-LD alternateName. */
@@ -33,7 +33,7 @@ export interface Product {
   altDetail?: string;
   /** Short on-page paragraph. Facts already on the product record. */
   lead?: string;
-  /** Visible questions. Not turned into FAQPage JSON-LD on product pages. */
+  /** Visible questions. Emitted as FAQPage JSON-LD on the product page. */
   faqs?: { question: string; answer: string }[];
 }
 
