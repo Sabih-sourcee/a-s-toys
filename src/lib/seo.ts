@@ -9,7 +9,10 @@ export const BRAND = 'A & S Toys';
 const lowestCatalogPrice = Math.min(...PRODUCTS.map((product) => product.price));
 const highestCatalogPrice = Math.max(...PRODUCTS.map((product) => product.price));
 
-export function productTitle(product: Pick<Product, 'title' | 'price'>): string {
+export function productTitle(product: Pick<Product, 'title' | 'price' | 'slug'>): string {
+  if (product.slug === 'karaoke-speaker-set') {
+    return `Kids Mic and Speaker Price in Pakistan - ${rupees(product.price)} | Cash on Delivery`;
+  }
   return `${product.title} | ${rupees(product.price)} | Price in Pakistan | Cash on Delivery`;
 }
 
@@ -82,7 +85,7 @@ export const ABOUT_DESCRIPTION =
 
 export const HOME_TITLE = `A & S Toys | Toys Online in Karachi & Pakistan from ${rupees(lowestCatalogPrice)} | Cash on Delivery`;
 export const HOME_DESCRIPTION =
-  `A & S Toys is a Karachi toy shop. Order toys online from ${rupees(lowestCatalogPrice)} with cash on delivery and delivery across Pakistan in 2-5 days.`;
+  `A & S Toys serves Karachi and delivers across Pakistan. Order toys online from ${rupees(lowestCatalogPrice)} with cash on delivery or WhatsApp, in 2-5 days. No walk-in address is listed.`;
 
 export const SHOP_TITLE = `All Toys Price in Pakistan from ${rupees(lowestCatalogPrice)} | Cash on Delivery | ${BRAND}`;
 export const SHOP_DESCRIPTION =
@@ -91,7 +94,7 @@ export const SHOP_H1 = `All Toys Price in Pakistan from ${rupees(lowestCatalogPr
 
 export const CONTACT_TITLE = 'Contact and Wholesale | A & S Toys Pakistan';
 export const CONTACT_DESCRIPTION =
-  'Wholesale and partnership inquiries for A & S Toys. Sourcing toys for wholesalers for more than 10 years. Karachi-based, nationwide. Cash on delivery for website orders.';
+  'A & S Toys serves Karachi and delivers across Pakistan. Website orders are cash on delivery, and you can order on WhatsApp. Wholesale inquiries welcome. No walk-in address is listed.';
 export const CONTACT_H1 = 'Wholesale & brand inquiries';
 
 /**

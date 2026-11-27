@@ -42,7 +42,7 @@ const phone = env.VITE_SHOP_PHONE || config.phone;
 const phoneTel = config.phoneTel;
 const whatsappPhone = config.whatsappPhone;
 const whatsappUrl = `https://wa.me/${config.whatsappNumber}`;
-const address = env.VITE_SHOP_ADDRESS || 'TODO: shop address';
+const address = env.VITE_SHOP_ADDRESS || '';
 const exchangePolicy = env.VITE_EXCHANGE_POLICY || 'TODO: 7-day exchange policy';
 const deliveryCharges = env.VITE_DELIVERY_CHARGES || 'TODO: delivery charges';
 const courier = env.VITE_COURIER || 'TODO: courier';
@@ -139,8 +139,7 @@ const aboutFeatured = ABOUT_FEATURED_SLUGS.map((slug) => {
 
 const trust = `<ul>
   <li>Call: <a href="tel:${esc(phoneTel)}">${esc(phone)}</a></li>
-  <li>WhatsApp: <a href="${esc(whatsappUrl)}">${esc(whatsappPhone)}</a></li>
-  <li>Address: ${esc(address)}</li>
+  <li>WhatsApp: <a href="${esc(whatsappUrl)}">${esc(whatsappPhone)}</a></li>${address ? `\n  <li>Address: ${esc(address)}</li>` : ''}
   <li>7-day exchange: ${esc(exchangePolicy)}</li>
   <li>Delivery charges: ${esc(deliveryCharges)}</li>
   <li>Courier: ${esc(courier)}</li>
@@ -150,7 +149,7 @@ writePage('/', render({
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
   urlPath: '/',
-  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>A &amp; S Toys is a Karachi toy shop that sells its own A &amp; S toys online and delivers them across Pakistan.</p><p>${esc(HOME_DESCRIPTION)}</p><p><a href="/about">About &amp; FAQ</a></p><p><a href="/toys-for-kids-pakistan">See the full range we sell in Pakistan</a></p><h2>Toy guides</h2><ul>${LANDINGS.map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>${trust}</main>`,
+  body: `<main><h1>${esc(HOME_TITLE)}</h1><p>A &amp; S Toys serves Karachi and delivers across Pakistan. Order with cash on delivery or on WhatsApp. No walk-in address is listed.</p><p>${esc(HOME_DESCRIPTION)}</p><p><a href="/about">About &amp; FAQ</a></p><p><a href="/kids-mic-speaker-price-pakistan">Kids mic and speaker price in Pakistan</a></p><p><a href="/toys-for-kids-pakistan">See the full range we sell in Pakistan</a></p><h2>Toy guides</h2><ul>${LANDINGS.map((page) => `<li><a href="${esc(page.path)}">${esc(page.navLabel)}</a></li>`).join('')}</ul>${trust}</main>`,
 }));
 
 writePage('/shop', render({
@@ -174,7 +173,7 @@ writePage('/contact', render({
   description: CONTACT_DESCRIPTION,
   urlPath: '/contact',
   jsonLd: contactJsonLd(siteUrl),
-  body: `<main><nav><a href="/">Home</a> / <a href="/contact">Contact</a></nav><h1>${esc(CONTACT_H1)}</h1><p>We have been sourcing toys for wholesalers for more than 10 years. Tell us what you need and we will get back to you.</p><p>${esc(CONTACT_DESCRIPTION)}</p><p>Email <a href="mailto:${esc(config.email)}">${esc(config.email)}</a>. Call <a href="tel:${esc(phoneTel)}">${esc(phone)}</a>. WhatsApp <a href="${esc(whatsappUrl)}">${esc(whatsappPhone)}</a>.</p><p>Cash on delivery is for website orders. There is no walk-in address.</p><p><a href="/shop">Shop all toys</a></p></main>`,
+  body: `<main><nav><a href="/">Home</a> / <a href="/contact">Contact</a></nav><h1>${esc(CONTACT_H1)}</h1><p>We have been sourcing toys for wholesalers for more than 10 years. Tell us what you need and we will get back to you.</p><p>A &amp; S Toys serves Karachi and delivers across Pakistan. Website orders are cash on delivery, and you can order on WhatsApp. No walk-in address is listed.</p><p>Email <a href="mailto:${esc(config.email)}">${esc(config.email)}</a>. Call <a href="tel:${esc(phoneTel)}">${esc(phone)}</a>. WhatsApp <a href="${esc(whatsappUrl)}">${esc(whatsappPhone)}</a>.</p><p><a href="/shop">Shop all toys</a></p></main>`,
 }));
 
 for (const category of CATEGORIES) {

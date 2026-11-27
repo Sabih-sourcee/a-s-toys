@@ -26,8 +26,8 @@ export const Hero: React.FC<HeroProps> = ({ onShopClick }) => {
         <h1 className="mt-3 sm:mt-4 wide:mt-5 font-headline text-[22px] sm:text-[28px] wide:text-[40px] font-bold tracking-[-0.02em] leading-[1.15] text-[#F6F3EC] max-w-3xl">
           Precision play. Built to last.
         </h1>
-        <p className="mt-4 font-body text-sm sm:text-base text-[#F6F3EC]/90 max-w-md leading-relaxed">
-          A Karachi-based online toy store. Play sets, vehicles, and pretend-play toys, delivered nationwide.
+        <p className="mt-4 font-body text-sm sm:text-base text-[#F6F3EC]/90 max-w-xl leading-relaxed">
+          Serving Karachi, with cash on delivery and WhatsApp ordering. Play sets, vehicles, and pretend-play toys, delivered across Pakistan. No walk-in address is listed.
         </p>
 
         <button
