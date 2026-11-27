@@ -31,11 +31,11 @@ const pillarLink = { href: '/toys-for-kids-pakistan', label: 'toys for kids in P
 export const helicopterGuide: LandingPage = {
   path: '/rc-helicopter-price-pakistan',
   navLabel: 'RC helicopter price',
-  title: `RC Helicopter Price in Pakistan from ${rupees(heli.price)} | Cash on Delivery | A & S Toys`,
-  description: `RC helicopter price in Pakistan: what mini, 2-channel and 4-channel models cost, and the ${heli.title} at ${rupees(heli.price)}. COD, delivery in 2-5 days.`,
+  title: `Helicopter Toy Price in Pakistan - RC Helicopter ${rupees(heli.price)} | Cash on Delivery`,
+  description: `The helicopter toy price in Pakistan and the RC helicopter price in Pakistan for the ${heli.title} is ${rupees(heli.price)}. Cash on delivery from A & S Toys in Karachi.`,
   h1: 'RC Helicopter Price in Pakistan',
   kind: 'guide',
-  updated: UPDATED,
+  updated: '2026-11-27',
   paragraphs: [],
   productSlugs: [heli.slug],
   breadcrumb: [
@@ -118,6 +118,14 @@ export const helicopterGuide: LandingPage = {
   ],
   faqs: [
     {
+      question: 'What is the helicopter toy price in Pakistan?',
+      answer: `The helicopter toy price in Pakistan for the ${heli.title} is ${rupees(heli.price)}.`,
+    },
+    {
+      question: 'What is the RC helicopter price in Pakistan?',
+      answer: `The RC helicopter price in Pakistan for the ${heli.title} is ${rupees(heli.price)}.`,
+    },
+    {
       question: `What is the ${heli.title} price?`,
       answer: `The ${heli.title} is ${rupees(heli.price)}. That is the price on this site.`,
     },
@@ -151,7 +159,7 @@ export const karaokeGuide: LandingPage = {
     { name: 'Toys price list', path: '/toys-price-list-pakistan' },
     { name: 'Kids karaoke price', path: '/kids-karaoke-mic-speaker-price-pakistan' },
   ],
-  related: ['/toys-price-list-pakistan', '/rc-helicopter-price-pakistan', '/toys-online-karachi'],
+  related: ['/kids-mic-speaker-price-pakistan', '/toys-price-list-pakistan', '/rc-helicopter-price-pakistan', '/toys-online-karachi'],
   intro: `Other shops list a kids karaoke speaker with mics from about Rs 1,700 to about Rs 4,895, ${LISTINGS}. The ${karaoke.title} is ${rupees(karaoke.price)}, with cash on delivery. Read what each box actually includes before you compare those numbers.`,
   sections: [
     {
@@ -241,6 +249,70 @@ export const karaokeGuide: LandingPage = {
   ],
 };
 
+export const kidsMicGuide: LandingPage = {
+  path: '/kids-mic-speaker-price-pakistan',
+  navLabel: 'Kids mic and speaker price',
+  title: `Kids Mic and Speaker Price in Pakistan - ${rupees(karaoke.price)} | Cash on Delivery | A & S Toys`,
+  description: `The kids mic and speaker price in Pakistan is ${rupees(karaoke.price)} for the ${karaoke.title}. Cash on delivery in Karachi from A & S Toys.`,
+  h1: 'Kids Mic and Speaker Price in Pakistan',
+  kind: 'guide',
+  updated: '2026-11-27',
+  paragraphs: [],
+  productSlugs: [karaoke.slug],
+  offerSlug: karaoke.slug,
+  breadcrumb: [
+    { name: 'Home', path: '/' },
+    { name: 'Gadgets & Music', path: '/category/gadgets-music' },
+    { name: 'Kids mic and speaker price', path: '/kids-mic-speaker-price-pakistan' },
+  ],
+  related: [
+    '/kids-karaoke-mic-speaker-price-pakistan',
+    '/toys-price-list-pakistan',
+    '/toys-online-karachi',
+  ],
+  intro: `The kids mic and speaker price in Pakistan is ${rupees(karaoke.price)} for the ${karaoke.title}. A & S Toys sells this toy speaker with two microphones from Karachi, with cash on delivery. Order on the product page or on WhatsApp. There is no walk-in address.`,
+  sections: [
+    {
+      heading: 'The A & S Karaoke Speaker Set with 2 Mics',
+      paragraphs: [
+        `The ${karaoke.title} is ${rupees(karaoke.price)}. It is a toy speaker with two microphones. The photos are four angles of that same set. It sits in Gadgets and Music. The material on the record is plastic.`,
+        'It is for pretend singing with the two pictured microphones and the toy speaker. Check the box for the battery size, any song list, and the age. The record does not list those.',
+      ],
+      productSlugs: [karaoke.slug],
+      links: [
+        { href: `/products/${karaoke.slug}`, label: karaoke.title },
+        { href: '/category/gadgets-music', label: 'Gadgets and music' },
+      ],
+    },
+    {
+      heading: 'Cash on delivery in Karachi',
+      paragraphs: [
+        `A & S Toys serves Karachi and delivers across Pakistan. You can pay cash on delivery. Checkout also lists JazzCash, EasyPaisa, and bank transfer.`,
+        `Delivery is ${deliveryFee()}, and it is free when the order reaches ${freeDeliveryOver()}. The courier is TCS or Leopards, in 2-5 days. There is no walk-in address.`,
+        `Order from the product page, or message WhatsApp ${config.whatsappPhone}.`,
+      ],
+      links: [
+        { href: `/products/${karaoke.slug}`, label: karaoke.title },
+        { href: '/contact', label: 'Contact' },
+      ],
+    },
+  ],
+  faqs: [
+    {
+      question: 'What is the kids mic and speaker price in Pakistan?',
+      answer: `${rupees(karaoke.price)} for the ${karaoke.title}, with cash on delivery in Karachi.`,
+    },
+    {
+      question: 'Can I pay cash on delivery in Karachi?',
+      answer: `Yes. Cash on delivery is available in Karachi, and orders also go across Pakistan. You can order on WhatsApp ${config.whatsappPhone}. Delivery is ${deliveryFee()}, and it is free when the order reaches ${freeDeliveryOver()}.`,
+    },
+    {
+      question: 'How many microphones are in the set?',
+      answer: `Two. The ${karaoke.title} is a toy speaker with two microphones.`,
+    },
+  ],
+};
+
 export const priceListGuide: LandingPage = {
   path: '/toys-price-list-pakistan',
   navLabel: 'Toys price list',
@@ -258,6 +330,7 @@ export const priceListGuide: LandingPage = {
   related: [
     '/rc-helicopter-price-pakistan',
     '/kids-karaoke-mic-speaker-price-pakistan',
+    '/kids-mic-speaker-price-pakistan',
     '/kitchen-set-toys-pakistan',
     '/building-blocks-toys-pakistan',
     '/bubble-guns-pakistan',
@@ -325,6 +398,7 @@ export const priceListGuide: LandingPage = {
         { href: '/building-blocks-toys-pakistan', label: 'Building blocks price guide' },
         { href: '/rc-helicopter-price-pakistan', label: 'RC helicopter price guide' },
         { href: '/kids-karaoke-mic-speaker-price-pakistan', label: 'Kids karaoke price guide' },
+        { href: '/kids-mic-speaker-price-pakistan', label: 'Kids mic and speaker price' },
         { href: '/bubble-guns-pakistan', label: 'Bubble guns' },
         { href: '/category/building-blocks', label: 'A & S Building Blocks' },
         { href: '/category/pretend-play', label: 'A & S Pretend Play' },
@@ -478,7 +552,7 @@ export const blocksGuide: LandingPage = {
   description: `The ${carry.title} is ${rupees(carry.price)}. The ${bag.title} is ${rupees(bag.price)}. Cash on delivery from A & S Toys.`,
   h1: 'Building Blocks Price in Pakistan',
   kind: 'guide',
-  updated: UPDATED,
+  updated: '2026-11-27',
   paragraphs: [],
   productSlugs: [carry.slug, bag.slug],
   breadcrumb: [
@@ -551,6 +625,10 @@ export const blocksGuide: LandingPage = {
   ],
   faqs: [
     {
+      question: 'What is the blocks price in Pakistan?',
+      answer: `The blocks price in Pakistan for the ${carry.title} is ${rupees(carry.price)}. The ${bag.title} is ${rupees(bag.price)}.`,
+    },
+    {
       question: 'What do the two A & S block sets cost?',
       answer: `The ${carry.title} is ${rupees(carry.price)}. The ${bag.title} is ${rupees(bag.price)}.`,
     },
@@ -597,6 +675,7 @@ export const kidsPillar: LandingPage = {
     '/building-blocks-toys-pakistan',
     '/rc-helicopter-price-pakistan',
     '/kids-karaoke-mic-speaker-price-pakistan',
+    '/kids-mic-speaker-price-pakistan',
     '/bubble-guns-pakistan',
     '/toys-online-karachi',
     '/return-gifts-for-kids-pakistan',

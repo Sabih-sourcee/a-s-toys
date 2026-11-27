@@ -1,8 +1,8 @@
 import { config } from '../config';
 import { PRODUCTS } from './products';
 import { deliveryFee, findProduct, freeDeliveryOver, rupees } from '../lib/money';
-import { absolutePageUrl, organizationId } from '../lib/seo';
-import { blocksGuide, helicopterGuide, karaokeGuide, kidsPillar, kitchenGuide, priceListGuide } from './wave1';
+import { absolutePageUrl, organizationId, productJsonLd } from '../lib/seo';
+import { blocksGuide, helicopterGuide, karaokeGuide, kidsMicGuide, kidsPillar, kitchenGuide, priceListGuide } from './wave1';
 
 export interface LandingFaq {
   question: string;
@@ -41,6 +41,8 @@ export interface LandingPage {
   /** ISO date. Rendered as Prices checked, and used as dateModified. */
   updated?: string;
   breadcrumb?: { name: string; path: string }[];
+  /** Catalog slug. When set, the page also emits that product's Product/Offer JSON-LD. */
+  offerSlug?: string;
 }
 
 const bubbleSlugs = ['gatling-bubble-gun', 'battery-bubble-gun'];
@@ -394,6 +396,7 @@ export const LANDINGS: LandingPage[] = [
   priceListGuide,
   helicopterGuide,
   karaokeGuide,
+  kidsMicGuide,
   kitchenGuide,
   blocksGuide,
   {
@@ -498,6 +501,7 @@ const CATEGORY_GUIDES: Record<string, string[]> = {
   'bubble-water': ['/bubble-guns-pakistan', '/return-gifts-for-kids-pakistan'],
   'gadgets-music': [
     '/kids-karaoke-mic-speaker-price-pakistan',
+    '/kids-mic-speaker-price-pakistan',
     '/return-gifts-for-kids-pakistan',
   ],
   games: ['/toys-price-list-pakistan'],
@@ -603,6 +607,11 @@ export function landingJsonLd(page: LandingPage, siteUrl: string) {
       publisher: { '@id': organizationId(siteUrl) },
       mainEntityOfPage: pageUrl,
     });
+  }
+  if (page.offerSlug) {
+    const offered = findProduct(page.offerSlug);
+    const [productNode] = productJsonLd(offered, siteUrl);
+    if (productNode) nodes.push(productNode);
   }
   return nodes;
 }

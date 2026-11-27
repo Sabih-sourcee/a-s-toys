@@ -24,7 +24,7 @@ export interface Product {
   dimensions?: string;
   isTrending?: boolean;
   isEarlyYears?: boolean;
-  /** Unused. productTitle() builds "{title} | Rs X | Price in Pakistan | Cash on Delivery". */
+  /** Unused. productTitle() builds the document title from the product name and price. */
   seoTitle?: string;
   seoDescription?: string;
   /** Previous shop name, used as Product JSON-LD alternateName. */

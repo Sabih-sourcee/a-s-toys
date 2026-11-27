@@ -360,7 +360,15 @@ export default function App() {
             />
 
             <section className="bg-[#F6F3EC] border-t border-[#DCD7CC]">
-              <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8">
+              <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8 space-y-3">
+                <p className="text-sm leading-relaxed text-[#211F1C]">
+                  A &amp; S Toys serves Karachi and delivers across Pakistan. Order with cash on delivery or on WhatsApp. No walk-in address is listed.
+                </p>
+                <p className="text-sm text-[#211F1C]">
+                  <a href="/kids-mic-speaker-price-pakistan" onClick={(event) => { event.preventDefault(); navigate('/kids-mic-speaker-price-pakistan'); }} className="font-headline font-bold text-[#0F3D9C] hover:text-[#E84A27]">
+                    Kids mic and speaker price in Pakistan
+                  </a>
+                </p>
                 <p className="text-sm text-[#211F1C]">
                   <a href="/toys-for-kids-pakistan" onClick={(event) => { event.preventDefault(); navigate('/toys-for-kids-pakistan'); }} className="font-headline font-bold text-[#0F3D9C] hover:text-[#E84A27]">
                     See the full range we sell in Pakistan

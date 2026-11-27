@@ -28,6 +28,9 @@ export const ContactView: React.FC = () => {
               We have been sourcing toys for wholesalers for more than 10 years. Tell us what you
               need and we will get back to you.
             </p>
+            <p className="mt-4 text-sm sm:text-base text-[#5A6270] leading-relaxed">
+              A &amp; S Toys serves Karachi and delivers across Pakistan. Website orders are cash on delivery, and you can order on WhatsApp. No walk-in address is listed.
+            </p>
           </div>
 
           <ul className="space-y-3 text-sm text-[#182232]">

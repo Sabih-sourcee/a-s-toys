@@ -34,7 +34,7 @@ import { Product, Category } from '../types';
  * - dimensions?: string
  * - isTrending?: boolean — sorts first in the shop
  * - isEarlyYears?: boolean — shows in the ages 0–3 row
- * - seoTitle?: unused. productTitle() builds "{title} | Rs X | Price in Pakistan | Cash on Delivery"
+ * - seoTitle?: unused. productTitle() builds the document title. The karaoke set title includes "Kids Mic and Speaker Price in Pakistan - Rs 1,200".
  * - seoDescription: set in item() to the price-led meta sentence
  *
  * Do not add review counts, piece counts, or age ranges that are not on the box.
