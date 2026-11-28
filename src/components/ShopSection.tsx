@@ -123,6 +123,11 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
                   ? categoryHeading(selectedCategory)
                   : 'Toys'}
             </h1>
+            {selectedCategory === 'bubble-water' ? (
+              <p className="font-body text-sm sm:text-base text-[#5A6270] mt-2 max-w-2xl">
+                {CATEGORIES.find((cat) => cat.slug === 'bubble-water')?.description}
+              </p>
+            ) : null}
             <p className="font-body text-sm sm:text-base text-[#5A6270] mt-2 max-w-2xl">
               A Karachi-based online toy store. Cash on delivery nationwide.
             </p>

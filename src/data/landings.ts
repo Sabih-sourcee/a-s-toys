@@ -209,7 +209,7 @@ const dinosaurPage: LandingPage = {
     '/toys-price-list-pakistan',
     '/toys-for-kids-pakistan',
   ],
-  intro: `The ${dinosaurSet.title} is ${rupees(dinosaurSet.price)}. It is dinosaur figures in a mesh bag, packed in a window box. Cash on delivery from A & S Toys in Karachi, with delivery across Pakistan in 2-5 days.`,
+  intro: `The dino toy on this page is the ${dinosaurSet.title}, at ${rupees(dinosaurSet.price)}. It is dinosaur figures in a mesh bag, packed in a window box. Cash on delivery from A & S Toys in Karachi, with delivery across Pakistan in 2-5 days.`,
   sections: [
     {
       heading: 'The dinosaur set',
@@ -246,6 +246,10 @@ const dinosaurPage: LandingPage = {
     },
   ],
   faqs: [
+    {
+      question: 'What is the dino toy price in Pakistan?',
+      answer: `The ${dinosaurSet.title} is ${rupees(dinosaurSet.price)}.`,
+    },
     {
       question: 'What is the dinosaur toy price?',
       answer: `The ${dinosaurSet.title} is ${rupees(dinosaurSet.price)}.`,

@@ -154,7 +154,7 @@ export const CATEGORIES: Category[] = [
     id: 'bubble-water',
     name: 'Bubble & Water',
     slug: 'bubble-water',
-    description: 'Bubble guns and a water bullet gun.',
+    description: 'A water bubble toy and bubble guns, plus a water bullet gun.',
     image: '/images/categories/bubble-water-cine.webp',
   },
   {
