@@ -41,7 +41,7 @@ const CATEGORY_SHELF: Record<string, { name: string; blurb: string }> = {
   },
   'bubble-water': {
     name: 'Bubble & Water',
-    blurb: 'Bubble guns and a water bullet gun.',
+    blurb: 'A water bubble toy and bubble guns, plus a water bullet gun.',
   },
   'gadgets-music': {
     name: 'Gadgets & Music',
@@ -71,6 +71,9 @@ export function categoryHeading(slug: string): string {
 }
 
 export function categoryTitle(slug: string): string {
+  if (slug === 'bubble-water') {
+    return `Water Bubble Toy & Bubble Gun Price in Pakistan from ${rupees(cheapestInCategory(slug))} | Cash on Delivery | ${BRAND}`;
+  }
   return `${categoryHeading(slug)} | Cash on Delivery | ${BRAND}`;
 }
 

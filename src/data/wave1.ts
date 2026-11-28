@@ -561,7 +561,7 @@ export const blocksGuide: LandingPage = {
     { name: 'Building blocks price', path: '/building-blocks-toys-pakistan' },
   ],
   related: ['/toys-price-list-pakistan', '/kitchen-set-toys-pakistan', '/toys-online-karachi'],
-  intro: `Parents looking for block building toys will see other listings from Rs 249 for a block bag to past Rs 3,449 for a large set, ${LISTINGS}. The ${carry.title} is ${rupees(carry.price)}. The ${bag.title} is ${rupees(bag.price)}. Compare the photos, not a piece count.`,
+  intro: `Parents looking for block toys for kids will see other listings from Rs 249 for a block bag to past Rs 3,449 for a large set, ${LISTINGS}. The block set for kids on this page is the ${carry.title}, at ${rupees(carry.price)}. The ${bag.title} is ${rupees(bag.price)}. Compare the photos, not a piece count.`,
   sections: [
     {
       heading: 'Price tiers',
@@ -624,6 +624,14 @@ export const blocksGuide: LandingPage = {
     },
   ],
   faqs: [
+    {
+      question: 'Is there a building blocks set with a storage box?',
+      answer: `Yes. The ${carry.title} is ${rupees(carry.price)}, with cash on delivery.`,
+    },
+    {
+      question: 'Which block toys are good for kids?',
+      answer: `The ${carry.title} is ${rupees(carry.price)}. The ${bag.title} is ${rupees(bag.price)}.`,
+    },
     {
       question: 'What is the blocks price in Pakistan?',
       answer: `The blocks price in Pakistan for the ${carry.title} is ${rupees(carry.price)}. The ${bag.title} is ${rupees(bag.price)}.`,
